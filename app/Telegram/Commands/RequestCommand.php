@@ -4,6 +4,7 @@ namespace App\Telegram\Commands;
 
 use App\Telegram\Dialogs\RequestDialog;
 use Telegram\Bot\Actions;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
 
 class RequestCommand extends BaseCommand
@@ -33,6 +34,14 @@ class RequestCommand extends BaseCommand
         } elseif ($user->request()->exists()) {
             $text = "❕ <i>Вы подали заявку , ожидайте ответа</i>";
         } else {
+            try {
+                $this->getTelegram()->sendMessage([
+                    'chat_id' => $this->getConfig('groups.alert.id'),
+                    'text' => "✏️ <b>{$user->accountLink()}</b> приступил к заполнению заявки на вступление",
+                    "parse_mode" => "html",
+                ]);
+            } catch (TelegramSDKException $e) {
+            }
             $this->dialogs()->add(new RequestDialog($this->getUpdate(), $this->getUser()));
         }
         if (isset($text)) {

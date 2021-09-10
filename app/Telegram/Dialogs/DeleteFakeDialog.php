@@ -66,6 +66,13 @@ class DeleteFakeDialog extends Dialog
                 if ($fake->delete()) {
                     if (file_exists($img)) unlink($img);
                     $text = "♻️ <i>Вы успешно удалили объявление под номером</i> <b>$track_id</b>";
+                    if ($alertId = $this->getConfig('groups.alert.id'))
+                        $this->telegram->sendMessage([
+                            "chat_id" => $alertId,
+                            "text" => "🗑 <b>{$this->getUser()->accountLink()}</b> удалил трек номер <b>$track_id</b>",
+                            "parse_mode" => "html",
+                        ]);
+
                 } else $text = "🤷🏻‍️ <i>Что То пошло не так</i>";
             } else {
                 $text = "❌ <i>Отмена действия</i>";

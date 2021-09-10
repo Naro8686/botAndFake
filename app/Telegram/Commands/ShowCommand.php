@@ -18,7 +18,7 @@ class ShowCommand extends BaseCommand
     /**
      * @var string Command Description
      */
-    protected $description = '';
+    protected $description = '🌕 <b>Показано</b>';
 
     //protected $pattern = '{visibly}';
 
@@ -30,8 +30,10 @@ class ShowCommand extends BaseCommand
         $user = $this->getUser();
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $user->visibly = true;
-        if ($user->save()){
-            $this->triggerCommand('settings');
-        }
+        if ($user->save()) $this->replyWithMessage([
+            "text" => $this->description,
+            "parse_mode" => "html",
+        ]);
+        $this->triggerCommand('settings');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Telegram\Commands;
 
+use App\Http\Controllers\Telegram\BotController;
 use App\Models\Role;
 use App\Models\TelegramUser;
 use Illuminate\Support\Str;
@@ -32,7 +33,7 @@ class UnLockCommand extends BaseCommand
      */
     public function handle()
     {
-        $btns=$this->getConfig('btns');
+        $btns = $this->getConfig('btns');
         $update = $this->getUpdate();
         $telegram_id = $this->getArguments()['telegram_id'] ?? null;
         if (is_null($telegram_id)) return;
@@ -41,13 +42,11 @@ class UnLockCommand extends BaseCommand
         if (!is_null($user)) {
             $user->has_ban = false;
             if ($user->save()) {
-
-                if ($update->isType('callback_query')) {
-                    try {
-                        $message = $update->getMessage();
-                        $mid = $message->messageId;
-                        $chat_id = $message->chat->id;
-
+                try {
+                    $message = $update->getMessage();
+                    $mid = $message->messageId;
+                    $chat_id = $message->getChat()->getId();
+                    if ($update->isType('callback_query')) {
                         $replaced = Str::replace(json_encode($btns->get('unlock')), "\"{$btns->get('lock')}\"", $message->replyMarkup);
                         $replyMarkup = Str::replace('unlock', 'lock', $replaced);
                         $this->getTelegram()->editMessageReplyMarkup([
@@ -56,17 +55,34 @@ class UnLockCommand extends BaseCommand
                             "chat_id" => $chat_id,
                             "reply_markup" => $replyMarkup,
                         ]);
-                    } catch (TelegramSDKException $e) {
                     }
+
+//                    $this->getTelegram()->unbanChatMember([
+//                        "chat_id" => $chat_id,
+//                        "user_id" => $telegram_id,
+//                    ]);
+                    foreach ([$this->getConfig('groups.admin.id'), $this->getConfig('groups.alert.id')] as $id)
+                        if ($id) $this->getTelegram()->unbanChatMember([
+                            "chat_id" => $id,
+                            "user_id" => $telegram_id
+                        ]);
+                } catch (TelegramSDKException $e) {
                 }
-                $text = "✅ <b>Пользователь под ид $user->id разблокирован</b>";
+                if ($alertGroupId = $this->getConfig('groups.alert.id')) try {
+                    $this->getTelegram()->sendMessage([
+                        "chat_id" => $alertGroupId,
+                        "text" => "✅ <b>Пользователь {$user->accountLink()} разблокирован</b>",
+                        "parse_mode" => "html",
+                    ]);
+                } catch (TelegramSDKException $e) {
+                    \Log::error($e->getMessage());
+                }
                 $user->sendMessage([
                     "text" => "✅ Вас разблокировал <b>{$this->getUser()->getName()}</b>",
                     "parse_mode" => "html",
                 ]);
-            } else $text = "❗️ <b>Ошибка</b>";
-            $this->replyWithMessage([
-                "text" => $text,
+            } else $this->replyWithMessage([
+                "text" => "❗️ <b>Ошибка</b>",
                 "parse_mode" => "html",
             ]);
         } else {

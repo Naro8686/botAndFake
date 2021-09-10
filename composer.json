@@ -9,6 +9,7 @@
   "license": "MIT",
   "require": {
     "php": "^7.3|^8.0",
+    "ext-dom": "*",
     "ext-json": "*",
     "fideloper/proxy": "^4.4",
     "fruitcake/laravel-cors": "^2.0",
@@ -16,10 +17,11 @@
     "irazasyed/telegram-bot-sdk": "^3.4.1",
     "laravel/framework": "^8.40",
     "laravel/tinker": "^2.5",
-    "predis/predis": "^1.1",
-    "ext-dom": "*"
+    "laravel/ui": "^3.3",
+    "predis/predis": "^1.1"
   },
   "require-dev": {
+    "barryvdh/laravel-debugbar": "^3.6",
     "barryvdh/laravel-ide-helper": "^2.10",
     "facade/ignition": "^2.5",
     "fakerphp/faker": "^1.9.1",

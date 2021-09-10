@@ -41,7 +41,6 @@ class ApproveCommand extends BaseCommand
         if (is_null($admin) || $admin->id === $telegram_id) return;
         $telegram = $this->getTelegram();
         $date = now()->format('d.m.Y H:i:s');
-        $adminGroupId = BotController::groupAlert('id');
         $user = TelegramUser::whereId($telegram_id)->first();
         $request = $user->request ?? null;
         $this->replyWithChatAction(['action' => Actions::TYPING]);
@@ -59,7 +58,7 @@ class ApproveCommand extends BaseCommand
                 $user->role_id = $role->id ?? null;
                 if ($user->push()) {
                     $telegram->deleteMessage([
-                        "chat_id" => $adminGroupId,
+                        "chat_id" => $this->getUpdate()->getMessage()->getChat()->getId(),
                         "message_id" => $request->id,
                     ]);
                     $user->sendMessage([
@@ -74,14 +73,14 @@ class ApproveCommand extends BaseCommand
                         "text" => "🤝 У вас появился новый реферал - <b>{$user->getName()}</b>",
                         "parse_mode" => "html",
                     ]);
-                    $telegram->sendMessage([
-                        "chat_id" => $adminGroupId,
+                    if ($alertId = $this->getConfig('groups.alert.id')) $telegram->sendMessage([
+                        "chat_id" => $alertId,
                         "text" => makeText([
                             "🐥 <b>Одобрение заявки</b>",
                             "",
-                            "👤 Подал: <a href='tg://user?id=$request->telegram_id'><b>{$user->getName()}</b></a>",
+                            "👤 Подал: <b>{$user->accountLink()}</b>",
                             "📆 Дата: <b>$date</b>",
-                            "❤️ Принял: <b>{$admin->getName()}</b>",
+                            "❤️ Принял: <b>{$admin->accountLink()}</b>",
                         ]),
                         "parse_mode" => "html",
                     ]);

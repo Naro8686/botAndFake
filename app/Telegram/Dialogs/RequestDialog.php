@@ -301,63 +301,61 @@ class RequestDialog extends Dialog
             $telegram = $this->telegram;
             if (trim($update->getMessage()->getText()) === $this->btns->get('cancel')) {
                 $this->telegram->triggerCommand('start', $update);
-            } else {
-                $user = $this->getUser();
-                $request = $user->request()->firstOrNew();
-                $data = $this->getData()->only(['learn', 'practice', 'referrer_id']);
-                $request->learn = $data->get('learn');
-                $request->practice = $data->get('practice');
-                $request->referrer_id = $data->get('referrer_id');
-                $username = $user->getName();
-                $learn = $data->get('learn');
-                $practice = $data->get('practice') ?? 'Нет';
-                $referredId = $data->get('referrer_id') ?? 'Никто';
-                $date = now()->format('d.m.Y H:i:s');
-                if ($adminGroupId = BotController::groupAdmin('id')) {
-                    $message = $this->telegram->sendMessage([
-                        'chat_id' => $adminGroupId,
-                        'text' => $this->makeText([
-                            "🐥 <b>Заявка на вступление</b>",
-                            "",
-                            "👤 От: <a href='tg://user?id=$user->id'><b>$username</b></a>",
-                            "🍪 Откуда узнал: <b>$learn</b>",
-                            "⭐️ Опыт: <b>$practice</b>",
-                            "🤝 Пригласил: <b>$referredId</b>",
-                            "📆 Дата: <b>$date</b>",
-                        ]),
-                        "parse_mode" => "html",
-                        "reply_markup" => Keyboard::make([
-                            "inline_keyboard" => [[
-                                ["text" => $this->btns->get('approve') ?? '', 'callback_data' => "/approve $user->id"],
-                                ["text" => $this->btns->get('reject') ?? '', 'callback_data' => "/reject $user->id"],
-                            ]],
-                            "resize_keyboard" => true,
-                            "one_time_keyboard" => false,
-                        ])
-                    ]);
-                    $request->id = $message->messageId;
-                }
-                if ($request->save()) {
-                    $text = "💎 <b>Вы подали заявку на вступление</b>";
-                } else {
-                    $telegram->deleteMessage([
-                        "chat_id" => $adminGroupId,
-                        "message_id" => $request->id,
-                    ]);
-                    $text = "❗️ <b>Что то пошло не так</b>";
-                }
-                $keyboard = Keyboard::make([
-                    "keyboard" => [[["text" => $this->btns->get('start') ?? '']]],
-                    "resize_keyboard" => true,
-                    "one_time_keyboard" => false,
-                ]);
-                $this->telegram->sendMessage([
-                    'chat_id' => $this->getChat()->getId(),
-                    'text' => $text,
+                return;
+            }
+            $text = "❗️ <b>Что то пошло не так</b>";
+            $user = $this->getUser();
+            $request = $user->request()->firstOrNew();
+            $data = $this->getData()->only(['learn', 'practice', 'referrer_id']);
+            $request->learn = $data->get('learn');
+            $request->practice = $data->get('practice');
+            $request->referrer_id = $data->get('referrer_id');
+            $username = $user->getName();
+            $learn = $data->get('learn');
+            $practice = $data->get('practice') ?? 'Нет';
+            $referredId = $data->get('referrer_id') ?? 'Никто';
+            $date = now()->format('d.m.Y H:i:s');
+            if ($adminGroupId = BotController::groupAdmin('id')) {
+                $message = $this->telegram->sendMessage([
+                    'chat_id' => $adminGroupId,
+                    'text' => $this->makeText([
+                        "🐥 <b>Заявка на вступление</b>",
+                        "",
+                        "👤 От: <a href='tg://user?id=$user->id'><b>$username</b></a>",
+                        "🍪 Откуда узнал: <b>$learn</b>",
+                        "⭐️ Опыт: <b>$practice</b>",
+                        "🤝 Пригласил: <b>$referredId</b>",
+                        "📆 Дата: <b>$date</b>",
+                    ]),
                     "parse_mode" => "html",
-                    "reply_markup" => $keyboard
+                    "reply_markup" => Keyboard::make([
+                        "inline_keyboard" => [[
+                            ["text" => $this->btns->get('approve') ?? '', 'callback_data' => "/approve $user->id"],
+                            ["text" => $this->btns->get('reject') ?? '', 'callback_data' => "/reject $user->id"],
+                        ]],
+                        "resize_keyboard" => true,
+                        "one_time_keyboard" => false,
+                    ])
+                ]);
+                $request->id = $message->messageId;
+                if ($request->save()) $text = "💎 <b>Вы подали заявку на вступление</b>";
+                else $telegram->deleteMessage([
+                    "chat_id" => $adminGroupId,
+                    "message_id" => $request->id,
                 ]);
             }
+            $keyboard = Keyboard::make([
+                "keyboard" => [[["text" => $this->btns->get('start') ?? '']]],
+                "resize_keyboard" => true,
+                "one_time_keyboard" => false,
+            ]);
+            $this->telegram->sendMessage([
+                'chat_id' => $this->getChat()->getId(),
+                'text' => $text,
+                "parse_mode" => "html",
+                "reply_markup" => $keyboard
+            ]);
+
         } catch (TelegramSDKException $e) {
         }
     }

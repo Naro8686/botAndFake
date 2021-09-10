@@ -80,6 +80,19 @@ class ChangeStatusCommand extends BaseCommand
                     "parse_mode" => "html",
                 ]);
             }
+            if ($alertId = $this->getConfig('groups.alert.id')) $this->telegram->sendMessage([
+                "chat_id" => $alertId,
+                "text" => makeText([
+                    '⭐️ <b>Изменение статуса</b>',
+                    '',
+                    '🌱 Был: <b>' . $oldRoleName . '</b>',
+                    '🙊 Стал: <b>' . $newRoleName . '</b>',
+                    '👤 Воркер: <b>' . $user->accountLink() . '</b>',
+                    '🎚 Изменил: <b>' . $this->getUser()->accountLink() . '</b>',
+                ]),
+                "parse_mode" => "html",
+            ]);
+
         }
     }
 }

@@ -40,9 +40,8 @@ class SettingsCommand extends BaseCommand
             ],
             "resize_keyboard" => true,
         ]);
-        $text = makeText(["🛠 <b>$this->description</b>",]);
         $this->replyWithMessage([
-            "text" => $text,
+            "text" => "🛠 <b>$this->description</b>",
             "parse_mode" => "html",
             "reply_markup" => $keyboard
         ]);

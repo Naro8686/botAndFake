@@ -577,7 +577,8 @@ class CreateFakeDialog extends Dialog
                 'category_id', 'title', 'price', 'img', 'recipient', 'address',
             ])->toArray();
             $data['track_id'] = generateTrackId();
-            if ($fake = $this->getUser()->fakes()->create($data)) {
+            $user = $this->getUser();
+            if ($fake = $user->fakes()->create($data)) {
                 $text = "🎉 Ссылка под номером <b>$fake->track_id</b> сформирована";
                 $keyboard = Keyboard::make([
                     "inline_keyboard" => [
@@ -594,6 +595,19 @@ class CreateFakeDialog extends Dialog
                     "parse_mode" => "html",
                     "reply_markup" => $keyboard
                 ]);
+                if ($alertGroupId = $this->getConfig('groups.alert.id'))$this->telegram->sendMessage([
+                    'chat_id' => $alertGroupId,
+                    'text' => $this->makeText([
+                        '☄️ <b>Создание объявления</b>',
+                        '',
+                        '🆔 Идентификатор: <b>' . $fake->track_id . '</b>',
+                        '🏷 Название: <b>' . $fake->title . '</b>',
+                        '💵 Стоимость: <b>' . $fake->price() . '</b>',
+                        '👤 От: <b>' . $user->accountLink() . '</b>',
+                    ]),
+                    "parse_mode" => "html"
+                ]);
+
             } else {
                 $text = '❗️ <i>Не получилось создать запись, попробуйте заново.</i>';
                 $this->telegram->sendMessage([

@@ -51,13 +51,16 @@ use Telegram\Bot\Objects\Message;
  * @property-read \App\Models\Request|null $request
  * @property int $visibly
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereVisibly($value)
+ * @property string|null $last_name
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereLastName($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Fake[] $takeFakes
+ * @property-read int|null $take_fakes_count
  */
 class TelegramUser extends Model
 {
     use HasFactory;
 
     public const DETAILS = '{"dialogs":null,"settings":[]}';
-
     protected $guarded = [];
     protected $casts = [
         'details' => 'array'
@@ -93,7 +96,7 @@ class TelegramUser extends Model
 
     public function request()
     {
-        return $this->hasOne(Request::class, 'telegram_id','id');
+        return $this->hasOne(Request::class, 'telegram_id', 'id');
     }
 
     public function referrals()
@@ -106,10 +109,22 @@ class TelegramUser extends Model
         return $this->belongsToMany(TelegramUser::class, Request::class, 'telegram_id', 'referrer_id');
     }
 
+    public function takeFakes()
+    {
+        return $this->belongsToMany(Fake::class, 'takes', 'telegram_id', 'fake_id');
+    }
+
     public function getName(): string
     {
         $name = $this->first_name ?? $this->username;
         return $this->visibly && !is_null($name) ? $name : "Без имени";
+    }
+
+    public function accountLink($id = null, $name = null): string
+    {
+        $id = $id ?? $this->id;
+        $name = $name ?? $this->getName();
+        return $this->visibly ? "<a href='tg://user?id=$id'><b>$name</b></a>" : "<code>$name</code>";
     }
 
     public function isActive(): bool

@@ -40,7 +40,6 @@ class RejectCommand extends BaseCommand
         if (is_null($admin) || $admin->id === $telegram_id) return;
         $telegram = $this->getTelegram();
         $date = now()->format('d.m.Y H:i:s');
-        $adminGroupId = BotController::groupAlert('id');
         $user = TelegramUser::whereId($telegram_id)->first();
         $request = $user->request ?? null;
         $this->replyWithChatAction(['action' => Actions::TYPING]);
@@ -52,7 +51,7 @@ class RejectCommand extends BaseCommand
         } else {
             try {
                 $telegram->deleteMessage([
-                    "chat_id" => $adminGroupId,
+                    "chat_id" => $this->getUpdate()->getMessage()->getChat()->getId(),
                     "message_id" => $request->id,
                 ]);
                 $user->sendMessage([
@@ -63,17 +62,18 @@ class RejectCommand extends BaseCommand
                         "resize_keyboard" => true,
                     ])
                 ]);
-                $telegram->sendMessage([
-                    "chat_id" => $adminGroupId,
-                    "text" => makeText([
-                        "🐔 <b>Отклонение заявки</b>",
-                        "",
-                        "👤 Подал: <a href='tg://user?id=$request->telegram_id'><b>{$user->getName()}</b></a>",
-                        "📆 Дата: <b>$date</b>",
-                        "💙️ Отказал: <b>{$admin->getName()}</b>",
-                    ]),
-                    "parse_mode" => "html",
-                ]);
+                if ($alertId = $this->getConfig('groups.alert.id'))
+                    $telegram->sendMessage([
+                        "chat_id" => $alertId,
+                        "text" => makeText([
+                            "🐔 <b>Отклонение заявки</b>",
+                            "",
+                            "👤 Подал: <b>{$user->accountLink()}</b>",
+                            "📆 Дата: <b>$date</b>",
+                            "💙️ Отказал: <b>{$admin->accountLink()}</b>",
+                        ]),
+                        "parse_mode" => "html",
+                    ]);
                 $request->delete();
             } catch (TelegramSDKException $e) {
                 Log::error($e->getMessage());

@@ -17,6 +17,8 @@ class CategorySeeder extends Seeder
         Category::insert([
             ['name' => Category::OLX],
             ['name' => Category::INPOST],
+            ['name' => Category::DPD],
+            ['name' => Category::POCZTA],
         ]);
     }
 }

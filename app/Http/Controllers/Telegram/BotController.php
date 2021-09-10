@@ -2,13 +2,6 @@
 
 namespace App\Http\Controllers\Telegram;
 
-use App\Exceptions\TelegramUserPermissionException;
-use App\Telegram\Commands\BackCommand;
-use App\Telegram\Commands\BaseCommand;
-use App\Telegram\Commands\HelpCommand;
-use App\Telegram\Commands\RequestCommand;
-use App\Telegram\Commands\StartCommand;
-use Illuminate\Support\Collection;
 use Log;
 use Telegram\Bot\Api;
 use Illuminate\Http\Request;
@@ -19,6 +12,14 @@ use Illuminate\Config\Repository;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use App\Exceptions\TelegramUserPermissionException;
+use App\Telegram\Commands\BackCommand;
+use App\Telegram\Commands\BaseCommand;
+use App\Telegram\Commands\HelpCommand;
+use App\Telegram\Commands\RequestCommand;
+use App\Telegram\Commands\StartCommand;
+use Illuminate\Support\Collection;
+use Throwable;
 
 
 class BotController extends Controller
@@ -113,7 +114,7 @@ class BotController extends Controller
     public function setWebhook(): JsonResponse
     {
         $success = false;
-        $msg = null;
+        $msg = 'OK';
         try {
             $webhook_url = self::getConfig('webhook_url');
             $telegram = self::getTelegram();
@@ -152,17 +153,58 @@ class BotController extends Controller
                 $config = self::getConfig();
                 $telegramUser = TelegramUser::whereId($telegramUserId)
                     ->firstOrCreate($from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
-
                 switch ($chatId) {
                     case $telegramUserId:
+                        try {
+                            if (self::groupAlert('id') && $telegramUser->wasRecentlyCreated) $telegram->sendMessage([
+                                'chat_id' => self::groupAlert('id'),
+                                'text' => "➕️ <b>{$telegramUser->accountLink($from['id'],($from['first_name'] ?? $from['username']))}</b> запустил бота",
+                                "parse_mode" => "html",
+                            ]);
+                        } catch (Throwable $throwable) {
+                        }
                         $commands = $this->botCommandsFiltrated($telegramUser);
                         break;
                     case self::groupAdmin('id'):
                         $commands = self::groupAdmin('commands');
                         break;
+                    case self::groupAlert('id'):
+                        $commands = self::groupAlert('commands');
+                        break;
                     default:
                         $commands = collect();
                         break;
+                }
+                try {
+                    if (!is_null($member) && !is_null($chatId)) {
+                        $joined = TelegramUser::find(($member['id'] ?? null));
+                        if (!is_null($joined) && !$joined->is_bot && $joined->isActive()) {
+                            $bot = $telegram->getMe();
+                            $telegram->sendMessage([
+                                'chat_id' => $chatId,
+                                'text' => makeText([
+                                    "😉 Добро пожаловать в чат, <b>{$joined->accountLink()}</b>",
+                                    "",
+                                    "🤖 Бот: <b>@$bot->username</b>",
+                                    "💸 Канал с профитами: <b><a href='#'>Перейти</a></b>",
+                                ]),
+                                "parse_mode" => "html",
+                            ]);
+                        } else {
+                            $telegram->kickChatMember([
+                                "chat_id" => $chatId,
+                                "user_id" => $member['id']
+                            ]);
+                            if ($alertGroupId = self::groupAlert('id')) $telegram->sendMessage([
+                                'chat_id' => $alertGroupId,
+                                'text' => '❗️ <b><a href="tg://user?id=' . $member['id'] . '">' . ($member['first_name'] ?? 'Без ника') . '</a> [' . $member['id'] . ']</b> кикнут с чата за попытку вступить по ссылке',
+                                "parse_mode" => "html",
+                            ]);
+                        }
+                    }
+
+                } catch (Throwable $throwable) {
+                    Log::error($throwable->getMessage());
                 }
 
                 $dialogs = new Dialogs($telegram, $telegramUser);
@@ -172,24 +214,25 @@ class BotController extends Controller
 
                 $telegram->addCommands($commands->toArray());
                 $update = $telegram->commandsHandler(true);
-                $commandName = "";
-                if (!$update->isType('callback_query')) {
-                    $commandName = array_search(trim($text), $config->get('btns'), true) ?? "";
-                } else if (preg_match('/^(\/[^\s\/]+)/', $text, $matches)) {
-                    $commandName = str_replace('/', '', $matches[0]);
+                if (!$update->hasCommand()) {
+                    $commandName = null;
+                    if (!$update->isType('callback_query')) {
+                        $commandName = array_search(trim($text), $config->get('btns'), true) ?? "";
+                    } else if (preg_match('/^(\/[^\s\/]+)/', $text, $matches)) {
+                        $commandName = str_replace('/', '', $matches[0]);
+                    }
+
+                    $command = $commands->first(function (BaseCommand $baseCommand) use ($commandName) {
+                        return $baseCommand->getName() === $commandName;
+                    });
+                    if (!is_null($command)) $telegram->triggerCommand($command->getName(), $update);
                 }
-                $command = $commands->first(function (BaseCommand $baseCommand) use ($commandName) {
-                    return $baseCommand->getName() === $commandName;
-                });
-                if (!is_null($command)) {
-                    $telegram->triggerCommand($command->getName(), $update);
-                } elseif (!empty($commandName)) $telegram->triggerCommand('start', $update);
                 if ($dialogs->exists($update)) {
                     $dialogs->proceed($update);
                 }
-            } else throw new TelegramSDKException('User ID Not Found');
+            }
         } catch (TelegramSDKException $e) {
-            Log::info(json_encode($request->all()) . PHP_EOL . $e->getMessage());
+            Log::error(json_encode($request->all()) . PHP_EOL . $e->getMessage());
         } catch (TelegramUserPermissionException $permissionException) {
             report($permissionException);
         }

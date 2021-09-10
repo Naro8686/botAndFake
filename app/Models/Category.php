@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Fake[] $fakes
+ * @property-read int|null $fakes_count
  */
 class Category extends Model
 {
@@ -25,4 +27,11 @@ class Category extends Model
     public $timestamps = false;
     public const OLX = 'olx';
     public const INPOST = 'inpost';
+    public const DPD = 'dpd';
+    public const POCZTA = 'poczta';
+
+    public function fakes()
+    {
+        return $this->hasMany(Fake::class);
+    }
 }

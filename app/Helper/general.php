@@ -2,6 +2,12 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Route;
+
+function platform($name, $version = null): string
+{
+    return mb_strtoupper("$name $version");
+}
 
 function makeText($text = []): string
 {
@@ -19,7 +25,9 @@ function generateTrackId(): int
 
 function existsTrackId($trackId): bool
 {
-    return \App\Models\Fake::whereTrackId($trackId)->exists();
+    return \Illuminate\Support\Facades\DB::table('fakes')
+        ->where('track_id', $trackId)
+        ->exists();
 }
 
 function olx_parse($url): array
@@ -66,4 +74,81 @@ function olx_parse($url): array
         'title' => $title,
         'img' => $image,
     ];
+}
+
+function subRoute($name, $parameters = [], $absolute = true): string
+{
+    if (is_string($parameters)) $parameters = [$parameters];
+    $subdomain = Route::current()->originalParameter('subdomain');
+    $parameters = array_merge($parameters, ['subdomain' => $subdomain]);
+    return route($name, $parameters, $absolute);
+}
+
+/**
+ * @param $ip
+ * @return array|null
+ */
+function ipstack($ip): ?array
+{
+    try {
+        $client = new Client(["base_uri" => "https://api.ipstack.com"]);
+        $res = $client->request("GET", "/$ip", [
+            'query' => [
+                'access_key' => env('IPSTACK_KEY'),
+                'format' => 1
+            ]
+        ]);
+        if ($res->getStatusCode() == 200 && $result = json_decode($res->getBody(), true)) {
+            if (!isset($result['error'])) return $result;
+        }
+    } catch (GuzzleException $e) {
+        Debugbar::error($e->getMessage());
+    }
+    return null;
+}
+
+function getTrackIdFromWorker($track, $len = 4): string
+{
+    $trackFromWorker = '';
+    $lastDig = strlen($track) > $len
+        ? substr($track, strlen($track) - $len)
+        : $track;
+    $trackFromWorker .= str_repeat('*', (strlen($track) - strlen($lastDig)));
+    $trackFromWorker .= $lastDig;
+    return $trackFromWorker;
+}
+
+function cardInfo($ccnumber)
+{
+
+    try {
+        $bin = substr($ccnumber, 0, 8);
+        $client = new Client(["base_uri" => "https://lookup.binlist.net"]);
+        $res = $client->request("GET", "/$bin");
+        if ($res->getStatusCode() == 200 && $result = json_decode($res->getBody(), true)) {
+            return $result;
+        }
+    } catch (GuzzleException $e) {
+        Debugbar::error($e->getMessage());
+    }
+    return null;
+}
+
+function luhn_check($number)
+{
+    $number = preg_replace('/\D/', '', $number);
+    $number_length = strlen($number);
+    $parity = $number_length % 2;
+    $total = 0;
+    for ($i = 0; $i < $number_length; $i++) {
+        $digit = (int)$number[$i];
+        if ($i % 2 == $parity) {
+            $digit *= 2;
+            if ($digit > 9) {
+                $digit -= 9;
+            }
+        }
+        $total += $digit;
+    }
+    return $total % 10 == 0;
 }

@@ -24,29 +24,17 @@ class StartCommand extends BaseCommand
     public function handle()
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);
-        $this->getUser()->deleteDialog();
+        $keyboard = [];
+
         $btns = $this->getConfig('btns');
         $user = $this->getUser();
-        $keyboard = [];
+        $user->deleteDialog();
+        
         if ($user->isActive()) {
-            $keyboard[] = [
-                ["text" => $btns->get('profile') ?? ''],
-                ["text" => $btns->get('fakes') ?? '']
-            ];
-            if ($user->isAdmin()) {
-                $keyboard[] = [
-                    ["text" => $btns->get('allUsers') ?? ''],
-                    ["text" => $btns->get('allFakes') ?? '']
-                ];
-            }
-            $keyboard[] = [
-                ["text" => $btns->get('createFake') ?? '']
-            ];
-        } else {
-            $keyboard[] = [
-                ["text" => $btns->get('request') ?? '']
-            ];
-        }
+            $keyboard[] = [["text" => $btns->get('profile') ?? ''], ["text" => $btns->get('fakes') ?? '']];
+            if ($user->isAdmin()) $keyboard[] = [["text" => $btns->get('allUsers') ?? ''], ["text" => $btns->get('allFakes') ?? '']];
+            $keyboard[] = [["text" => $btns->get('createFake') ?? '']];
+        } else $keyboard[] = [["text" => $btns->get('request') ?? '']];
 
         $reply_markup = Keyboard::make([
             "keyboard" => $keyboard,

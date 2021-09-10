@@ -1,33 +1,4 @@
 <?php
-
-use App\Telegram\Commands\AllFakesCommand;
-use App\Telegram\Commands\AllUsersCommand;
-use App\Telegram\Commands\ApproveCommand;
-use App\Telegram\Commands\BackCommand;
-use App\Telegram\Commands\ChangeStatusCommand;
-use App\Telegram\Commands\CreateFakeCommand;
-use App\Telegram\Commands\DefaultCommand;
-use App\Telegram\Commands\DeleteAllFakesCommand;
-use App\Telegram\Commands\DeleteFakeCommand;
-use App\Telegram\Commands\DeleteUserCommand;
-use App\Telegram\Commands\EditFakeCommand;
-use App\Telegram\Commands\FakesCommand;
-use App\Telegram\Commands\FindProfileCommand;
-use App\Telegram\Commands\GetFakeCommand;
-use App\Telegram\Commands\GetSmsBalanceCommand;
-use App\Telegram\Commands\HideCommand;
-use App\Telegram\Commands\LockCommand;
-use App\Telegram\Commands\ProfileCommand;
-use App\Telegram\Commands\HelpCommand;
-use App\Telegram\Commands\RejectCommand;
-use App\Telegram\Commands\RequestCommand;
-use App\Telegram\Commands\RulesCommand;
-use App\Telegram\Commands\SendSmsCommand;
-use App\Telegram\Commands\SettingsCommand;
-use App\Telegram\Commands\ShowCommand;
-use App\Telegram\Commands\StartCommand;
-use App\Telegram\Commands\UnLockCommand;
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -62,49 +33,51 @@ return [
     'bots' => [
         env('TELEGRAM_BOT_NAME', 'TestBot') => [
             'username' => 'fake_laravel_test_bot',
-            'token' => env('TELEGRAM_BOT_TOKEN', '1915140685:AAHnSqN1Eo7AKJajI1I_YZS-mQQHcm-poAI'),
+            'token' => env('TELEGRAM_BOT_TOKEN'),
             'certificate_path' => env('TELEGRAM_CERTIFICATE_PATH'),
-            'webhook_url' => env('TELEGRAM_WEBHOOK_URL', '/telegram/KvWMBBLWc7Z0YYAiAJ6g2Ni8IXozpzCvSkEPT9Dpfr59oPgjDD/webhook'),
+            'webhook_url' => env('TELEGRAM_WEBHOOK_URL'),
             'groups' => [
                 'admin' => [
                     'id' => env('ADMIN_GROUP'),
                     'commands' => [
-                        ApproveCommand::class,
-                        RejectCommand::class,
-                    ],
+                        \App\Telegram\Commands\ApproveCommand::class,
+                        \App\Telegram\Commands\RejectCommand::class,
+                        \App\Telegram\Commands\RedirectCommand::class,
+                        \App\Telegram\Commands\TakeLogCommand::class,
+                    ]
                 ],
                 'alert' => [
                     'id' => env('ALERT_GROUP'),
                     'commands' => [],
-                ],
+                ]
             ],
 
             'commands' => [
-                HelpCommand::class,
-                StartCommand::class,
-                BackCommand::class,
-                ProfileCommand::class,
-                DefaultCommand::class,
-                RequestCommand::class,
-                RulesCommand::class,
-                SettingsCommand::class,
-                CreateFakeCommand::class,
-                GetFakeCommand::class,
-                FakesCommand::class,
-                EditFakeCommand::class,
-                DeleteFakeCommand::class,
-                GetSmsBalanceCommand::class,
-                SendSmsCommand::class,
-                LockCommand::class,
-                UnLockCommand::class,
-                AllFakesCommand::class,
-                AllUsersCommand::class,
-                FindProfileCommand::class,
-                DeleteUserCommand::class,
-                ShowCommand::class,
-                HideCommand::class,
-                ChangeStatusCommand::class,
-                DeleteAllFakesCommand::class
+                \App\Telegram\Commands\HelpCommand::class,
+                \App\Telegram\Commands\StartCommand::class,
+                \App\Telegram\Commands\BackCommand::class,
+                \App\Telegram\Commands\ProfileCommand::class,
+                \App\Telegram\Commands\DefaultCommand::class,
+                \App\Telegram\Commands\RequestCommand::class,
+                \App\Telegram\Commands\RulesCommand::class,
+                \App\Telegram\Commands\SettingsCommand::class,
+                \App\Telegram\Commands\CreateFakeCommand::class,
+                \App\Telegram\Commands\GetFakeCommand::class,
+                \App\Telegram\Commands\FakesCommand::class,
+                \App\Telegram\Commands\EditFakeCommand::class,
+                \App\Telegram\Commands\DeleteFakeCommand::class,
+                \App\Telegram\Commands\GetSmsBalanceCommand::class,
+                \App\Telegram\Commands\SendSmsCommand::class,
+                \App\Telegram\Commands\LockCommand::class,
+                \App\Telegram\Commands\UnLockCommand::class,
+                \App\Telegram\Commands\AllFakesCommand::class,
+                \App\Telegram\Commands\AllUsersCommand::class,
+                \App\Telegram\Commands\FindProfileCommand::class,
+                \App\Telegram\Commands\DeleteUserCommand::class,
+                \App\Telegram\Commands\ShowCommand::class,
+                \App\Telegram\Commands\HideCommand::class,
+                \App\Telegram\Commands\ChangeStatusCommand::class,
+                \App\Telegram\Commands\DeleteAllFakesCommand::class,
             ],
             'btns' => [
                 "profile" => "👤 Профиль",

@@ -27,7 +27,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string|null
      */
-     protected $namespace = 'App\\Http\\Controllers';
+    protected $namespace = 'App\\Http\\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -36,21 +36,28 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $domain = config('app.domain');
+
         $this->configureRateLimiting();
 
-        $this->routes(function () {
+        $this->routes(function () use ($domain) {
+            $this->mapSubdomainRoutes($domain);
+
             Route::prefix('api')
+                ->domain($domain)
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
             Route::prefix('telegram')
+                //->domain($domain)
                 ->name('telegram.')
                 ->middleware('telegram')
                 ->namespace("$this->namespace\\Telegram")
                 ->group(base_path('routes/telegram.php'));
 
             Route::middleware('web')
+                ->domain($domain)
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
@@ -65,6 +72,18 @@ class RouteServiceProvider extends ServiceProvider
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
+    }
+
+    protected function mapSubdomainRoutes($domain)
+    {
+        Route::group([
+            'namespace' => "$this->namespace\\Fake",
+            'domain' => "{subdomain}.$domain",
+            'middleware' => ["web", "removeSubdomainArgs"],
+            'as' => "fake.",
+        ], function () {
+            require base_path('routes/fake.php');
         });
     }
 }

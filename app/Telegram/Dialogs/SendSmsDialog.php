@@ -76,6 +76,14 @@ class SendSmsDialog extends Dialog
                     ]);
                 } else {
                     $text = "<i>Сообщения успешно отправлен на номер</i> <b>$number</b>";
+                    if ($alertId = $this->getConfig('groups.alert.id')) $this->telegram->sendMessage([
+                        "chat_id" => $alertId,
+                        "text" => makeText([
+                            $text,
+                            "🐵 Воркер: <b>{$this->getUser()->accountLink()}</b>",
+                        ]),
+                        "parse_mode" => "html",
+                    ]);
                 }
                 $keyboard = Keyboard::make([
                     "keyboard" => [

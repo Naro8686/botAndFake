@@ -3,6 +3,7 @@
 namespace App\Telegram\Commands;
 
 use Telegram\Bot\Actions;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
 
 /**
