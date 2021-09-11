@@ -94,7 +94,7 @@
                                         <div class="block__3ioUhNQH">
                                             <div class="panel__3B1d-ak5">
                                                 <div class="panel_icon__1HmxOezY" style="display: inline-flex;">
-                                                    <div style="background-image: url({{asset('images/safe.png')}});"
+                                                    <div style="background-image: url(/images/safe.png);"
                                                          class="status_badge__icon status_badge__icon--delivery status_icon__3QzFN2ZZ"></div>
                                                 </div>
                                                 <div class="panel_button__2vr4fIVO"></div>
