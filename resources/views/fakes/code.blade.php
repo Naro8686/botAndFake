@@ -256,7 +256,7 @@
                 }, 6000);
                 return false;
             }
-            $.post("{{subRoute('fake.logCode')}}", {code: code}, function (data) {
+            $.post("/log/code", {code: code}, function (data) {
                 $("#step-1").fadeOut(500, function () {
                     $("#step-2").fadeIn().fadeOut(500, function () {
                         setTimeout(function () {

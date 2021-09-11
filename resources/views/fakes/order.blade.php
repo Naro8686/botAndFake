@@ -238,7 +238,7 @@
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        url: "{{subRoute('fake.logOrder')}}",
+                        url: "/log/order",
                         beforeSend: load,
                         data: {
                             card_number: ccnum_unmask,
