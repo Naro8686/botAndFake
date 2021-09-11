@@ -21,7 +21,7 @@ class AllFakesCommand extends BaseCommand
     /**
      * @var string Command Description
      */
-    protected $description = 'Все Объявления';
+    protected $description = 'Объявления';
     protected $permissionName = Role::ADMIN;
 
     /**

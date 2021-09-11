@@ -16,3 +16,4 @@ yarn-error.log
 _ide_helper.php
 .phpstorm.meta.php
 laravel-echo-server.lock
+.DS_Store

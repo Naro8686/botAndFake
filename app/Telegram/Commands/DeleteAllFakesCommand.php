@@ -32,8 +32,8 @@ class DeleteAllFakesCommand extends BaseCommand
         $user = $this->getUser();
         $fakes = $user->fakes()->get();
         if (isset($this->getArguments()['all'])) {
-            $fakes = Fake::get();
             $this->setPermission(Role::ADMIN);
+            $fakes = Fake::whereNotIn('id', $fakes->pluck('id'))->get();
         }
         if (!$this->checkPermission($user->role->name)) return;
         $this->replyWithChatAction(['action' => Actions::TYPING]);

