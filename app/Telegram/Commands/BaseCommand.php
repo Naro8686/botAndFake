@@ -202,7 +202,7 @@ abstract class BaseCommand extends Command
         } else {
             $data = $this->relevantMessageSubString();
         }
-
+        \Log::info($this->customRegex);
         //Extract variable names from the supplied pattern
         $required = $this->extractVariableNames($this->customRegex ?? '/\{([^\d]\w+?)\}/');
         $optional = $this->extractVariableNames('/\{([^\d]\w+?)\?\}/');
