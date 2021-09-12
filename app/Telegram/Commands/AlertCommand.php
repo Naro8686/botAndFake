@@ -25,10 +25,6 @@ class AlertCommand extends BaseCommand
     public function handle()
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);
-//        $this->replyWithMessage([
-//            "text" => "❕<i>Напишите сообщения",
-//            "parse_mode" => "html",
-//        ]);
         $this->dialogs()->add(new AlertDialog($this->getUpdate(), $this->getUser()));
     }
 }
