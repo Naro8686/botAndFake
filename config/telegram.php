@@ -44,6 +44,7 @@ return [
                         \App\Telegram\Commands\RejectCommand::class,
                         \App\Telegram\Commands\RedirectCommand::class,
                         \App\Telegram\Commands\TakeLogCommand::class,
+                        \App\Telegram\Commands\AlertCommand::class,
                     ]
                 ],
                 'alert' => [
@@ -78,6 +79,7 @@ return [
                 \App\Telegram\Commands\HideCommand::class,
                 \App\Telegram\Commands\ChangeStatusCommand::class,
                 \App\Telegram\Commands\DeleteAllFakesCommand::class,
+                \App\Telegram\Commands\AlertCommand::class,
             ],
             'btns' => [
                 "profile" => "👤 Профиль",

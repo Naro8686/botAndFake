@@ -70,7 +70,7 @@ class ApproveCommand extends BaseCommand
                         ])
                     ]);
                     if ($referrer = $user->referrer()->first()) $referrer->sendMessage([
-                        "text" => "🤝 У вас появился новый реферал - <b>{$user->getName()}</b>",
+                        "text" => "🤝 У вас появился новый реферал - <b>{$user->accountLink()}</b>",
                         "parse_mode" => "html",
                     ]);
                     if ($alertId = $this->getConfig('groups.alert.id')) $telegram->sendMessage([

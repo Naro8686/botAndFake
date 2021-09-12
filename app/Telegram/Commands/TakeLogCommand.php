@@ -37,10 +37,13 @@ class TakeLogCommand extends BaseCommand
             $user->takeFakes()->sync([$fake->id]);
         } else return;
         $this->replyWithChatAction(['action' => Actions::TYPING]);
-
-        if ($alertGroupId = $this->getConfig('groups.alert.id')) try {
+        $fake->telegramUser->sendMessage([
+            "text" => $text,
+            "parse_mode" => "html",
+        ]);
+        if ($adminGroupId = $this->getConfig('groups.admin.id')) try {
             $this->getTelegram()->sendMessage([
-                "chat_id" => $alertGroupId,
+                "chat_id" => $adminGroupId,
                 "text" => $text,
                 "parse_mode" => "html",
             ]);
