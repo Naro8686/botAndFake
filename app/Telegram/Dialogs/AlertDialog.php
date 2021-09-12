@@ -18,7 +18,7 @@ class AlertDialog extends Dialog
         try {
             $this->telegram->sendMessage([
                 "chat_id" => $this->getChat()->getId(),
-                "text" => "❕ <i>Напишите сообщения",
+                "text" => "❕<i>Напишите сообщения",
                 "parse_mode" => "html",
             ]);
         } catch (TelegramSDKException $e) {
