@@ -28,6 +28,8 @@ abstract class BaseCommand extends Command
      */
     protected $user;
 
+    protected $customRegex = null;
+
     protected $permissionName = null;
 
 
@@ -202,7 +204,7 @@ abstract class BaseCommand extends Command
         }
 
         //Extract variable names from the supplied pattern
-        $required = $this->extractVariableNames('/\{([^\d]\w+?)\}/');
+        $required = $this->extractVariableNames($this->customRegex ?? '/\{([^\d]\w+?)\}/');
         $optional = $this->extractVariableNames('/\{([^\d]\w+?)\?\}/');
         $customRegex = $this->checkForCustomRegex($required, $optional);
 

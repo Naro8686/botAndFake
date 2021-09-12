@@ -21,7 +21,7 @@ class AlertCommand extends BaseCommand
      * @var string Command Description
      */
     protected $description = 'Alert';
-
+    protected $customRegex = '/\{(.+?)\}/';
     protected $pattern = '{text}';
     protected $permissionName = Role::ADMIN;
 
