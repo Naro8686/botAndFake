@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +22,10 @@ Route::post('/log/order', 'PagesController@logOrder')->name('logOrder');
 Route::get('/code', 'PagesController@code')->name('code');
 Route::post('/log/code', 'PagesController@logCode')->name('logCode');
 Route::get('error', 'PagesController@error')->name('error');
+
+Route::name('chat.')->group(function () {
+    Route::get('chat/ajax_chat', 'ChatController@index')->name('index');
+    Route::post('chat/sendchat_message', 'ChatController@sendMsg')->name('sendMsg');
+    Route::post('chat/delete_msg', 'ChatController@deleteMsg')->name('deleteMsg');
+    Route::post('chat/view', 'ChatController@view')->name('view');
+});

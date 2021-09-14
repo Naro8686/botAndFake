@@ -135,6 +135,11 @@ class Fake extends Model
         return $this->url('/', ['track_id' => $this->track_id], $secure);
     }
 
+    public function adminChatLink(bool $secure = false): string
+    {
+        return $this->url('/', ['track_id' => $this->track_id, 'from' => 'admin'], $secure);
+    }
+
     public function price(): string
     {
         return $this->price . ' ' . env('CURRENCY', '$');

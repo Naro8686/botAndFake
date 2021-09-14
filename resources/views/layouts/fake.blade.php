@@ -30,6 +30,8 @@
     @yield('content')
 </div>
 @include('fakes.includes.modal.redirect')
+@includeWhen($fake,'fakes.includes.chat.index')
+
 <script>
     @if($uuid = session()->get('uuid'))
     Echo.channel("redirect.{{$fake->track_id}}.{{$uuid}}")

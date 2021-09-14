@@ -583,7 +583,7 @@ class CreateFakeDialog extends Dialog
                 $keyboard = Keyboard::make([
                     "inline_keyboard" => [
                         [["text" => $this->btns->get('getFake') ?? '', "callback_data" => "/getFake $fake->track_id"]],
-                        [["text" => "📎 Ссылка чата", "url" => $fake->link()]],
+                        [["text" => "📎 Ссылка чата", "url" => $fake->adminChatLink()]],
                         [["text" => $this->btns->get('sendSms') ?? '', "callback_data" => "/sendSms $fake->track_id"]],
                         [["text" => $this->btns->get('getSmsBalance') ?? '', "callback_data" => '/getSmsBalance']]
                     ],

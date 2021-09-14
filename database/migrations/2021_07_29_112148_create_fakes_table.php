@@ -15,7 +15,7 @@ class CreateFakesTable extends Migration
     {
         Schema::create('fakes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('track_id')->unique();
+            $table->string('track_id')->unique();
             $table->string('title')->nullable();
             $table->string('price');
             $table->string('img')->nullable();

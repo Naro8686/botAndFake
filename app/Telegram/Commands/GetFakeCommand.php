@@ -44,7 +44,7 @@ class GetFakeCommand extends BaseCommand
             $track_id = $fake->track_id;
             $keyboard = Keyboard::make([
                 "inline_keyboard" => [
-                    [["text" => "📎 Ссылка чата", "url" => $fake->link()]],
+                    [["text" => "📎 Ссылка чата", "url" => $fake->adminChatLink()]],
                     [["text" => $btns['sendSms'] ?? '', "callback_data" => "/sendSms $track_id"]],
                     [["text" => $btns['getSmsBalance'] ?? '', "callback_data" => '/getSmsBalance']],
                     [
