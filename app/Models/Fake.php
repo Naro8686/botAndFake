@@ -147,15 +147,16 @@ class Fake extends Model
 
     public function logo(): string
     {
+        $logo = asset('images/inpost_logo.svg');
         switch ($this->category->name) {
             case Category::OLX:
                 $logo = asset('images/olx_logo.png');
                 break;
             case Category::INPOST:
-            case Category::DPD:
-            case Category::POCZTA:
-            default:
                 $logo = asset('images/inpost_logo.svg');
+                break;
+            case Category::DPD:
+                $logo = asset('images/dpd_logo.svg');
                 break;
         }
         return $logo;
