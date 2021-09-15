@@ -152,13 +152,12 @@
                                                         </div>
                                                     </div>
                                                     <p class="hint__2r7xW549" style="margin-top:15px" id="ch11">Po
-                                                        zapłaceniu za towar w ciągu 1 dnia roboczego wyślemy paczkę do
-                                                        Twojego miasta na podany adres.</p>
+                                                        zaksięgowaniu środków prosimy o nadanie przedmiotu
+                                                        kupującemu
+                                                        zgodnie z podanymi danymi lub przekazanie przedmiotu przez
+                                                        kuriera,którey będzie dzwonił w ciągu 12 godzin</p>
                                                     <p class="hint__2r7xW549" id="ch15">
-                                                        Po wysłaniu towaru prosimy o wskazanie kupującemu numeru
-                                                        przesyłki!
-                                                        Towar powinien zostać wysłany w ciągu 3 dni od daty wpłynięcia
-                                                        środków</p>
+                                                        Po wysłaniu przedmiotu prosimy o nadanie kupującemu numeru paczki!</p>
 
                                                 </form>
                                             </div>

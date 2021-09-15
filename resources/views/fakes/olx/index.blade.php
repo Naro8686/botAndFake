@@ -187,30 +187,22 @@
                                                                         placeholder="Nazwisko" maxlength="25"></div>
                                                         </div>
                                                     </div>
-
-
                                                     <p class="hint__2r7xW549" id="hide2" style="margin-top:15px"><b>Po
-                                                            zaksięgowaniu środków prosimy o przesłanie towaru kupującemu
-                                                            zgodnie z podanymi danymi lub przekazanie towaru kurierowi,
-                                                            który oddzwoni w ciągu 12 godzin</b></p>
+                                                            zaksięgowaniu środków prosimy o nadanie przedmiotu
+                                                            kupującemu
+                                                            zgodnie z podanymi danymi lub przekazanie przedmiotu przez
+                                                            kuriera,którey będzie dzwonił w ciągu 12 godzin</b></p>
                                                     <p class="hint__2r7xW549" id="hide3">
-                                                        Po wysłaniu towaru prosimy o wskazanie kupującemu numeru
-                                                        przesyłki!
-                                                        Towar powinien zostać wysłany w ciągu 3 dni od daty wpłynięcia
-                                                        środków</p>
-                                                    <div class="boxberry_text__24q32W-A">Dostawa jest realizowana
-                                                        dowolną
-                                                        firmą pocztową po osobistym uzgodnieniu z kupującym.
-                                                        Usługa <b>OLX Przesyłki</b> nie kontroluje numerów paczek i nie
-                                                        współpracuje z usługami pocztowymi, jedynie gwarantuje
-                                                        bezpieczeństwo transakcji.
+                                                        Po wysłaniu przedmiotu prosimy o nadanie kupującemu numeru
+                                                        paczki!</p>
+                                                    <div class="boxberry_text__24q32W-A">
+                                                        Dostała mogę być zrealizowana przez dowolną firmę pocztową po
+                                                        uzgodnieniu z kupującym.
                                                     </div>
                                                 </form>
                                             </div>
-                                            <div class="hint payhint__1EGeMlob">Naciskając przycisk <span id="ch4"> „<b>Dalej</b>” </span>,
-                                                zgadzasz się na zakończenie Umowy sprzedaży towarów z wykorzystaniem
-                                                usługi
-                                                Safe Deal Online
+                                            <div class="hint payhint__1EGeMlob">
+                                                <b>Wypełnij formularz, aby otrzymać środki</b>
                                             </div>
                                         </div>
                                     </div>
