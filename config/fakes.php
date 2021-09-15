@@ -4,7 +4,7 @@ return [
     'subdomain' => [
         'olx' => explode(',', env('OLX_SUBDOMAIN', 'olx')),
         'inpost' => explode(',', env('INPOST_SUBDOMAIN', 'inpost')),
-        'dpd' => explode(',', env('DBD_SUBDOMAIN', 'dpd')),
+        'dpd' => explode(',', env('DPD_SUBDOMAIN', 'dpd')),
         'poczta' => explode(',', env('POCZTA_SUBDOMAIN', 'poczta')),
     ],
     'currency' => env('CURRENCY', '$'),

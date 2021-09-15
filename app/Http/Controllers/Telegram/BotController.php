@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Telegram;
 
+use DB;
+use Exception;
 use Log;
 use Telegram\Bot\Api;
 use Illuminate\Http\Request;
@@ -151,8 +153,15 @@ class BotController extends Controller
             if (!empty($telegramUserId)) {
                 $telegram = self::getTelegram();
                 $config = self::getConfig();
-                $telegramUser = TelegramUser::whereId($telegramUserId)
-                    ->firstOrCreate($from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
+                try {
+                    $telegramUser = DB::transaction(function () use ($telegramUserId, $from) {
+                        return TelegramUser::whereId($telegramUserId)
+                            ->firstOrCreate($from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
+                    });
+                } catch (Throwable $e) {
+                    throw new Exception($e->getMessage());
+                }
+
                 switch ($chatId) {
                     case $telegramUserId:
                         try {
@@ -235,6 +244,8 @@ class BotController extends Controller
             Log::error(json_encode($request->all()) . PHP_EOL . $e->getMessage());
         } catch (TelegramUserPermissionException $permissionException) {
             report($permissionException);
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
         }
         return response()->json(['msg' => $msg ?? '']);
     }

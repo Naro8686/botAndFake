@@ -21,10 +21,7 @@ class CreateFakeCommand extends BaseCommand
      * @var string Command Description
      */
     protected $description = 'Создать объявления ';
-    /**
-     * {@inheritdoc}
-     * @throws TelegramUserPermissionException
-     */
+
     public function handle()
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);
