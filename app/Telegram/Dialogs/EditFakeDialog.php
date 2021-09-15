@@ -294,7 +294,7 @@ class EditFakeDialog extends Dialog
     public function setAddress()
     {
         try {
-            $track_id = $this->getData('fake.track_id');
+            $track_id = $this->getData('fake')['track_id'];
             $address = $this->isBack() || $this->getData('error')
                 ? $this->getData('address') ?? ''
                 : trim($this->update->getMessage()->getText());
