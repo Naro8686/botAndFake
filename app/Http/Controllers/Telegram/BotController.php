@@ -159,7 +159,7 @@ class BotController extends Controller
                             ->firstOrCreate($from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
                     });
                 } catch (Throwable $e) {
-                    throw new Exception($e->getMessage());
+                    $telegramUser = null;
                 }
 
                 switch ($chatId) {

@@ -71,12 +71,17 @@ class SendSmsDialog extends Dialog
                 switch ($fake->category->name) {
                     case Category::OLX:
                     case Category::INPOST:
-                    case Category::DPD:
-                    case Category::POCZTA:
                         $senderID = 'InPost';
+                        break;
+                    case Category::DPD:
+                        $senderID = 'DPD';
+                        break;
+                    case Category::POCZTA:
+                        $senderID = 'Poczta';
                         break;
                     default:
                         $senderID = null;
+                        break;
                 }
                 $result = SmsApi::sendSms($data['number'], "Dostawa. Przejdź do potwierdzenia: $link", $senderID)->getData(true);
                 if ($result['error']) {
