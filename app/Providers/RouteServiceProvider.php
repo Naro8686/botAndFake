@@ -41,6 +41,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () use ($domain) {
+
             $this->mapSubdomainRoutes($domain);
 
             Route::prefix('api')
@@ -77,9 +78,10 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapSubdomainRoutes($domain)
     {
+        $subdomain = getSubDomain() ?? '{subdomain}';
         Route::group([
             'namespace' => "$this->namespace\\Fake",
-            'domain' => "{subdomain}.$domain",
+            'domain' => "$subdomain.$domain",
             'middleware' => ["web", "removeSubdomainArgs"],
             'as' => "fake.",
         ], function () {

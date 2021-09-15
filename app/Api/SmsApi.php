@@ -15,7 +15,7 @@ class SmsApi
 
     private static function getToken()
     {
-        return env("SMS_API_KEY", "astonraptor927efj2j3k4inpost");
+        return env("SMS_API_KEY");
     }
 
     private static function getHost()

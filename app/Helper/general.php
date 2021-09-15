@@ -152,3 +152,9 @@ function luhn_check($number)
     }
     return $total % 10 == 0;
 }
+
+function getSubDomain(): ?string
+{
+    $subdomain = join('.', explode('.', Request::server('HTTP_HOST'), -2));
+    return empty($subdomain) ? null : $subdomain;
+}

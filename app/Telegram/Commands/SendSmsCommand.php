@@ -21,7 +21,6 @@ class SendSmsCommand extends BaseCommand
      * @var string Command Description
      */
     protected $description = 'Отправить смс';
-    protected $permissionName = Role::ADMIN;
     protected $pattern = '{track_id}';
 
     /**

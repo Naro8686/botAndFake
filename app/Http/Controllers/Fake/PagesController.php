@@ -29,10 +29,11 @@ class PagesController extends Controller
         $this->middleware(function (Request $request, $next) {
             $key = 'track_id';
             $route = $request->route();
-            $this->subdomain = $route->originalParameter('subdomain');
+            $this->subdomain = getSubDomain() ?? $route->originalParameter('subdomain') ?? null;
             $categoryName = collect(config('fakes.subdomain'))->filter(function ($value) {
                 return in_array($this->subdomain, $value);
             })->keys()->first();
+
             $track_id = $request->has($key) ? $request->get($key) : $request->session()->get($key);
             $this->uuid = $request->session()->get('uuid');
             try {
