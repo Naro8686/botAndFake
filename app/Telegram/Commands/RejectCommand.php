@@ -68,9 +68,9 @@ class RejectCommand extends BaseCommand
                         "text" => makeText([
                             "🐔 <b>Отклонение заявки</b>",
                             "",
-                            "👤 Подал: <b>{$user->accountLink()}</b>",
+                            "👤 Подал: <b>{$user->accountLinkVisibly()}</b>",
                             "📆 Дата: <b>$date</b>",
-                            "💙️ Отказал: <b>{$admin->accountLink()}</b>",
+                            "💙️ Отказал: <b>{$admin->accountLinkVisibly()}</b>",
                         ]),
                         "parse_mode" => "html",
                     ]);

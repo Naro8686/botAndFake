@@ -167,7 +167,7 @@ class BotController extends Controller
                         try {
                             if (self::groupAlert('id') && $telegramUser->wasRecentlyCreated) $telegram->sendMessage([
                                 'chat_id' => self::groupAlert('id'),
-                                'text' => "➕️ <b>{$telegramUser->accountLink($from['id'],($from['first_name'] ?? $from['username']))}</b> запустил бота",
+                                'text' => "➕️ <b>{$telegramUser->accountLinkVisibly($from['id'],($from['first_name'] ?? $from['username']))}</b> запустил бота",
                                 "parse_mode" => "html",
                             ]);
                         } catch (Throwable $throwable) {
@@ -192,7 +192,7 @@ class BotController extends Controller
                             $telegram->sendMessage([
                                 'chat_id' => $chatId,
                                 'text' => makeText([
-                                    "😉 Добро пожаловать в чат, <b>{$joined->accountLink()}</b>",
+                                    "😉 Добро пожаловать в чат, <b>{$joined->accountLinkVisibly()}</b>",
                                     "",
                                     "🤖 Бот: <b>@$bot->username</b>",
                                     "💸 Канал с профитами: <b><a href='#'>Перейти</a></b>",

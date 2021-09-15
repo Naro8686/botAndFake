@@ -71,7 +71,7 @@ class UnLockCommand extends BaseCommand
                 if ($alertGroupId = $this->getConfig('groups.alert.id')) try {
                     $this->getTelegram()->sendMessage([
                         "chat_id" => $alertGroupId,
-                        "text" => "✅ <b>Пользователь {$user->accountLink()} разблокирован</b>",
+                        "text" => "✅ <b>Пользователь {$user->accountLinkVisibly()} разблокирован</b>",
                         "parse_mode" => "html",
                     ]);
                 } catch (TelegramSDKException $e) {

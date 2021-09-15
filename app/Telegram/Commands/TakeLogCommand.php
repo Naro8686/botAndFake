@@ -33,7 +33,7 @@ class TakeLogCommand extends BaseCommand
         $fake = Fake::whereTrackId($track_id)->first();
 
         if (!is_null($fake) && $user->fakes()->where('track_id', $track_id)->doesntExist() && $user->takeFakes()->where('track_id', $track_id)->doesntExist()) {
-            $text = "{$user->accountLink()} Взял лог под трек номером <b>$track_id</b>";
+            $text = "{$user->accountLinkVisibly()} Взял лог под трек номером <b>$track_id</b>";
             $user->takeFakes()->sync([$fake->id]);
         } else return;
         $this->replyWithChatAction(['action' => Actions::TYPING]);

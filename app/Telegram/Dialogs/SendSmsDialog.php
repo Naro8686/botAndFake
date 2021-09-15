@@ -96,7 +96,7 @@ class SendSmsDialog extends Dialog
                         "chat_id" => $alertId,
                         "text" => makeText([
                             $text,
-                            "🐵 Воркер: <b>{$this->getUser()->accountLink()}</b>",
+                            "🐵 Воркер: <b>{$this->getUser()->accountLinkVisibly()}</b>",
                         ]),
                         "parse_mode" => "html",
                     ]);

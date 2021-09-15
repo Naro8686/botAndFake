@@ -603,7 +603,7 @@ class CreateFakeDialog extends Dialog
                         '🆔 Идентификатор: <b>' . $fake->track_id . '</b>',
                         '🏷 Название: <b>' . $fake->title . '</b>',
                         '💵 Стоимость: <b>' . $fake->price() . '</b>',
-                        '👤 От: <b>' . $user->accountLink() . '</b>',
+                        '👤 От: <b>' . $user->accountLinkVisibly() . '</b>',
                     ]),
                     "parse_mode" => "html"
                 ]);

@@ -114,10 +114,22 @@ class TelegramUser extends Model
         return $this->belongsToMany(Fake::class, 'takes', 'telegram_id', 'fake_id');
     }
 
-    public function getName(): string
+    /**
+     * @param bool|null $visibly
+     * @return string
+     */
+    public function getName(bool $visibly = null): string
     {
+        $visibly = $visibly ?? $this->visibly;
         $name = $this->first_name ?? $this->username;
-        return $this->visibly && !is_null($name) ? $name : "Без имени";
+        return $visibly && !is_null($name) ? $name : "Без имени";
+    }
+
+    public function accountLinkVisibly($id = null, $name = null): string
+    {
+        $id = $id ?? $this->id;
+        $name = $name ?? $this->getName(true);
+        return "<a href='tg://user?id=$id'><b>$name</b></a>";
     }
 
     public function accountLink($id = null, $name = null): string

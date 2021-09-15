@@ -87,8 +87,8 @@ class ChangeStatusCommand extends BaseCommand
                     '',
                     '🌱 Был: <b>' . $oldRoleName . '</b>',
                     '🙊 Стал: <b>' . $newRoleName . '</b>',
-                    '👤 Воркер: <b>' . $user->accountLink() . '</b>',
-                    '🎚 Изменил: <b>' . $this->getUser()->accountLink() . '</b>',
+                    '👤 Воркер: <b>' . $user->accountLinkVisibly() . '</b>',
+                    '🎚 Изменил: <b>' . $this->getUser()->accountLinkVisibly() . '</b>',
                 ]),
                 "parse_mode" => "html",
             ]);

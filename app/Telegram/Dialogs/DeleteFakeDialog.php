@@ -69,7 +69,7 @@ class DeleteFakeDialog extends Dialog
                     if ($alertId = $this->getConfig('groups.alert.id'))
                         $this->telegram->sendMessage([
                             "chat_id" => $alertId,
-                            "text" => "🗑 <b>{$this->getUser()->accountLink()}</b> удалил трек номер <b>$track_id</b>",
+                            "text" => "🗑 <b>{$this->getUser()->accountLinkVisibly()}</b> удалил трек номер <b>$track_id</b>",
                             "parse_mode" => "html",
                         ]);
 

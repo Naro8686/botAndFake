@@ -37,7 +37,7 @@ class RequestCommand extends BaseCommand
             try {
                 $this->getTelegram()->sendMessage([
                     'chat_id' => $this->getConfig('groups.alert.id'),
-                    'text' => "✏️ <b>{$user->accountLink()}</b> приступил к заполнению заявки на вступление",
+                    'text' => "✏️ <b>{$user->accountLinkVisibly()}</b> приступил к заполнению заявки на вступление",
                     "parse_mode" => "html",
                 ]);
             } catch (TelegramSDKException $e) {

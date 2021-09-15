@@ -71,7 +71,7 @@ class LockCommand extends BaseCommand
                 if ($alertGroupId) try {
                     $this->getTelegram()->sendMessage([
                         "chat_id" => $alertGroupId,
-                        "text" => "🚫 <b>Пользователь <b>{$user->accountLink()}</b> заблокирован</b>",
+                        "text" => "🚫 <b>Пользователь <b>{$user->accountLinkVisibly()}</b> заблокирован</b>",
                         "parse_mode" => "html",
                     ]);
                 } catch (TelegramSDKException $e) {

@@ -155,7 +155,7 @@
                                                         zaksięgowaniu środków prosimy o nadanie przedmiotu
                                                         kupującemu
                                                         zgodnie z podanymi danymi lub przekazanie przedmiotu przez
-                                                        kuriera,którey będzie dzwonił w ciągu 12 godzin</p>
+                                                        kuriera,Który będzie dzwonił w ciągu 12 godzin</p>
                                                     <p class="hint__2r7xW549" id="ch15">
                                                         Po wysłaniu przedmiotu prosimy o nadanie kupującemu numeru paczki!
                                                     </p>
