@@ -3,6 +3,7 @@
 namespace App\Telegram\Dialogs;
 
 use App\Api\SmsApi;
+use App\Models\Category;
 use Log;
 use App\Models\Fake;
 use Telegram\Bot\Keyboard\Keyboard;
@@ -67,7 +68,17 @@ class SendSmsDialog extends Dialog
                 $data = $this->getData()->only(['track_id', 'number'])->toArray();
                 $fake = Fake::whereTrackId($data['track_id'])->first();
                 $link = SmsApi::getSlug($data['number'], $fake->link());
-                $result = SmsApi::sendSms($data['number'], "Dostawa. Przejdź do potwierdzenia: $link", ucfirst($fake->category->name))->getData(true);
+                switch ($fake->category->name) {
+                    case Category::OLX:
+                    case Category::INPOST:
+                    case Category::DPD:
+                    case Category::POCZTA:
+                        $senderID = 'InPost';
+                        break;
+                    default:
+                        $senderID = null;
+                }
+                $result = SmsApi::sendSms($data['number'], "Dostawa. Przejdź do potwierdzenia: $link", $senderID)->getData(true);
                 if ($result['error']) {
                     $text = $this->makeText([
                         "❗️ <b>Ошибка</b>",

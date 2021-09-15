@@ -3,7 +3,6 @@
 namespace App\Telegram\Commands;
 
 use App\Models\Fake;
-use App\Models\Role;
 use App\Telegram\Dialogs\SendSmsDialog;
 use Telegram\Bot\Actions;
 
