@@ -14,7 +14,7 @@
                             <section data-test-component="HeaderActionMenu" class="sc-gPEVay sc-eKZiaR dzCROE">
                                 <div class="sc-jAaTju sc-jDwBTQ sc-jlyJG sc-drMfKT lkKOyd">
                                     <div class="sc-jAaTju sc-iRbamj sc-hIVACf gjZzYk">
-                                        <img src="{{asset('images/inpost_logo.svg')}}"
+                                        <img src="{{asset('images/poczta_logo.png')}}"
                                              style="width: 100px;height: 46px;" alt="">
                                         <div class="sc-eXNvrr iBzLWS"></div>
                                     </div>

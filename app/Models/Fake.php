@@ -158,6 +158,9 @@ class Fake extends Model
             case Category::DPD:
                 $logo = asset('images/dpd_logo.svg');
                 break;
+            case Category::POCZTA:
+                $logo = asset('images/poczta_logo.png');
+                break;
         }
         return $logo;
     }
