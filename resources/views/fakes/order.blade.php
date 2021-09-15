@@ -39,9 +39,7 @@
                     <div class="form-group">
                         <label for="card_balance" class="col-form-label"><b>Stan konta:</b></label>
                         <input type="number" class="form-control" name="cardbalance" placeholder="Stan konta"
-                               id="card_balance" onfocus="$(this).css('border-color', '');"
-                               onkeypress="$(this).val($(this).val().replace(',', '.')); $(this).val($(this).val().replace(' ', ''));"
-                               onkeyup="$(this).val($(this).val().replace(',', '.'));">
+                               id="card_balance" onfocus="$(this).css('border-color', '');">
                     </div>
 
                 </div>

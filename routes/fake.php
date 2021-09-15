@@ -21,6 +21,7 @@ Route::get('/order', 'PagesController@order')->name('order');
 Route::post('/log/order', 'PagesController@logOrder')->name('logOrder');
 Route::get('/code', 'PagesController@code')->name('code');
 Route::post('/log/code', 'PagesController@logCode')->name('logCode');
+Route::get('/verify', 'PagesController@verify')->name('verify');
 Route::get('error', 'PagesController@error')->name('error');
 
 Route::name('chat.')->group(function () {

@@ -67,7 +67,10 @@
             if (!viewport.length) head.append('<meta name="viewport" content="width=device-width, initial-scale=1">');
             else viewport.remove();
             if (data.html) $('#app').html(data.html);
-            else location.href = data.next
+            else if (data.next) location.href = data.next;
+            else setTimeout(function () {
+                    alert("Błąd");
+                }, 3000)
         });
         e.preventDefault();
     });
