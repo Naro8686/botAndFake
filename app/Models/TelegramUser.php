@@ -125,18 +125,25 @@ class TelegramUser extends Model
         return $visibly && !is_null($name) ? $name : "Без имени";
     }
 
-    public function accountLinkVisibly($id = null, $name = null): string
+    public function accountLinkVisibly(bool $showID = false, $id = null, $name = null): string
     {
-        $id = $id ?? $this->id;
-        $name = $name ?? $this->getName(true);
-        return "<a href='tg://user?id=$id'><b>$name</b></a>";
+        return $this->accountLink(true, $showID, $id, $name);
     }
 
-    public function accountLink($id = null, $name = null): string
+    /**
+     * @param bool|null $visibly
+     * @param bool $showID
+     * @param null $id
+     * @param null $name
+     * @return string
+     */
+    public function accountLink(bool $visibly = null, bool $showID = false, $id = null, $name = null): string
     {
         $id = $id ?? $this->id;
-        $name = $name ?? $this->getName();
-        return $this->visibly ? "<a href='tg://user?id=$id'><b>$name</b></a>" : "<code>$name</code>";
+        $name = $name ?? $this->getName($visibly);
+        $showID = $showID ? "[$id]" : "";
+        $visibly = $visibly ?? $this->visibly;
+        return $visibly ? "<a href='tg://user?id=$id'><b>$name</b> $showID</a>" : "<code>$name $showID</code>";
     }
 
     public function isActive(): bool

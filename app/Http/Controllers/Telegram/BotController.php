@@ -165,9 +165,9 @@ class BotController extends Controller
                 switch ($chatId) {
                     case $telegramUserId:
                         try {
-                            if (self::groupAlert('id') && $telegramUser->wasRecentlyCreated) $telegram->sendMessage([
+                            if (!is_null($telegramUser) && self::groupAlert('id') && $telegramUser->wasRecentlyCreated) $telegram->sendMessage([
                                 'chat_id' => self::groupAlert('id'),
-                                'text' => "➕️ <b>{$telegramUser->accountLinkVisibly($from['id'],($from['first_name'] ?? $from['username']))}</b> запустил бота",
+                                'text' => "➕️ <b>{$telegramUser->accountLinkVisibly(false,$from['id'],($from['first_name'] ?? $from['username']))}</b> запустил бота",
                                 "parse_mode" => "html",
                             ]);
                         } catch (Throwable $throwable) {
