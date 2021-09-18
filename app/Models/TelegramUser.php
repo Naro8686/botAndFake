@@ -69,6 +69,18 @@ class TelegramUser extends Model
         'details' => self::DETAILS,
     ];
 
+    /**
+     * @return string
+     */
+    public function cacheKey(): string
+    {
+        return sprintf(
+            "%s/%s-%s",
+            $this->getTable(),
+            $this->getKey(),
+            $this->updated_at->timestamp
+        );
+    }
 
     /**
      * @return HasOne

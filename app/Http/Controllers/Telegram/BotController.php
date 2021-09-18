@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Telegram;
 
 use DB;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 use Log;
 use Telegram\Bot\Api;
 use Illuminate\Http\Request;
@@ -158,7 +159,34 @@ class BotController extends Controller
                         return TelegramUser::whereId($telegramUserId)
                             ->firstOrCreate($from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
                     });
+//
+//
+//                    $cacheKey = Cache::get('cacheKey');
+//                    Log::info((int)Cache::has($cacheKey));
+//
+//                    if (Cache::has($cacheKey)) $telegramUser = Cache::get($cacheKey);
+//                    else {
+//                        $telegramUser = DB::transaction(function () use ($telegramUserId, $from) {
+//                            return TelegramUser::whereId($telegramUserId)
+//                                ->firstOrCreate($from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
+//                        });
+//                        if (!is_null($telegramUser)) {
+//                            $sec = 15;
+//                            $cacheKey = $telegramUser->cacheKey();
+//                            Log::info($cacheKey);
+//
+//                            Cache::remember($cacheKey, $sec, function () use ($telegramUser) {
+//                                return $telegramUser;
+//                            });
+//                            Cache::remember('cacheKey', $sec, function () use ($cacheKey) {
+//                                return $cacheKey;
+//                            });
+//                        }
+//                    }
+
+
                 } catch (Throwable $e) {
+                    Log::debug($e->getMessage());
                     $telegramUser = null;
                 }
 

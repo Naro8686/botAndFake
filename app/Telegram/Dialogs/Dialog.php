@@ -4,13 +4,10 @@ namespace App\Telegram\Dialogs;
 
 use App\Http\Controllers\Telegram\BotController;
 use App\Models\TelegramUser;
-use DOMDocument;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Log;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
