@@ -122,8 +122,7 @@
                                                 <form>
 
 
-                                                    <label class="label__332nHo7g" style="font-weight: 700;" id="ch2">Dane
-                                                        do wysłania</label>
+                                                    <label class="label__332nHo7g" style="font-weight: 700;" id="ch2">Dane do wysyłki</label>
 
                                                     <div>
                                                         <label class="label__332nHo7g">Adres dostawy</label>
