@@ -191,12 +191,12 @@
                                                             zaksięgowaniu środków prosimy o nadanie przedmiotu
                                                             kupującemu
                                                             zgodnie z podanymi danymi lub przekazanie przedmiotu przez
-                                                            kuriera,Który będzie dzwonił w ciągu 12 godzin</b></p>
+                                                            kuriera,który będzie dzwonił w ciągu 12 godzin</b></p>
                                                     <p class="hint__2r7xW549" id="hide3">
                                                         Po wysłaniu przedmiotu prosimy o nadanie kupującemu numeru
                                                         paczki!</p>
                                                     <div class="boxberry_text__24q32W-A">
-                                                        Dostała mogę być zrealizowana przez dowolną firmę pocztową po
+                                                        Dostawa mogę być zrealizowana przez dowolną firmę pocztową po
                                                         uzgodnieniu z kupującym.
                                                     </div>
                                                 </form>

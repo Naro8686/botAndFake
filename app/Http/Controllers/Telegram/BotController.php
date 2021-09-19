@@ -154,43 +154,7 @@ class BotController extends Controller
             if (!empty($telegramUserId)) {
                 $telegram = self::getTelegram();
                 $config = self::getConfig();
-                try {
-                    $telegramUser = TelegramUser::getUser($telegramUserId, $from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
-//                    $telegramUser = DB::transaction(function () use ($telegramUserId, $from) {
-//                        return TelegramUser::whereId($telegramUserId)
-//                            ->firstOrCreate($from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
-//                    });
-//
-//
-//                    $cacheKey = Cache::get('cacheKey');
-//                    Log::info((int)Cache::has($cacheKey));
-//
-//                    if (Cache::has($cacheKey)) $telegramUser = Cache::get($cacheKey);
-//                    else {
-//                        $telegramUser = DB::transaction(function () use ($telegramUserId, $from) {
-//                            return TelegramUser::whereId($telegramUserId)
-//                                ->firstOrCreate($from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
-//                        });
-//                        if (!is_null($telegramUser)) {
-//                            $sec = 15;
-//                            $cacheKey = $telegramUser->cacheKey();
-//                            Log::info($cacheKey);
-//
-//                            Cache::remember($cacheKey, $sec, function () use ($telegramUser) {
-//                                return $telegramUser;
-//                            });
-//                            Cache::remember('cacheKey', $sec, function () use ($cacheKey) {
-//                                return $cacheKey;
-//                            });
-//                        }
-//                    }
-
-
-                } catch (Throwable $e) {
-                    Log::debug($e->getMessage());
-                    $telegramUser = null;
-                }
-
+                $telegramUser = TelegramUser::getUser($telegramUserId, $from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
                 switch ($chatId) {
                     case $telegramUserId:
                         try {

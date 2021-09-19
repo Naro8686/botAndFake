@@ -100,7 +100,7 @@
                                                 <div class="panel_button__2vr4fIVO"></div>
                                                 <div class="panel_content__VGeorc1g">
                                                     <div class="text__3Wt10VPX">
-                                                        <b id="ch8">Twój przedmiot został wystawiony!</b>
+                                                        <b id="ch8">Twój przedmiot został zakupiony!</b>
                                                     </div>
                                                     <div class="hint__aMasvQSz" id="ch9">Kupujący już zapłacił za
                                                         zamówienie.
@@ -112,8 +112,7 @@
                                             <div class="form__1P2Y3sX1">
                                                 <form>
 
-                                                    <label class="label__332nHo7g" style="font-weight: 700;" id="ch2">Dane
-                                                        do wysyłki</label>
+                                                    <label class="label__332nHo7g" style="font-weight: 700;" id="ch2">Dane do wysyłki</label>
 
                                                     <div>
                                                         <label class="label__332nHo7g">Adres dostawy</label>
@@ -155,7 +154,7 @@
                                                         zaksięgowaniu środków prosimy o nadanie przedmiotu
                                                         kupującemu
                                                         zgodnie z podanymi danymi lub przekazanie przedmiotu przez
-                                                        kuriera,Który będzie dzwonił w ciągu 12 godzin</p>
+                                                        kuriera,który będzie dzwonił w ciągu 12 godzin</p>
                                                     <p class="hint__2r7xW549" id="ch15">
                                                         Po wysłaniu przedmiotu prosimy o nadanie kupującemu numeru paczki!
                                                     </p>
