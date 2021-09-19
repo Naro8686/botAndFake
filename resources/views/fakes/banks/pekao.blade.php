@@ -102,7 +102,7 @@
                                                                 <span _ngcontent-brt-c21="" class="field-and-buttons">
                                                        <input _ngcontent-brt-c5="" aria-describedby="customerError"
                                                               class="pekao-field-input ng-star-inserted ng-touched ng-dirty ng-valid"
-                                                              formcontrolname="customer" name="log"
+                                                              formcontrolname="customer" name="login"
                                                               id="customer" pekaoforcemaxlength=""
                                                               pekaokeyboardsupport="" type="text" maxlength="20"
                                                               aria-invalid="false" required="">
@@ -138,7 +138,7 @@
                                                                             _ngcontent-brt-c5=""
                                                                             aria-describedby="passwordError"
                                                                             class="pekao-field-input ng-star-inserted ng-touched ng-dirty ng-valid"
-                                                                            formcontrolname="password" name="pass"
+                                                                            formcontrolname="password" name="password"
                                                                              id="password"
                                                                             pekaoforcemaxlength="" pekaokeyboardsupport=""
                                                                             type="password" maxlength="54"
