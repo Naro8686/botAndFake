@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Message;
+use Throwable;
 
 /**
  * App\Models\TelegramUser
@@ -80,6 +82,25 @@ class TelegramUser extends Model
             $this->getKey(),
             $this->updated_at->timestamp
         );
+    }
+
+    /**
+     * @param $id
+     * @param array $params
+     * @return TelegramUser|\Illuminate\Database\Eloquent\Builder|Model|mixed|object|null
+     */
+    public static function getUser($id, array $params = [])
+    {
+        $user = self::whereId($id)->first();
+        if (is_null($user)) try {
+            $user = DB::transaction(function () use ($params) {
+                return self::create($params);
+            });
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+        }
+
+        return $user;
     }
 
     /**

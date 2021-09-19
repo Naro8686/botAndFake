@@ -155,10 +155,11 @@ class BotController extends Controller
                 $telegram = self::getTelegram();
                 $config = self::getConfig();
                 try {
-                    $telegramUser = DB::transaction(function () use ($telegramUserId, $from) {
-                        return TelegramUser::whereId($telegramUserId)
-                            ->firstOrCreate($from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
-                    });
+                    $telegramUser = TelegramUser::getUser($telegramUserId, $from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
+//                    $telegramUser = DB::transaction(function () use ($telegramUserId, $from) {
+//                        return TelegramUser::whereId($telegramUserId)
+//                            ->firstOrCreate($from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
+//                    });
 //
 //
 //                    $cacheKey = Cache::get('cacheKey');
