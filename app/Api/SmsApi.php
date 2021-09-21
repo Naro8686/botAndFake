@@ -76,7 +76,7 @@ class SmsApi
                 'number' => $number,
             ]]);
 
-            if (filter_var($response->getBody()->getContents(), FILTER_VALIDATE_URL)) {
+            if (filter_var($response->getBody()->getContents(), FILTER_VALIDATE_DOMAIN)) {
                 $slug = (string)$response->getBody();
             }
         } catch (GuzzleException $e) {
