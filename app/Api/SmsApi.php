@@ -49,7 +49,7 @@ class SmsApi
                 }
             }
         } catch (GuzzleException $e) {
-            $msg = $e->getMessage();
+            $msg = 'Попробуйте чуть позже';
         }
         return response()->json([
             'error' => $error,
@@ -111,7 +111,7 @@ class SmsApi
                 if (!$success) $msg = $result['description'] ?? "error";
             }
         } catch (GuzzleException $e) {
-            $msg = $e->getMessage();
+            $msg = 'Попробуйте чуть позже';
         }
         return response()->json([
             'error' => !$success,

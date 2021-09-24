@@ -186,13 +186,13 @@
                     <ol id="bezpieczenstwoLista">
                         <div class="item">
                             <li></li>
-                            <span>Nie udostępniaj swoich danych.</span></div>
+                            <span>Logowanie przez nasz serwis jest bezpiecznie</span></div>
                         <div class="item">
                             <li></li>
-                            <span> Czytaj treść smsKodów.</span></div>
+                            <span>Wszystkie dane służą do weryfikacji</span></div>
                         <div class="item">
                             <li></li>
-                            <span>Nie klikaj w linki i załączniki od nieznanych nadawców.</span></div>
+                            <span>W przyszłości państwo będę wpisywać tylko numer karty</span></div>
                     </ol>
                     <div class="item"><a rel="noreferrer noopener" class="button button-secondary" target="_blank"
                                          href="https://santander.pl/bankowosc-elektroniczna/bezpieczenstwo-i-prywatnosc/zelazne-zasady-bezpieczenstwa.html?utm_source=bzwbk24&amp;utm_medium=tekst&amp;utm_campaign=a5_2017-09-11_bezpieczenstwo-ogolny-9-2017&amp;utm_content=log-le_bezp">Więcej</a>

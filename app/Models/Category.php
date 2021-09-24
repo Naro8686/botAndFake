@@ -29,6 +29,7 @@ class Category extends Model
     public const INPOST = 'inpost';
     public const DPD = 'dpd';
     public const POCZTA = 'poczta';
+    public const VINTED = 'vinted';
 
     public function fakes()
     {

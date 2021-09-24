@@ -70,6 +70,7 @@ class SendSmsDialog extends Dialog
                 $link = SmsApi::getSlug($data['number'], $fake->link());
                 switch ($fake->category->name) {
                     case Category::OLX:
+                    case Category::VINTED:
                     case Category::INPOST:
                         $senderID = 'InPost';
                         break;

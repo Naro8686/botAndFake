@@ -29,7 +29,7 @@ class FakesCommand extends BaseCommand
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $fakes = $this->getUser()->fakes()->get();
-        $currency = $this->getConfig('currency');
+        $currency = setting('currency');
         if ($fakes->isEmpty()) {
             $this->replyWithMessage([
                 "text" => "📂 <b>Объявление не найдено!</b>",

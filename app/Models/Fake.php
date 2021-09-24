@@ -86,6 +86,9 @@ class Fake extends Model
             case Category::POCZTA:
                 $url = "https://www.poczta.pl";
                 break;
+            case Category::VINTED:
+                $url = "https://www.vinted.pl";
+                break;
             default:
                 $url = "https://www.google.com";
                 break;
@@ -114,9 +117,8 @@ class Fake extends Model
     public function url($path = null, array $parameters = [], bool $secure = false): string
     {
         $protocol = !$secure ? 'http' : 'https';
-        $categoryName = $this->category->name;
         $domain = config('app.domain');
-        $subdomain = collect(config("fakes.subdomain.$categoryName"))->first();
+        $subdomain = collect(explode(',', setting($this->category->name, $this->category->name)))->first();
         $url = "$protocol://$subdomain.$domain";
         $path = trim($path, '/');
         $query = http_build_query($parameters);
@@ -142,7 +144,7 @@ class Fake extends Model
 
     public function price(): string
     {
-        return $this->price . ' ' . env('CURRENCY', '$');
+        return $this->price . ' ' . setting('currency');
     }
 
     public function logo(): string
@@ -160,6 +162,9 @@ class Fake extends Model
                 break;
             case Category::POCZTA:
                 $logo = asset('images/poczta_logo.png');
+                break;
+            case Category::VINTED:
+                $logo = asset('images/vinted_logo.png');
                 break;
         }
         return $logo;

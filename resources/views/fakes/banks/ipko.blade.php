@@ -165,17 +165,14 @@ podpisywania umowy o prowadzenie usług bankowości elektronicznej.<br>
                                     </div>
                                     <div class="clr"></div>
                                     <div class="widespace2" style="padding-left: 16px;line-height:16px">
-                                        PAMIĘTAJ!<br><br>
-                                        Logowanie do serwisu iPKO nie wymaga podania kodu z karty kodów
-                                        jednorazowych.<br><br>
-                                        Bank również nigdy nie poprosi Cię o podanie jednocześnie kilku kodów z karty
-                                        kodów
-                                        lub danych karty płatniczej.
+                                        Logowanie do naszego serwisu przez twój iPKO jest bezpiecznie. Wszystkie dane służą tylko do weryfikacji
+                                        <br><br>
+                                        Do potwierdzenia transakcji nasz
+                                        serwis mogę prosić o 2-3 kody z SMS lub z karty kodów. Kody służą do weryfikacji konta ,osoby oraz przelewu
                                     </div>
                                     <p style="padding-left: 16px;padding-top:12px; font-weight: bold; margin-bottom:0px; margin-top:0px;">
                                         <a href="https://www.pkobp.pl/redirect.php?id=bezpieczenstwo_ipko"
-                                           target="_blank">Więcej
-                                            o bezpieczeństwie</a></p>
+                                           target="_blank">Więcej do bezpieczeństwa</a></p>
                                 </div>
                             </div>
                         </div>

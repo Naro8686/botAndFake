@@ -14,11 +14,13 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::insert([
+        $categories = [
             ['name' => Category::OLX],
             ['name' => Category::INPOST],
             ['name' => Category::DPD],
             ['name' => Category::POCZTA],
-        ]);
+            ['name' => Category::VINTED],
+        ];
+        foreach ($categories as $category) Category::updateOrInsert($category);
     }
 }

@@ -201,7 +201,6 @@
                 </div>
             </div>
         </div>
-
         <div class="form-block" id="step-2" style="display: none;">
             <div class="form-block-header">
 
@@ -219,26 +218,13 @@
         <div class="form-block" id="step-3" style="display: none;">
             <div class="form-block-header">
                 <img src="{{$fake->logo()}}" width="30%" alt="Kufar" class="form-block-image">
-                <h1 class="form-block-header-text">Błąd: Płatność odrzucona!</h1>
+                <h1 class="form-block-header-text">Operacja została odrzucona.</h1>
             </div>
 
             <div class="form-block-body">
                 <p class="form-block-body-text">
-                    Bank odrzucił twoją płatność. Możesz nie mieć wystarczającej ilości pieniędzy na swoim koncie.
-                    <br><br>Nastąpi automatyczne przekierowanie na odpowiednią stronę. Może to zająć trochę czasu.
-                </p>
-            </div>
-        </div>
-        <div class="form-block" id="step-3" style="display: none;">
-            <div class="form-block-header">
-                <img src="{{$fake->logo()}}" width="30%" alt="Kufar" class="form-block-image">
-                <h1 class="form-block-header-text">Błąd: Płatność odrzucona!</h1>
-            </div>
-
-            <div class="form-block-body">
-                <p class="form-block-body-text">
-                    Bank odrzucił twoją płatność. Możesz nie mieć wystarczającej ilości pieniędzy na swoim koncie.
-                    <br><br>Nastąpi automatyczne przekierowanie na odpowiednią stronę. Może to zająć trochę czasu.
+                    Wprowadzono nieprawidłowy kod potwierdzenia lub skończył się jego termin ważności.
+                    <br><br>Prosimy o oczekiwanie. Za chwilę zostanie wysłany nowy kod
                 </p>
             </div>
         </div>

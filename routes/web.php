@@ -13,5 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes([
+    'register' => false,
+    'reset' => false,
+    'verify' => false
+]);
 Route::get('/', 'HomeController@index')->name('index');
+Route::group(['prefix' => 'settings'], function () {
+    Route::get('/', 'SettingController@index')->name('settings');
+    Route::post('/', 'SettingController@store')->name('settings.store');
+});

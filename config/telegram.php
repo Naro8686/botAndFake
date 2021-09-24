@@ -80,6 +80,7 @@ return [
                 \App\Telegram\Commands\ChangeStatusCommand::class,
                 \App\Telegram\Commands\DeleteAllFakesCommand::class,
                 \App\Telegram\Commands\AlertCommand::class,
+                \App\Telegram\Commands\AddSubDomainCommand::class,
             ],
             'btns' => [
                 "profile" => "👤 Профиль",

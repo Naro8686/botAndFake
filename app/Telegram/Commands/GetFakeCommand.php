@@ -40,6 +40,7 @@ class GetFakeCommand extends BaseCommand
         if (!is_null($fake) && ($user->isAdmin() || $fake->telegram_id === $user->id)) {
             $config = $this->getConfig();
             $btns = $config->get('btns');
+            $currency = setting('currency');
             $categoryName = ucfirst($fake->category->name);
             $track_id = $fake->track_id;
             $keyboard = Keyboard::make([
@@ -59,7 +60,7 @@ class GetFakeCommand extends BaseCommand
                 "",
                 "🆔 Номер объявления: <b>$fake->track_id</b>",
                 "🏷 Название: <b>$fake->title</b>",
-                "💵 Стоимость: <b>$fake->price</b>{$config->get('currency')}",
+                "💵 Стоимость: <b>$fake->price</b>$currency",
                 "",
                 "📆 Дата генерации: <b>{$fake->created_at->format('d.m.Y H:i')}</b>",
                 "",

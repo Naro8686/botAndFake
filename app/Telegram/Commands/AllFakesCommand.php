@@ -32,7 +32,7 @@ class AllFakesCommand extends BaseCommand
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $ids = $this->getUser()->fakes()->pluck('id');
         $fakes = Fake::whereNotIn('id', $ids->toArray())->get();
-        $currency = $this->getConfig('currency');
+        $currency = setting('currency');
         if ($fakes->isEmpty()) {
             $this->replyWithMessage([
                 "text" => "📂 <b>Объявление не найдено</b>",
