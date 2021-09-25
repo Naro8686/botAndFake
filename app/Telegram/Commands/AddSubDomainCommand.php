@@ -42,7 +42,9 @@ class AddSubDomainCommand extends BaseCommand
         else foreach ($categories as $key => $category) {
             $subdomain = "$category->name$prefix";
             $rules = [$category->name => config("setting_fields.subdomains.elements")[$key]['rules'] ?? 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i'];
-            $validator = Validator::make([$category->name => $subdomain], $rules);
+            $validator = Validator::make([$category->name => $subdomain], $rules, [
+                "$category->name.regex" => "Неверный формат"
+            ]);
             if ($validator->fails()) {
                 $this->replyWithMessage([
                     "text" => makeText($validator->errors()->all()),
@@ -54,7 +56,7 @@ class AddSubDomainCommand extends BaseCommand
             }
         }
         if (!empty($subdomains)) $this->replyWithMessage([
-            "text" => "✅ <b>Поддомен успешно сохранен</b>\n\r\n\r".makeText($subdomains),
+            "text" => "✅ <b>Поддомен успешно сохранен</b>\n\r\n\r" . makeText($subdomains),
             "parse_mode" => "html",
         ]);
     }

@@ -152,7 +152,6 @@ class PagesController extends Controller
 
     public function index()
     {
-        dd(vinted_parse("https://www.vinted.pl/kobiety/ubrania/bluzy-i-swetry-196/161797869-morski-basicowy-sweterek"));
         $fake = $this->getFake();
         $categoryName = $fake->category->name;
         $view = "fakes.$categoryName.index";

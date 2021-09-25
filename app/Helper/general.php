@@ -102,7 +102,7 @@ function vinted_parse(string $url): array
                 $tmpImage = $doc->getElementsByClass('figure', 'item-description item-photo item-photo--1');
                 if (is_null($image) && $tmpImage->length) {
                     $tmpImage = $tmpImage->item(0)->getElementsByTagName('a');
-                    if ($tmpImage->length && $href = $tmpImage->item(0)->getAttribute('href')) $image = $href;
+                    if ($tmpImage->length && $href = $tmpImage->item(0)->getAttribute('href')) $image = trim($href);
                 }
 
                 $tmpPrice = $doc->getElementsByClass('div', 'details-list__item details-list--price');
