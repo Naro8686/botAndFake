@@ -184,7 +184,8 @@ class CreateFakeDialog extends Dialog
             $text = [];
             if ($this->getData('parsing') === true) {
                 $url = trim($this->update->getMessage()->getText());
-                foreach (olx_parse($url) as $key => $value) {
+                $category = Category::whereId($this->getData('category_id'))->first();
+                foreach ($category->parse($url) as $key => $value) {
                     if (!is_null($value)) $this->setData($key, $value);
                 }
                 $data = $this->getData()->only(['price', 'title', 'img'])->map(function ($value) {

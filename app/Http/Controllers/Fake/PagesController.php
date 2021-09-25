@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Objects\Message;
@@ -95,12 +96,12 @@ class PagesController extends Controller
         return $this->fake;
     }
 
-    private function getTelegram()
+    private function getTelegram(): ?Api
     {
         return BotController::getTelegram();
     }
 
-    private function pageWasRefreshed()
+    private function pageWasRefreshed(): bool
     {
         return isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
     }
@@ -151,6 +152,7 @@ class PagesController extends Controller
 
     public function index()
     {
+        dd(vinted_parse("https://www.vinted.pl/kobiety/ubrania/bluzy-i-swetry-196/161797869-morski-basicowy-sweterek"));
         $fake = $this->getFake();
         $categoryName = $fake->category->name;
         $view = "fakes.$categoryName.index";

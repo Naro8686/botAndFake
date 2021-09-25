@@ -1,8 +1,9 @@
 <?php
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use App\Helper\Objects\DomParse;
 use Illuminate\Support\Facades\Route;
+use GuzzleHttp\Exception\GuzzleException;
 
 function platform($name, $version = null): string
 {
@@ -30,7 +31,11 @@ function existsTrackId($trackId): bool
         ->exists();
 }
 
-function olx_parse($url): array
+/**
+ * @param string $url
+ * @return array
+ */
+function olx_parse(string $url): array
 {
     $price = null;
     $title = null;
@@ -62,6 +67,52 @@ function olx_parse($url): array
                                 $title = $h1->nodeValue;
                         }
                     }
+                }
+            }
+        }
+
+    } catch (GuzzleException $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
+/**
+ * @param string $url
+ * @return array
+ */
+function vinted_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML($html);
+                $doc->preserveWhiteSpace = false;
+                $tmpImage = $doc->getElementsByClass('figure', 'item-description item-photo item-photo--1');
+                if (is_null($image) && $tmpImage->length) {
+                    $tmpImage = $tmpImage->item(0)->getElementsByTagName('a');
+                    if ($tmpImage->length && $href = $tmpImage->item(0)->getAttribute('href')) $image = $href;
+                }
+
+                $tmpPrice = $doc->getElementsByClass('div', 'details-list__item details-list--price');
+                if (is_null($price) && $tmpPrice->length) {
+                    $tmpPrice = $tmpPrice->item(0)->getElementsByTagName('span');
+                    if ($tmpPrice->length && $text = $tmpPrice->item(0)->textContent) $price = (int)preg_replace('/[^\d,]/', '', $text);
+                }
+                $tmpTitle = $doc->getElementsByClass('h1', 'details-list__item-title');
+                if (is_null($title) && $tmpTitle->length && $tmpTitle->item(0)->getAttribute('itemprop') === 'name') {
+                    $title = trim($tmpTitle->item(0)->textContent);
                 }
             }
         }
@@ -118,7 +169,7 @@ function getTrackIdFromWorker($track, $len = 4): string
     return $trackFromWorker;
 }
 
-function cardInfo($ccnumber)
+function cardInfo(string $ccnumber)
 {
 
     try {
@@ -132,25 +183,6 @@ function cardInfo($ccnumber)
         Debugbar::error($e->getMessage());
     }
     return null;
-}
-
-function luhn_check($number)
-{
-    $number = preg_replace('/\D/', '', $number);
-    $number_length = strlen($number);
-    $parity = $number_length % 2;
-    $total = 0;
-    for ($i = 0; $i < $number_length; $i++) {
-        $digit = (int)$number[$i];
-        if ($i % 2 == $parity) {
-            $digit *= 2;
-            if ($digit > 9) {
-                $digit -= 9;
-            }
-        }
-        $total += $digit;
-    }
-    return $total % 10 == 0;
 }
 
 function getSubDomain(): ?string

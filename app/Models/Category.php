@@ -35,4 +35,18 @@ class Category extends Model
     {
         return $this->hasMany(Fake::class);
     }
+
+    /**
+     * @param string $url
+     * @return array
+     */
+    public function parse(string $url): array
+    {
+        switch ($this->name) {
+            case self::VINTED:
+                return vinted_parse($url);
+            default:
+                return olx_parse($url);
+        }
+    }
 }

@@ -36,7 +36,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $domain = config('app.domain');
+        $domain = config('app.domain','localhost');
 
         $this->configureRateLimiting();
 
