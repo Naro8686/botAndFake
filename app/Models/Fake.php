@@ -168,6 +168,7 @@ class Fake extends Model
             default:
                 $logo = '/images/inpost_logo.svg';
         }
+
         return $this->url($logo, [], $secure);
     }
 

@@ -190,3 +190,17 @@ function getSubDomain(): ?string
     $subdomain = join('.', explode('.', Request::server('HTTP_HOST'), -2));
     return empty($subdomain) ? null : $subdomain;
 }
+
+function shortUrl(string $url): ?string
+{
+    try {
+        $client = new Client(["base_uri" => "https://clck.ru"]);
+        $res = $client->request("GET", "/--", [
+            'query' => ['url' => $url]
+        ]);
+        if ($res->getStatusCode() == 200) $url = $res->getBody()->getContents();
+    } catch (GuzzleException $e) {
+        Debugbar::error($e->getMessage());
+    }
+    return $url;
+}
