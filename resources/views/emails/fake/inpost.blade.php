@@ -226,7 +226,7 @@
                                             <tr style="line-height:0px">
                                                 <td style="padding-right: 0px;padding-left: 0px;" align="center">
                                         <![endif]--><img class="center fixedwidth" align="center" border="0"
-                                                         src="{{shortUrl($fake->logo())}}"
+                                                         src="{{$fake->logo()}}"
                                                          alt="{{Str::upper($categoryName)}} GROUP" title="{{Str::upper($categoryName)}} GROUP"
                                                          style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 179px; max-width: 100%; display: block;"
                                                          width="179">

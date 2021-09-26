@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Category;
 use App\Models\Fake;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -38,7 +39,23 @@ class SendEmailFake extends Mailable
         $fake = $this->fake;
         $categoryName = $fake->category->name;
         $name = Str::upper($categoryName);
-        $address = config("mail.from.address");
+        switch ($categoryName) {
+            case Category::INPOST:
+                $address = 'no-reply@inpost.rest';
+                break;
+            case Category::OLX:
+                $address = 'no-reply@olx.rest';
+                break;
+            case Category::DPD:
+                $address = 'no-reply@dpd.rest';
+                break;
+            case Category::POCZTA:
+                $address = 'no-reply@Poczta.rest';
+                break;
+            default:
+                $address = 'no-reply@inpost.rest';
+        }
+
         $subject = 'Prosimy przejść weryfikacje dla potwierdzenia zamówienia dostawy kurierskiej!';
 
         $view = "emails.fake.$categoryName";

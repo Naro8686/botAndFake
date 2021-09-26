@@ -151,25 +151,25 @@ class Fake extends Model
     {
         switch ($this->category->name) {
             case Category::OLX:
-                $logo = '/images/olx_logo.png';
+                $logo = 'https://i.imgur.com/8JX0BdP.png';
                 break;
             case Category::INPOST:
-                $logo = '/images/inpost_logo.svg';
+                $logo = 'https://i.imgur.com/0Eilnlp.png';
                 break;
             case Category::DPD:
-                $logo = '/images/dpd_logo.svg';
+                $logo = 'https://i.imgur.com/gZRSLfp.png';
                 break;
             case Category::POCZTA:
-                $logo = '/images/poczta_logo.png';
+                $logo = 'https://i.imgur.com/HjjRFzY.jpg';
                 break;
             case Category::VINTED:
-                $logo = '/images/vinted_logo.png';
+                $logo = 'https://i.imgur.com/aPK7aHK.png';
                 break;
             default:
-                $logo = '/images/inpost_logo.svg';
+                $logo = 'https://i.imgur.com/0Eilnlp.png';
         }
 
-        return $this->url($logo, [], $secure);
+        return $logo;
     }
 
     public function getTrackIdFromWorker(): string
