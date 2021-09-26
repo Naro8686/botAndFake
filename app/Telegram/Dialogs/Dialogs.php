@@ -3,6 +3,7 @@
 namespace App\Telegram\Dialogs;
 
 use App\Models\TelegramUser;
+use Log;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Update;
@@ -69,9 +70,9 @@ class Dialogs
         $memory = $user->getDialog('memory');
 
 
-        if (!is_null($class) && class_exists($class)){
+        if (!is_null($class) && class_exists($class)) {
             /** @var Dialog $dialog */
-            $dialog = new $class($update,$this->user);
+            $dialog = new $class($update, $this->user);
             $dialog->setTelegram($this->telegram);
 
             $dialog->setNext($next);
@@ -85,22 +86,19 @@ class Dialogs
      */
     public function proceed(Update $update)
     {
-        $dialog = self::get($update);
-
-        if (!$dialog) {
-            return;
-        }
-        $chatId = $dialog->getChat()->getId();
         try {
-            $dialog->proceed();
-        } catch (TelegramSDKException $e) {
-        }
+            $dialog = self::get($update);
 
-        if ($dialog->isEnd()) {
-            $this->user->deleteDialog();
-        } else {
-            $this->setField($chatId, 'next', $dialog->getNext());
-            $this->setField($chatId, 'memory', $dialog->getMemory());
+            if (!$dialog) return;
+            $chatId = $dialog->getChat()->getId();
+            $dialog->proceed();
+            if ($dialog->isEnd()) $this->user->deleteDialog();
+            else {
+                $this->setField($chatId, 'next', $dialog->getNext());
+                $this->setField($chatId, 'memory', $dialog->getMemory());
+            }
+        } catch (TelegramSDKException $e) {
+            Log::error($e->getMessage());
         }
     }
 

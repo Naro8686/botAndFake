@@ -313,10 +313,13 @@ class EditFakeDialog extends Dialog
                     }
                     $keyboard = Keyboard::make([
                         "inline_keyboard" => [
-                            [["text" => $this->btns['getFake'], "callback_data" => "/getFake $track_id"]],
+                            [["text" => $this->btns['getFake'] ?? '', "callback_data" => "/getFake $track_id"]],
                             [["text" => "📎 Ссылка чата", "url" => $fake->adminChatLink()]],
-                            [["text" => $this->btns['sendSms'], "callback_data" => "/sendSms $track_id"]],
-                            [["text" => $this->btns['getSmsBalance'], "callback_data" => '/getSmsBalance']]
+                            [["text" => $this->btns['sendEmail'] ?? '', "callback_data" => "/send email $track_id"]],
+                            [
+                                ["text" => $this->btns['sendSms'] ?? '', "callback_data" => "/send sms $track_id"],
+                                ["text" => $this->btns['getSmsBalance'] ?? '', "callback_data" => '/getSmsBalance']
+                            ]
                         ],
                         "resize_keyboard" => true,
                     ]);

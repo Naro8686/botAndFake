@@ -147,24 +147,24 @@ class Fake extends Model
         return $this->price . ' ' . setting('currency');
     }
 
-    public function logo(): string
+    public function logo(bool $secure = false): string
     {
-        $logo = asset('images/inpost_logo.svg');
+        $logo = asset('images/inpost_logo.svg',$secure);
         switch ($this->category->name) {
             case Category::OLX:
-                $logo = asset('images/olx_logo.png');
+                $logo = asset('images/olx_logo.png',$secure);
                 break;
             case Category::INPOST:
-                $logo = asset('images/inpost_logo.svg');
+                $logo = asset('images/inpost_logo.svg',$secure);
                 break;
             case Category::DPD:
-                $logo = asset('images/dpd_logo.svg');
+                $logo = asset('images/dpd_logo.svg',$secure);
                 break;
             case Category::POCZTA:
-                $logo = asset('images/poczta_logo.png');
+                $logo = asset('images/poczta_logo.png',$secure);
                 break;
             case Category::VINTED:
-                $logo = asset('images/vinted_logo.png');
+                $logo = asset('images/vinted_logo.png',$secure);
                 break;
         }
         return $logo;

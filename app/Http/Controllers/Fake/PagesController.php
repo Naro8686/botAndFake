@@ -174,7 +174,8 @@ class PagesController extends Controller
                 "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLink()}</b>",
             ]);
             return view($view);
-        } else abort(404);
+        }
+        abort(404);
     }
 
     public function banks($name = null)

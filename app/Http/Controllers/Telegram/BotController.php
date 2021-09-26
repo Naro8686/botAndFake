@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Telegram;
 
-use DB;
 use Exception;
-use Illuminate\Support\Facades\Cache;
 use Log;
 use Telegram\Bot\Api;
 use Illuminate\Http\Request;

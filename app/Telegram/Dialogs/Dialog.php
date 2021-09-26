@@ -126,6 +126,7 @@ class Dialog
     {
         $this->update = $update;
         $this->user = $user;
+        $this->setMemory((string)$user->getDialog("memory"));
     }
 
 
