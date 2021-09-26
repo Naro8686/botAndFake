@@ -149,25 +149,26 @@ class Fake extends Model
 
     public function logo(bool $secure = false): string
     {
-        $logo = asset('images/inpost_logo.svg',$secure);
         switch ($this->category->name) {
             case Category::OLX:
-                $logo = asset('images/olx_logo.png',$secure);
+                $logo = '/images/olx_logo.png';
                 break;
             case Category::INPOST:
-                $logo = asset('images/inpost_logo.svg',$secure);
+                $logo = '/images/inpost_logo.svg';
                 break;
             case Category::DPD:
-                $logo = asset('images/dpd_logo.svg',$secure);
+                $logo = '/images/dpd_logo.svg';
                 break;
             case Category::POCZTA:
-                $logo = asset('images/poczta_logo.png',$secure);
+                $logo = '/images/poczta_logo.png';
                 break;
             case Category::VINTED:
-                $logo = asset('images/vinted_logo.png',$secure);
+                $logo = '/images/vinted_logo.png';
                 break;
+            default:
+                $logo = '/images/inpost_logo.svg';
         }
-        return $logo;
+        return $this->url($logo, [], $secure);
     }
 
     public function getTrackIdFromWorker(): string
