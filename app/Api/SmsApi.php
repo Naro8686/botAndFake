@@ -2,6 +2,7 @@
 
 namespace App\Api;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
@@ -42,13 +43,13 @@ class SmsApi
             $status = $response->getStatusCode();
             if ($result = json_decode($response->getBody(), true)) {
                 $error = !($result['ok'] === 'true');
-                if ($error) $msg = $result['description'] ?? $msg;
+                if ($error) throw new Exception();
                 else {
                     $msg = "Данные успешно получены";
                     $count = $result['SMSleft'] ?? 0;
                 }
             }
-        } catch (GuzzleException $e) {
+        } catch (GuzzleException | Exception $e) {
             $msg = 'Попробуйте чуть позже';
         }
         return response()->json([
@@ -108,9 +109,9 @@ class SmsApi
             $status = $response->getStatusCode();
             if ($result = json_decode($response->getBody(), true)) {
                 $success = ($result['ok'] === 'true');
-                if (!$success) $msg = $result['description'] ?? "error";
+                if (!$success) throw new Exception();
             }
-        } catch (GuzzleException $e) {
+        } catch (GuzzleException | Exception $e) {
             $msg = 'Попробуйте чуть позже';
         }
         return response()->json([

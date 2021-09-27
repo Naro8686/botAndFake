@@ -13,5 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/setwebhook', "BotController@setWebhook")->name('setWebhook');
-Route::post(str_replace('telegram','',env("TELEGRAM_WEBHOOK_URL")), "BotController@webhook")->name('webhook');
+Route::get('/setwebhook/{key?}', "BotController@setWebhook")->name('setWebhook');
+Route::post('/{key}/webhook', "BotController@webhook")->name('webhook');

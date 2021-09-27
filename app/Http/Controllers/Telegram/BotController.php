@@ -62,7 +62,7 @@ class BotController extends Controller
      */
     public static function getConfig($field = null)
     {
-        $botName = env('TELEGRAM_BOT_NAME', 'TestBot');
+        $botName = env('TELEGRAM_BOT_NAME');
         $data = is_null($field) ? config("telegram.bots.$botName") : config("telegram.bots.$botName.$field");
         return is_array($data) ? collect($data) : $data;
     }
@@ -102,7 +102,7 @@ class BotController extends Controller
     public static function getTelegram(): ?Api
     {
         try {
-            $telegram = new Api(self::getConfig('token'), config("telegram.async_requests", false));
+            $telegram = new Api(self::getConfig('token'), config("telegram.async_requests"));
         } catch (TelegramSDKException $e) {
             Log::error($e->getMessage());
         }
@@ -110,29 +110,33 @@ class BotController extends Controller
     }
 
     /**
+     * @param string|null $key
      * @return JsonResponse
      */
-    public function setWebhook(): JsonResponse
+    public function setWebhook(string $key = null): JsonResponse
     {
         $success = false;
-        $msg = 'OK';
+        $env_key = env('TELEGRAM_WEBHOOK_KEY');
         try {
+            if (is_null($key) || $key !== $env_key) throw new Exception(is_null($key) ? "Enter the key" : "Key does not match");
             $webhook_url = self::getConfig('webhook_url');
             $telegram = self::getTelegram();
             $telegram->removeWebhook();
             $success = $telegram->setWebhook(['url' => url($webhook_url, [], true)]);
-        } catch (TelegramSDKException $e) {
+        } catch (TelegramSDKException | Exception $e) {
             $msg = $e->getMessage();
         }
-        return response()->json(['success' => $success, 'msg' => $msg]);
+        return response()->json(['success' => $success, 'msg' => $msg ?? 'Ok']);
     }
 
     /**
      * @param Request $request
+     * @param $key
      * @return JsonResponse
      */
-    public function webhook(Request $request): JsonResponse
+    public function webhook($key, Request $request): JsonResponse
     {
+        if (env("TELEGRAM_WEBHOOK_KEY") !== $key) return response()->json(['msg' => 'Key does not match'], 401);
         try {
             if ($request->has('callback_query')) {
                 $callback_query = $request->input('callback_query');
@@ -155,14 +159,11 @@ class BotController extends Controller
                 $telegramUser = TelegramUser::getUser($telegramUserId, $from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
                 switch ($chatId) {
                     case $telegramUserId:
-                        try {
-                            if (!is_null($telegramUser) && self::groupAlert('id') && $telegramUser->wasRecentlyCreated) $telegram->sendMessage([
-                                'chat_id' => self::groupAlert('id'),
-                                'text' => "➕️ <b>{$telegramUser->accountLinkVisibly(false,$from['id'],($from['first_name'] ?? $from['username']))}</b> запустил бота",
-                                "parse_mode" => "html",
-                            ]);
-                        } catch (Throwable $throwable) {
-                        }
+                        if (!is_null($telegramUser) && self::groupAlert('id') && $telegramUser->wasRecentlyCreated) $telegram->sendMessage([
+                            'chat_id' => self::groupAlert('id'),
+                            'text' => "➕️ <b>{$telegramUser->accountLinkVisibly(false,$from['id'],($from['first_name'] ?? $from['username']))}</b> запустил бота",
+                            "parse_mode" => "html",
+                        ]);
                         $commands = $this->botCommandsFiltrated($telegramUser);
                         break;
                     case self::groupAdmin('id'):
@@ -175,36 +176,31 @@ class BotController extends Controller
                         $commands = collect();
                         break;
                 }
-                try {
-                    if (!is_null($member) && !is_null($chatId)) {
-                        $joined = TelegramUser::find(($member['id'] ?? null));
-                        if (!is_null($joined) && !$joined->is_bot && $joined->isActive()) {
-                            $bot = $telegram->getMe();
-                            $telegram->sendMessage([
-                                'chat_id' => $chatId,
-                                'text' => makeText([
-                                    "😉 Добро пожаловать в чат, <b>{$joined->accountLinkVisibly()}</b>",
-                                    "",
-                                    "🤖 Бот: <b>@$bot->username</b>",
-                                    "💸 Канал с профитами: <b><a href='#'>Перейти</a></b>",
-                                ]),
-                                "parse_mode" => "html",
-                            ]);
-                        } else {
-                            $telegram->kickChatMember([
-                                "chat_id" => $chatId,
-                                "user_id" => $member['id']
-                            ]);
-                            if ($alertGroupId = self::groupAlert('id')) $telegram->sendMessage([
-                                'chat_id' => $alertGroupId,
-                                'text' => '❗️ <b><a href="tg://user?id=' . $member['id'] . '">' . ($member['first_name'] ?? 'Без ника') . '</a> [' . $member['id'] . ']</b> кикнут с чата за попытку вступить по ссылке',
-                                "parse_mode" => "html",
-                            ]);
-                        }
+                if (!is_null($member) && !is_null($chatId)) {
+                    $joined = TelegramUser::find(($member['id'] ?? null));
+                    if (!is_null($joined) && !$joined->is_bot && $joined->isActive()) {
+                        $bot = $telegram->getMe();
+                        $telegram->sendMessage([
+                            'chat_id' => $chatId,
+                            'text' => makeText([
+                                "😉 Добро пожаловать в чат, <b>{$joined->accountLinkVisibly()}</b>",
+                                "",
+                                "🤖 Бот: <b>@$bot->username</b>",
+                                "💸 Канал с профитами: <b><a href='#'>Перейти</a></b>",
+                            ]),
+                            "parse_mode" => "html",
+                        ]);
+                    } else {
+                        $telegram->kickChatMember([
+                            "chat_id" => $chatId,
+                            "user_id" => $member['id']
+                        ]);
+                        if ($alertGroupId = self::groupAlert('id')) $telegram->sendMessage([
+                            'chat_id' => $alertGroupId,
+                            'text' => '❗️ <b><a href="tg://user?id=' . $member['id'] . '">' . ($member['first_name'] ?? 'Без ника') . '</a> [' . $member['id'] . ']</b> кикнут с чата за попытку вступить по ссылке',
+                            "parse_mode" => "html",
+                        ]);
                     }
-
-                } catch (Throwable $throwable) {
-                    Log::error($throwable->getMessage());
                 }
 
                 $dialogs = new Dialogs($telegram, $telegramUser);
@@ -231,13 +227,11 @@ class BotController extends Controller
                     $dialogs->proceed($update);
                 }
             }
-        } catch (TelegramSDKException $e) {
-            Log::error(json_encode($request->all()) . PHP_EOL . $e->getMessage());
         } catch (TelegramUserPermissionException $permissionException) {
-            report($permissionException);
-        } catch (Exception $exception) {
-            Log::error($exception->getMessage());
+            $permissionException->report();
+        } catch (TelegramSDKException | Exception $exception) {
+            Log::error(json_encode($request->all()) . PHP_EOL . $exception->getMessage());
         }
-        return response()->json(['msg' => $msg ?? '']);
+        return response()->json(['msg' => 'ok']);
     }
 }

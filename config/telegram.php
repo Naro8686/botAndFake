@@ -31,8 +31,8 @@ return [
     |             ]
     */
     'bots' => [
-        env('TELEGRAM_BOT_NAME', 'TestBot') => [
-            'username' => 'fake_laravel_test_bot',
+        env('TELEGRAM_BOT_NAME', 'Bot') => [
+            'username' => env('TELEGRAM_BOT_USERNAME'),
             'token' => env('TELEGRAM_BOT_TOKEN'),
             'certificate_path' => env('TELEGRAM_CERTIFICATE_PATH'),
             'webhook_url' => env('TELEGRAM_WEBHOOK_URL'),

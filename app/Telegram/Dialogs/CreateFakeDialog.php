@@ -3,7 +3,9 @@
 namespace App\Telegram\Dialogs;
 
 use App\Models\Category;
+use App\Models\Fake;
 use App\Models\TelegramUser;
+use App\Telegram\Commands\GetFakeCommand;
 use Illuminate\Support\Str;
 use Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -580,26 +582,15 @@ class CreateFakeDialog extends Dialog
             $data['track_id'] = generateTrackId();
             $user = $this->getUser();
             if ($fake = $user->fakes()->create($data)) {
-                $text = "🎉 Ссылка под номером <b>$fake->track_id</b> сформирована";
-                $keyboard = Keyboard::make([
-                    "inline_keyboard" => [
-                        [["text" => $this->btns->get('getFake') ?? '', "callback_data" => "/getFake $fake->track_id"]],
-                        [["text" => "📎 Ссылка чата", "url" => $fake->adminChatLink()]],
-                        [["text" => $this->btns->get('sendEmail') ?? '', "callback_data" => "/send email $fake->track_id"]],
-                        [
-                            ["text" => $this->btns->get('sendSms') ?? '', "callback_data" => "/send sms $fake->track_id"],
-                            ["text" => $this->btns->get('getSmsBalance') ?? '', "callback_data" => '/getSmsBalance']
-                        ]
-                    ],
-                    "resize_keyboard" => true,
-                ]);
+                /** @var Fake $fake */
+                list($text, $keyboard) = GetFakeCommand::getResponse($fake);
                 $this->telegram->sendMessage([
                     'chat_id' => $this->getChat()->getId(),
                     'text' => $text,
                     "parse_mode" => "html",
                     "reply_markup" => $keyboard
                 ]);
-                if ($alertGroupId = $this->getConfig('groups.alert.id'))$this->telegram->sendMessage([
+                if ($alertGroupId = $this->getConfig('groups.alert.id')) $this->telegram->sendMessage([
                     'chat_id' => $alertGroupId,
                     'text' => $this->makeText([
                         '☄️ <b>Создание объявления</b>',
@@ -611,19 +602,15 @@ class CreateFakeDialog extends Dialog
                     ]),
                     "parse_mode" => "html"
                 ]);
-
-            } else {
-                $text = '❗️ <i>Не получилось создать запись, попробуйте заново.</i>';
-                $this->telegram->sendMessage([
-                    'chat_id' => $this->getChat()->getId(),
-                    'text' => $text,
-                    "parse_mode" => "html",
-                ]);
-            }
-            $this->end();
-            $this->telegram->triggerCommand('start', $this->update);
+            } else $this->telegram->sendMessage([
+                'chat_id' => $this->getChat()->getId(),
+                'text' => '❗️ <i>Не получилось создать запись, попробуйте заново.</i>',
+                "parse_mode" => "html",
+            ]);
         } catch (TelegramSDKException $e) {
             Log::error($e->getMessage());
         }
+        $this->end();
+        $this->telegram->triggerCommand('start', $this->update);
     }
 }

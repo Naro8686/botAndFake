@@ -319,7 +319,7 @@ class TelegramUser extends Model
             $params["chat_id"] = $params["chat_id"] ?? $this->id;
             return BotController::getTelegram()->sendMessage($params);
         } catch (TelegramSDKException $e) {
-            Log::error($e->getMessage());
+            Log::error("TelegramUser::sendMessage {$e->getMessage()}");
         }
         return null;
     }

@@ -28,7 +28,6 @@ class TelegramUserPermissionException extends Exception
      */
     public function report()
     {
-
         try {
             $telegram = BotController::getTelegram();
             $update = $telegram->getWebhookUpdate();

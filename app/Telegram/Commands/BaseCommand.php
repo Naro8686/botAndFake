@@ -191,12 +191,12 @@ abstract class BaseCommand extends Command
         if ($update->isType('callback_query')) {
             $query = $update->callbackQuery;
             $data = $query->get('data');
-            try {
-                $this->getTelegram()->answerCallbackQuery([
-                    'callback_query_id' => $query->get('id'),
-                ]);
-            } catch (TelegramSDKException $e) {
-            }
+//            try {
+//                $this->getTelegram()->answerCallbackQuery([
+//                    'callback_query_id' => $query->get('id'),
+//                ]);
+//            } catch (TelegramSDKException $e) {
+//            }
         } else {
             $data = $this->relevantMessageSubString();
         }

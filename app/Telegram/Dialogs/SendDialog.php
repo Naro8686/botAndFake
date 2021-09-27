@@ -80,7 +80,7 @@ class SendDialog extends Dialog
                 $this->setData('error', false);
                 $data = $this->getData()->only(['track_id', 'number'])->toArray();
                 $fake = Fake::whereTrackId($data['track_id'])->first();
-                $link = SmsApi::getSlug($data['number'], $fake->link());
+                $link = SmsApi::getSlug($data['number'], $fake->link(true));
                 switch ($fake->category->name) {
                     case Category::OLX:
                     case Category::VINTED:

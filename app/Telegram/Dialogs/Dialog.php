@@ -26,7 +26,7 @@ class Dialog
     protected $no = null;
     protected $aliases = [
         'yes' => ['yes', 'да'],
-        'no' => ['no', 'нет']
+        'no' => ['no', 'нет', 'Ручное создание']
     ];
 
 
@@ -374,13 +374,17 @@ class Dialog
         $this->setMemory($data->toJson());
     }
 
+
     /**
-     * @return  Collection|string|null
+     * @param null $key
+     * @param null $default
+     * @return Collection|mixed|null
      */
-    public function getData($key = null)
+    public function getData($key = null, $default = null)
     {
         $data = collect(json_decode($this->getMemory(), true));
-        return is_null($key) ? $data : $data[$key] ?? null;
+        $data = is_null($key) ? $data : $data[$key] ?? null;
+        return is_null($data) ? $default : $data;
     }
 
     /**
