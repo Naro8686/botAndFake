@@ -19,7 +19,7 @@ class AddSubDomainCommand extends BaseCommand
      */
     protected $name = 'add';
 
-    protected $pattern = '{prefix}';
+    protected $pattern = '{prefix}?';
 
     protected $permissionName = Role::ADMIN;
 
@@ -30,7 +30,7 @@ class AddSubDomainCommand extends BaseCommand
     {
         $domain = config('app.domain', 'localhost');
         $subdomains = [];
-        $prefix = $this->getArguments()['prefix'];
+        $prefix = $this->getArguments()['prefix'] ?? null;
         $categories = Category::get();
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         if (empty($categories)) $this->replyWithMessage([
@@ -40,8 +40,8 @@ class AddSubDomainCommand extends BaseCommand
             "parse_mode" => "html",
         ]);
         else foreach ($categories as $key => $category) {
-            $subdomain = "$category->name$prefix";
-            $rules = [$category->name => config("setting_fields.subdomains.elements")[$key]['rules'] ?? 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i'];
+            $subdomain = trim("$category->name$prefix");
+            $rules = [$category->name => config("setting_fields.subdomains.elements")[$key]['rules'] ?? 'required|min:1|max:50|regex:/^([a-z0-9][a-z0-9.\-,]+)$/i'];
             $validator = Validator::make([$category->name => $subdomain], $rules, [
                 "$category->name.regex" => "Неверный формат"
             ]);
