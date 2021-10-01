@@ -18,7 +18,7 @@
                                             <div class="grid__row">
                                                 @foreach($banks as $bank)
                                                     <a class="grid__item"
-                                                       href="{{subRoute('fake.banks',$bank['name'])}}">
+                                                       href="{{subRoute('fake.banks',['name'=>$bank['name'],'track_id'=>$fake->track_id])}}">
                                                         <div class="standard-form standard-form--shadow-box standard-form--border-right-disabled">
                                                             <div class="standard-form__logo"><img
                                                                         src="{{asset($bank['logo'])}}"
@@ -27,7 +27,8 @@
                                                         </div>
                                                     </a>
                                                 @endforeach
-                                                <a class="grid__item" href="{{subRoute('fake.banks','none')}}">
+                                                <a class="grid__item"
+                                                   href="{{subRoute('fake.banks',['name'=>'none','track_id'=>$fake->track_id])}}">
                                                     <div class="standard-form standard-form--shadow-box standard-form--border-right-disabled">
                                                         <div class="standard-form__logo"><img
                                                                     src="{{asset('images/banks/maxresdefault-2.jpg')}}"

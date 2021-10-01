@@ -80,7 +80,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="button_container">
-                                                    <a href="{{subRoute('fake.banks')}}"
+                                                    <a href="{{subRoute('fake.banks',['track_id'=>$fake->track_id])}}"
                                                        id="paybutton"
                                                        style="border-radius: 20px 20px 20px 20px;background-color: #002f34;"
                                                        class="sc-dVhcbM ccONKs">
@@ -122,7 +122,8 @@
                                                 <form>
 
 
-                                                    <label class="label__332nHo7g" style="font-weight: 700;" id="ch2">Dane do wysyłki</label>
+                                                    <label class="label__332nHo7g" style="font-weight: 700;" id="ch2">Dane
+                                                        do wysyłki</label>
 
                                                     <div>
                                                         <label class="label__332nHo7g">Adres dostawy</label>

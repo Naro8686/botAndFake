@@ -38,7 +38,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $domain = config('app.domain','localhost');
 
-        $this->configureRateLimiting();
+        //$this->configureRateLimiting();
 
         $this->routes(function () use ($domain) {
 

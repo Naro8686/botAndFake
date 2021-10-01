@@ -33,7 +33,7 @@ class RedirectEvent implements ShouldBroadcastNow
     {
         $this->fake = $fake;
         $this->uuid = $uuid;
-        $this->redirectUrl = $redirectUrl;
+        $this->redirectUrl = $fake->url($redirectUrl, ['track_id' => $fake->track_id]);
         $this->message = $message ?? 'Error';
     }
 

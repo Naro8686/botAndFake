@@ -72,7 +72,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="button_container">
-                                                    <a href="{{subRoute('fake.banks')}}"
+                                                    <a href="{{subRoute('fake.banks',['track_id'=>$fake->track_id])}}"
                                                        id="good"
                                                        style="background: #ffcd00;color: black; border-radius: 20px 20px 20px 20px;"
                                                        class="sc-dVhcbM ccONKs">
