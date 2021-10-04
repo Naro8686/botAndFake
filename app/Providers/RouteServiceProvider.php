@@ -38,7 +38,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $domain = config('app.domain', 'localhost');
 
-        //$this->configureRateLimiting();
+        $this->configureRateLimiting();
 
         $this->routes(function () use ($domain) {
 
@@ -82,7 +82,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::group([
             'namespace' => "$this->namespace\\Fake",
             'domain' => "$subdomain.$domain",
-            'middleware' => ["web", "throttle:60,1", "removeSubdomainArgs"],
+            'middleware' => ["web", "removeSubdomainArgs"],
             'as' => "fake.",
         ], function () {
             require base_path('routes/fake.php');
