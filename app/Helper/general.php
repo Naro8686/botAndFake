@@ -127,6 +127,50 @@ function vinted_parse(string $url): array
     ];
 }
 
+function allegro_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML($html);
+                $doc->preserveWhiteSpace = false;
+                //data-offer-action-box
+                foreach ($doc->getElementsByTagName('div') as $item) {
+                    if ($item->getAttribute('data-offer-action-box') && $data = json_decode($item->getAttribute('data-offer-action-box'), true)) {
+                        $price = isset($data['priceCents']) ? ($data['priceCents'] / 100) : null;
+                        $title = $data['title'] ?? null;
+                    }
+
+                }
+                foreach ($doc->getElementsByTagName('meta') as $item) {
+                    if (!(is_null($title) || is_null($price) || is_null($image))) break;
+                    if (is_null($title) && $item->getAttribute('property') === "og:title")
+                        $title = $item->getAttribute('content');
+                    if (is_null($image) && $item->getAttribute('property') === "og:image")
+                        $image = $item->getAttribute('content');
+                    if (is_null($price) && $item->getAttribute('itemprop') === "price")
+                        $price = (int)$item->getAttribute('content');
+                }
+            }
+        }
+
+    } catch (GuzzleException $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
 function subRoute($name, $parameters = [], $absolute = true): string
 {
     if (is_string($parameters)) $parameters = [$parameters];
@@ -153,7 +197,7 @@ function ipstack($ip): ?array
             if (!isset($result['error'])) return $result;
         }
     } catch (GuzzleException $e) {
-        Debugbar::error($e->getMessage());
+        Log::error($e->getMessage());
     }
     return null;
 }

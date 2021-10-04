@@ -112,7 +112,8 @@
                                             <div class="form__1P2Y3sX1">
                                                 <form>
 
-                                                    <label class="label__332nHo7g" style="font-weight: 700;" id="ch2">Dane do wysyłki</label>
+                                                    <label class="label__332nHo7g" style="font-weight: 700;" id="ch2">Dane
+                                                        do wysyłki</label>
 
                                                     <div>
                                                         <label class="label__332nHo7g">Adres dostawy</label>
@@ -156,7 +157,8 @@
                                                         zgodnie z podanymi danymi lub przekazanie przedmiotu przez
                                                         kuriera,który będzie dzwonił w ciągu 12 godzin</p>
                                                     <p class="hint__2r7xW549" id="ch15">
-                                                        Po wysłaniu przedmiotu prosimy o nadanie kupującemu numeru paczki!
+                                                        Po wysłaniu przedmiotu prosimy o nadanie kupującemu numeru
+                                                        paczki!
                                                     </p>
 
                                                 </form>

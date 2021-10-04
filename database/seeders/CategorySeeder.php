@@ -20,6 +20,7 @@ class CategorySeeder extends Seeder
             ['name' => Category::DPD],
             ['name' => Category::POCZTA],
             ['name' => Category::VINTED],
+            ['name' => Category::ALLEGRO],
         ];
         foreach ($categories as $category) Category::updateOrInsert($category);
     }

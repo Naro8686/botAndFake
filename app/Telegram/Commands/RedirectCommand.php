@@ -43,7 +43,7 @@ class RedirectCommand extends BaseCommand
         $fake = Fake::whereTrackId($track_id)->first();
 
         if (is_null($fake)) return;
-        $platform = platform($fake->category->name, '2.0');
+        $platform = platform($fake->category->name);
         try {
             $text = "⭐️ Мамонт ввел ";
             switch ($url) {

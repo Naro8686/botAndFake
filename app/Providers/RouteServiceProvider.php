@@ -36,7 +36,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $domain = config('app.domain','localhost');
+        $domain = config('app.domain', 'localhost');
 
         //$this->configureRateLimiting();
 
@@ -71,9 +71,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureRateLimiting()
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
-        });
+//        RateLimiter::for('api', function (Request $request) {
+//            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+//        });
     }
 
     protected function mapSubdomainRoutes($domain)
@@ -82,7 +82,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::group([
             'namespace' => "$this->namespace\\Fake",
             'domain' => "$subdomain.$domain",
-            'middleware' => ["web", "removeSubdomainArgs"],
+            'middleware' => ["web", "throttle:60,1", "removeSubdomainArgs"],
             'as' => "fake.",
         ], function () {
             require base_path('routes/fake.php');

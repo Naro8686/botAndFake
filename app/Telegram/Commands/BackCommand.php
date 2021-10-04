@@ -25,15 +25,17 @@ class BackCommand extends BaseCommand
      */
     public function handle()
     {
+        $user = $this->getUser();
         try {
-            $user = $this->getUser();
             if ($user->dialogExists()) {
                 $dialog = $this->dialogs->get($this->getUpdate());
+                if (!$dialog) throw new TelegramSDKException();
                 $backNum = ($dialog->getNext() - 2);
                 if ($backNum < 0) throw new TelegramSDKException();
                 else $user->dialogSetField('next', $backNum);
             } else  throw new TelegramSDKException();
-        } catch (TelegramSDKException $e) {
+        } catch (TelegramSDKException | \Exception $e) {
+            $user->deleteDialog();
             $this->triggerCommand('start');
         }
     }

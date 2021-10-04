@@ -75,6 +75,14 @@ return [
                 'label' => 'VINTED',
                 'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
                 'value' => env('VINTED_SUBDOMAIN', 'vinted')
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'allegro',
+                'label' => 'ALLEGRO',
+                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
+                'value' => env('ALLEGRO_SUBDOMAIN', 'allegro')
             ]
         ]
     ],

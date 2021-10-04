@@ -30,6 +30,7 @@ class Category extends Model
     public const DPD = 'dpd';
     public const POCZTA = 'poczta';
     public const VINTED = 'vinted';
+    public const ALLEGRO = 'allegro';
 
     public function fakes()
     {
@@ -45,6 +46,8 @@ class Category extends Model
         switch ($this->name) {
             case self::VINTED:
                 return vinted_parse($url);
+            case self::ALLEGRO:
+                return allegro_parse($url);
             default:
                 return olx_parse($url);
         }

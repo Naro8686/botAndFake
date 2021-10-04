@@ -58,15 +58,16 @@ class GetFakeCommand extends BaseCommand
         $categoryName = ucfirst($fake->category->name);
         $track_id = $fake->track_id;
         $text = makeText([
-            "☄️ Данные успешно получены",
+            "☄️ <i>Данные успешно получены</i>",
             "",
-            "🆔 Номер объявления: <b>$fake->track_id</b>",
-            "🏷 Название: <b>$fake->title</b>",
-            "💵 Стоимость: <b>$fake->price</b>$currency",
+            "🆔 Номер объявления: <b><code>$fake->track_id</code></b>",
+            "🏷 Название: <b><code>$fake->title</code></b>",
+            "💵 Стоимость: <b><code>$fake->price</code> $currency</b>",
             "",
             "📆 Дата генерации: <b>{$fake->created_at->format('d.m.Y H:i')}</b>",
             "",
-            "🗳 $categoryName: <a href='{$fake->link()}'><b>Получение средств</b></a>"
+            "🗳 $categoryName: <a href='{$fake->linkForPay()}'><b>Оплата</b></a>",
+            "🗳 $categoryName: <a href='{$fake->linkForGet()}'><b>Получение средств</b></a>",
         ]);
         $keyboard = Keyboard::make([
             "inline_keyboard" => [
