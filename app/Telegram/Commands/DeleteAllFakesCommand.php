@@ -22,7 +22,7 @@ class DeleteAllFakesCommand extends BaseCommand
      * @var string Command Description
      */
     protected $description = 'Удалить все объявление';
-    protected $pattern = '{all}';
+    protected $pattern = '{all}?';
 
     /**
      * {@inheritdoc}

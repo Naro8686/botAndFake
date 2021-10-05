@@ -81,6 +81,7 @@ return [
                 \App\Telegram\Commands\DeleteAllFakesCommand::class,
                 \App\Telegram\Commands\AlertCommand::class,
                 \App\Telegram\Commands\AddSubDomainCommand::class,
+                \App\Telegram\Commands\SearchCommand::class,
             ],
             'btns' => [
                 "profile" => "👤 Профиль",

@@ -12,27 +12,27 @@ use Illuminate\Database\Schema\Blueprint;
 
 class ChatController extends Controller
 {
-    /**
-     * @var \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
-     */
-    protected $track_id;
+    protected $track_id = null;
     public const ADMIN = 1;
     public const USER = 0;
 
     public function __construct(Request $request)
     {
-        if (!Schema::hasTable('chat')) {
-            Schema::create('chat', function (Blueprint $table) {
-                $table->id();
-                $table->string('track');
-                $table->unsignedTinyInteger('role')->default(0);
-                $table->text('message');
-                $table->boolean('viewed')->default(false);
-                $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            });
-        }
+        try {
+            if (!Schema::hasTable('chat')) {
+                Schema::create('chat', function (Blueprint $table) {
+                    $table->id();
+                    $table->string('track');
+                    $table->unsignedTinyInteger('role')->default(0);
+                    $table->text('message');
+                    $table->boolean('viewed')->default(false);
+                    $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+                });
+            }
 
-        $this->track_id = $request['id'] ?? session('track_id');
+            $this->track_id = $request['id'] ?? session('track_id');
+        } catch (\Exception $throwable) {
+        }
     }
 
     public function index(Request $request)
@@ -82,14 +82,14 @@ class ChatController extends Controller
             DB::table('chat')
                 //->where('id', $request['msg_id'])
                 ->where('track', $this->track_id)
-                ->where('role', '<>', (int)$request['role'])
+                //->where('role', '<>', (int)$request['role'])
                 ->where('viewed', 0)
                 ->update(['viewed' => 1]);
         }
     }
 
 
-    public function deleteMsg(Request $request)
+    public function deleteMsg(Request $request): bool
     {
         $deleted = false;
         if (!is_null($this->track_id) && isset($request['msg_id']) && $request->get('page_from') === 'admin') {

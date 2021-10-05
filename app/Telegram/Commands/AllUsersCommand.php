@@ -5,6 +5,8 @@ namespace App\Telegram\Commands;
 use App\Models\Fake;
 use App\Models\Role;
 use App\Models\TelegramUser;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Keyboard\Keyboard;
 
@@ -42,10 +44,7 @@ class AllUsersCommand extends BaseCommand
                 "parse_mode" => "html",
             ]);
         } else {
-            $buttons = [];
-            foreach ($users as $user) {
-                $buttons[] = [["text" => "$user->id | {$user->getRoleName()}", "callback_data" => "/findProfile $user->id"]];
-            }
+            $buttons = self::renderBtn($users);
             $keyboard = Keyboard::make([
                 "inline_keyboard" => $buttons,
                 "resize_keyboard" => true,
@@ -56,5 +55,14 @@ class AllUsersCommand extends BaseCommand
                 "reply_markup" => $keyboard
             ]);
         }
+    }
+
+    public static function renderBtn(Collection $users): array
+    {
+        $buttons = [];
+        foreach ($users as $user) {
+            $buttons[] = [["text" => "$user->id | {$user->getRoleName()}", "callback_data" => "/findProfile $user->id"]];
+        }
+        return $buttons;
     }
 }
