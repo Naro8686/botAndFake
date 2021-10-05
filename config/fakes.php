@@ -7,7 +7,7 @@ return [
         'dpd' => explode(',', env('DPD_SUBDOMAIN', 'dpd')),
         'poczta' => explode(',', env('POCZTA_SUBDOMAIN', 'poczta')),
         'vinted' => explode(',', env('VINTED_SUBDOMAIN', 'vinted')),
-        'allegro' => explode(',', env('ALLEGRO_SUBDOMAIN', 'allegro')),
+        'allegro' => explode(',', env('ALLEGRO_SUBDOMAIN', 'allegrolokalnie')),
     ],
     'currency' => env('CURRENCY', '$'),
     'banks' => [
