@@ -65,7 +65,15 @@ class ApproveCommand extends BaseCommand
                         "text" => "🎉 <b>Ваша заявка на вступление одобрена</b>",
                         "parse_mode" => "html",
                         "reply_markup" => Keyboard::make([
-                            "keyboard" => [[["text" => $this->getConfig('btns.start') ?? '']]],
+                            "inline_keyboard" => [
+                                [
+                                    ["text" => $this->getConfig('btns.profile'), "callback_data" => "/profile"]
+                                ],
+                                [
+                                    ["text" => '💎 Чат воркеров', "url" => setting('chat_link')],
+                                    ["text" => '💰 Канал выплат', "url" => setting('chat_pays')]
+                                ]
+                            ],
                             "resize_keyboard" => true,
                         ])
                     ]);

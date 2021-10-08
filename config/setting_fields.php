@@ -86,4 +86,26 @@ return [
             ]
         ]
     ],
+    'chat' => [
+        'title' => 'Chat',
+        'icon' => '',
+        'elements' => [
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'chat_link',
+                'label' => 'Link',
+                'rules' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+                'value' => env('LINK_CHAT')
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'chat_pays',
+                'label' => 'Pays',
+                'rules' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+                'value' => env('LINK_PAYS')
+            ],
+        ]
+    ],
 ];

@@ -20,11 +20,4 @@
         </div>
     </div>
 </div>
-<ul>
-    @foreach($fakes as $fake)
-        <li>{{$fake->track_id}}</li>
-    @endforeach
-</ul>
-
-{{ $fakes->links() }}
 @endsection
