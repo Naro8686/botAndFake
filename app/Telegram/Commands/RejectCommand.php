@@ -2,8 +2,6 @@
 
 namespace App\Telegram\Commands;
 
-use App\Http\Controllers\Telegram\BotController;
-use App\Models\Request;
 use App\Models\Role;
 use App\Models\TelegramUser;
 use Illuminate\Support\Facades\Log;

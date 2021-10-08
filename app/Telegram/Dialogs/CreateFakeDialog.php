@@ -19,7 +19,6 @@ class CreateFakeDialog extends Dialog
         'selectCategory',
         'setCategory',
         ['name' => 'useParsing', 'is_dich' => true],
-        'setParsUrl',
         'setTitle',
         'setPrice',
         'setImage',
@@ -35,13 +34,12 @@ class CreateFakeDialog extends Dialog
      */
     public $default;
 
-    /**
-     */
     public function __construct(Update $update, TelegramUser $user)
     {
-        parent::__construct($update, $user);
+        $this->aliases['no'][] = 'ручное создание';
         $this->btns = $this->getConfig('btns');
         $this->default = $user->getSettings('default');
+        parent::__construct($update, $user);
     }
 
     public function selectCategory()
@@ -93,7 +91,7 @@ class CreateFakeDialog extends Dialog
                 $this->setData('error', false);
                 $keyboard = Keyboard::make([
                     "keyboard" => [
-                        [["text" => "да"], ["text" => "нет"]],
+                        [["text" => "Ручное создание"]],
                         [["text" => $this->btns->get('back') ?? '']]
                     ],
                     "resize_keyboard" => true,
@@ -101,7 +99,7 @@ class CreateFakeDialog extends Dialog
                 ]);
                 $this->telegram->sendMessage([
                     "chat_id" => $this->getChat()->getId(),
-                    "text" => "<i>💡<b>Использовать парсинг ❔</b></i>",
+                    "text" => '🖋️ <b>Напишите ссылку для парсинга</b>',
                     "parse_mode" => "html",
                     "reply_markup" => $keyboard
                 ]);
@@ -131,25 +129,14 @@ class CreateFakeDialog extends Dialog
      */
     public function useParsing()
     {
+        $text = [];
         if ($this->isBack() || $this->getData('error')) {
-            $this->yes = $this->getData('parsing') === true;
+            $this->no = $this->getData('parsing') !== true;
         }
-        $this->setData('parsing', (bool)$this->yes);
+        $this->setData('parsing', !(bool)$this->no);
         $this->setData('error', false);
-        if ($this->yes) {
-            $text = '🖋️ <b>Напишите ссылку для парсинга</b>';
-            $keyboard = Keyboard::make([
-                "keyboard" => [[["text" => $this->btns->get('back') ?? '']]],
-                "resize_keyboard" => true,
-                "one_time_keyboard" => false,
-            ]);
-        } else {
-            if ($this->isBack()) {
-                $this->jump('setCategory');
-                $this->proceed();
-                return;
-            }
-            $text = '🖋 <b>Введите название товара</b>';
+        if ($this->no) {
+            $text[] = '🖋 <b>Введите название товара</b>';
             $keyboard = Keyboard::make([
                 "keyboard" => [
                     [
@@ -163,71 +150,52 @@ class CreateFakeDialog extends Dialog
                 "one_time_keyboard" => false,
             ]);
             $this->jump('setTitle');
-        }
-        $this->telegram->sendMessage([
-            'chat_id' => $this->getChat()->getId(),
-            'text' => $text,
-            "parse_mode" => "html",
-            "reply_markup" => $keyboard
-        ]);
-    }
-
-    public function setParsUrl()
-    {
-        try {
-            $text = [];
-            if ($this->getData('parsing') === true) {
-                $url = trim($this->update->getMessage()->getText());
-                $category = Category::whereId($this->getData('category_id'))->first();
-                foreach ($category->parse($url) as $key => $value) {
-                    if (!is_null($value)) $this->setData($key, $value);
-                }
-                $data = $this->getData()->only(['price', 'title', 'img'])->map(function ($value) {
-                    return !is_null($value);
-                });
-                if ($data->count() === 3) {
-                    $text[] = $this->isBack() ? "" : "💾 <b>Данные успешно получены</b>";
-                    $text[] = "";
-                    if (is_null($this->default)) {
-                        $text[] = "🖋 <b>Введите имя и фамилию получателя</b>";
-                        $keyboard = Keyboard::make([
-                            "keyboard" => [[["text" => $this->btns->get('back') ?? '']]],
-                            "resize_keyboard" => true,
-                            "one_time_keyboard" => false,
-                        ]);
-                        if (!$this->isBack()) $this->jump('setRecipient');
-                    } else {
-                        $text[] = "<b>Использовать данные по умолчанию ❔</b>";
-                        $keyboard = Keyboard::make([
-                            "keyboard" => [
-                                [
-                                    ["text" => "да"],
-                                    ["text" => "нет"],
-                                ],
-                                [
-                                    ["text" => $this->btns->get('back') ?? ''],
-                                ],
-                            ],
-                            "resize_keyboard" => true,
-                            "one_time_keyboard" => false,
-                        ]);
-                        if (!$this->isBack()) $this->jump('useDefault');
-                    }
-                } else {
-                    $this->setData('parsing', false);
-                    $text[] = "❗️ <i>Не получилось спарсить, попробуйте написать в ручном режиме</i>";
-                    $text[] = "";
-                    $text[] = "🖋 <b>Введите название товара</b>";
+        } else {
+            $url = trim($this->update->getMessage()->getText());
+            $category = Category::whereId($this->getData('category_id'))->first();
+            foreach ($category->parse($url) as $key => $value) {
+                if (!is_null($value)) $this->setData($key, $value);
+            }
+            $data = $this->getData()->only(['price', 'title', 'img'])->map(function ($value) {
+                return !is_null($value);
+            });
+            if ($data->count() === 3) {
+                $text[] = $this->isBack() ? "" : "💾 <b>Данные успешно получены</b>";
+                $text[] = "";
+                if (is_null($this->default)) {
+                    $text[] = "🖋 <b>Введите имя и фамилию получателя</b>";
                     $keyboard = Keyboard::make([
-                        "keyboard" => [
-                            [["text" => $this->getData('title') ?? '']],
-                            [["text" => $this->btns->get('back') ?? '']],
-                        ],
+                        "keyboard" => [[["text" => $this->btns->get('back') ?? '']]],
                         "resize_keyboard" => true,
                         "one_time_keyboard" => false,
                     ]);
+                    if (!$this->isBack()) $this->jump('setRecipient');
+                } else {
+                    $this->setData('recipient', $this->default->get('recipient') ?? null);
+                    $this->setData('address', $this->default->get('address') ?? null);
+                    $this->create();
+//
+//
+//                    $text[] = "<b>Использовать данные по умолчанию ❔</b>";
+//                    $keyboard = Keyboard::make([
+//                        "keyboard" => [
+//                            [
+//                                ["text" => "да"],
+//                                ["text" => "нет"],
+//                            ],
+//                            [
+//                                ["text" => $this->btns->get('back') ?? ''],
+//                            ],
+//                        ],
+//                        "resize_keyboard" => true,
+//                        "one_time_keyboard" => false,
+//                    ]);
+//                    if (!$this->isBack()) $this->jump('useDefault');
                 }
             } else {
+                $this->setData('parsing', false);
+                $text[] = "❗️ <i>Не получилось спарсить, попробуйте написать в ручном режиме</i>";
+                $text[] = "";
                 $text[] = "🖋 <b>Введите название товара</b>";
                 $keyboard = Keyboard::make([
                     "keyboard" => [
@@ -238,14 +206,19 @@ class CreateFakeDialog extends Dialog
                     "one_time_keyboard" => false,
                 ]);
             }
-            $this->telegram->sendMessage([
-                'chat_id' => $this->getChat()->getId(),
-                'text' => $this->makeText($text),
-                "parse_mode" => "html",
-                "reply_markup" => $keyboard
-            ]);
-        } catch (TelegramSDKException $e) {
         }
+        if (!$this->isEnd()) $this->telegram->sendMessage([
+            'chat_id' => $this->getChat()->getId(),
+            'text' => $this->makeText($text),
+            "parse_mode" => "html",
+            "reply_markup" => $keyboard ?? Keyboard::make([
+                    "keyboard" => [
+                        [["text" => $this->getData('back') ?? '']]
+                    ],
+                    "resize_keyboard" => true,
+                    "one_time_keyboard" => false,
+                ])
+        ]);
     }
 
 
@@ -393,30 +366,35 @@ class CreateFakeDialog extends Dialog
                         "resize_keyboard" => true,
                         "one_time_keyboard" => false,
                     ]);
-                } else {
-                    $text = "<b>Использовать данные по умолчанию ❔</b>";
-                    $keyboard = Keyboard::make([
-                        "keyboard" => [
-                            [
-                                ["text" => "да"],
-                                ["text" => "нет"],
-                            ],
-                            [
-                                ["text" => $this->btns->get('back') ?? ''],
-                            ],
-                        ],
-                        "resize_keyboard" => true,
-                        "one_time_keyboard" => false,
+                    $this->telegram->sendMessage([
+                        'chat_id' => $this->getChat()->getId(),
+                        'text' => $text,
+                        "parse_mode" => "html",
+                        "reply_markup" => $keyboard
                     ]);
-                    if (!$this->isBack()) $this->jump('useDefault');
+                } else {
+
+                    $this->setData('recipient', $this->default->get('recipient') ?? null);
+                    $this->setData('address', $this->default->get('address') ?? null);
+                    $this->create();
+//                    $text = "<b>Использовать данные по умолчанию ❔</b>";
+//                    $keyboard = Keyboard::make([
+//                        "keyboard" => [
+//                            [
+//                                ["text" => "да"],
+//                                ["text" => "нет"],
+//                            ],
+//                            [
+//                                ["text" => $this->btns->get('back') ?? ''],
+//                            ],
+//                        ],
+//                        "resize_keyboard" => true,
+//                        "one_time_keyboard" => false,
+//                    ]);
+                    //if (!$this->isBack()) $this->jump('useDefault');
                 }
                 $this->setData('error', false);
-                $this->telegram->sendMessage([
-                    'chat_id' => $this->getChat()->getId(),
-                    'text' => $text,
-                    "parse_mode" => "html",
-                    "reply_markup" => $keyboard
-                ]);
+
             } else {
                 $this->setData('error', true);
                 $this->telegram->sendMessage([

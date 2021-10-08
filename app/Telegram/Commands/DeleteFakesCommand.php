@@ -11,33 +11,32 @@ use Telegram\Bot\Actions;
 /**
  * Class HelpCommand.
  */
-class DeleteAllFakesCommand extends BaseCommand
+class DeleteFakesCommand extends BaseCommand
 {
     /**
      * @var string Command Name
      */
-    protected $name = 'deleteAllFakes';
+    protected $name = 'deleteFakes';
 
     /**
      * @var string Command Description
      */
-    protected $description = 'Удалить все объявление';
-
-    protected $permissionName = Role::ADMIN;
+    protected $description = 'Удалить объявление';
 
     /**
      * {@inheritdoc}
      */
     public function handle()
     {
+        $user = $this->getUser();
+        $fakes = $user->fakes()->get();
         $this->replyWithChatAction(['action' => Actions::TYPING]);
-        $fakes = Fake::get();
         if ($fakes->isEmpty()) $this->replyWithMessage([
             "text" => "❕ <i>Объявления нет</i>",
             "parse_mode" => "html",
         ]);
         else {
-            $dialog = new DeleteAllFakesDialog($this->getUpdate(), $this->getUser());
+            $dialog = new DeleteAllFakesDialog($this->getUpdate(), $user);
             $dialog->setMemory(json_encode(['ids' => $fakes->pluck('id')->implode(',')]));
             $this->dialogs()->add($dialog);
         }

@@ -79,6 +79,7 @@ return [
                 \App\Telegram\Commands\HideCommand::class,
                 \App\Telegram\Commands\ChangeStatusCommand::class,
                 \App\Telegram\Commands\DeleteAllFakesCommand::class,
+                \App\Telegram\Commands\DeleteFakesCommand::class,
                 \App\Telegram\Commands\AlertCommand::class,
                 \App\Telegram\Commands\AddSubDomainCommand::class,
                 \App\Telegram\Commands\SearchCommand::class,
@@ -109,7 +110,10 @@ return [
                 "findProfile" => "🔍 Найти пользователя",
                 "show" => "✅ Показать имя",
                 "hide" => "📵 Скрыть имя",
-                "deleteAllFakes" => "❌ Удалить все объявление"
+                "deleteFakes" => "❌ Удалить объявление",
+                "deleteAllFakes" => "📛 Очистить объявление",
+                "previous" => "🔼 Предыдущий",
+                "next" => "🔽 Следующий",
             ],
             'currency' => env('CURRENCY', '$')
         ],

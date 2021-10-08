@@ -214,10 +214,9 @@ class BotController extends Controller
                     $commandName = null;
                     if (!$update->isType('callback_query')) {
                         $commandName = array_search(trim($text), $config->get('btns'), true) ?? "";
-                    } else if (preg_match('/^(\/[^\s\/]+)/', $text, $matches)) {
+                    } else if (preg_match('%^(/[^\s/?]+)%ui', $text, $matches)) {
                         $commandName = str_replace('/', '', $matches[0]);
                     }
-
                     $command = $commands->first(function (BaseCommand $baseCommand) use ($commandName) {
                         return $baseCommand->getName() === $commandName;
                     });

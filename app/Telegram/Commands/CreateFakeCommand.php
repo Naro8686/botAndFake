@@ -2,7 +2,6 @@
 
 namespace App\Telegram\Commands;
 
-use App\Exceptions\TelegramUserPermissionException;
 use App\Telegram\Dialogs\CreateFakeDialog;
 use Telegram\Bot\Actions;
 

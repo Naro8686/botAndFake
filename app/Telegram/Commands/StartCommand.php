@@ -29,10 +29,12 @@ class StartCommand extends BaseCommand
         $btns = $this->getConfig('btns');
         $user = $this->getUser();
         $user->deleteDialog();
-        
+
         if ($user->isActive()) {
             $keyboard[] = [["text" => $btns->get('profile') ?? ''], ["text" => $btns->get('fakes') ?? '']];
-            if ($user->isAdmin()) $keyboard[] = [["text" => $btns->get('allUsers') ?? ''], ["text" => $btns->get('allFakes') ?? '']];
+            if ($user->isAdmin()) {
+                $keyboard[] = [["text" => $btns->get('allUsers') ?? ''], ["text" => $btns->get('deleteAllFakes') ?? '']];
+            }
             $keyboard[] = [["text" => $btns->get('createFake') ?? '']];
         } else $keyboard[] = [["text" => $btns->get('request') ?? '']];
 

@@ -2,10 +2,14 @@
 
 namespace App\Telegram\Commands;
 
-use App\Models\Fake;
+use App\Http\Controllers\Telegram\BotController;
+
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Log;
 use Telegram\Bot\Actions;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
 
 
@@ -29,38 +33,80 @@ class FakesCommand extends BaseCommand
      */
     public function handle()
     {
-        $this->replyWithChatAction(['action' => Actions::TYPING]);
-        $fakes = $this->getUser()->fakes()->get();
-        if ($fakes->isEmpty()) {
-            $this->replyWithMessage([
+        try {
+            $telegram = $this->getTelegram();
+            $update = $this->getUpdate();
+            $message = $update->getMessage();
+            $chat_id = $message->getChat()->getId();
+
+            $fakes = $this->getUser()->fakes()->orderByDesc('id')->simplePaginate(10);
+            if ($fakes->isEmpty()) $this->replyWithMessage([
                 "text" => "📂 <b>Объявление не найдено!</b>",
                 "parse_mode" => "html",
             ]);
-        } else {
-            $buttons = self::renderBtn($fakes);
-            $buttons[] = [["text" => $this->getConfig('btns.deleteAllFakes') ?? '', "callback_data" => "/deleteAllFakes"]];
-            $keyboard = Keyboard::make([
-                "inline_keyboard" => $buttons,
-                "resize_keyboard" => true,
-            ]);
-            $this->replyWithMessage([
-                "text" => "🗃 <b>$this->description</b>",
-                "parse_mode" => "html",
-                "reply_markup" => $keyboard
-            ]);
+            else {
+                $buttons = self::renderBtn($fakes);
+                $inline_keyboard = Keyboard::make([
+                    "inline_keyboard" => $buttons,
+                    "resize_keyboard" => true,
+                ]);
+                if ($this->hasPagination) $telegram->editMessageReplyMarkup([
+                    "parse_mode" => "html",
+                    "message_id" => $message->messageId,
+                    "chat_id" => $chat_id,
+                    "reply_markup" => $inline_keyboard
+                ]);
+                else {
+                    $this->replyWithMessage([
+                        "text" => "🗃 <b>$this->description</b>",
+                        "parse_mode" => "html",
+                        "reply_markup" => $inline_keyboard
+                    ]);
+                    $keyboard = Keyboard::make([
+                        "keyboard" => [
+                            [["text" => $this->getConfig('btns.deleteFakes', 'deleteFakes')]],
+                            [["text" => $this->getConfig('btns.start', 'start')]]
+                        ],
+                        "resize_keyboard" => true,
+                        "one_time_keyboard" => false,
+                    ]);
+                    $this->replyWithMessage([
+                        "text" => "👇🏻",
+                        "parse_mode" => "html",
+                        "reply_markup" => $keyboard,
+                    ]);
+                }
+            }
+        } catch (TelegramSDKException $e) {
+            Log::error("FakesCommand {$e->getMessage()}");
         }
     }
 
-    public static function renderBtn(Collection $fakes): array
+    public static function renderBtn(Paginator $fakes, $commandName = 'fakes'): array
     {
-        $buttons = [];
         $currency = setting('currency');
+        $buttons = [];
+        if ($fakes->currentPage() !== 1) {
+            $prev = $fakes->currentPage() - 1;
+            $buttons[] = [["text" => BotController::getConfig('btns.previous') ?? '', "callback_data" => "/$commandName?page=$prev"]];
+        }
+
         foreach ($fakes as $fake) {
-            $categoryName = ucfirst($fake->category->name);
-            $title = Str::limit($fake->title, 10);
-            $price = Str::limit($fake->price,10);
-            $buttons[] = [["text" => "$categoryName - $price{$currency} - $title", "callback_data" => "/getFake $fake->track_id"]];
+            $categoryName = ucfirst($fake->category->name ?? 'Undefined');
+            $title = Str::limit($fake->title, 50);
+            $price = Str::limit($fake->price, 10);
+            $buttons[] = [["text" => "$categoryName - $price $currency - $title", "callback_data" => "/getFake $fake->track_id"]];
+        }
+        if ($fakes->hasMorePages()) {
+            $next = $fakes->currentPage() + 1;
+            $buttons[] = [["text" => BotController::getConfig('btns.next') ?? '', "callback_data" => "/$commandName?page=$next"]];
         }
         return $buttons;
+    }
+
+
+    public function setModel(): Collection
+    {
+        return $this->getUser()->fakes()->limit(2)->get();
     }
 }

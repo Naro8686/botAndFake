@@ -6,12 +6,13 @@ use App\Exceptions\TelegramUserPermissionException;
 use App\Http\Controllers\Telegram\BotController;
 use App\Models\TelegramUser;
 use App\Telegram\Dialogs\Dialogs;
+use Exception;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
+use Log;
 use Telegram\Bot\Api;
 use Telegram\Bot\Commands\Command;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Update;
 
 /**
@@ -29,6 +30,10 @@ abstract class BaseCommand extends Command
     protected $user;
 
     protected $permissionName = null;
+    /**
+     * @var bool
+     */
+    public $hasPagination = false;
 
 
     /**
@@ -40,7 +45,6 @@ abstract class BaseCommand extends Command
         $this->user = $user;
         $this->dialogs = $dialogs;
     }
-
 
     /**
      * Process Inbound Command.
@@ -65,6 +69,20 @@ abstract class BaseCommand extends Command
                 throw new TelegramUserPermissionException($user, "❌️️ <b><i>Доступ запрещен!</i></b>", 401);
             }
         }
+
+        try {
+            if ($update->isType('callback_query')) {
+                $query = $update->callbackQuery->data;
+                $str = str_replace("/$this->name?", "", $query);
+                parse_str($str, $output);
+                if ($this->hasPagination = !empty($output)) request()->merge([
+                    'page' => $output['page'] ?? 1
+                ]);
+            }
+        } catch (Exception $exception) {
+            Log::error("BaseCommand::make {$exception->getMessage()}");
+        }
+
         return call_user_func_array([$this, 'handle'], array_values($this->getArguments()));
     }
 
@@ -109,11 +127,12 @@ abstract class BaseCommand extends Command
 
     /**
      * @param string|null $field
-     * @return Repository|Application|Collection|mixed
+     * @param null $default
+     * @return Repository|Application|Collection|mixed|null
      */
-    public function getConfig(string $field = null)
+    public function getConfig(string $field = null, $default = null)
     {
-        return BotController::getConfig($field);
+        return BotController::getConfig($field) ?? $default;
     }
 
     /**

@@ -22,11 +22,7 @@ class DeleteAllFakesDialog extends Dialog
                 $btns = $this->getConfig('btns');
                 $text = "❗️ <b>Объявления нет</b>";
                 $keyboard = Keyboard::make([
-                    "keyboard" => [
-                        [
-                            ["text" => $btns->get('start') ?? ''],
-                        ]
-                    ],
+                    "keyboard" => [[["text" => $btns->get('start') ?? '']]],
                     "resize_keyboard" => true,
                     "one_time_keyboard" => false,
                 ]);
@@ -34,12 +30,7 @@ class DeleteAllFakesDialog extends Dialog
             } else {
                 $text = "<b>Вы уверены ❔</b>";
                 $keyboard = Keyboard::make([
-                    "keyboard" => [
-                        [
-                            ["text" => "да"],
-                            ["text" => "нет"],
-                        ]
-                    ],
+                    "keyboard" => [[["text" => "да"], ["text" => "нет"]]],
                     "resize_keyboard" => true,
                     "one_time_keyboard" => false,
                 ]);
@@ -82,7 +73,8 @@ class DeleteAllFakesDialog extends Dialog
                 "parse_mode" => "html",
                 "reply_markup" => $keyboard
             ]);
-
+            $this->end();
+            $this->telegram->triggerCommand('start',$this->update);
         } catch (TelegramSDKException $e) {
             Log::error($e->getMessage());
         }
