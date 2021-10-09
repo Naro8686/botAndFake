@@ -18,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/';
 
     /**
      * The controller namespace for the application.
@@ -36,11 +36,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $domain = config('app.domain', 'localhost');
-
         $this->configureRateLimiting();
 
-        $this->routes(function () use ($domain) {
+        $this->routes(function () {
+            $domain = config('app.domain', 'localhost');
 
             Route::middleware('web')
                 ->domain($domain)
@@ -49,20 +48,16 @@ class RouteServiceProvider extends ServiceProvider
 
             $this->mapSubdomainRoutes($domain);
 
-            Route::prefix('api')
-                //->domain($domain)
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
-
             Route::prefix('telegram')
-                //->domain($domain)
                 ->name('telegram.')
                 ->middleware('telegram')
                 ->namespace("$this->namespace\\Telegram")
                 ->group(base_path('routes/telegram.php'));
 
-
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
         });
     }
 
