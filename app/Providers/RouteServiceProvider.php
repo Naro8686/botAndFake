@@ -45,7 +45,7 @@ class RouteServiceProvider extends ServiceProvider
             $this->mapSubdomainRoutes($domain);
 
             Route::prefix('api')
-                ->domain($domain)
+                //->domain($domain)
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
@@ -58,7 +58,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/telegram.php'));
 
             Route::middleware('web')
-                ->domain($domain)
+                //->domain($domain)
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
