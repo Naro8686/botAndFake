@@ -35,14 +35,32 @@ class BotInfoCommand extends BaseCommand
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $telegram = $this->getTelegram();
         try {
-            $domain = parse_url($telegram->getWebhookInfo()->url, PHP_URL_HOST);
-        } catch (TelegramSDKException | \Exception $e) {
-            $domain = "Не получилось узнать домен !";
-        }
+            $text = [];
+            $getWebhookInfo = $telegram->getWebhookInfo();
+            $getMe = $telegram->getMe();
+            $text[] = "-------------------";
+            $text[] = "🧞‍♂️ <b>Bot</b>";
+            $text[] = "-------------------";
+            $text[] = "<i>ID:</i> <b>{$getMe->id}</b>";
+            $text[] = "<i>Name:</i> <b>{$getMe->firstName}</b>";
+            $text[] = "<i>Username:</i> <b>@{$getMe->username}</b>";
 
-        $this->replyWithMessage([
-            "text" => "️🌐 <b>$domain</b>",
-            "parse_mode" => "html",
-        ]);
+            $text[] = "";
+
+            $text[] = "-------------------";
+            $text[] = "🌐 <b>WebHook</b>";
+            $text[] = "-------------------";
+            $text[] = "<i>IP:</i> <b>{$getWebhookInfo->ip_address}</b>";
+            $text[] = "<i>Host:</i> <b>".parse_url($getWebhookInfo->url, PHP_URL_HOST)."</b>";
+            $this->replyWithMessage([
+                "text" => makeText($text),
+                "parse_mode" => "html",
+            ]);
+        } catch (TelegramSDKException | \Exception $e) {
+            $this->replyWithMessage([
+                "text" => "Не получилось собрать данные!",
+                "parse_mode" => "html",
+            ]);
+        }
     }
 }
