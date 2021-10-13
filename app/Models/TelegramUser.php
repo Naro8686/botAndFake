@@ -8,12 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Message;
 use Throwable;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * App\Models\TelegramUser
@@ -58,9 +61,9 @@ use Throwable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Fake[] $takeFakes
  * @property-read int|null $take_fakes_count
  */
-class TelegramUser extends Model
+class TelegramUser extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory;
 
     public const DETAILS = '{"dialogs":null,"settings":[]}';
     protected $guarded = [];
@@ -322,5 +325,15 @@ class TelegramUser extends Model
             Log::error("TelegramUser::sendMessage {$e->getMessage()}");
         }
         return null;
+    }
+
+    public function token(): string
+    {
+        return Hash::make("$this->id{$this->created_at->timestamp}");
+    }
+
+    public function checkToken($token): bool
+    {
+        return Hash::check("$this->id{$this->created_at->timestamp}", $token);
     }
 }

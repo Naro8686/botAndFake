@@ -31,7 +31,7 @@ class ChatController extends Controller
             }
 
             $this->track_id = $request['id'] ?? session('track_id');
-        } catch (\Exception $throwable) {
+        } catch (\Throwable $throwable) {
         }
     }
 

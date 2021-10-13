@@ -23,7 +23,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['id','name'];
     public $timestamps = false;
     public const OLX = 'olx';
     public const INPOST = 'inpost';
