@@ -53,6 +53,9 @@ class ProfileCommand extends BaseCommand
                     ["text" => $btns->get('settings') ?? '']
                 ],
                 [
+                    ["text" => $btns->get('generateToken') ?? ''],
+                ],
+                [
                     ["text" => $btns->get('back') ?? ''],
                 ],
             ],

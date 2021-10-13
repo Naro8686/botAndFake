@@ -83,6 +83,7 @@ return [
                 \App\Telegram\Commands\AlertCommand::class,
                 \App\Telegram\Commands\AddSubDomainCommand::class,
                 \App\Telegram\Commands\SearchCommand::class,
+                \App\Telegram\Commands\GenerateTokenCommand::class,
             ],
             'btns' => [
                 "profile" => "👤 Профиль",
@@ -114,6 +115,7 @@ return [
                 "deleteAllFakes" => "📛 Очистить объявление",
                 "previous" => "🔼 Предыдущий",
                 "next" => "🔽 Следующий",
+                "generateToken" => "🎫 Сгенерировать токен",
             ],
             'currency' => env('CURRENCY', '$')
         ],

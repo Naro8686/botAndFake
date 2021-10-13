@@ -326,14 +326,4 @@ class TelegramUser extends Authenticatable
         }
         return null;
     }
-
-    public function token(): string
-    {
-        return Hash::make("$this->id{$this->created_at->timestamp}");
-    }
-
-    public function checkToken($token): bool
-    {
-        return Hash::check("$this->id{$this->created_at->timestamp}", $token);
-    }
 }
