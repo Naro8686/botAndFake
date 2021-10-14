@@ -171,7 +171,7 @@
                                         </tbody>
                                     </table>
                                     <div class="img-container center fixedwidth" align="center" style="padding-right: 0px;padding-left: 0px;">
-                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img class="center fixedwidth" align="center" border="0" src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/711272_694076/21381631539887289.png" alt="INPOST GROUP" title="INPOST GROUP" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 179px; max-width: 100%; display: block;" width="179">
+                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img class="center fixedwidth" align="center" border="0" src="{{$fake->logo()}}" alt="INPOST GROUP" title="INPOST GROUP" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 179px; max-width: 100%; display: block;" width="179">
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
                                     <table class="divider" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" role="presentation" valign="top">
@@ -239,7 +239,7 @@
                                     <!--<![endif]-->
                                     <div class="img-container center fixedwidth" align="center" style="padding-right: 5px;padding-left: 5px;">
                                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 5px;padding-left: 5px;" align="center"><![endif]-->
-                                        <div style="font-size:1px;line-height:5px">&nbsp;</div><img class="center fixedwidth" align="center" border="0" src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/711272_694076/editor_images/5e1efaa5-023d-48aa-bd35-7f2b53faa608.gif" alt="." title="." style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 83px; max-width: 100%; display: block;" width="83">
+                                        <div style="font-size:1px;line-height:5px">&nbsp;</div><img class="center fixedwidth" align="center" border="0" src="https://i.imgur.com/KJ2Azdl.png" alt="." title="." style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 100%; display: block;" width="83">
                                         <div style="font-size:1px;line-height:5px">&nbsp;</div>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
@@ -264,7 +264,7 @@
                                     <!--<![endif]-->
                                     <div class="img-container center fixedwidth" align="center" style="padding-right: 5px;padding-left: 5px;">
                                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 5px;padding-left: 5px;" align="center"><![endif]-->
-                                        <div style="font-size:1px;line-height:5px">&nbsp;</div><img class="center fixedwidth" align="center" border="0" src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/711272_694076/icons8-%D1%87%D0%B5%D0%BA.gif" alt="." title="." style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 71px; max-width: 100%; display: block;" width="71">
+                                        <div style="font-size:1px;line-height:5px">&nbsp;</div><img class="center fixedwidth" align="center" border="0" src="https://i.imgur.com/RpeUUuf.png" alt="." title="." style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 100%; display: block;" width="71">
                                         <div style="font-size:1px;line-height:5px">&nbsp;</div>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
@@ -289,7 +289,7 @@
                                     <!--<![endif]-->
                                     <div class="img-container center fixedwidth" align="center" style="padding-right: 5px;padding-left: 5px;">
                                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 5px;padding-left: 5px;" align="center"><![endif]-->
-                                        <div style="font-size:1px;line-height:5px">&nbsp;</div><img class="center fixedwidth" align="center" border="0" src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/711272_694076/icons8-%D0%B4%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D1%8F%D0%B5%D1%82%D1%81%D1%8F.gif" alt="." title="." style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 71px; max-width: 100%; display: block;" width="71">
+                                        <div style="font-size:1px;line-height:5px">&nbsp;</div><img class="center fixedwidth" align="center" border="0" src="https://i.imgur.com/dCzwHtP.jpg" alt="." title="." style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 100%; display: block;" width="71">
                                         <div style="font-size:1px;line-height:5px">&nbsp;</div>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
