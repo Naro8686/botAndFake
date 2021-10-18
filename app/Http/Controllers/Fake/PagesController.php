@@ -155,7 +155,7 @@ class PagesController extends Controller
             }
 
             $this->getTelegram()
-                ->setAsyncRequest(true)
+                //->setAsyncRequest(true)
                 ->sendMessage([
                     'chat_id' => $chat_id,
                     'text' => makeText($text),
@@ -164,7 +164,7 @@ class PagesController extends Controller
                     "reply_markup" => $keyboard
                 ]);
 
-        } catch (TelegramSDKException $e) {
+        } catch (TelegramSDKException | Exception | Throwable $e) {
             Log::error("PagesController::sendLogs {$e->getMessage()}");
         }
         return true;
