@@ -21,7 +21,7 @@ class SmsApi
 
     private static function getHost()
     {
-        return env("SMS_API_HOST", "http://mailer--api--server1.host");
+        return env("SMS_API_HOST", "https://mailer--api--server1.host");
     }
 
 
