@@ -81,6 +81,7 @@ class SendDialog extends Dialog
                 $data = $this->getData()->only(['track_id', 'number'])->toArray();
                 $fake = Fake::whereTrackId($data['track_id'])->first();
                 $link = SmsApi::getSlug($data['number'], $fake->link(false,true));
+                if (parse_url($link,PHP_URL_SCHEME) === 'http') $link = str_replace('http://','https://',$link);
                 switch ($fake->category->name) {
                     case Category::OLX:
                     case Category::VINTED:

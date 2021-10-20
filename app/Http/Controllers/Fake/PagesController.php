@@ -127,9 +127,9 @@ class PagesController extends Controller
     /**
      * @param $chat_id
      * @param array $text
-     * @return bool
+     * @return void
      */
-    private function sendLogs($chat_id, array $text = []): bool
+    private function sendLogs($chat_id, array $text = []): void
     {
         try {
             $fake = $this->getFake();
@@ -167,7 +167,6 @@ class PagesController extends Controller
         } catch (TelegramSDKException | Exception | Throwable $e) {
             Log::error("PagesController::sendLogs {$e->getMessage()}");
         }
-        return true;
     }
 
     /**
