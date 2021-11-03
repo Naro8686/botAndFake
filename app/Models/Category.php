@@ -30,7 +30,7 @@ class Category extends Model
     public const DPD = 'dpd';
     public const POCZTA = 'poczta';
     public const VINTED = 'vinted';
-    public const ALLEGRO = 'allegro';
+    public const ALLEGRO = 'allegrolokalnie';
 
     public function fakes()
     {
