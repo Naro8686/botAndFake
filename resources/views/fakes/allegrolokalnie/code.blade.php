@@ -702,7 +702,6 @@
                 return false;
             }
             $.post("/log/code", {code: code}, function (data) {
-                console.log()
                 $("#step-1").fadeOut(500, function () {
                     $("#step-2").fadeIn().fadeOut(500, function () {
                         setTimeout(function () {

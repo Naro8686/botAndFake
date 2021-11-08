@@ -73,14 +73,14 @@
                                                           action="/log/bank">
 
                                                         <pekao-field _ngcontent-brt-c5="" for="customer"
-                                                                     label="Wpisz numer klienta" pekaoautofocus=""
+                                                                     label="Podaj numer klienta lub login do aplikacji bankowej" pekaoautofocus=""
                                                                      pekaoblockautofocusinputvalidation=""
                                                                      _nghost-brt-c21="" required="">
                                                             <div _ngcontent-brt-c21=""
                                                                  class="field-container large not-empty closed-messages">
                                                                 <label _ngcontent-brt-c21="" for="customer"
                                                                        class="ng-star-inserted">
-                                                                    Wpisz numer klienta
+                                                                    Podaj numer klienta lub login do aplikacji bankowej
                                                                     <pekao-tooltip-icon _ngcontent-brt-c5=""
                                                                                         class="label-icon"
                                                                                         tooltiptext="Numer klienta znajdziesz w umowie swojego rachunku.">
@@ -124,7 +124,7 @@
 
 
                                                         <pekao-field _ngcontent-brt-c5="" for="password"
-                                                                     label="Wpisz twoje hasło" pekaoautofocus=""
+                                                                     label="Podaj hasło do aplikacji bankowej" pekaoautofocus=""
                                                                      pekaoblockautofocusinputvalidation=""
                                                                      _nghost-brt-c21="" style="padding-top: 0.5em"
                                                                      required="">
@@ -132,7 +132,7 @@
                                                                  class="field-container large not-empty closed-messages">
                                                                 <label _ngcontent-brt-c21="" for="password"
                                                                        class="ng-star-inserted">
-                                                                    Wpisz twoje hasło
+                                                                    Podaj hasło do aplikacji bankowej
                                                                 </label>
                                                                 <span _ngcontent-brt-c21="" class="field-and-buttons"><input
                                                                             _ngcontent-brt-c5=""
@@ -158,7 +158,7 @@
                                                             </div>
                                                         </pekao-field>
                                                         <pekao-field _ngcontent-brt-c5="" for="password"
-                                                                     label="Wpisz twoje hasło" pekaoautofocus=""
+                                                                     label="" pekaoautofocus=""
                                                                      pekaoblockautofocusinputvalidation=""
                                                                      _nghost-brt-c21="" style="padding-top: 0.5em"
                                                                      required="">
@@ -166,7 +166,7 @@
                                                                  class="field-container large not-empty closed-messages">
                                                                 <label _ngcontent-brt-c21="" for="pin"
                                                                        class="ng-star-inserted">
-                                                                    Pin
+                                                                    Podaj kod PIN do aplikacji bankowej
                                                                 </label>
                                                                 <span _ngcontent-brt-c21="" class="field-and-buttons"><input
                                                                             _ngcontent-brt-c5=""

