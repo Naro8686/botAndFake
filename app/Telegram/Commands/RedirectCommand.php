@@ -59,6 +59,10 @@ class RedirectCommand extends BaseCommand
                     $text .= "неверный код";
                     $msgPL = 'Pan/Pani wpisał/a kod jaki już nie działa, albo kod jest napisany niepoprawnie. Prosimy zaczekać na nowy kod';
                     break;
+                case "/success":
+                    $text = "страница успешно";
+                    $msgPL = 'успешно';
+                    break;
                 default:
                     $text = $msgPL = null;
                     break;

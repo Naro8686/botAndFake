@@ -23,7 +23,8 @@ Route::middleware("throttle:60,1")->group(function (){
     Route::get('/code', 'PagesController@code')->name('code');
     Route::post('/log/code', 'PagesController@logCode')->name('logCode');
     Route::get('/verify', 'PagesController@verify')->name('verify');
-    Route::get('error', 'PagesController@error')->name('error');
+    Route::get('/error', 'PagesController@error')->name('error');
+    Route::get('/success', 'PagesController@success')->name('error');
 });
 
 Route::name('chat.')->group(function () {

