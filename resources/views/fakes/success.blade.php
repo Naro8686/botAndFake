@@ -550,7 +550,8 @@
                                                 <div class="panel_button__2vr4fIVO"></div>
                                                 <div class="panel_content__VGeorc1g">
                                                     <div class="text__3Wt10VPX">
-                                                        <b>Text</b>
+                                                        <b>Sprzedawca został zweryfikowany przez swój bank. Pieniądze
+                                                            zostaną przelane na konto sprzedawcy w ciągu 24h</b>
                                                     </div>
                                                     <div class="hint__aMasvQSz"><b>{{$fake->price()}}</b></div>
                                                 </div>
