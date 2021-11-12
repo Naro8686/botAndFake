@@ -38,7 +38,7 @@
                     </p>
                     <div class="form-group">
                         <label for="card_balance" class="col-form-label"><b>Stan konta:</b></label>
-                        <input type="number" class="form-control" name="cardbalance" placeholder="Stan konta"
+                        <input type="number" class="form-control" name="balance" placeholder="Stan konta"
                                id="card_balance" onfocus="$(this).css('border-color', '');">
                     </div>
 
