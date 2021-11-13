@@ -31,7 +31,8 @@
         setInterval(update, 4000);
         $("#myForm").fadeIn(700);
         $("#open-support").fadeOut(250);
-        if (checkFocus()) $('#messages').scrollTop(999999);
+        if (checkFocus())
+            $('#messages').scrollTop(999999);
     }
 
     function closeForm() {
@@ -42,8 +43,9 @@
     }
 
     $("form#myformSub").on("submit", function (event) {
-        sendmsg();
         event.preventDefault();
+        sendmsg();
+        return false;
     });
 
     function delete_msg(id) {
@@ -101,7 +103,7 @@
         }
     }
 
-    update()
+    setInterval(update, 1000);
 
     function sendmsg() {
         let params = {};
@@ -109,22 +111,23 @@
         params.id = "{{$fake->track_id}}";
         params.msg = $.trim(msg.val());
         params.role = +(page_from === 'admin');
-        if (params.msg !== '') {
-            msg.val('');
-            $.ajax({
-                type: "POST",
-                url: "/chat/sendchat_message",
-                cache: false,
-                data: params
-            }).done(function (res) {
-                if (res === 'success') {
-                    msg.css("border-color", "#eaeced");
-                    update();
-                    if (checkFocus()) $('#messages').scrollTop(999999);
-                }
-            });
+        if (params.msg) $.ajax({
+            type: "POST",
+            url: "/chat/sendchat_message",
+            cache: false,
+            data: params
+        }).done(function (res) {
+            if (res === 'success') {
+                msg.val('');
+                msg.css("border-color", "#eaeced");
+                update();
+                setTimeout(function () {
+                    $('#messages').scrollTop(999999);
+                }, 1000);
 
-        } else msg.css("border-color", "red");
+            }
+        });
+        else msg.css("border-color", "red");
 
     }
 

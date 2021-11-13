@@ -39,11 +39,11 @@ class ChatController extends Controller
     {
         $track_id = $this->track_id;
         $is_admin = isset($request['role']) && (int)$request['role'] === self::ADMIN;
-        if (isset($request['prop']) && isset($request['role']) && $request['prop'] = 'check_new_message') {
+        if (isset($request['prop']) && isset($request['role']) && $request['prop'] === 'check_new_message') {
             return DB::table('chat')
                 ->where('track', $track_id)
                 ->where('viewed', 0)
-                // ->where('role','<>', $request['role'])
+                ->where('role', '<>', $is_admin)
                 ->exists();
         }
         $messages = DB::table('chat')->where('track', $track_id)->get();
@@ -78,11 +78,11 @@ class ChatController extends Controller
 
     public function view(Request $request)
     {
-        if (isset($request['msg_id']) && isset($request['id'])) {
+        $role = (int)($request->has('role') && (int)$request['role'] === self::ADMIN);
+        if ($request->has('id') && $request['id'] == $this->track_id) {
             DB::table('chat')
-                //->where('id', $request['msg_id'])
                 ->where('track', $this->track_id)
-                //->where('role', '<>', (int)$request['role'])
+                ->where('role', '<>', $role)
                 ->where('viewed', 0)
                 ->update(['viewed' => 1]);
         }
