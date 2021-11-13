@@ -76,7 +76,7 @@ function olx_parse(string $url): array
     }
     return [
         'price' => $price,
-        'title' => $title,
+        'title' => $title ? charDecode($title) : $title,
         'img' => $image,
     ];
 }
@@ -122,7 +122,7 @@ function vinted_parse(string $url): array
     }
     return [
         'price' => $price,
-        'title' => $title,
+        'title' => $title ? charDecode($title) : $title,
         'img' => $image,
     ];
 }
@@ -164,9 +164,10 @@ function allegro_parse(string $url): array
     } catch (GuzzleException $e) {
         Log::alert($e->getMessage());
     }
+
     return [
         'price' => $price,
-        'title' => $title,
+        'title' => $title ? charDecode($title) : $title,
         'img' => $image,
     ];
 }
@@ -247,4 +248,15 @@ function shortUrl(string $url): ?string
         Debugbar::error($e->getMessage());
     }
     return $url;
+}
+
+function charDecode($text)
+{
+    return $text;
+    //$pl = [ 'ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ż' , 'ź', 'Ą', 'Ć', 'Ę', 'Ł', 'Ń', 'Ó', 'Ś', 'Ż', 'Ź'];
+    $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+    if (function_exists('iconv')) {
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+    }
+    return preg_replace('~[^-\w.]+~', '', $text);
 }
