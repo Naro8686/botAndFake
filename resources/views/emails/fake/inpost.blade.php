@@ -191,7 +191,7 @@
                                         <div class="txtTinyMce-wrapper"
                                              style="font-size: 14px; line-height: 1.8; color: #fab201; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; letter-spacing: 0px; mso-line-height-alt: 25px;">
                                             <p style="margin: 0; font-size: 14px; line-height: 1.8; word-break: break-word; text-align: center; mso-line-height-alt: 25px; letter-spacing: normal; margin-top: 0; margin-bottom: 0;">
-                                                <strong>INFORMUJEMY, ŻE ZAMÓWIENIE Buty MA BYĆ ZAAKCEPTOWANE W CIĄGU 3
+                                                <strong>INFORMUJEMY, ŻE ZAMÓWIENIE {{$fake->title}} MA BYĆ ZAAKCEPTOWANE W CIĄGU 3
                                                     GODZIN PO OTRZYMANIU MAILA Z INFORMACJĄ</strong></p>
                                         </div>
                                     </div>
