@@ -85,6 +85,7 @@ return [
                 \App\Telegram\Commands\SearchCommand::class,
                 \App\Telegram\Commands\GenerateTokenCommand::class,
                 \App\Telegram\Commands\BotInfoCommand::class,
+                \App\Telegram\Commands\SetMailCommand::class,
             ],
             'btns' => [
                 "profile" => "👤 Профиль",

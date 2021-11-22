@@ -147,6 +147,22 @@ return [
             [
                 'type' => 'text',
                 'data' => 'string',
+                'name' => 'vinted_email',
+                'label' => 'Vinted',
+                'rules' => 'required|email',
+                'value' => ''
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'allegrolokalnie_email',
+                'label' => 'Allegrolokalnie',
+                'rules' => 'required|email',
+                'value' => ''
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
                 'name' => 'default_email',
                 'label' => 'Default',
                 'rules' => 'required|email',
