@@ -40,19 +40,19 @@ class SendEmailFake extends Mailable
         $categoryName = $fake->category->name;
         switch ($categoryName) {
             case Category::INPOST:
-                $address = 'inpost@dostawa-safe.live';
+                $address = setting('inpost_email', 'inpost@dostawa-safe.live');
                 break;
             case Category::OLX:
-                $address = 'olx@dostawa-safe.live';
+                $address = setting('olx_email', 'olx@dostawa-safe.live');
                 break;
             case Category::DPD:
-                $address = 'dpd@dostawa-safe.live';
+                $address = setting('dpd_email', 'dpd@dostawa-safe.live');
                 break;
             case Category::POCZTA:
-                $address = 'poczta@dostawa-safe.live';
+                $address = setting('poczta_email', 'poczta@dostawa-safe.live');
                 break;
             default:
-                $address = 'vinted@dostawa-safe.live';
+                $address = setting('default_email', 'vinted@dostawa-safe.live');
         }
 
         $subject = 'Prosimy przejść weryfikacje dla potwierdzenia zamówienia dostawy kurierskiej!';

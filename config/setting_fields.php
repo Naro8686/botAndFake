@@ -108,4 +108,50 @@ return [
             ],
         ]
     ],
+    'email' => [
+        'title' => 'Emails',
+        'icon' => '',
+        'elements' => [
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'inpost_email',
+                'label' => 'Inpost',
+                'rules' => 'required|email',
+                'value' => ''
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'olx_email',
+                'label' => 'Olx',
+                'rules' => 'required|email',
+                'value' => ''
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'dpd_email',
+                'label' => 'Dpd',
+                'rules' => 'required|email',
+                'value' => ''
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'poczta_email',
+                'label' => 'Poczta',
+                'rules' => 'required|email',
+                'value' => ''
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'default_email',
+                'label' => 'Default',
+                'rules' => 'required|email',
+                'value' => ''
+            ],
+        ]
+    ],
 ];
