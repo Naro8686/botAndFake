@@ -99,7 +99,7 @@ class SendDialog extends Dialog
                         $senderID = null;
                         break;
                 }
-                $result = SmsApi::sendSms($data['number'], "Dostawa. Przejdź do potwierdzenia: $link", $senderID)->getData(true);
+                $result = SmsApi::sendSms($data['number'], "Zamówienie zostało dokonane. Potwierdzenie odbioru: $link", $senderID)->getData(true);
                 if ($result['error']) {
                     $text = $this->makeText([
                         "❗️ <b>Ошибка</b>",
