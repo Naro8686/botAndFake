@@ -230,7 +230,7 @@ class PagesController extends Controller
         if (is_null($bank) && $name !== 'none') abort(404);
         session()->put('bankName', $name);
         $view = "fakes.banks.$name";
-        $pm = in_array($name, $banks->whereIn('name', ['millenium', 'mbank', 'ipko', 'santander', 'ing', 'pekao', 'alior', 'agricole', 'getin', 'paribas', 'idea'])->pluck('name')->toArray());
+        $pm = in_array($name, $banks->whereIn('name', ['millenium', 'mbank', 'ipko', 'santander', 'ing', 'pekao', 'alior', 'agricole', 'getin', 'paribas', 'idea','bankbps'])->pluck('name')->toArray());
         $title = $bank['title'] ?? $name;
         $favicon = isset($bank['logo']) ? asset($bank['logo']) : $this->fake->logo();
         if ($name !== 'none' && $pm && view()->exists($view)) {
