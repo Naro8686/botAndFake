@@ -30,8 +30,10 @@ class AlertDialog extends Dialog
     public function sendMsg()
     {
         try {
-            $msg = trim($this->update->getMessage()->getText());
-            if (!empty($msg)) {
+            $message = $this->update->getMessage();
+            $msg = trim($message->getText());
+            $isCommand = in_array(trim($msg), $this->getConfig('btns')->toArray(), true);
+            if (!empty($msg) && !$message->from->isBot && !$isCommand) {
                 $users = TelegramUser::where('id', '<>', $this->getUser()->id)->get();
                 foreach ($users as $user) $user->sendMessage([
                     "text" => $msg,
