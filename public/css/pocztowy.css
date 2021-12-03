@@ -1,0 +1,794 @@
+
+body {
+    font-family: BNPPSans, Tahoma, sans-serif;
+    background-color: #fbfbfb;
+    margin: 0;
+}
+
+@media (max-width: 767px) {
+    body {
+        height: 640px;
+    }
+}
+
+
+/*eliminates default browser style for input[type="text"]*/
+.challenge-processing-zone > input {
+    padding: 0;
+}
+
+/********Branding zone********/
+#branding-zone {
+    width: 100%;
+    height: 81px;
+    background-color: #ffffff;
+    margin: auto;
+    border-bottom: solid 1px #efefef;
+}
+
+@media (max-width: 767px) {
+    #branding-zone {
+        width: 100%;
+        height: 69px;
+        background-color: #ffffff;
+        margin: auto;
+        border-bottom: solid 1px #efefef;
+    }
+}
+
+#issuer-image {
+    float: left;
+    margin-top: 23px;
+    margin-left: 40px;
+    width: 169px;
+}
+
+@media (max-width: 767px) {
+    #issuer-image {
+        margin-top: 19px;
+        margin-left: 16px;
+        width: 155px;
+    }
+}
+
+#payment-system-image {
+    float: right;
+    margin-top: 24px;
+    margin-right: 40px;
+}
+
+@media (max-width: 767px) {
+    #payment-system-image {
+        margin-top: 25px;
+        margin-right: 17px;
+        height: 23px;
+    }
+}
+/********Branding zone - END********/
+
+.challenge-form {
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    margin-top: 71px;
+}
+
+@media (max-width: 767px) {
+    .challenge-form {
+        width: 320px;
+        margin-top: 24px;
+    }
+}
+
+.info-header {
+    font-family: BNPPSans-Bold, Tahoma, sans-serif;
+    font-size: 20px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: normal;
+    color: #2d2926;
+    margin: 0;
+}
+
+.info-text {
+    width: 320px;
+    font-size: 16px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: normal;
+    color: #2d2926;
+}
+
+@media (max-width: 767px) {
+    .info-header, .info-text {
+        width: 288px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+    }
+}
+
+.info-header > p,
+.info-text > p {
+    margin: 24px 0;
+}
+
+@media (max-width: 767px) {
+    .info-header > p,
+    .info-text > p {
+        text-align: center;
+    }
+
+    .info-header .card-lock-mobile > p,
+    .info-text .card-lock-mobile > p {
+        text-align: left !important;
+    }
+}
+
+.info-text p {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+}
+
+.info-text > p > span,
+.info-text .card-lock-mobile > p > span {
+    color: #008754;
+    font-family: BNPPSans, Tahoma, sans-serif;
+}
+
+/********Transaction info********/
+.transaction-info {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    width: 100%;
+    height: 176px;
+}
+
+.with-recurring {
+    height: 275px;
+}
+
+.transaction-info p {
+    margin: 0;
+    color: #2d2926;
+    font-size: 16px;
+    line-height: 21px;
+}
+
+.transaction-field-text {
+    font-family: BNPPSans, Tahoma, sans-serif;
+}
+
+.transaction-info .tx-recurring-info span,
+.transaction-info .tx-recurring-info-mobile span {
+    font-family: BNPPSans, Tahoma, sans-serif;
+}
+
+.tx-recurring-info-mobile {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .with-recurring {
+        height: 242px;
+        margin-bottom: 20px;
+    }
+
+    .tx-recurring-info-mobile {
+        display: block;
+    }
+
+    .tx-recurring-info-mobile p {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .tx-recurring-info {
+        display: none;
+    }
+}
+
+/********Transaction info - END********/
+
+/********Challenge********/
+.question-info {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    width: 320px;
+}
+
+.question-text {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 767px) {
+    .question-info, .question-text {
+        width: 288px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+    }
+}
+
+.mobile {
+    text-align: center;
+}
+
+.mobile-info {
+    font-family: BNPPSans-Bold, Tahoma, sans-serif;
+    font-size: 20px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: normal;
+    color: #2d2926;
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+    .mobile-info {
+        width: 288px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 24px;
+    }
+}
+
+.mobile-text {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+    display: inline-block;
+    width: 320px;
+    margin-bottom: 0;
+    margin-top: 25px;
+    line-height: 21px;
+    height: 42px;
+}
+
+@media (max-width: 767px) {
+    .mobile-text {
+        width: 288px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 23px;
+    }
+}
+
+.challenge-processing-zone input::placeholder {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+    height: 21px;
+    font-size: 16px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: 0;
+    text-align: center;
+    color: #808080;
+}
+
+/* Firefox 19+ */
+.challenge-processing-zone input::-moz-placeholder {
+    line-height: 3;
+}
+
+/* Edge */
+.challenge-processing-zone input::-webkit-input-placeholder {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+    height: 21px;
+    font-size: 16px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: 0;
+    text-align: center;
+    color: #808080;
+}
+
+/* Internet Explorer 10-11 */
+.challenge-processing-zone input:-ms-input-placeholder {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+    height: 21px;
+    font-size: 16px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: 0;
+    text-align: center;
+    color: #808080;
+}
+
+@media (max-width: 767px) {
+    .challenge-processing-zone {
+        text-align: center;
+    }
+}
+
+.challenge-data-entry-text {
+    font-family: BNPPSans, Tahoma, sans-serif;
+    outline: none;
+    height: 46px;
+    width: 318px;
+    border-radius: 2px;
+    border: solid 1px #e5e5e5;
+    background-color: #ffffff;
+    text-align: center;
+    font-size: 20px;
+    line-height: 21px;
+}
+
+@media (max-width: 767px) {
+    .challenge-data-entry-text {
+        width: 286px;
+    }
+}
+
+.question-entry {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+    padding-left: 18px !important;
+    text-align: left;
+    font-size: 16px;
+    width: 300px !important;
+}
+
+@media (max-width: 767px) {
+    .question-entry {
+        width: 268px !important;
+    }
+}
+
+.challenge-data-entry-text.wrong {
+    box-shadow: 0 2px 10px 0 rgba(49, 84, 78, 0.1);
+    height: 45px;
+    border-bottom: 2px solid #d40000;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.text-typed {
+    box-shadow: 0 2px 10px 0 rgba(49, 84, 78, 0.1);
+    border-bottom: solid 2px #0fb777;
+    height: 45px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.wrong-password-warn, .wrong-answer-warn {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+    margin-top: 3px;
+    margin-bottom: 0;
+    height: 17px;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: normal;
+    color: #d40000;
+}
+
+@media (max-width: 767px) {
+    .wrong-password-warn, .wrong-answer-warn {
+        text-align: left;
+        width: 288px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/********Challenge - END********/
+
+/********Response********/
+@media (max-width: 767px) {
+    .response-processing-zone .header {
+        width: 288px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+}
+
+@media (max-width: 767px) {
+    .mobile-align {
+        text-align: left !important;
+    }
+}
+/********Response - END********/
+
+/********Buttons********/
+.buttons {
+    text-align: left;
+    margin-top: 16px;
+}
+
+.buttons-wrapper {
+    width: 320px;
+}
+
+.buttons-question {
+    margin-top: 20px;
+    width: 320px;
+}
+
+@media (max-width: 767px) {
+    .buttons, .buttons-wrapper, .buttons-question {
+        width: 288px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .buttons-wrapper {
+        margin-top: 62px;
+    }
+}
+
+.buttons-mobile {
+    margin-top: 24px;
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    .buttons-mobile {
+        margin-top: 21px;
+    }
+}
+
+.button {
+    font-family: BNPPSans, Tahoma, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: normal;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.button-cancel {
+    width: 152px;
+    height: 46px;
+    padding-top: 5px;
+    border-radius: 2px;
+    border: solid 1px #0fb777;
+    background-color: #ffffff;
+    color: #008754;
+}
+
+@media (max-width: 767px) {
+    .button-cancel {
+        width: 100%;
+        margin-top: 16px;
+    }
+}
+
+.button-accept {
+    display: inline-block;
+    float: right !important;
+    width: 152px;
+    height: 46px;
+    border-radius: 2px;
+    background-color: #0fb777;
+    border: none;
+    color: #ffffff;
+}
+
+@media (max-width: 767px) {
+    .button-accept {
+        width: 100%;
+    }
+
+    .submit-otp {
+        margin-top: -45px;
+    }
+}
+
+.button-mobile-forward {
+    display: inline-block;
+    width: 320px;
+    height: 46px;
+    padding-top: 5px;
+    border-radius: 2px;
+    background-color: #0fb777;
+    border: none;
+    color: #ffffff;
+}
+
+@media (max-width: 767px) {
+    .button-mobile-forward {
+        width: 288px;
+    }
+}
+
+.button-resend-challenge {
+    float: right;
+    border: none;
+    background: none;
+    margin-top: 16px;
+    font-family: BNPPSans, Tahoma, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: normal;
+    text-align: right;
+    color: #008754;
+    padding: 0;
+    cursor: pointer;
+}
+
+.button-resend-challenge:disabled {
+    color: rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 767px) {
+    .button-resend-challenge {
+        position: absolute;
+        width: 144px;
+        top: 595px;
+        margin-top: 0;
+    }
+}
+
+.button-back-to-merchant, .button-ok {
+    width: 320px;
+    height: 46px;
+    padding-top: 5px;
+    border-radius: 2px;
+    background-color: #0fb777;
+    border: none;
+    color: #ffffff;
+}
+
+@media (max-width: 767px) {
+    .button-back-to-merchant, .button-ok {
+        width: 288px;
+    }
+}
+
+.dialog-button-accept {
+    display: inline-block;
+    float: right !important;
+    width: 230px;
+    height: 46px;
+    padding-top: 5px;
+    border-radius: 2px;
+    background-color: #0fb777;
+    border: none;
+    color: #ffffff;
+}
+
+@media (max-width: 767px) {
+    .dialog-button-accept {
+        margin-top: -108px;
+        width: 288px;
+    }
+}
+
+.dialog-button-cancel {
+    width: 130px;
+    height: 46px;
+    padding-top: 5px;
+    border-radius: 2px;
+    border: solid 1px #0fb777;
+    background-color: #ffffff;
+    color: #008754;
+}
+
+@media (max-width: 767px) {
+    .dialog-button-cancel {
+        margin-top: 62px;
+        width: 288px;
+    }
+}
+/********Buttons - END********/
+
+/********Footer********/
+.footer {
+    margin: 16px auto 0 auto;
+    width: 400px;
+    background-color: #fbfbfb;
+    color: #ffffff;
+}
+
+@media (max-width: 767px) {
+    .footer {
+        margin: 0 auto;
+        width: 288px;
+    }
+}
+
+.help-link {
+    text-decoration: none;
+    float: left;
+    font-family: BNPPSans, Tahoma, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: normal;
+    color: #008754;
+}
+
+@media (max-width: 767px) {
+    .help-link {
+        position: absolute;
+        top: 595px;
+    }
+}
+/********Footer - END********/
+
+
+/********Dialogs********/
+.dialog {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 767px) {
+    .dialog {
+        top: 70px;
+        background-color: #f8f8f8;
+    }
+}
+
+.dialog-content {
+    margin: auto;
+    padding: 26px 30px 30px 30px;
+    width: 376px;
+    border-radius: 2px;
+    box-shadow: 0 5px 6px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+@media (max-width: 767px) {
+    .dialog-content {
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+        background-color: #f8f8f8;
+    }
+}
+
+#help-dialog .dialog-text span {
+    font-family: BNPPSans, Tahoma, sans-serif;
+}
+
+.help-dialog-content {
+    margin-top: 110px;
+    height: 484px;
+}
+
+@media (max-width: 767px) {
+    .help-dialog-content {
+        margin-top: 24px;
+        height: 755px;
+        width: 288px;
+    }
+}
+
+.confirm-dialog-content {
+    margin-top: 264px;
+    height: 176px;
+}
+
+@media (max-width: 767px) {
+    .confirm-dialog-content {
+        margin-top: 24px;
+        width: 288px;
+    }
+}
+
+.dialog-header {
+    height: 24px;
+    float: left;
+    font-family: BNPPSans-Bold, Tahoma, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: normal;
+    color: #2d2926;
+}
+
+.icon-content {
+    height: 18px;
+}
+
+.dialog-text {
+    font-family: BNPPSans-Light, Tahoma, sans-serif;
+    margin-top: 19px;
+    font-size: 16px;
+    line-height: 21px;
+    text-align: left
+}
+
+.dialog-text p {
+    margin: 0;
+}
+
+.confirm-info {
+    margin-bottom: 24px;
+}
+
+.confirm-info > span {
+    font-family: BNPPSans, Tahoma, sans-serif;
+}
+/********Dialogs - END********/
+
+/********Icons********/
+.close-icon {
+    width: 18px;
+    float: right;
+    cursor: pointer;
+}
+
+@media (max-width: 767px) {
+    .close-icon {
+        display: none;
+    }
+}
+
+.close-help-dialog-mobile {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .close-help-dialog-mobile {
+        display: block;
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
+}
+
+.success-icon {
+    height: 64px;
+    margin-top: 16px;
+}
+
+@media (max-width: 767px) {
+    .success-icon {
+        margin-top: 8px;
+    }
+}
+
+.error-icon {
+    height: 52px;
+    margin-top: 28px;
+}
+
+@media (max-width: 767px) {
+    .error-icon {
+        height: 52px;
+        margin-top: 20px;
+    }
+}
+
+.cancel-icon {
+    height: 60px;
+    margin-top: 16px;
+}
+/********Icons - END********/
+
+.hidden-element {
+    display: none;
+}

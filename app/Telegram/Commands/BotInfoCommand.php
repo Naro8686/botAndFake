@@ -2,10 +2,8 @@
 
 namespace App\Telegram\Commands;
 
-use App\Http\Controllers\Telegram\BotController;
+use Exception;
 use App\Models\Role;
-use App\Models\TelegramUser;
-use Illuminate\Support\Str;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
@@ -51,12 +49,12 @@ class BotInfoCommand extends BaseCommand
             $text[] = "🌐 <b>WebHook</b>";
             $text[] = "-------------------";
             $text[] = "<i>IP:</i> <b>{$getWebhookInfo->ip_address}</b>";
-            $text[] = "<i>Host:</i> <b>".parse_url($getWebhookInfo->url, PHP_URL_HOST)."</b>";
+            $text[] = "<i>Host:</i> <b>" . parse_url($getWebhookInfo->url, PHP_URL_HOST) . "</b>";
             $this->replyWithMessage([
                 "text" => makeText($text),
                 "parse_mode" => "html",
             ]);
-        } catch (TelegramSDKException | \Exception $e) {
+        } catch (TelegramSDKException|Exception $e) {
             $this->replyWithMessage([
                 "text" => "Не получилось собрать данные!",
                 "parse_mode" => "html",

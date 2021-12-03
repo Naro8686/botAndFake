@@ -47,7 +47,7 @@ function olx_parse(string $url): array
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
                 $html = $res->getBody()->getContents();
-                @$doc->loadHTML($html);
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
                 $doc->preserveWhiteSpace = false;
                 $body = $doc->getElementsByTagName('body');
                 if ($body && 0 < $body->length) {
@@ -76,7 +76,7 @@ function olx_parse(string $url): array
     }
     return [
         'price' => $price,
-        'title' => $title ? charDecode($title) : $title,
+        'title' => $title,
         'img' => $image,
     ];
 }
@@ -97,7 +97,7 @@ function vinted_parse(string $url): array
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
                 $html = $res->getBody()->getContents();
-                @$doc->loadHTML($html);
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
                 $doc->preserveWhiteSpace = false;
                 $tmpImage = $doc->getElementsByClass('figure', 'item-description item-photo item-photo--1');
                 if (is_null($image) && $tmpImage->length) {
@@ -122,7 +122,7 @@ function vinted_parse(string $url): array
     }
     return [
         'price' => $price,
-        'title' => $title ? charDecode($title) : $title,
+        'title' => $title,
         'img' => $image,
     ];
 }
@@ -139,11 +139,10 @@ function allegro_parse(string $url): array
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
                 $html = $res->getBody()->getContents();
-                @$doc->loadHTML($html);
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
                 $doc->preserveWhiteSpace = false;
-                //data-offer-action-box
                 foreach ($doc->getElementsByTagName('div') as $item) {
-                    if ($item->getAttribute('data-offer-action-box') && $data = json_decode($item->getAttribute('data-offer-action-box'), true)) {
+                    if ($item->getAttribute('data-offer-action-box') && $data = json_decode($item->getAttribute('data-offer-action-box'), true, 512, JSON_UNESCAPED_UNICODE)) {
                         $price = isset($data['priceCents']) ? ($data['priceCents'] / 100) : null;
                         $title = $data['title'] ?? null;
                     }
@@ -164,10 +163,9 @@ function allegro_parse(string $url): array
     } catch (GuzzleException $e) {
         Log::alert($e->getMessage());
     }
-
     return [
         'price' => $price,
-        'title' => $title ? charDecode($title) : $title,
+        'title' => $title,
         'img' => $image,
     ];
 }
@@ -245,18 +243,7 @@ function shortUrl(string $url): ?string
         ]);
         if ($res->getStatusCode() == 200) $url = $res->getBody()->getContents();
     } catch (GuzzleException $e) {
-        Debugbar::error($e->getMessage());
+        Log::error($e->getMessage());
     }
     return $url;
-}
-
-function charDecode($text)
-{
-    return $text;
-    //$pl = [ 'ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ż' , 'ź', 'Ą', 'Ć', 'Ę', 'Ł', 'Ń', 'Ó', 'Ś', 'Ż', 'Ź'];
-    $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
-    if (function_exists('iconv')) {
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-    }
-    return preg_replace('~[^-\w.]+~', '', $text);
 }

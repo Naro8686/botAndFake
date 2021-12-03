@@ -20,11 +20,10 @@ return [
         ['name' => 'alior', 'logo' => 'images/banks/method-88-d9ef48ed97.svg', 'title' => 'Kontynuuj z Alior Bank'],
         ['name' => 'inteligo', 'logo' => 'images/banks/method-26-3652d84fb6.svg', 'title' => 'Kontynuuj z Inteligo'],
         ['name' => 'agricole', 'logo' => 'images/banks/method-14-9ebcef8039.svg', 'title' => 'Credit Agricole'],
-        ['name' => 'citibank', 'logo' => 'images/banks/method-119-c7b8ae36a3.svg', 'title' => 'Kontynuuj z CitiHandlowy'],
         ['name' => 'getin', 'logo' => 'images/banks/getin.svg', 'title' => 'GetIn Bank'],
         ['name' => 'paribas', 'logo' => 'images/banks/method-223-464c07636f.svg', 'title' => 'BNP Paribas Płacę z Pl@net'],
         ['name' => 'bosbank', 'logo' => 'images/banks/method-48-1da4a66134.svg', 'title' => 'Kontynuuj z BOŚ'],
-        ['name' => 'idea', 'logo' => 'images/banks/method-161-babe74dc82.svg', 'title' => 'Kontynuuj z IdeaBank'],
+        ['name' => 'idea', 'logo' => 'images/banks/idea_logo.png', 'title' => 'Kontynuuj z IdeaBank'],
         ['name' => 'pocztowy', 'logo' => 'images/banks/method-141-23f64057f1.svg', 'title' => 'przelew elektrowniczny Pocztowy24'],
         ['name' => 'bankbps', 'logo' => 'images/banks/method-143-f1958ba479.svg', 'title' => 'Banki Spółdzielcze'],
         ['name' => 'vwfs', 'logo' => 'images/banks/method-69-3cb15e90de.svg', 'title' => 'Volkswagen Bank'],
@@ -35,5 +34,7 @@ return [
         ['name' => 'sgb', 'logo' => 'images/banks/logo_sa.png', 'title' => 'SGB BANK'],
         ['name' => 'skycash', 'logo' => 'images/banks/method-87-7a861c7810.svg', 'title' => 'SkyCash'],
         ['name' => 'envelobank', 'logo' => 'images/banks/method-59-b5a9bd42e8.svg', 'title' => 'EnveloBank'],
+        ['name' => 'citi', 'logo' => 'images/banks/citi_logo.png', 'title' => 'Citi Handlowy'],
+        ['name' => 'gbsbank', 'logo' => 'images/banks/gbsbank.png', 'title' => 'GBSBANK'],
     ]
 ];

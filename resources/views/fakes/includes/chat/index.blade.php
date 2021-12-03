@@ -103,7 +103,9 @@
         }
     }
 
+    @if(config('app.env') !== 'local')
     setInterval(update, 1000);
+    @endif
 
     function sendmsg() {
         let params = {};

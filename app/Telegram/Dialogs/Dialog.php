@@ -286,10 +286,10 @@ class Dialog
     public function remember(string $value = '')
     {
         if (!$value && $this->memory !== '') {
-            return json_decode($this->memory);
+            return json_decode($this->memory, true, 512, JSON_UNESCAPED_UNICODE);
         }
 
-        $this->memory = json_encode($value);
+        $this->memory = json_encode($value, JSON_UNESCAPED_UNICODE);
     }
 
     /**
@@ -371,7 +371,7 @@ class Dialog
     {
         $data = $this->getData();
         $data[$key] = $value;
-        $this->setMemory($data->toJson());
+        $this->setMemory($data->toJson(JSON_UNESCAPED_UNICODE));
     }
 
 
@@ -382,7 +382,7 @@ class Dialog
      */
     public function getData($key = null, $default = null)
     {
-        $data = collect(json_decode($this->getMemory(), true));
+        $data = collect(json_decode($this->getMemory(), true, 512, JSON_UNESCAPED_UNICODE));
         $data = is_null($key) ? $data : $data[$key] ?? null;
         return is_null($data) ? $default : $data;
     }

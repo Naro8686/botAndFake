@@ -20,7 +20,6 @@ use App\Telegram\Commands\HelpCommand;
 use App\Telegram\Commands\RequestCommand;
 use App\Telegram\Commands\StartCommand;
 use Illuminate\Support\Collection;
-use Throwable;
 
 
 class BotController extends Controller
@@ -123,7 +122,7 @@ class BotController extends Controller
             $telegram = self::getTelegram();
             $telegram->removeWebhook();
             $success = $telegram->setWebhook(['url' => url($webhook_url, [], true)]);
-        } catch (TelegramSDKException | Exception $e) {
+        } catch (TelegramSDKException|Exception $e) {
             $msg = $e->getMessage();
         }
         return response()->json(['success' => $success, 'msg' => $msg ?? 'Ok']);
@@ -228,7 +227,7 @@ class BotController extends Controller
             }
         } catch (TelegramUserPermissionException $permissionException) {
             $permissionException->report();
-        } catch (TelegramSDKException | Exception $exception) {
+        } catch (TelegramSDKException|Exception $exception) {
             Log::error(json_encode($request->all()) . PHP_EOL . $exception->getMessage());
         }
         return response()->json(['msg' => 'ok']);

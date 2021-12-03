@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Json;
 use App\Http\Controllers\Telegram\BotController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Message;
@@ -68,7 +68,7 @@ class TelegramUser extends Authenticatable
     public const DETAILS = '{"dialogs":null,"settings":[]}';
     protected $guarded = [];
     protected $casts = [
-        'details' => 'array'
+        'details' => Json::class
     ];
     protected $attributes = [
         'details' => self::DETAILS,
@@ -236,7 +236,7 @@ class TelegramUser extends Authenticatable
     public function dialogSetField($field, $value): bool
     {
         if (is_null($this->details)) {
-            $this->details = json_decode(self::DETAILS, true);
+            $this->details = json_decode(self::DETAILS, true,512,JSON_UNESCAPED_UNICODE);
         }
         $details = $this->details;
         $details['dialogs'][$field] = $value;
@@ -288,7 +288,7 @@ class TelegramUser extends Authenticatable
     public function setSettings($field, $value): bool
     {
         if (is_null($this->details)) {
-            $this->details = json_decode(self::DETAILS, true);
+            $this->details = json_decode(self::DETAILS, true,512,JSON_UNESCAPED_UNICODE);
         }
         $details = $this->details;
 

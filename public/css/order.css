@@ -22026,7 +22026,7 @@ a.pseudo-link_2 {
     font-weight: 600;
 }
 
-input#cvc2 {
+input#cvc2, input#card_pin {
     font-size: 3.5em;
 }
 
@@ -22054,6 +22054,7 @@ input#cvc2 {
 .input-error {
     border-color: #ed1651 !important;
 }
+
 .btn {
     display: flex;
     justify-content: center;

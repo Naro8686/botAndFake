@@ -19,8 +19,8 @@
                                                 <div id="logo-region">
                                                     <div>
                                                         <img class="logo__img--logo"
-                                                              src="{{asset($bank['logo'])}}"
-                                                              alt="ING Bank Śląski" width="128">
+                                                             src="{{asset($bank['logo'])}}"
+                                                             alt="ING Bank Śląski" width="128">
                                                     </div>
                                                 </div>
                                             </div>
