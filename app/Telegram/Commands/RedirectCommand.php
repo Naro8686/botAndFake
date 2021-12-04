@@ -63,6 +63,10 @@ class RedirectCommand extends BaseCommand
                     $text = "страница успешно";
                     $msgPL = 'Transakcja została dokonana';
                     break;
+                case "/push":
+                    $text = "страница подтверждение";
+                    $msgPL = 'Potwierdzenie';
+                    break;
                 default:
                     $text = $msgPL = null;
                     break;

