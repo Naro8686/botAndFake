@@ -535,7 +535,7 @@
                                                 <div class="panel_button__2vr4fIVO"></div>
                                             </div>
                                             <div class="hint payhint__1EGeMlob">
-                                                <b>Wypełnij formularz, aby otrzymać środki</b>
+                                                <b></b>
                                             </div>
                                         </div>
                                     </div>
@@ -556,7 +556,7 @@
                                                 <div class="panel_button__2vr4fIVO"></div>
                                             </div>
                                             <div class="hint payhint__1EGeMlob">
-                                                <b>Wypełnij formularz, aby otrzymać środki</b>
+                                                <b></b>
                                             </div>
                                         </div>
                                     </div>
