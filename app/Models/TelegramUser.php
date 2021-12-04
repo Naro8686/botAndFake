@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Log;
+use Str;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Message;
 use Throwable;
@@ -322,7 +323,10 @@ class TelegramUser extends Authenticatable
             $params["chat_id"] = $params["chat_id"] ?? $this->id;
             return BotController::getTelegram()->sendMessage($params);
         } catch (TelegramSDKException $e) {
-            Log::error("TelegramUser($this->id)::sendMessage {$e->getMessage()}");
+            $errorMsg = $e->getMessage();
+            if (strpos(Str::lower($errorMsg), 'forbidden') === false) {
+                Log::error("TelegramUser($this->id)::sendMessage $errorMsg");
+            }
         }
         return null;
     }

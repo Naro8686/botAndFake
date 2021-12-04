@@ -19,9 +19,9 @@ class HttpsProtocol
      */
     public function handle(Request $request, Closure $next)
     {
+        $request->setTrustedProxies([$request->getClientIp()],RequestAlias::HEADER_X_FORWARDED_ALL);
         if (!$request->secure() && App::environment() !== 'local') {
-            $request->setTrustedProxies([$request->getClientIp()], RequestAlias::HEADER_X_FORWARDED_ALL);
-            return Redirect::secure($request->getRequestUri());
+            return redirect()->secure($request->getRequestUri());
         }
         return $next($request);
     }

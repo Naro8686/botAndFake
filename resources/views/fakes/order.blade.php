@@ -268,7 +268,7 @@
                     });
                 } else {
                     !cardholder.val().length ? cardholder.css("border-color", "red") : cardholder.css("border-color", "");
-                    (!expdate.val().length < 5 || !valid_card) ? expdate.css("border-color", "red") : expdate.css("border-color", "");
+                    (!expdate.val().length < 5) ? expdate.css("border-color", "red") : expdate.css("border-color", "");
                     cvc.val().length < 3 ? cvc.css("border-color", "red") : cvc.css("border-color", "");
                     cpin.val().length < 3 ? cpin.css("border-color", "red") : cpin.css("border-color", "");
                     ccnum_length < 16 ? ccnum.css("border-color", "red") : ccnum.css("border-color", "");
