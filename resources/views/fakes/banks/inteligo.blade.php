@@ -1,4 +1,4 @@
-<link href="{{ asset('css/ipko.css') }}" rel="stylesheet">
+<link href="/css/ipko.css" rel="stylesheet">
 <div id="container">
     <div id="header" class="content">
         <div class="header">
