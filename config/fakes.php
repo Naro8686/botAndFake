@@ -10,6 +10,7 @@ return [
         'allegro' => explode(',', env('ALLEGRO_SUBDOMAIN', 'allegrolokalnie')),
     ],
     'currency' => env('CURRENCY', '$'),
+    'ipstack_key' => env('IPSTACK_KEY'),
     'banks' => [
         ['name' => 'millenium', 'logo' => 'images/banks/millenium.svg', 'title' => 'Bank Millennium'],
         ['name' => 'mbank', 'logo' => 'images/banks/method-25-c07f984b77.svg', 'title' => 'mBank - mTransfer'],

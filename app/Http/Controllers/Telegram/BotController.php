@@ -61,8 +61,7 @@ class BotController extends Controller
      */
     public static function getConfig($field = null)
     {
-        $botName = env('TELEGRAM_BOT_NAME');
-        $data = is_null($field) ? config("telegram.bots.$botName") : config("telegram.bots.$botName.$field");
+        $data = is_null($field) ? config("telegram.bots.general") : config("telegram.bots.general.$field");
         return is_array($data) ? collect($data) : $data;
     }
 
@@ -115,9 +114,9 @@ class BotController extends Controller
     public function setWebhook(string $key = null): JsonResponse
     {
         $success = false;
-        $env_key = env('TELEGRAM_WEBHOOK_KEY');
+        $webhook_key = self::getConfig('webhook_key');
         try {
-            if (is_null($key) || $key !== $env_key) throw new Exception(is_null($key) ? "Enter the key" : "Key does not match");
+            if (is_null($key) || $key !== $webhook_key) throw new Exception(is_null($key) ? "Enter the key" : "Key does not match");
             $webhook_url = self::getConfig('webhook_url');
             $telegram = self::getTelegram();
             $telegram->removeWebhook();
@@ -135,7 +134,7 @@ class BotController extends Controller
      */
     public function webhook($key, Request $request): JsonResponse
     {
-        if (env("TELEGRAM_WEBHOOK_KEY") !== $key) return response()->json(['msg' => 'Key does not match'], 401);
+        if (self::getConfig('webhook_key') !== $key) return response()->json(['msg' => 'Key does not match'], 401);
         try {
             if ($request->has('callback_query')) {
                 $callback_query = $request->input('callback_query');

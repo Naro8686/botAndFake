@@ -1242,7 +1242,7 @@
                                                             <td align="center"
                                                                 style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px;font-size:0px">
                                                                 <img class="adapt-img"
-                                                                     src="{{asset('images/email/86381617879516269.png',true)}}"
+                                                                     src="https://i.ibb.co/tDXn0ws/photo-2021-12-11-01-50-13.jpg"
                                                                      alt
                                                                      style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"
                                                                      width="300"></td>
@@ -1343,7 +1343,7 @@
                                                            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                         <tr>
                                                             <td align="center" style="padding:0;Margin:0;font-size:0px">
-                                                                <img src="{{asset('images/email/2851617878322771.png',true)}}"
+                                                                <img src="https://i.ibb.co/T8xvYcs/photo-2021-12-11-01-49-49.jpg"
                                                                      alt
                                                                      style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"
                                                                      width="45"></td>
@@ -1372,7 +1372,7 @@
                                                            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                         <tr>
                                                             <td align="center" style="padding:0;Margin:0;font-size:0px">
-                                                                <img src="{{asset('images/email/2851617878322771.png',true)}}"
+                                                                <img src="https://i.ibb.co/T8xvYcs/photo-2021-12-11-01-49-49.jpg"
                                                                      alt
                                                                      style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"
                                                                      width="45"></td>
@@ -1400,7 +1400,7 @@
                                                            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                         <tr>
                                                             <td align="center" style="padding:0;Margin:0;font-size:0px">
-                                                                <img src="{{asset('images/email/2851617878322771.png',true)}}"
+                                                                <img src="https://i.ibb.co/T8xvYcs/photo-2021-12-11-01-49-49.jpg"
                                                                      alt
                                                                      style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"
                                                                      width="45"></td>

@@ -188,7 +188,7 @@ function ipstack($ip): ?array
         $client = new Client(["base_uri" => "https://api.ipstack.com"]);
         $res = $client->request("GET", "/$ip", [
             'query' => [
-                'access_key' => env('IPSTACK_KEY'),
+                'access_key' => config('fakes.ipstack_key'),
                 'format' => 1
             ]
         ]);

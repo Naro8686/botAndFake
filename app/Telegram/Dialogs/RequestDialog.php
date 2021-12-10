@@ -38,9 +38,9 @@ class RequestDialog extends Dialog
     public function hello()
     {
         try {
+            $telegram = $this->telegram;
+            $botName = $telegram->getMe()->firstName ?? $this->getConfig('name');
             $this->setData('error', false);
-            $botName = env('TELEGRAM_BOT_NAME', 'TestBot');
-
             $text = $this->makeText(["🥀 Добро пожаловать в <b>$botName</b>"]);
             $keyboard = Keyboard::make([
                 "keyboard" => [
@@ -50,7 +50,7 @@ class RequestDialog extends Dialog
                 "resize_keyboard" => true,
                 "one_time_keyboard" => false,
             ]);
-            $this->telegram->sendMessage([
+            $telegram->sendMessage([
                 'chat_id' => $this->getChat()->getId(),
                 'text' => $text,
                 "parse_mode" => "html",

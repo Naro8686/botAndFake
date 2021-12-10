@@ -31,11 +31,13 @@ return [
     |             ]
     */
     'bots' => [
-        env('TELEGRAM_BOT_NAME', 'Bot') => [
+        'general' => [
+            'name' => env('TELEGRAM_BOT_NAME'),
             'username' => env('TELEGRAM_BOT_USERNAME'),
             'token' => env('TELEGRAM_BOT_TOKEN'),
             'certificate_path' => env('TELEGRAM_CERTIFICATE_PATH'),
             'webhook_url' => env('TELEGRAM_WEBHOOK_URL'),
+            'webhook_key' => env('TELEGRAM_WEBHOOK_KEY'),
             'groups' => [
                 'admin' => [
                     'id' => env('ADMIN_GROUP'),

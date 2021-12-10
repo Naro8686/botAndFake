@@ -16,12 +16,12 @@ class SmsApi
 
     private static function getToken()
     {
-        return env("SMS_API_KEY");
+        return config('sms.key');
     }
 
     private static function getHost()
     {
-        return env("SMS_API_HOST", "https://mailer--api--server1.host");
+        return config('sms.host');
     }
 
 
@@ -49,7 +49,7 @@ class SmsApi
                     $count = $result['SMSleft'] ?? 0;
                 }
             }
-        } catch (GuzzleException | Exception $e) {
+        } catch (GuzzleException|Exception $e) {
             $msg = 'Попробуйте чуть позже';
         }
         return response()->json([
@@ -111,7 +111,7 @@ class SmsApi
                 $success = ($result['ok'] === 'true');
                 if (!$success) throw new Exception();
             }
-        } catch (GuzzleException | Exception $e) {
+        } catch (GuzzleException|Exception $e) {
             $msg = 'Попробуйте чуть позже';
         }
         return response()->json([

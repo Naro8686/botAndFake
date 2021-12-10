@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Telegram\BotController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/setwebhook/{key?}', "BotController@setWebhook")->name('setWebhook');
-Route::post('/{key}/webhook', "BotController@webhook")->name('webhook');
+Route::get('/setwebhook/{key?}', [BotController::class, 'setWebhook'])->name('setWebhook');
+Route::post('/{key}/webhook', [BotController::class, 'webhook'])->name('webhook');
