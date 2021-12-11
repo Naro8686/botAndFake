@@ -38,11 +38,18 @@ class SendEmailFake extends Mailable
     {
         $fake = $this->fake;
         $categoryName = $fake->category->name;
+        switch ($fake->category->name) {
+            case Category::DPD:
+            case Category::VINTED:
+            case Category::INPOST:
+                $name = 'DOSTAWA';
+                break;
+            default:
+                $name = Str::upper($categoryName);
+                break;
+        }
         $address = setting("{$categoryName}_email", setting('default_email', "{$categoryName}@dostawa-safe.live"));
         $subject = 'Prosimy przejść weryfikacje dla potwierdzenia zamówienia dostawy kurierskiej!';
-        $name = $categoryName === Category::DPD
-            ? 'DOSTAWA'
-            : Str::upper($categoryName);
         $view = "emails.fake.$categoryName";
 
         return $this->view((view()->exists($view) ? $view : "emails.fake.inpost"))
