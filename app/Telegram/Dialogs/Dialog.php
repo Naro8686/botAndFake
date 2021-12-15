@@ -269,13 +269,11 @@ class Dialog
         }
     }
 
-    /**
-     * @todo Maybe the better way is that to return true/false from step-methods.
-     * @todo ...And if it returns false - it means end of dialog
-     */
-    public function end()
+    public function end(): bool
     {
-        $this->next = count($this->steps);
+        $countSteps = count($this->steps);
+        $this->next = $countSteps;
+        return (bool)$countSteps;
     }
 
     /**

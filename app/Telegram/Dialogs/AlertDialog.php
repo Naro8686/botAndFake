@@ -41,10 +41,13 @@ class AlertDialog extends Dialog
                 ]);
 
                 $this->getUser()->sendMessage([
-                    "text" => !empty($users) ? "✅<i>Сообщения успешно отправлено</i>" : "❕ <i>Пользователей не найдено</i>",
+                    "text" => !empty($users)
+                        ? "✅<i>Сообщения успешно отправлено</i>"
+                        : "❕ <i>Пользователей не найдено</i>",
                     "parse_mode" => "html",
                 ]);
                 $this->end();
+                $this->telegram->triggerCommand('start', $this->update);
             } else {
                 $this->telegram->sendMessage([
                     'chat_id' => $this->getChat()->getId(),
@@ -57,5 +60,6 @@ class AlertDialog extends Dialog
         } catch (TelegramSDKException $e) {
             Log::error($e->getMessage());
         }
+        return true;
     }
 }
