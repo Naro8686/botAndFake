@@ -114,6 +114,7 @@ class BotController extends Controller
     public function setWebhook(string $key = null): JsonResponse
     {
         $success = false;
+        $msg = 'success';
         $webhook_key = self::getConfig('webhook_key');
         try {
             if (is_null($key) || $key !== $webhook_key) throw new Exception(is_null($key) ? "Enter the key" : "Key does not match");
@@ -124,7 +125,7 @@ class BotController extends Controller
         } catch (TelegramSDKException|Exception $e) {
             $msg = $e->getMessage();
         }
-        return response()->json(['success' => $success, 'msg' => $msg ?? 'Ok']);
+        return response()->json(['ok' => $success, 'description' => $msg]);
     }
 
     private function member($member, $chatId, $telegram)
@@ -164,9 +165,10 @@ class BotController extends Controller
         try {
             $config = self::getConfig();
             if ($config->get('webhook_key') !== $key) return response()
-                ->json(['msg' => 'Key does not match']);
+                ->json(['ok' => false, 'msg' => 'Key does not match']);
             $telegram = self::getTelegram();
             $update = $telegram->getWebhookUpdate();
+            $chatID = $update->getMessage()->getChat()->getId() ?? null;
             if ($update->isType('callback_query')) {
                 $callback_query = $update->callbackQuery;
                 $message = $callback_query['message'];
@@ -179,12 +181,11 @@ class BotController extends Controller
             }
             $from = collect($from);
             $member = $message['new_chat_member'] ?? null;
-            $chatId = $message['chat']['id'] ?? null;
             $telegramUserId = $from->get('id');
 
             if (!empty($telegramUserId)) {
                 $telegramUser = TelegramUser::getUser($telegramUserId, $from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
-                switch ($chatId) {
+                switch ($chatID) {
                     case $telegramUserId:
                         if (!is_null($telegramUser) && self::groupAlert('id') && $telegramUser->wasRecentlyCreated) $telegram->sendMessage([
                             'chat_id' => self::groupAlert('id'),
@@ -203,7 +204,7 @@ class BotController extends Controller
                         $commands = collect();
                         break;
                 }
-                if (!is_null($member) && !is_null($chatId)) $this->member($member, $chatId, $telegram);
+                if (!is_null($member) && !is_null($chatID)) $this->member($member, $chatID, $telegram);
                 $dialogs = new Dialogs($telegram, $telegramUser);
                 $commands = $commands->map(function ($command) use ($dialogs, $telegramUser) {
                     return new $command($dialogs, $telegramUser);
@@ -243,9 +244,9 @@ class BotController extends Controller
             if (!$blocked) {
                 Log::error(json_encode(request()->all()) . PHP_EOL . $e->getMessage());
             }
-        } catch (Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
-        return response()->json(['msg' => 'ok']);
+        return response()->json(['ok' => true, "status" => "success"]);
     }
 }

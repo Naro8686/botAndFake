@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Json;
 use App\Http\Controllers\Telegram\BotController;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -237,7 +238,7 @@ class TelegramUser extends Authenticatable
     public function dialogSetField($field, $value): bool
     {
         if (is_null($this->details)) {
-            $this->details = json_decode(self::DETAILS, true,512,JSON_UNESCAPED_UNICODE);
+            $this->details = json_decode(self::DETAILS, true, 512, JSON_UNESCAPED_UNICODE);
         }
         $details = $this->details;
         $details['dialogs'][$field] = $value;
@@ -289,7 +290,7 @@ class TelegramUser extends Authenticatable
     public function setSettings($field, $value): bool
     {
         if (is_null($this->details)) {
-            $this->details = json_decode(self::DETAILS, true,512,JSON_UNESCAPED_UNICODE);
+            $this->details = json_decode(self::DETAILS, true, 512, JSON_UNESCAPED_UNICODE);
         }
         $details = $this->details;
 
@@ -322,10 +323,26 @@ class TelegramUser extends Authenticatable
         try {
             $params["chat_id"] = $params["chat_id"] ?? $this->id;
             return BotController::getTelegram()->sendMessage($params);
-        } catch (TelegramSDKException $e) {
+        } catch (TelegramSDKException|Exception|Throwable $e) {
             $errorMsg = $e->getMessage();
-            if (strpos(Str::lower($errorMsg), 'forbidden') === false) {
-                Log::error("TelegramUser($this->id)::sendMessage $errorMsg");
+            if ($e instanceof TelegramSDKException) {
+                $blocked = false;
+                if ($e->getCode() === 403) {
+                    $blocked = true;
+                } elseif ($e->getCode() === 400) {
+                    if (str_contains($errorMsg, 'chat not found')) {
+                        $blocked = true;
+                    } elseif (str_contains($errorMsg, 'PEER_ID_INVALID')) {
+                        $blocked = true;
+                    } elseif (str_contains($errorMsg, 'chat with user not found')) {
+                        $blocked = true;
+                    } elseif (str_contains(Str::lower($errorMsg), 'forbidden')) {
+                        $blocked = true;
+                    }
+                }
+                if (!$blocked) {
+                    Log::error("TelegramUser($this->id)::sendMessage $errorMsg");
+                }
             }
         }
         return null;

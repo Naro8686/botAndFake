@@ -2,9 +2,11 @@
 
 namespace App\Telegram\Dialogs;
 
+use Exception;
 use Log;
 use App\Models\TelegramUser;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 class AlertDialog extends Dialog
 {
@@ -34,20 +36,22 @@ class AlertDialog extends Dialog
             $msg = trim($message->getText());
             $isCommand = in_array(trim($msg), $this->getConfig('btns')->toArray(), true);
             if (!empty($msg) && !$message->from->isBot && !$isCommand) {
-                $users = TelegramUser::where('id', '<>', $this->getUser()->id)->get();
-                foreach ($users as $user) $user->sendMessage([
-                    "text" => $msg,
-                    "parse_mode" => "html",
-                ]);
-
-                $this->getUser()->sendMessage([
+                $admin = $this->getUser();
+                $users = TelegramUser::where('id', '<>', $admin->id)->get();
+                $users->chunkWhile(function (TelegramUser $user) use ($msg) {
+                    $user->sendMessage([
+                        "text" => $msg,
+                        "parse_mode" => "html",
+                    ]);
+                });
+                $this->telegram->sendMessage([
+                    "chat_id" => $this->getChat()->getId(),
                     "text" => !empty($users)
                         ? "✅<i>Сообщения успешно отправлено</i>"
                         : "❕ <i>Пользователей не найдено</i>",
                     "parse_mode" => "html",
                 ]);
                 $this->end();
-                $this->telegram->triggerCommand('start', $this->update);
             } else {
                 $this->telegram->sendMessage([
                     'chat_id' => $this->getChat()->getId(),
@@ -60,6 +64,5 @@ class AlertDialog extends Dialog
         } catch (TelegramSDKException $e) {
             Log::error($e->getMessage());
         }
-        return true;
     }
 }
