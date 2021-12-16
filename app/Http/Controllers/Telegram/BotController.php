@@ -183,7 +183,7 @@ class BotController extends Controller
             $member = $message['new_chat_member'] ?? null;
             $telegramUserId = $from->get('id');
 
-            if (!empty($telegramUserId)) {
+            if (!empty($telegramUserId) and !is_null($chatID)) {
                 $telegramUser = TelegramUser::getUser($telegramUserId, $from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
                 switch ($chatID) {
                     case $telegramUserId:
@@ -245,7 +245,9 @@ class BotController extends Controller
                 Log::error(json_encode(request()->all()) . PHP_EOL . $e->getMessage());
             }
         } catch (Exception $e) {
-            Log::error($e->getMessage());
+            $getMessage = $e->getMessage();
+            if (!str_contains($getMessage, 'getChat does not exist'))
+                Log::error($getMessage);
         }
         return response()->json(['ok' => true, "status" => "success"]);
     }
