@@ -55,11 +55,14 @@
                     @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ Auth::user()->name }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('tg.commands.index') }}">
+                                    {{ __('Telegram') }}
+                                </a>
                                 <a class="dropdown-item" href="{{ route('settings') }}">
                                     {{ __('Settings') }}
                                 </a>
@@ -80,6 +83,22 @@
         </div>
     </nav>
     <main class="py-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    @if (session('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
         @yield('content')
     </main>
 </div>
