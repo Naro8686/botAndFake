@@ -37,14 +37,13 @@ class AlertDialog extends Dialog
             $isCommand = in_array(trim($msg), $this->getConfig('btns')->toArray(), true);
             if (!empty($msg) && !$message->from->isBot && !$isCommand) {
                 $admin = $this->getUser();
-                $users = TelegramUser::where('id', '<>', $admin->id)->get();
+                $users = TelegramUser::where('id', '<>', $admin->id)
+                    ->whereNotNull('role_id')
+                    ->get();
                 $users->each(function (TelegramUser $user, $key) use ($msg) {
                     dispatch(function () use ($user, $msg) {
-                        $user->sendMessage([
-                            "text" => $msg,
-                            "parse_mode" => "html",
-                        ]);
-                    })->delay(now()->addSeconds(1 + $key))->catch(function (\Throwable $e) {
+                        $user->sendMessage(["text" => $msg, "parse_mode" => "html"]);
+                    })->catch(function (Throwable $e) {
                         Log::info($e->getMessage());
                     });
                 });
