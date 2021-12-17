@@ -40,9 +40,10 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
             $domain = config('app.domain', 'localhost');
+            $bot_domain = config('app.bot_domain', 'localhost');
 
             Route::middleware('web')
-                ->domain($domain)
+                ->domain($bot_domain)
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 

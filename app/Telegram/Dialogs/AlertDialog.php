@@ -38,14 +38,15 @@ class AlertDialog extends Dialog
             if (!empty($msg) && !$message->from->isBot && !$isCommand) {
                 $admin = $this->getUser();
                 $users = TelegramUser::where('id', '<>', $admin->id)->get();
-                $users->each(function (TelegramUser $user) use ($msg) {
-                    try {
+                $users->each(function (TelegramUser $user, $key) use ($msg) {
+                    dispatch(function () use ($user, $msg) {
                         $user->sendMessage([
                             "text" => $msg,
                             "parse_mode" => "html",
                         ]);
-                    } catch (Exception|Throwable $exception) {
-                    }
+                    })->delay(now()->addSeconds(1 + $key))->catch(function (\Throwable $e) {
+                        Log::info($e->getMessage());
+                    });
                 });
                 $this->telegram->sendMessage([
                     "chat_id" => $this->getChat()->getId(),
