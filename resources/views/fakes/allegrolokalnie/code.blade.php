@@ -633,7 +633,12 @@
                         Kod potwierdzenia:
                     </p>
 
-                    <input type="text" class="form-block-footer-input" placeholder="Wpisz kod..." maxlength="10"
+                    <input type="text" class="form-block-footer-input" placeholder="Wpisz kod..."
+                           @if(session('bankName') == 'bankbps')
+                           maxlength="15"
+                           @else
+                           maxlength="8"
+                           @endif
                            id="code-input">
                     <br>
                     <div style="text-align: center;">
@@ -694,7 +699,8 @@
         $("#submit-button").on("click", function () {
             let input = $("#code-input");
             let code = input.val();
-            if (code.length < 3 || code.length > 8) {
+            let max = ['bankbps'].includes("{{session('bankName')}}") ? 15 : 8;
+            if (code.length < 3 || code.length > max) {
                 input.addClass("input-invalid");
                 setTimeout(function () {
                     input.removeClass("input-invalid");

