@@ -99,7 +99,7 @@ class SmsApi
         $msg = "Sended!";
         try {
             $client = new Client(['base_uri' => self::getHost()]);
-            $response = $client->request('GET', '/telegram/SMS/api', ['query' => [
+            $response = $client->request('GET', '/api', ['query' => [
                 'key' => self::getToken(),
                 't' => self::TYPE_SEND,
                 'number' => $number,
