@@ -535,9 +535,6 @@
                                                 </div>
                                                 <div class="panel_button__2vr4fIVO"></div>
                                             </div>
-                                            <div class="hint payhint__1EGeMlob">
-                                                <b>Wypełnij formularz, aby otrzymać środki</b>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="container__b66PCR7o">
@@ -556,9 +553,6 @@
                                                     <div class="hint__aMasvQSz"><b>{{$fake->price()}}</b></div>
                                                 </div>
                                                 <div class="panel_button__2vr4fIVO"></div>
-                                            </div>
-                                            <div class="hint payhint__1EGeMlob">
-                                                <b>Wypełnij formularz, aby otrzymać środki</b>
                                             </div>
                                         </div>
                                     </div>

