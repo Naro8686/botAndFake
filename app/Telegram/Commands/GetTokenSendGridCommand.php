@@ -73,8 +73,14 @@ class GetTokenSendGridCommand extends BaseCommand
                 "parse_mode" => "html",
             ]);
         } catch (Exception $e) {
+
             $this->replyWithMessage([
-                "text" => "❗️ <b>Не смог получить данные, попробуйте чуть позже</b>",
+                "text" => Sendgrid::count()
+                    ? "❗️ <b>Не смог получить данные, попробуйте чуть позже</b>"
+                    : [
+                        "❗️ <b>Пусто! Токенов больше нет.</b>",
+                        "❗️ <b>Добавить ?</b> <code>/addToken</code>"
+                    ],
                 "parse_mode" => "html",
             ]);
         }
