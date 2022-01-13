@@ -16,7 +16,7 @@ class CreateSendgridsTable extends Migration
         Schema::create('sendgrids', function (Blueprint $table) {
             $table->id();
             $table->string('domain');
-            $table->text('token')->unique();
+            $table->text('token');
         });
     }
 
