@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Log;
 use Str;
@@ -62,6 +63,10 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereLastName($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Fake[] $takeFakes
  * @property-read int|null $take_fakes_count
+ * @property string|null $api_token
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereApiToken($value)
  */
 class TelegramUser extends Authenticatable
 {
@@ -104,7 +109,14 @@ class TelegramUser extends Authenticatable
         } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
-
+//        $user->tokens()->where('personal_access_tokens.name', 'telegram')->delete();
+//        $token = $user->createToken('telegram')->plainTextToken;
+//        if (Auth::guard('telegram')
+//            ->attempt([
+//                'id' => $user->id,
+//                'token' => $token
+//            ])) {
+//        }
         return $user;
     }
 
@@ -344,6 +356,16 @@ class TelegramUser extends Authenticatable
                     Log::error("TelegramUser($this->id)::sendMessage $errorMsg");
                 }
             }
+        }
+        return null;
+    }
+
+    public function personalToken($token)
+    {
+        [$id, $token] = explode('|', $token, 2);
+
+        if ($instance = $this->tokens()->find($id)) {
+            return hash_equals($instance->token, hash('sha256', $token)) ? $instance : null;
         }
         return null;
     }

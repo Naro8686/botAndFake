@@ -28,7 +28,7 @@ class GenerateTokenCommand extends BaseCommand
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $user = $this->getUser();
-        $user->tokens()->delete();
+        $user->tokens()->where('personal_access_tokens.name','bot_parser')->delete();
         $token = $user->createToken('bot_parser')->plainTextToken;
         $this->replyWithMessage([
             "text" => makeText([

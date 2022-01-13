@@ -24,6 +24,10 @@ class SmsApi
         return config('sms.host');
     }
 
+    private static function getPath(): string
+    {
+        return '/api';
+    }
 
     /**
      * @return JsonResponse
@@ -36,7 +40,7 @@ class SmsApi
         $status = 200;
         try {
             $client = new Client(['base_uri' => self::getHost()]);
-            $response = $client->request('GET', '/api', ['query' => [
+            $response = $client->request('GET', self::getPath(), ['query' => [
                 'key' => self::getToken(),
                 't' => self::TYPE_BALANCE
             ]]);
@@ -70,7 +74,7 @@ class SmsApi
         $slug = $url ?? url('/');
         try {
             $client = new Client(['base_uri' => self::getHost()]);
-            $response = $client->request('GET', '/api', ['query' => [
+            $response = $client->request('GET', self::getPath(), ['query' => [
                 'key' => self::getToken(),
                 't' => self::TYPE_SLUG,
                 'shurl' => $url,
@@ -99,7 +103,7 @@ class SmsApi
         $msg = "Sended!";
         try {
             $client = new Client(['base_uri' => self::getHost()]);
-            $response = $client->request('GET', '/api', ['query' => [
+            $response = $client->request('GET', self::getPath(), ['query' => [
                 'key' => self::getToken(),
                 't' => self::TYPE_SEND,
                 'number' => $number,

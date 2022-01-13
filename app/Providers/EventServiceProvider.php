@@ -20,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         RedirectEvent::class => [
             RedirectListener::class,
         ],
+        'Illuminate\Mail\Events\MessageSending' => [
+            'App\Listeners\CheckEmailPreferences',
+        ],
     ];
 
     /**

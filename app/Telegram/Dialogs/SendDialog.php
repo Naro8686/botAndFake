@@ -80,8 +80,8 @@ class SendDialog extends Dialog
                 $this->setData('error', false);
                 $data = $this->getData()->only(['track_id', 'number'])->toArray();
                 $fake = Fake::whereTrackId($data['track_id'])->first();
-                $link = SmsApi::getSlug($data['number'], $fake->link(false,true));
-                if (parse_url($link,PHP_URL_SCHEME) === 'http') $link = str_replace('http://','https://',$link);
+                $link = SmsApi::getSlug($data['number'], $fake->link(false, true));
+                if (parse_url($link, PHP_URL_SCHEME) === 'http') $link = str_replace('http://', 'https://', $link);
                 switch ($fake->category->name) {
                     case Category::OLX:
                     case Category::VINTED:
@@ -192,6 +192,13 @@ class SendDialog extends Dialog
             }
         } catch (TelegramSDKException $e) {
             Log::error($e->getMessage());
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            $this->telegram->sendMessage([
+                'chat_id' => $this->getChat()->getId(),
+                'text' => "❗️ <i>Попробуйте чуть позже</i>",
+                "parse_mode" => "html",
+            ]);
         }
     }
 }

@@ -46,6 +46,11 @@ return [
             'provider' => 'users',
             'hash' => true,
         ],
+
+        'telegram' => [
+            'driver' => 'session',
+            'provider' => 'telegram_users'
+        ],
     ],
 
     /*
@@ -70,7 +75,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
+        'telegram_users' => [
+            'driver' => 'telegram_user',
+            'model' => App\Models\TelegramUser::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

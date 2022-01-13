@@ -88,6 +88,7 @@ return [
                 \App\Telegram\Commands\GenerateTokenCommand::class,
                 \App\Telegram\Commands\BotInfoCommand::class,
                 \App\Telegram\Commands\SetMailCommand::class,
+                \App\Telegram\Commands\AddTokenSendGridCommand::class,
             ],
             'btns' => [
                 "profile" => "👤 Профиль",
