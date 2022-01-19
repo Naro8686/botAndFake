@@ -183,6 +183,7 @@ return [
          * Third party Packages Service Providers...
          */
         Telegram\Bot\Laravel\TelegramServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
     ],
 
     /*
@@ -237,6 +238,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Telegram' => \Telegram\Bot\Laravel\Facades\Telegram::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 
 ];

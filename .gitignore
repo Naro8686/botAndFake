@@ -19,3 +19,4 @@ laravel-echo-server.lock
 laravel-echo-server.json
 .DS_Store
 storage/.DS_Store
+public/images/qr/*
