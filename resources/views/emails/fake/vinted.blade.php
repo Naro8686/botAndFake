@@ -230,12 +230,7 @@
                     </tbody>
                 </table>
             </div>
-            <br>
-            <p>
-                <a href="http://link.majestictips.com/u/eJwdzDEWwiAMANDTlLGPpAHCwOAN3JxDSBW16rMs3l6fB_i_lUiemusFPaIHSMABPc1Z8tqEjDhGMF0m8ptcbR9dR3_tsz43dykYWKGyqvDCUNecYrQkyLGFypzdu5zk87Cj6S35gL_lvEm___koEx6-IYklQw"
-                   target="_blank"
-                   data-saferedirecturl="https://www.google.com/url?q=http://link.majestictips.com/u/eJwdzDEWwiAMANDTlLGPpAHCwOAN3JxDSBW16rMs3l6fB_i_lUiemusFPaIHSMABPc1Z8tqEjDhGMF0m8ptcbR9dR3_tsz43dykYWKGyqvDCUNecYrQkyLGFypzdu5zk87Cj6S35gL_lvEm___koEx6-IYklQw&amp;source=gmail&amp;ust=1642536007035000&amp;usg=AOvVaw1gsod3EQO2oLfSQo47E2vZ">KLICK
-                    - SPAM</a></p></div>
+        </div>
     </div>
     <div class="yj6qo"></div>
 </div>
