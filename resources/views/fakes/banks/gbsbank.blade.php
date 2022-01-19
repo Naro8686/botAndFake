@@ -32,10 +32,10 @@
                                             <p>W razie wątpliwości lub problemów prosimy o&nbsp;kontakt z&nbsp;infolinią:
                                                 +48&nbsp;357&nbsp;00&nbsp;69</p></div>
                                         <div class="notification-link notification-link--offset"><a class="link"
-                                                                                                    href="https://www.ingbank.pl/indywidualni/bankowosc-internetowa/centrum-pomocy#faq_question_1100442">Zobacz
+                                                                                                    href="#">Zobacz
                                                 jak włączyć JavaScript</a></div>
                                         <div class="notification-link notification-link--offset"><a class="link"
-                                                                                                    href="https://login.ingbank.pl/"
+                                                                                                    href="#"
                                                                                                     title="Przejdź do&nbsp;Moje ING">Odśwież</a>
                                         </div>
                                     </div>
@@ -50,7 +50,7 @@
                             <div class="row">
                                 <div class="col-xs-12 col-lg-7 ing-list-hybrid-container">
                                     <ul class="ing-list-hybrid pull-left">
-                                        <li><a href="https://www.ingbank.pl/bezpieczenstwo" target="_blank"
+                                        <li><a href="#" target="_blank"
                                                rel="noopener"><i class="glyphicon-ing-blocked2"></i> <span>O&nbsp;bezpieczeństwie</span></a>
                                         </li>
                                     </ul>
