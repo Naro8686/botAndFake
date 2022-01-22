@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\Json;
 use App\Http\Controllers\Telegram\BotController;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,21 +36,21 @@ use Laravel\Sanctum\HasApiTokens;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Role|null $role
  * @property-read \App\Models\User|null $user
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser query()
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereFirstName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereHasBan($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereIsBot($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereLanguageCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereRoleId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereUsername($value)
+ * @method static Builder|TelegramUser newModelQuery()
+ * @method static Builder|TelegramUser newQuery()
+ * @method static Builder|TelegramUser query()
+ * @method static Builder|TelegramUser whereCreatedAt($value)
+ * @method static Builder|TelegramUser whereFirstName($value)
+ * @method static Builder|TelegramUser whereHasBan($value)
+ * @method static Builder|TelegramUser whereId($value)
+ * @method static Builder|TelegramUser whereIsBot($value)
+ * @method static Builder|TelegramUser whereLanguageCode($value)
+ * @method static Builder|TelegramUser whereRoleId($value)
+ * @method static Builder|TelegramUser whereUpdatedAt($value)
+ * @method static Builder|TelegramUser whereUsername($value)
  * @mixin \Eloquent
  * @property object|null $details
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereDetails($value)
+ * @method static Builder|TelegramUser whereDetails($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Fake[] $fakes
  * @property-read int|null $fakes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|TelegramUser[] $referrals
@@ -58,15 +59,15 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $referrer_count
  * @property-read \App\Models\Request|null $request
  * @property int $visibly
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereVisibly($value)
+ * @method static Builder|TelegramUser whereVisibly($value)
  * @property string|null $last_name
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereLastName($value)
+ * @method static Builder|TelegramUser whereLastName($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Fake[] $takeFakes
  * @property-read int|null $take_fakes_count
  * @property string|null $api_token
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
- * @method static \Illuminate\Database\Eloquent\Builder|TelegramUser whereApiToken($value)
+ * @method static Builder|TelegramUser whereApiToken($value)
  */
 class TelegramUser extends Authenticatable
 {
@@ -97,17 +98,21 @@ class TelegramUser extends Authenticatable
     /**
      * @param $id
      * @param array $params
-     * @return TelegramUser|\Illuminate\Database\Eloquent\Builder|Model|mixed|object|null
+     * @return TelegramUser|Builder|Model|object|null
+     * @throws Throwable
      */
     public static function getUser($id, array $params = [])
     {
         $user = self::whereId($id)->first();
-        if (is_null($user)) try {
-            $user = DB::transaction(function () use ($params) {
-                return self::create($params);
-            });
-        } catch (Throwable $e) {
-            Log::error($e->getMessage());
+        if (is_null($user)) {
+            try {
+                DB::beginTransaction();
+                $user = self::create($params);
+                DB::commit();
+            } catch (Exception|Throwable $e) {
+                DB::rollBack();
+                Log::error($e->getMessage());
+            }
         }
 //        $user->tokens()->where('personal_access_tokens.name', 'telegram')->delete();
 //        $token = $user->createToken('telegram')->plainTextToken;

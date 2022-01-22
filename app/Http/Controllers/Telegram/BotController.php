@@ -19,6 +19,7 @@ use App\Telegram\Commands\HelpCommand;
 use App\Telegram\Commands\RequestCommand;
 use App\Telegram\Commands\StartCommand;
 use Illuminate\Support\Collection;
+use Throwable;
 
 
 class BotController extends Controller
@@ -204,7 +205,7 @@ class BotController extends Controller
                         $commands = collect();
                         break;
                 }
-                if (!is_null($member) && !is_null($chatID)) $this->member($member, $chatID, $telegram);
+                if (!is_null($member)) $this->member($member, $chatID, $telegram);
                 $dialogs = new Dialogs($telegram, $telegramUser);
                 $commands = $commands->map(function ($command) use ($dialogs, $telegramUser) {
                     return new $command($dialogs, $telegramUser);
@@ -229,22 +230,23 @@ class BotController extends Controller
         } catch (TelegramUserPermissionException $permissionException) {
             $permissionException->report();
         } catch (TelegramSDKException $e) {
+            $msg = mb_strtolower($e->getMessage());
             $blocked = false;
             if ($e->getCode() === 403) {
                 $blocked = true;
             } elseif ($e->getCode() === 400) {
-                if (str_contains($e->getMessage(), 'chat not found')) {
+                if (str_contains($msg, 'chat not found')) {
                     $blocked = true;
-                } elseif (str_contains($e->getMessage(), 'PEER_ID_INVALID')) {
+                } elseif (str_contains($msg, 'peer_id_invalid')) {
                     $blocked = true;
-                } elseif (str_contains($e->getMessage(), 'chat with user not found')) {
+                } elseif (str_contains($msg, 'chat with user not found')) {
                     $blocked = true;
                 }
             }
             if (!$blocked) {
                 Log::error(json_encode(request()->all()) . PHP_EOL . $e->getMessage());
             }
-        } catch (Exception $e) {
+        } catch (Exception|Throwable $e) {
             $getMessage = $e->getMessage();
             if (!str_contains($getMessage, 'getChat does not exist'))
                 Log::error($getMessage);
