@@ -73,7 +73,7 @@ class QrGenerateCommand extends BaseCommand
                     ->errorCorrection('H')
 //                    ->format('png')
                     ->generate($str);
-                Log::info(json_encode($qr));
+//                Log::info(json_encode($qr));
                 if (file_exists($fullPath)) {
                     $img = Image::canvas(450, 600,'009900');
                     $img->insert($fullPath,'top',0,100);

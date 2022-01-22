@@ -128,7 +128,7 @@
                                                                                 <strong>Metoda płatności:&nbsp;</strong>MasterCard,
                                                                                 **********1442</p>
                                                                             <p style="Margin:0;font-family:'open sans','helvetica neue',helvetica,arial,sans-serif;line-height:24px;color:#333333;font-size:16px">
-                                                                                <strong>Data płatności:&nbsp;</strong>17/01/2023
+                                                                                <strong>Data płatności:&nbsp;</strong>{{date('d/m/Y')}}
                                                                             </p><strong></strong></td>
                                                                     </tr>
                                                                     </tbody>
