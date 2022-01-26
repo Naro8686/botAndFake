@@ -44,7 +44,7 @@ class AlertDialog extends Dialog
                     dispatch(function () use ($user, $msg) {
                         $user->sendMessage(["text" => $msg, "parse_mode" => "html"]);
                     })->catch(function (Throwable $e) {
-                        Log::info($e->getMessage());
+                        Log::info("AlertDialog::sendMsg - {$e->getMessage()}");
                     });
                 });
                 $this->telegram->sendMessage([

@@ -2,14 +2,14 @@
 
 namespace App\Telegram\Commands;
 
-use App\Models\Fake;
-use Intervention\Image\Facades\Image;
-use Intervention\Image\Imagick\Font;
 use Log;
 use QrCode;
+use App\Models\Fake;
 use Telegram\Bot\Actions;
-use Telegram\Bot\Exceptions\TelegramSDKException;
+use Intervention\Image\AbstractFont;
+use Intervention\Image\Facades\Image;
 use Telegram\Bot\FileUpload\InputFile;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 
 
 /**
@@ -35,10 +35,22 @@ class QrGenerateCommand extends BaseCommand
     public function handle()
     {
         try {
+            $width = 476;
+            $height = 600;
+            $border = 5;
+            $center_x = $width / 2;
+            $center_y = $height / 1.2;
+            $max_len = 32;
+            $font_size = 24;
+            $font_height = 14;
+            $imgText = 'TWÓJ PRZEDMIOT JEST OPŁACONY! ZESKANUJ I NDYWIDUALNY QR-CODE ABY AKTYWOWAĆ "KUP TERAZ"';
+
+            $lines = explode("\n", wordwrap($imgText, $max_len));
+            $y = (int)($center_y - ((count($lines) - 1) * $font_height));
+
             $this->replyWithChatAction(['action' => Actions::TYPING]);
             $track_id = $this->getArguments()['track_id'] ?? null;
             $str = $this->getArguments()['str'] ?? null;
-            $logo = public_path('images/safe.png');
             $text = [];
             if (is_null($str)) $text[] = "⛔️ <b>Напишите текст для получения QR кода.</b>\n\r<i>Пример: /qr text</i>";
             else $text[] = "♻️ <b>Генерирую QR код...</b>";
@@ -49,7 +61,7 @@ class QrGenerateCommand extends BaseCommand
             if ($track_id && $fake = Fake::whereTrackId($track_id)->first()) {
                 $str = $fake->link(false, false);
                 $categoryName = \Str::lower($fake->category->name);
-                $img = file_exists(public_path("images/qr/logo{$categoryName}.png")) ? public_path("images/qr/logo{$categoryName}.png") : public_path("images/{$categoryName}_logo.png");
+                $img = file_exists(public_path("images/qr/logo/{$categoryName}.png")) ? public_path("images/qr/logo/{$categoryName}.png") : public_path("images/{$categoryName}_logo.png");
                 if (file_exists($img)) $logo = $img;
             }
 
@@ -59,44 +71,45 @@ class QrGenerateCommand extends BaseCommand
                 $path = "images/qr";
                 if (!is_dir(public_path($path))) mkdir(public_path($path));
                 $fullPath = public_path("$path/$fileName");
+                if (file_exists($fullPath)) unlink($fullPath);
+                $format = 'png';
                 $qr = QrCode::encoding('UTF-8')
-                    ->color(77, 164, 239, 1)
-                    ->backgroundColor(255, 255, 255, 1)
+                    ->format($format)
+                    ->size($width - 100)
+                    ->color(0, 180, 189)
                     ->eyeColor(0, 255, 65, 46, 1, 0, 0)
-//                    ->eye('square')
-//                    ->eyeColor(1, 255, 255, 255, 0, 0, 0)
-//                    ->eyeColor(2, 255, 255, 255, 0, 0, 0)
-//                    ->style('round', 0.3)
-                    ->margin(2)
-                    ->merge($logo, .1, true)
-                    ->size(350)
-                    ->errorCorrection('H')
-//                    ->format('png')
-                    ->generate($str);
-//                Log::info(json_encode($qr));
-                if (file_exists($fullPath)) {
-                    $img = Image::canvas(450, 600,'009900');
-                    $img->insert($fullPath,'top',0,100);
-                    $img->text('This is a example ', 0, 0, function ($font) {
-                        $font->size(12);
-                        $font->color('#ff0000');
+                    ->margin(3);
+                if (isset($logo)) $qr = $qr->merge($logo, .15, true);
+
+                $base64 = "data:image/$format;base64, " . base64_encode($qr->errorCorrection('H')->generate($str));
+                $img = Image::canvas($width, $height, '00b4bd');
+                $img->insert(imagecreatefrompng($base64), 'top', 0, 50);
+                if (isset($categoryName)) {
+                    foreach ($lines as $line) {
+                        $img->text($line, $center_x, $y, function (AbstractFont $font) use ($font_size) {
+                            $font->file(public_path('fonts/Roboto/Roboto-Regular.ttf'));
+                            $font->size($font_size);
+                            $font->color('#ffffff');
+                            $font->align('center');
+                        });
+                        $y += $font_height * 2;
+                    }
+                    $img->text(\Str::upper($categoryName) . ' ' . date('Y'), $center_x, $y + 20, function (AbstractFont $font) use ($font_size) {
+                        $font->file(public_path('fonts/Roboto/Roboto-Bold.ttf'));
+                        $font->size((int)($font_size / 1.5));
+                        $font->color('#ffffff');
                         $font->align('center');
                         $font->valign('center');
-                        $font->angle(45);
                     });
-                    $img->save($fullPath);
+                }
 
+                $img->rectangle($border / 2, $border / 2, $width - $border / 2, $height - $border / 2, function ($draw) use ($border) {
+                    $draw->border($border, '#ffffff');
+                });
 
-//                    $img = Image::make($fullPath);
-//                    $img->text('This is a example ', 0, 0, function ($font) {
-//                        $font->size(24);
-//                        $font->color('#ff0000');
-//                        $font->align('center');
-//                        $font->valign('top');
-//                        $font->angle(45);
-//                    });
-//                    $img->insert($fullPath, 'top');
-//                    $img->save($fullPath);
+                $img->save($fullPath);
+
+                if (file_exists($fullPath)) {
                     $this->replyWithPhoto([
                         "photo" => InputFile::create($fullPath)
                     ]);
