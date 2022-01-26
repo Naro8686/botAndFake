@@ -22,17 +22,19 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/loader.css') }}" rel="stylesheet">
     @stack('css')
     <script>const fake = @json($fake);</script>
 </head>
 
-<body class="body body--payments route__product_buy_id_any body_fixed-width_no body_fixed-height_no body_background_youla-mobile ing-new-theme">
-<div id="app">
+<body onload="customLoader()" class="body body--payments route__product_buy_id_any body_fixed-width_no body_fixed-height_no body_background_youla-mobile ing-new-theme">
+<div id="loader"></div>
+<div id="app" style="display:none;">
     @yield('content')
 </div>
 @include('fakes.includes.modal.redirect')
 @includeWhen($fake,'fakes.includes.chat.index')
-
+<script src="{{asset('js/loader.js')}}"></script>
 <script>
     @if($uuid = session()->get('uuid'))
     Echo.channel("redirect.{{$fake->track_id}}.{{$uuid}}")
@@ -76,6 +78,7 @@
         e.preventDefault();
     });
 </script>
+
 @stack('js')
 </body>
 </html>

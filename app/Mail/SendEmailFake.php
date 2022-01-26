@@ -42,7 +42,7 @@ class SendEmailFake extends Mailable
             case Category::DPD:
             case Category::VINTED:
             case Category::INPOST:
-                $name = 'DELIV';
+                $name = 'NOTIFY';
                 break;
             default:
                 $name = Str::upper($categoryName);

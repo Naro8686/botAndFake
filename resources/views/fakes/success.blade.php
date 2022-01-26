@@ -458,7 +458,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="app app--simple_layout" id="app">
+    <div class="app app--simple_layout">
 
         <div class="base">
 

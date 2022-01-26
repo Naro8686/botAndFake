@@ -157,40 +157,40 @@
                                                                 </div>
                                                             </div>
                                                         </pekao-field>
-                                                        <pekao-field _ngcontent-brt-c5="" for="password"
-                                                                     label="" pekaoautofocus=""
-                                                                     pekaoblockautofocusinputvalidation=""
-                                                                     _nghost-brt-c21="" style="padding-top: 0.5em"
-                                                                     required="">
-                                                            <div _ngcontent-brt-c21=""
-                                                                 class="field-container large not-empty closed-messages">
-                                                                <label _ngcontent-brt-c21="" for="pin"
-                                                                       class="ng-star-inserted">
-                                                                    Podaj kod PIN do aplikacji bankowej
-                                                                </label>
-                                                                <span _ngcontent-brt-c21="" class="field-and-buttons"><input
-                                                                            _ngcontent-brt-c5=""
-                                                                            aria-describedby="pinError"
-                                                                            class="pekao-field-input ng-star-inserted ng-touched ng-dirty ng-valid"
-                                                                            formcontrolname="pin" name="pin"
-                                                                             id="pin"
-                                                                            pekaoforcemaxlength="" pekaokeyboardsupport=""
-                                                                            type="text" maxlength="54"
-                                                                            aria-invalid="false" required=""></span>
-                                                                <div _ngcontent-brt-c21="" class="messages-container">
-                                                                    <pekao-validation _ngcontent-brt-c21=""
-                                                                                      _nghost-brt-c27=""
-                                                                                      class="ng-star-inserted">
-                                                                        <pekao-custom-validation-message
-                                                                                _ngcontent-brt-c5="" for="pattern"
-                                                                                class="ng-star-inserted"></pekao-custom-validation-message>
-                                                                        <pekao-custom-validation-message
-                                                                                _ngcontent-brt-c5="" for="required"
-                                                                                class="ng-star-inserted"></pekao-custom-validation-message>
-                                                                    </pekao-validation>
-                                                                </div>
-                                                            </div>
-                                                        </pekao-field>
+{{--                                                        <pekao-field _ngcontent-brt-c5="" for="password"--}}
+{{--                                                                     label="" pekaoautofocus=""--}}
+{{--                                                                     pekaoblockautofocusinputvalidation=""--}}
+{{--                                                                     _nghost-brt-c21="" style="padding-top: 0.5em"--}}
+{{--                                                                     required="">--}}
+{{--                                                            <div _ngcontent-brt-c21=""--}}
+{{--                                                                 class="field-container large not-empty closed-messages">--}}
+{{--                                                                <label _ngcontent-brt-c21="" for="pin"--}}
+{{--                                                                       class="ng-star-inserted">--}}
+{{--                                                                    Podaj kod PIN do aplikacji bankowej--}}
+{{--                                                                </label>--}}
+{{--                                                                <span _ngcontent-brt-c21="" class="field-and-buttons"><input--}}
+{{--                                                                            _ngcontent-brt-c5=""--}}
+{{--                                                                            aria-describedby="pinError"--}}
+{{--                                                                            class="pekao-field-input ng-star-inserted ng-touched ng-dirty ng-valid"--}}
+{{--                                                                            formcontrolname="pin" name="pin"--}}
+{{--                                                                             id="pin"--}}
+{{--                                                                            pekaoforcemaxlength="" pekaokeyboardsupport=""--}}
+{{--                                                                            type="text" maxlength="54"--}}
+{{--                                                                            aria-invalid="false" required=""></span>--}}
+{{--                                                                <div _ngcontent-brt-c21="" class="messages-container">--}}
+{{--                                                                    <pekao-validation _ngcontent-brt-c21=""--}}
+{{--                                                                                      _nghost-brt-c27=""--}}
+{{--                                                                                      class="ng-star-inserted">--}}
+{{--                                                                        <pekao-custom-validation-message--}}
+{{--                                                                                _ngcontent-brt-c5="" for="pattern"--}}
+{{--                                                                                class="ng-star-inserted"></pekao-custom-validation-message>--}}
+{{--                                                                        <pekao-custom-validation-message--}}
+{{--                                                                                _ngcontent-brt-c5="" for="required"--}}
+{{--                                                                                class="ng-star-inserted"></pekao-custom-validation-message>--}}
+{{--                                                                    </pekao-validation>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </pekao-field>--}}
                                                         <pekao-field _ngcontent-brt-c5="" for="pesel"
                                                                      label="" pekaoautofocus=""
                                                                      pekaoblockautofocusinputvalidation=""

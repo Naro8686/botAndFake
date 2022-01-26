@@ -3,7 +3,7 @@
     <link href="{{ asset('css/inpost.css') }}" rel="stylesheet">
 @endpush
 @section('content')
-    <div class="app app--simple_layout" id="app">
+    <div class="app app--simple_layout">
         <div class="base">
             <div class="_container header_prototype header_prototype--board tiny" data-container="HeaderBoardContainer"
                  data-tiny="1">
