@@ -127,6 +127,10 @@ function vinted_parse(string $url): array
     ];
 }
 
+/**
+ * @param string $url
+ * @return array
+ */
 function allegro_parse(string $url): array
 {
     $price = null;
