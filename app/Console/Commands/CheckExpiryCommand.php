@@ -41,8 +41,26 @@ class CheckExpiryCommand extends Command
     public function handle()
     {
         $expiry = Carbon::now()->subHours(2)->toDateTimeString();
-        Fake::where('created_at', '<=', $expiry)->delete();
+        $fakes = Fake::where('created_at', '<=', $expiry)->limit(25)->get();
+
+        $bar = $this->output->createProgressBar(count($fakes));
+        $bar->start();
+        foreach ($fakes as $fake) {
+            $this->processing($fake);
+            $bar->advance();
+        }
+        $bar->finish();
+
         return CommandAlias::SUCCESS;
     }
 
+    private function processing(Fake $fake)
+    {
+        $img = $fake->img;
+        if ($fake->delete()) {
+            if (file_exists($img)) unlink($img);
+        }
+    }
 }
+
+
