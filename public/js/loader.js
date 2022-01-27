@@ -1,5 +1,4 @@
 var loaderTimeout;
-
 function customLoader() {
     loaderTimeout = setTimeout(showPage, 500);
 }

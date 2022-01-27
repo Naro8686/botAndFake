@@ -219,8 +219,7 @@
         });
     </script>
     <script type="text/javascript">
-        window.onload = function () {
-
+        $(document).ready(function () {
             document.querySelector('#login').addEventListener('click', function () {
                 this.style.border = '1px solid #ccc';
             })
@@ -236,7 +235,6 @@
             document.querySelector('#pesel').addEventListener('click', function () {
                 this.style.border = '1px solid #ccc';
             })
-
-        }
+        });
     </script>
 @endpush

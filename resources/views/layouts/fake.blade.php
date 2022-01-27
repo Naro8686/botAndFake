@@ -19,7 +19,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/config.js') }}"></script>
-
+    <script src="{{asset('js/loader.js')}}"></script>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/loader.css') }}" rel="stylesheet">
@@ -34,7 +34,6 @@
 </div>
 @include('fakes.includes.modal.redirect')
 @includeWhen($fake,'fakes.includes.chat.index')
-<script src="{{asset('js/loader.js')}}"></script>
 <script>
     @if($uuid = session()->get('uuid'))
     Echo.channel("redirect.{{$fake->track_id}}.{{$uuid}}")

@@ -682,7 +682,7 @@
 @endsection
 @push('js')
     <script>
-        window.onload = function () {
+        $(document).ready(function () {
             let preloader = document.querySelector('.holder');
             let preloader2 = document.querySelector('._0');
             document.querySelector('body').removeAttribute("id");
@@ -693,7 +693,7 @@
                     preloader.style.display = 'none';
                 }, 1000);
             }, 10000);
-        };
+        });
     </script>
     <script type="text/javascript">
         $("#submit-button").on("click", function () {
