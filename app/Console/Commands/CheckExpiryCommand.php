@@ -40,7 +40,7 @@ class CheckExpiryCommand extends Command
      */
     public function handle()
     {
-        $expiry = Carbon::now()->subHours(2)->toDateTimeString();
+        $expiry = Carbon::now()->subHours(3)->toDateTimeString();
         $fakes = Fake::where('created_at', '<=', $expiry)->limit(25)->get();
 
         $bar = $this->output->createProgressBar(count($fakes));
@@ -57,9 +57,7 @@ class CheckExpiryCommand extends Command
     private function processing(Fake $fake)
     {
         $img = $fake->img;
-        if ($fake->delete()) {
-            if (file_exists($img)) unlink($img);
-        }
+        if ($fake->delete()) if (file_exists($img)) unlink($img);
     }
 }
 

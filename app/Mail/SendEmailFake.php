@@ -38,7 +38,7 @@ class SendEmailFake extends Mailable
     {
         $fake = $this->fake;
         $categoryName = $fake->category->name;
-        switch ($fake->category->name) {
+        switch ($categoryName) {
             case Category::DPD:
             case Category::VINTED:
             case Category::INPOST:

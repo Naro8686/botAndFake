@@ -211,6 +211,7 @@ class BotController extends Controller
                     return new $command($dialogs, $telegramUser);
                 });
                 $telegram->addCommands($commands->toArray());
+                $is_command = false;
                 if (!$update->hasCommand()) {
                     $commandName = null;
                     if (!$update->isType('callback_query')) {
@@ -221,8 +222,12 @@ class BotController extends Controller
                     $command = $commands->first(function (BaseCommand $baseCommand) use ($commandName) {
                         return $baseCommand->getName() === $commandName;
                     });
-                    if (!is_null($command)) $telegram->triggerCommand($command->getName(), $update);
-                } else $telegram->processCommand($update);
+                    $is_command = !is_null($command);
+                    if ($is_command) $telegram->triggerCommand($command->getName(), $update);
+                } else {
+                    $is_command = true;
+                    $telegram->processCommand($update);
+                }
                 if ($dialogs->exists($update)) {
                     $dialogs->proceed($update);
                 }

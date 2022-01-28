@@ -3,6 +3,7 @@
 namespace App\Telegram\Commands;
 
 
+use Exception;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
 /**
@@ -29,12 +30,12 @@ class BackCommand extends BaseCommand
         try {
             if ($user->dialogExists()) {
                 $dialog = $this->dialogs->get($this->getUpdate());
-                if (!$dialog) throw new TelegramSDKException();
+                if (!$dialog) throw new Exception();
                 $backNum = ($dialog->getNext() - 2);
-                if ($backNum < 0) throw new TelegramSDKException();
+                if ($backNum < 0) throw new Exception();
                 else $user->dialogSetField('next', $backNum);
-            } else  throw new TelegramSDKException();
-        } catch (TelegramSDKException | \Exception $e) {
+            } else throw new Exception();
+        } catch (TelegramSDKException|Exception $e) {
             $user->deleteDialog();
             $this->triggerCommand('start');
         }

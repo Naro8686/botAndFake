@@ -6,6 +6,7 @@ use App\Api\SmsApi;
 use App\Mail\SendEmailFake;
 use App\Models\Category;
 use App\Models\TelegramUser;
+use Exception;
 use Illuminate\Support\Facades\Mail;
 use Log;
 use App\Models\Fake;
@@ -65,7 +66,7 @@ class SendDialog extends Dialog
                 "reply_markup" => $keyboard
             ]);
 
-        } catch (TelegramSDKException $e) {
+        } catch (TelegramSDKException|Exception $e) {
             Log::error($e->getMessage());
         }
     }
@@ -140,7 +141,7 @@ class SendDialog extends Dialog
                 $this->jump('getFake');
                 $this->proceed();
             }
-        } catch (TelegramSDKException $e) {
+        } catch (TelegramSDKException|Exception $e) {
             Log::error($e->getMessage());
         }
     }
@@ -192,7 +193,7 @@ class SendDialog extends Dialog
             }
         } catch (TelegramSDKException $e) {
             Log::error($e->getMessage());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
             $this->telegram->sendMessage([
                 'chat_id' => $this->getChat()->getId(),
