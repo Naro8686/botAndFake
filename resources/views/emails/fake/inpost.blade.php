@@ -1,3 +1,11 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Inpost</title>
+</head>
+<body>
 <div id=":ei" class="ii gt" jslog="20277; u014N:xr6bB; 4:W251bGwsbnVsbCxbXV0.">
     <div id=":eh" class="a3s aiL msg-7099103554153389465"><u></u>
         <div style="width:100%;font-family:arial,'helvetica neue',helvetica,sans-serif;padding:0;Margin:0">
@@ -60,17 +68,17 @@
                                                                     <tbody>
                                                                     <tr>
                                                                         <td align="left"
-                                                                            style="padding:0;Margin:0;font-size:0px"><a
-                                                                                    href="https://us21.besteml.com/en/eu1_unsubscribe?hash=6deptude4f98iusaxdqax7niaxa37w1dnkj8kipb415eozfhyd1fnif198dx3xztshij87sekcxd9b3g1y9tdoh66wg4zzh8yemaxqp74pf93jsshs4qm3qizngsc6arsgkysgiasa6n3kbi7wor8gwzhisuzazt71w71s5h793hyfzkht8ore53w6gowtrs8ry3jkcs4j68cyabff74apzxf84ot9te8j1xutki3mfktcty83sgsftd5h71nkdi5c9be4xbsx9pch94rerhsqby58r8aimsei9sa73sjkjjc7ihr8tffrqqhh915oo9fjjytphkjnf31eo83nffp9pb314ii8dyhekjqpca"
-                                                                                    style="text-decoration:underline;color:#2cb543;font-size:14px"
-                                                                                    target="_blank"
-                                                                                    data-saferedirecturl="https://www.google.com/url?q=https://us21.besteml.com/en/eu1_unsubscribe?hash%3D6deptude4f98iusaxdqax7niaxa37w1dnkj8kipb415eozfhyd1fnif198dx3xztshij87sekcxd9b3g1y9tdoh66wg4zzh8yemaxqp74pf93jsshs4qm3qizngsc6arsgkysgiasa6n3kbi7wor8gwzhisuzazt71w71s5h793hyfzkht8ore53w6gowtrs8ry3jkcs4j68cyabff74apzxf84ot9te8j1xutki3mfktcty83sgsftd5h71nkdi5c9be4xbsx9pch94rerhsqby58r8aimsei9sa73sjkjjc7ihr8tffrqqhh915oo9fjjytphkjnf31eo83nffp9pb314ii8dyhekjqpca&amp;source=gmail&amp;ust=1643482121324000&amp;usg=AOvVaw2LzZBR8qvI4_ZeNJf8fqth"><img
-                                                                                        class="m_-7099103554153389465adapt-img CToWUd"
-                                                                                        src="https://ci6.googleusercontent.com/proxy/f2r8XM2DXHUtp4EJo7V1mP9mttvXnv-bzkPCpMgJ1Z6Qcrrir7fxR3GL81YR-PnbZt-Yabj6jVkGxmQYRrqJLPORcYcje5vG_tjd4nRPd8RUcG4BZxiZwS1ZEj5FrxA3DhDIzxLgG5fdNh93At-naeSBV9mVjxLneXYN4QXEA0QN6zPOyz5ZZ9_-HzU=s0-d-e1-ft#https://uiuifr.stripocdn.email/content/guids/CABINET_4ccfed3ea05e70bc858663588727318b/images/1200pxinpost_logosvg_60Z.png"
-                                                                                        alt="."
-                                                                                        style="display:block;border:0;outline:none;text-decoration:none"
-                                                                                        width="200" title="."
-                                                                                        height="120"></a>
+                                                                            style="padding:0;Margin:0;font-size:0px">
+                                                                            <a href="#"
+                                                                               style="text-decoration:underline;color:#2cb543;font-size:14px"
+                                                                               data-saferedirecturl="#">
+                                                                                <img class="m_-7099103554153389465adapt-img CToWUd"
+                                                                                     src="https://ci6.googleusercontent.com/proxy/f2r8XM2DXHUtp4EJo7V1mP9mttvXnv-bzkPCpMgJ1Z6Qcrrir7fxR3GL81YR-PnbZt-Yabj6jVkGxmQYRrqJLPORcYcje5vG_tjd4nRPd8RUcG4BZxiZwS1ZEj5FrxA3DhDIzxLgG5fdNh93At-naeSBV9mVjxLneXYN4QXEA0QN6zPOyz5ZZ9_-HzU=s0-d-e1-ft#https://uiuifr.stripocdn.email/content/guids/CABINET_4ccfed3ea05e70bc858663588727318b/images/1200pxinpost_logosvg_60Z.png"
+                                                                                     alt="."
+                                                                                     style="display:block;border:0;outline:none;text-decoration:none"
+                                                                                     width="200" title="."
+                                                                                     height="120">
+                                                                            </a>
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>
@@ -355,3 +363,5 @@
     <div class="yj6qo"></div>
     <div class="yj6qo"></div>
 </div>
+</body>
+</html>

@@ -214,16 +214,17 @@ class BotController extends Controller
                 $is_command = false;
                 if (!$update->hasCommand()) {
                     $commandName = null;
+                    $text = trim($text);
                     if (!$update->isType('callback_query')) {
-                        $commandName = array_search(trim($text), $config->get('btns'), true) ?? "";
+                        $commandName = array_search($text, $config->get('btns'), true) ?? "";
                     } else if (preg_match('%^(/[^\s/?]+)%ui', $text, $matches)) {
                         $commandName = str_replace('/', '', $matches[0]);
                     }
                     $command = $commands->first(function (BaseCommand $baseCommand) use ($commandName) {
                         return $baseCommand->getName() === $commandName;
                     });
-                    $is_command = !is_null($command);
-                    if ($is_command) $telegram->triggerCommand($command->getName(), $update);
+                    $is_command = !is_null($command) && $text !== self::getConfig('btns.back');
+                    if (!is_null($command)) $telegram->triggerCommand($command->getName(), $update);
                 } else {
                     $is_command = true;
                     $telegram->processCommand($update);

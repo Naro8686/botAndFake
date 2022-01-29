@@ -4,10 +4,12 @@ namespace App\Telegram\Dialogs;
 
 use App\Http\Controllers\Telegram\BotController;
 use App\Models\TelegramUser;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Log;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -132,25 +134,27 @@ class Dialog
 
     public function isBack(): bool
     {
-        $btns = $this->getConfig('btns');
-        $update = $this->update;
         $commandName = null;
-        if ($update->isType('callback_query')) {
-            $query = $update->callbackQuery;
-            $data = $query->get('data');
-            if (preg_match('/^(\/[^\s\/]+)/', $data, $matches)) {
-                $commandName = str_replace('/', '', $matches[0]);
-            }
-            try {
+        try {
+            $btns = $this->getConfig('btns');
+            $update = $this->update;
+            if ($update->isType('callback_query')) {
+                $query = $update->callbackQuery;
+                $data = $query->get('data');
+                if (preg_match('/^(\/[^\s\/]+)/', $data, $matches)) {
+                    $commandName = str_replace('/', '', $matches[0]);
+                }
                 $this->telegram->answerCallbackQuery([
                     'callback_query_id' => $query->get('id'),
                 ]);
-            } catch (TelegramSDKException $e) {
-            }
-        } else {
-            $commandName = $update->getMessage()->get('text');
+            } else $commandName = $update->getMessage()->get('text');
+            return !is_null($commandName) && $commandName === $btns->get('back');
+        } catch (TelegramSDKException $e) {
+            return true;
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
         }
-        return $commandName === $btns->get('back');
+        return false;
     }
 
 
@@ -303,7 +307,7 @@ class Dialog
      * Returns Telegram chat object
      * @return Chat
      */
-    public function getChat()
+    public function getChat(): Chat
     {
         return $this->update->getMessage()->getChat();
     }
@@ -326,8 +330,6 @@ class Dialog
         if (!is_array($step)) {
             throw new TelegramSDKException('For string steps method must be defined.');
         }
-
-        // @todo Add logging
         if (isset($step['response'])) {
             $params = [
                 'chat_id' => $this->getChat()->getId(),

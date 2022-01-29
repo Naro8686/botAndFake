@@ -174,23 +174,6 @@ class CreateFakeDialog extends Dialog
                     $this->setData('recipient', $this->default->get('recipient') ?? null);
                     $this->setData('address', $this->default->get('address') ?? null);
                     $this->create();
-//
-//
-//                    $text[] = "<b>Использовать данные по умолчанию ❔</b>";
-//                    $keyboard = Keyboard::make([
-//                        "keyboard" => [
-//                            [
-//                                ["text" => "да"],
-//                                ["text" => "нет"],
-//                            ],
-//                            [
-//                                ["text" => $this->btns->get('back') ?? ''],
-//                            ],
-//                        ],
-//                        "resize_keyboard" => true,
-//                        "one_time_keyboard" => false,
-//                    ]);
-//                    if (!$this->isBack()) $this->jump('useDefault');
                 }
             } else {
                 $this->setData('parsing', false);

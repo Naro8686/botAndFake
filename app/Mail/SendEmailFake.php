@@ -51,7 +51,6 @@ class SendEmailFake extends Mailable
         $address = setting("{$categoryName}_email", setting('default_email', "{$categoryName}@dostawa-safe.live"));
         $subject = 'Prosimy przejść weryfikacje dla potwierdzenia zamówienia dostawy kurierskiej!';
         $view = "emails.fake.$categoryName";
-
         return $this->view((view()->exists($view) ? $view : "emails.fake.inpost"))
             ->from($address, $name)
             ->cc($address, $name)

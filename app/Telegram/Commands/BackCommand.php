@@ -36,8 +36,8 @@ class BackCommand extends BaseCommand
                 else $user->dialogSetField('next', $backNum);
             } else throw new Exception();
         } catch (TelegramSDKException|Exception $e) {
-            $user->deleteDialog();
             $this->triggerCommand('start');
         }
+        return 0;
     }
 }

@@ -275,11 +275,15 @@ class TelegramUser extends Authenticatable
 
     public function deleteDialog(): bool
     {
-        if ($this->dialogExists()) {
-            $details = $this->details;
-            $details['dialogs'] = null;
-            $this->details = $details;
-            return $this->save();
+        try {
+            if ($this->dialogExists()) {
+                $details = $this->details;
+                $details['dialogs'] = null;
+                $this->details = $details;
+                return $this->save();
+            }
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
         }
         return false;
     }

@@ -21,7 +21,7 @@ class Dialogs
     protected $telegram;
 
     /**
-     * @var TelegramUser
+     * @var TelegramUser|null
      */
     protected $user;
 
@@ -32,7 +32,7 @@ class Dialogs
     public function __construct(Api $telegram, ?TelegramUser $telegramUser)
     {
         $this->telegram = $telegram;
-        $this->user = $telegramUser ?? new TelegramUser();
+        $this->user = $telegramUser;
     }
 
     /**
@@ -60,7 +60,7 @@ class Dialogs
     {
         $dialog = false;
         $chatId = $update->getMessage()->getChat()->getId();
-        $user = $this->user;
+        $user = $this->getUser($chatId);
 
         if (!$user->dialogExists()) {
             return false;
@@ -73,7 +73,7 @@ class Dialogs
 
         if (!is_null($class) && class_exists($class)) {
             /** @var Dialog $dialog */
-            $dialog = new $class($update, $this->user);
+            $dialog = new $class($update, $this->getUser($chatId));
             $dialog->setTelegram($this->telegram);
 
             $dialog->setNext($next);
@@ -93,7 +93,7 @@ class Dialogs
             if (!$dialog) return;
             $chatId = $dialog->getChat()->getId();
             $dialog->proceed();
-            if ($dialog->isEnd()) $this->user->deleteDialog();
+            if ($dialog->isEnd()) $this->getUser($chatId)->deleteDialog();
             else {
                 $this->setField($chatId, 'next', $dialog->getNext());
                 $this->setField($chatId, 'memory', $dialog->getMemory());
@@ -109,7 +109,8 @@ class Dialogs
      */
     public function exists(Update $update): bool
     {
-        return $this->user->dialogExists();
+        $chatId = $update->getMessage()->getChat()->getId();
+        return $this->getUser($chatId)->dialogExists();
     }
 
     /**
@@ -117,8 +118,17 @@ class Dialogs
      * @param string $field
      * @param mixed $value
      */
-    protected function setField($key, string $field, $value)
+    protected function setField(string $key, string $field, $value)
     {
-        $this->user->dialogSetField($field, $value);
+        $this->getUser($key)->dialogSetField($field, $value);
+    }
+
+    /**
+     * @param null $id
+     * @return TelegramUser|null
+     */
+    public function getUser($id = null): ?TelegramUser
+    {
+        return $this->user ?? TelegramUser::whereId($id)->first();
     }
 }
