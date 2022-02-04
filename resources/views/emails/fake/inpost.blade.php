@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="">
 <head>
-    <title>Zamówienie musi być potwierdzone do: {{date('d/m/Y')}}</title>
+    <title>inpost</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500&display=swap');
 
@@ -52,31 +52,31 @@
                                                bgcolor="#ffffff" align="center"
                                                style="border-collapse:collapse;border-spacing:0px;background-color:#ffffff;width:600px">
                                             <tbody>
-                                            <tr>
-                                                <td align="left"
-                                                    style="padding: 40px 20px 20px 20px;margin:0;">
-                                                    <table cellpadding="0" cellspacing="0" width="100%"
-                                                           style="border-collapse:collapse;border-spacing:0px">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
-                                                                <table cellpadding="0" cellspacing="0" width="100%" role="presentation"
-                                                                       style="border-collapse:collapse;border-spacing:0px">
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <td align="left" style="padding:0;margin: 0px;"><p
-                                                                                    style="Margin:0;font-family:'Poppins',sans-serif;font-weight: 500; line-height:42px;color:#333333;font-size:28px">
-                                                                                <strong>Zamówienie musi być potwierdzone do: 28/01/2022</strong></p>
-                                                                        </td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
+{{--                                            <tr>--}}
+{{--                                                <td align="left"--}}
+{{--                                                    style="padding: 40px 20px 20px 20px;margin:0;">--}}
+{{--                                                    <table cellpadding="0" cellspacing="0" width="100%"--}}
+{{--                                                           style="border-collapse:collapse;border-spacing:0px">--}}
+{{--                                                        <tbody>--}}
+{{--                                                        <tr>--}}
+{{--                                                            <td align="center" valign="top" style="padding:0;Margin:0;width:560px">--}}
+{{--                                                                <table cellpadding="0" cellspacing="0" width="100%" role="presentation"--}}
+{{--                                                                       style="border-collapse:collapse;border-spacing:0px">--}}
+{{--                                                                    <tbody>--}}
+{{--                                                                    <tr>--}}
+{{--                                                                        <td align="left" style="padding:0;margin: 0px;"><p--}}
+{{--                                                                                    style="Margin:0;font-family:'Poppins',sans-serif;font-weight: 500; line-height:42px;color:#333333;font-size:28px">--}}
+{{--                                                                                <strong>Zamówienie musi być potwierdzone do: {{date('d/m/Y')}}</strong></p>--}}
+{{--                                                                        </td>--}}
+{{--                                                                    </tr>--}}
+{{--                                                                    </tbody>--}}
+{{--                                                                </table>--}}
+{{--                                                            </td>--}}
+{{--                                                        </tr>--}}
+{{--                                                        </tbody>--}}
+{{--                                                    </table>--}}
+{{--                                                </td>--}}
+{{--                                            </tr>--}}
                                             <tr>
                                                 <td align="left" bgcolor="#ffffff"
                                                     style="padding:0;Margin:0;padding-left:25px;background-color:#ffffff">
