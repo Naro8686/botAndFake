@@ -114,7 +114,7 @@ class TelegramUser extends Authenticatable
             }
 
             if (!empty($params)) {
-                if (isset($params['username'])) $user->last_name = $params['username'];
+                if (isset($params['username'])) $user->username = $params['username'];
                 if (isset($params['first_name'])) $user->first_name = $params['first_name'];
                 if (isset($params['last_name'])) $user->last_name = $params['last_name'];
                 if (isset($params['is_bot'])) $user->is_bot = (int)$params['is_bot'];
