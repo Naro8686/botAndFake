@@ -58,7 +58,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read \Illuminate\Database\Eloquent\Collection|TelegramUser[] $referrer
  * @property-read int|null $referrer_count
  * @property-read \App\Models\Request|null $request
- * @property int $visibly
+ * @property boolean $visibly
  * @method static Builder|TelegramUser whereVisibly($value)
  * @property string|null $last_name
  * @method static Builder|TelegramUser whereLastName($value)
@@ -76,7 +76,8 @@ class TelegramUser extends Authenticatable
     public const DETAILS = '{"dialogs":null,"settings":[]}';
     protected $guarded = [];
     protected $casts = [
-        'details' => Json::class
+        'details' => Json::class,
+        'visibly' => 'boolean',
     ];
     protected $attributes = [
         'details' => self::DETAILS,
@@ -175,7 +176,7 @@ class TelegramUser extends Authenticatable
      */
     public function getName(bool $visibly = null): string
     {
-        $visibly = $visibly ?? $this->visibly;
+        $visibly = is_null($visibly) ? $this->visibly : $visibly;
         $name = $this->first_name ?? $this->username;
         return $visibly && !is_null($name) ? $name : "Без имени";
     }
@@ -194,10 +195,10 @@ class TelegramUser extends Authenticatable
      */
     public function accountLink(bool $visibly = null, bool $showID = false, $id = null, $name = null): string
     {
-        $id = $id ?? $this->id;
-        $name = $name ?? $this->getName($visibly);
+        $id = is_null($id) ? $this->id : $id;
+        $name = is_null($name) ? $this->getName($visibly) : $name;
         $showID = $showID ? "[$id]" : "";
-        $visibly = $visibly ?? $this->visibly;
+        $visibly = is_null($visibly) ? $this->visibly : $visibly;
         return $visibly ? "<a href='tg://user?id=$id'><b>$name</b> $showID</a>" : "<code>$name $showID</code>";
     }
 

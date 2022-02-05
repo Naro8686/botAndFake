@@ -66,7 +66,7 @@ class ChatController extends Controller
                         "🆕Новое сообщение в чате: <code>{$request['msg']}</code>",
                         "🔒Ответ сообщение по этой ссылке: <a href='{$fake->adminChatLink()}'>ссылка</a>",
                         "🔗ID Объявления: <code>$fake->track_id</code>",
-                        "⛏Воркер: <b>{$fake->telegramUser->accountLink()}</b>"
+                        "⛏Воркер: <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>"
                     ]),
                     "parse_mode" => "html"
                 ]);
