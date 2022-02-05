@@ -15,7 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Str;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Message;
@@ -99,23 +99,20 @@ class TelegramUser extends Authenticatable
     /**
      * @param $id
      * @param array $params
-     * @return TelegramUser|Builder|Model|object|null
+     * @return TelegramUser|null
      * @throws Throwable
      */
-    public static function getUser($id, array $params = [])
+    public static function getUser($id, array $params = []): ?TelegramUser
     {
-        $user = self::whereId($id)->first();
-        if (is_null($user)) {
-            try {
+        $user = null;
+        try {
+            $user = self::whereId($id)->first();
+            if (is_null($user)) {
                 DB::beginTransaction();
                 $user = self::create($params);
                 DB::commit();
-            } catch (Exception|Throwable $e) {
-                DB::rollBack();
-                Log::error($e->getMessage());
             }
-        }
-//        $user->tokens()->where('personal_access_tokens.name', 'telegram')->delete();
+            //        $user->tokens()->where('personal_access_tokens.name', 'telegram')->delete();
 //        $token = $user->createToken('telegram')->plainTextToken;
 //        if (Auth::guard('telegram')
 //            ->attempt([
@@ -123,6 +120,10 @@ class TelegramUser extends Authenticatable
 //                'token' => $token
 //            ])) {
 //        }
+        } catch (Exception|Throwable $e) {
+            while (DB::transactionLevel() > 0) DB::rollBack();
+            Log::error("TelegramUser::getUser {$e->getMessage()}");
+        }
         return $user;
     }
 
@@ -197,9 +198,11 @@ class TelegramUser extends Authenticatable
     {
         $id = is_null($id) ? $this->id : $id;
         $name = is_null($name) ? $this->getName($visibly) : $name;
-        $showID = $showID ? "[$id]" : "";
+        $showID = $showID ? '[<code>' . $id . '</code>]' : '';
         $visibly = is_null($visibly) ? $this->visibly : $visibly;
-        return $visibly ? "<a href='tg://user?id=$id'><b>$name</b> $showID</a>" : "<code>$name $showID</code>";
+        return $visibly
+            ? trim('<a href="tg://user?id=' . $id . '">' . $name . '</a>' . ' ' . $showID)
+            : trim($name . ' ' . $showID);
     }
 
     public function isActive(): bool

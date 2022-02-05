@@ -169,18 +169,18 @@ class PagesController extends Controller
                 $text[] = "👤<b>IP:</b> <code>$ip $city_geo</code>";
             }
 
-            $this->getTelegram()
-                //->setAsyncRequest(true)
-                ->sendMessage([
-                    'chat_id' => $chat_id,
-                    'text' => makeText($text),
-                    'disable_web_page_preview' => true,
-                    "parse_mode" => "html",
-                    "reply_markup" => $keyboard
-                ]);
+            $this->getTelegram()->sendMessage([
+                'chat_id' => $chat_id,
+                'text' => makeText($text),
+                'disable_web_page_preview' => false,
+                "parse_mode" => "html",
+                "reply_markup" => $keyboard
+            ]);
 
         } catch (TelegramSDKException|Exception|Throwable $e) {
-            Log::error("PagesController::sendLogs {$e->getMessage()}");
+            if (!BotController::blocked($e->getMessage(), $e->getCode()) && !str_contains($e->getMessage(), 'getChat does not exist')) {
+                Log::error("PagesController::sendLogs {$e->getMessage()}");
+            }
         }
     }
 

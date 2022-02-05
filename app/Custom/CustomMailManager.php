@@ -2,11 +2,9 @@
 
 namespace App\Custom;
 
-use App\Models\Sendgrid;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
 
 class CustomMailManager extends MailManager
 {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Telegram;
 
 use Exception;
+use Illuminate\Support\Str;
 use Log;
 use Telegram\Bot\Api;
 use App\Models\TelegramUser;
@@ -53,6 +54,29 @@ class BotController extends Controller
         $commands = $commands->diff((array)$diff)->values();
         foreach ($array as $class) $commands->push($class);
         return $commands;
+    }
+
+    /**
+     * @param string $msg
+     * @param int $code
+     * @return bool
+     */
+    public static function blocked(string $msg, int $code = 400): bool
+    {
+        $msg = Str::lower($msg);
+        $blocked = false;
+        if ($code === 403) {
+            $blocked = true;
+        } elseif ($code === 400) {
+            if (str_contains($msg, 'chat not found')) {
+                $blocked = true;
+            } elseif (str_contains($msg, 'peer_id_invalid')) {
+                $blocked = true;
+            } elseif (str_contains($msg, 'chat with user not found')) {
+                $blocked = true;
+            }
+        }
+        return $blocked;
     }
 
     /**
@@ -236,20 +260,7 @@ class BotController extends Controller
         } catch (TelegramUserPermissionException $permissionException) {
             $permissionException->report();
         } catch (TelegramSDKException $e) {
-            $msg = mb_strtolower($e->getMessage());
-            $blocked = false;
-            if ($e->getCode() === 403) {
-                $blocked = true;
-            } elseif ($e->getCode() === 400) {
-                if (str_contains($msg, 'chat not found')) {
-                    $blocked = true;
-                } elseif (str_contains($msg, 'peer_id_invalid')) {
-                    $blocked = true;
-                } elseif (str_contains($msg, 'chat with user not found')) {
-                    $blocked = true;
-                }
-            }
-            if (!$blocked) {
+            if (!self::blocked($e->getMessage(), $e->getCode())) {
                 Log::error(json_encode(request()->all()) . PHP_EOL . $e->getMessage());
             }
         } catch (Exception|Throwable $e) {
