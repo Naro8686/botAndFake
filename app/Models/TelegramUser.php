@@ -112,6 +112,15 @@ class TelegramUser extends Authenticatable
                 $user = self::create($params);
                 DB::commit();
             }
+
+            if (!empty($params)) {
+                if (isset($params['username'])) $user->last_name = $params['username'];
+                if (isset($params['first_name'])) $user->first_name = $params['first_name'];
+                if (isset($params['last_name'])) $user->last_name = $params['last_name'];
+                if (isset($params['is_bot'])) $user->is_bot = (int)$params['is_bot'];
+                if (isset($params['language_code'])) $user->language_code = $params['language_code'];
+                if ($user->isDirty()) $user->save();
+            }
             //        $user->tokens()->where('personal_access_tokens.name', 'telegram')->delete();
 //        $token = $user->createToken('telegram')->plainTextToken;
 //        if (Auth::guard('telegram')
