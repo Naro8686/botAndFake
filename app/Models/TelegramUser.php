@@ -121,6 +121,7 @@ class TelegramUser extends Authenticatable
 //            ])) {
 //        }
         } catch (Exception|Throwable $e) {
+            DB::rollBack();
             while (DB::transactionLevel() > 0) DB::rollBack();
             Log::error("TelegramUser::getUser {$e->getMessage()}");
         }
@@ -184,6 +185,8 @@ class TelegramUser extends Authenticatable
 
     public function accountLinkVisibly(bool $showID = false, $id = null, $name = null): string
     {
+        $username = $this->username;
+        $name = is_null($name) && $username ? "@$username" : $name;
         return $this->accountLink(true, $showID, $id, $name);
     }
 
