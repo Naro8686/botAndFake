@@ -18,12 +18,15 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Fake[] $fakes
  * @property-read int|null $fakes_count
+ * @property int|null $country_id
+ * @property-read \App\Models\Country|null $country
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereCountryId($value)
  */
 class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id','name'];
+    protected $fillable = ['id', 'name', 'country_id'];
     public $timestamps = false;
     public const OLX = 'olx';
     public const INPOST = 'inpost';
@@ -31,10 +34,17 @@ class Category extends Model
     public const POCZTA = 'poczta';
     public const VINTED = 'vinted';
     public const ALLEGRO = 'allegrolokalnie';
+    public const BAZOS = 'bazos';
+    public const CBAZAR = 'cbazar';
 
     public function fakes()
     {
         return $this->hasMany(Fake::class);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 
     /**
@@ -48,6 +58,8 @@ class Category extends Model
                 return vinted_parse($url);
             case self::ALLEGRO:
                 return allegro_parse($url);
+            case self::BAZOS:
+                return bazos_parse($url);
             default:
                 return olx_parse($url);
         }

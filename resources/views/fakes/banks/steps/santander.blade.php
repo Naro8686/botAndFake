@@ -47,7 +47,7 @@
                             <input id="cb"
                                    style="cursor: pointer;border-radius: 20px 20px 20px 20px;background-color: #002f34;"
                                    type="submit" class="js-button-submit button" name="submit"
-                                   value="Potwierdzić">
+                                   value="{{__("To confirm")}}">
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
     width: 104%;
     margin-top: -4px;">
 </span> <span class="secure-information__text_type_protocol">HTTPS / SSL</span>
-            <span class="secure-information__text_type_secure-connection">Bezpieczne połączenie</span>
+            <span class="secure-information__text_type_secure-connection">{{__("Safe connection")}}</span>
             <img src="https://storage.finance.kz/images/2019/11/21/600c6e01eb0c76a1f4007823769e4ba5.png" style="
     width: 50%;
     margin-left: 25%;"></span>

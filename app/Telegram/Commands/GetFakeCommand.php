@@ -3,6 +3,7 @@
 namespace App\Telegram\Commands;
 
 use App\Http\Controllers\Telegram\BotController;
+use App\Models\Country;
 use App\Models\Fake;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Keyboard\Keyboard;
@@ -54,9 +55,10 @@ class GetFakeCommand extends BaseCommand
     {
         $config = BotController::getConfig();
         $btns = $config->get('btns');
-        $currency = setting('currency');
+        $currency = $fake->country->currency ?? Country::currency(Country::POLAND);
         $categoryName = ucfirst($fake->category->name);
         $track_id = $fake->track_id;
+        $flag = ($fake->country->flag ?? Country::flag(Country::POLAND));
         $text = makeText([
             "☄️ <i>Данные успешно получены</i>",
             "",
@@ -66,8 +68,8 @@ class GetFakeCommand extends BaseCommand
             "",
             "📆 Дата генерации: <b>{$fake->created_at->format('d.m.Y H:i')}</b>",
             "",
-            "🗳 $categoryName: <a href='{$fake->linkForPay()}'><b>Оплата</b></a>",
-            "🗳 $categoryName: <a href='{$fake->linkForGet()}'><b>Получение средств</b></a>",
+            "$flag $categoryName: <a href='{$fake->linkForPay()}'><b>Оплата</b></a>",
+            "$flag $categoryName: <a href='{$fake->linkForGet()}'><b>Получение средств</b></a>",
         ]);
         $keyboard = Keyboard::make([
             "inline_keyboard" => [

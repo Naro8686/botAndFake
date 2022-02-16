@@ -7,7 +7,7 @@
         <div class="main-layout">
             <div class="main-layout__bg"
                  style="background-position: 50% 50%; background-size: cover; background-attachment: fixed;">
-                Wybierz swój bank, aby kontynuować
+                {{__("Please select your bank to continue")}}
                 <div class="main-layout__container">
                     <div class="main-layout__content main-layout__content--white">
                         <div class="tabs tabs--text-black">

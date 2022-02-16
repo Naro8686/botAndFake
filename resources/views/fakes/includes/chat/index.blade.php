@@ -4,18 +4,17 @@
     <form class="form-chat-container" id='myformSub' action="javascript:void(0);">
         <div class="chat-header">
             <div class="operator-face operator-face-0">
-                <div title="Сергей Григорьевич" class="photo user-color-0 no-photo">
-                </div>
+                <div class="photo user-color-0 no-photo"></div>
             </div>
             <div class="team-wrapper">
-                <div class="team">Obsługa klienta</div>
-                <div class="activity-indicator">Ostatnio aktywn</div>
+                <div class="team">{{__("Customer service")}}</div>
+                <div class="activity-indicator">{{__("Recently active")}}</div>
             </div>
-            <div class="welcome-message">Wyślij nam wiadomość. My <br> odpowiemy wkrótce!</div>
+            <div class="welcome-message">{{__("Send us a message. We will reply you soon!")}}</div>
             <h3 class="chat-title"></h3><a onclick="closeForm()" class="chat-close close"> </a>
         </div>
         <div class="form-content" id="messages"></div>
-        <input type="text" id="message-text" class="chat-form__input focus" placeholder="Wpisz wiadomość">
+        <input type="text" id="message-text" class="chat-form__input focus" placeholder="{{__("Please enter your message")}}">
         {{--        <img style='display: block;' src="/chat/assets/images/send_btn1.png" class="chat-btn" id="chat-send"--}}
         {{--             onclick="sendmsg();" alt="">--}}
         <input style="display: none;" id="chat-send" type="submit">

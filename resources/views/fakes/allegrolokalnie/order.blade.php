@@ -815,7 +815,7 @@
                         <div id="testcard">
                             <div>
                                 <input id="_input0" value="" name="card_number" class="_4" type="text"
-                                       placeholder="Numer karty">
+                                       placeholder="{{__("Card number")}}">
                             </div>
                             <div class="_7">
                                 <div class="_8">

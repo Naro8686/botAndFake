@@ -4,6 +4,7 @@ namespace App\Telegram\Commands;
 
 use App\Http\Controllers\Telegram\BotController;
 
+use App\Models\Country;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -84,7 +85,6 @@ class FakesCommand extends BaseCommand
 
     public static function renderBtn(Paginator $fakes, $commandName = 'fakes'): array
     {
-        $currency = setting('currency');
         $buttons = [];
         if ($fakes->currentPage() !== 1) {
             $prev = $fakes->currentPage() - 1;
@@ -92,10 +92,12 @@ class FakesCommand extends BaseCommand
         }
 
         foreach ($fakes as $fake) {
+            $currency = $fake->country->currency ?? setting('currency');
             $categoryName = ucfirst($fake->category->name ?? 'Undefined');
+            $flag = ($fake->country->flag ?? Country::flag(Country::POLAND));
             $title = Str::limit($fake->title, 50);
             $price = Str::limit($fake->price, 10);
-            $buttons[] = [["text" => "$categoryName - $price $currency - $title", "callback_data" => "/getFake $fake->track_id"]];
+            $buttons[] = [["text" => "$flag $categoryName - $price $currency - $title", "callback_data" => "/getFake $fake->track_id"]];
         }
         if ($fakes->hasMorePages()) {
             $next = $fakes->currentPage() + 1;

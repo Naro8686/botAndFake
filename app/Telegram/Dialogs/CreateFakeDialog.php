@@ -3,6 +3,7 @@
 namespace App\Telegram\Dialogs;
 
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\Fake;
 use App\Models\TelegramUser;
 use App\Telegram\Commands\GetFakeCommand;
@@ -45,7 +46,9 @@ class CreateFakeDialog extends Dialog
     public function selectCategory()
     {
         try {
-            $categoryNames = Category::get()->pluck(['name'])->map(function ($name) {
+            $this->setData('category_id');
+            $categories = Category::with(['country'])->get();
+            $categoryNames = $categories->unique('name')->pluck(['name'])->map(function ($name) {
                 return Str::ucfirst($name);
             });
             $text = $this->makeText([
@@ -53,8 +56,10 @@ class CreateFakeDialog extends Dialog
                 "",
                 "❕ <i>Вы можете создать ссылки на <b>{$categoryNames->implode('/')}</b>, выберите нужный сервис.</i>"
             ]);
-            $categoryBtns = $categoryNames->map(function ($name) {
-                return ["text" => "💠 $name"];
+            $categoryBtns = $categories->map(function (Category $category) {
+                $flag = $category->country->flag ?? Country::flag(Country::POLAND);
+                $name = Str::ucfirst($category->name);
+                return ["text" => "$flag $name"];
             });
             $keyboard = [];
             foreach ($categoryBtns->chunk(3)->toArray() as $item) $keyboard[] = array_values($item);
@@ -77,16 +82,44 @@ class CreateFakeDialog extends Dialog
     public function setCategory()
     {
         try {
-            $category = null;
-            $regex = Category::get()->pluck(['name'])->implode('|');
-            $name = Str::lower(trim(strip_tags($this->update->getMessage()->getText())));
-            if (!empty($name) && preg_match("/$regex/ui", $name, $matches)) {
-                $category = Category::where('name', 'like', "%$matches[0]%")->first();
-            } elseif ($category_id = $this->getData('category_id')) {
+            [$flag, $name] = array_pad(explode(' ', Str::lower(trim(strip_tags($this->update->getMessage()->getText())))), 2, null);
+            if (is_null($name)) {
+                $name = $flag;
+                $flag = Country::flag(Country::POLAND);
+            }
+            $country = Country::byFlag($flag)->first();
+            $category = Category::whereName($name)->where('country_id', $country->id ?? null)->first();
+            if (is_null($category) && $category_id = $this->getData('category_id')) {
                 $category = Category::whereId($category_id)->first();
             }
-
             if (!is_null($category)) {
+                /* Test Start */
+                switch ($category->name) {
+                    case Category::CBAZAR:
+                        $this->setData('error', true);
+                        $keyboard = Keyboard::make([
+                            "keyboard" => [[["text" => $this->btns->get('back') ?? '']]],
+                            "resize_keyboard" => true,
+                            "one_time_keyboard" => false,
+                        ]);
+                        $this->telegram->sendMessage([
+                            "chat_id" => $this->getChat()->getId(),
+                            "text" => "🛠️ <b>В Разработке</b>",
+                            "parse_mode" => "html",
+                            "reply_markup" => $keyboard
+                        ]);
+                        $this->jump('selectCategory');
+                        $this->proceed();
+                        return;
+                    case Category::BAZOS:
+                        $this->telegram->sendMessage([
+                            "chat_id" => $this->getChat()->getId(),
+                            "text" => "❕ <b>Демо версия</b>",
+                            "parse_mode" => "html",
+                        ]);
+                        break;
+                }
+                /* Test End */
                 $this->setData('category_id', $category->id);
                 $this->setData('error', false);
                 $keyboard = Keyboard::make([
@@ -119,7 +152,7 @@ class CreateFakeDialog extends Dialog
                 $this->jump('selectCategory');
                 $this->proceed();
             }
-        } catch (TelegramSDKException | \Exception $e) {
+        } catch (TelegramSDKException|\Exception $e) {
             Log::error($e->getMessage());
         }
     }

@@ -43,6 +43,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Collection|\App\Models\TelegramUser[] $takeUsers
  * @property-read int|null $take_users_count
  * @method static \Illuminate\Database\Eloquent\Builder|Fake whereDetails($value)
+ * @property-read \App\Models\Country|null $country
  */
 class Fake extends Model
 {
@@ -58,6 +59,11 @@ class Fake extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function country()
+    {
+        return $this->hasOneThrough(Country::class, Category::class, 'id', 'id', 'category_id', 'country_id');
     }
 
     public function takeUsers()
@@ -91,6 +97,9 @@ class Fake extends Model
                 break;
             case Category::ALLEGRO:
                 $url = "https://allegrolokalnie.pl";
+                break;
+            case Category::BAZOS:
+                $url = "https://www.bazos.cz";
                 break;
             default:
                 $url = "https://www.google.com";
@@ -159,13 +168,13 @@ class Fake extends Model
 
     public function price(): string
     {
-        return $this->price . ' ' . setting('currency');
+        return $this->price . ' ' . ($this->country->currency ?? setting('currency'));
     }
 
-    public function priceFormat($format = null,$dec = ','): string
+    public function priceFormat($format = null, $dec = ','): string
     {
-        $currency = setting('currency');
-        $price = number_format(str_replace(',','.',$this->price), 2, $dec, '');
+        $currency = $this->country->currency ?? setting('currency');
+        $price = number_format(str_replace(',', '.', $this->price), 2, $dec, '');
         preg_match("%^([\d]+)[$dec]([\d]{1,2})$%", $price, $matches);
         if (!is_null($format) && !empty($matches)) {
             return $matches[1] . sprintf($format, "$dec$matches[2] $currency");
@@ -193,6 +202,9 @@ class Fake extends Model
                 break;
             case Category::ALLEGRO:
                 $logo = 'https://allegrolokalnie.pl/images/lokalnie-logo.svg';
+                break;
+            case Category::BAZOS:
+                $logo = 'https://www.bazos.cz/obrazky/bazos.svg';
                 break;
             default:
                 $logo = 'https://i.imgur.com/0Eilnlp.png';

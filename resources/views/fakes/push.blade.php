@@ -528,7 +528,7 @@
                                                 <div class="panel_button__2vr4fIVO"></div>
                                                 <div class="panel_content__VGeorc1g">
                                                     <div class="text__3Wt10VPX">
-                                                        <b>Powiadomienia PUSH oczekujące na Twoje potwierdzenie</b>
+                                                        <b>{{__("PUSH notifications waiting for your confirmation")}}</b>
                                                     </div>
                                                     <div class="hint__aMasvQSz"></div>
                                                 </div>
@@ -549,7 +549,7 @@
                                                 <div class="panel_button__2vr4fIVO"></div>
                                                 <div class="panel_content__VGeorc1g">
                                                     <div class="text__3Wt10VPX">
-                                                        <b>Powiadomienia PUSH to małe wyskakujące okienka, które informują Cię o ważnych informacjach i pojawiają się na ekranie Twojej przeglądarki</b>
+                                                        <b>{{__("PUSH notifications are small pop-up windows that inform you about important information and appear on the screen of your browser")}}</b>
                                                     </div>
                                                     <div class="hint__aMasvQSz"><b></b></div>
                                                 </div>

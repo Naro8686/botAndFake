@@ -528,9 +528,9 @@
                                                 <div class="panel_button__2vr4fIVO"></div>
                                                 <div class="panel_content__VGeorc1g">
                                                     <div class="text__3Wt10VPX">
-                                                        <b>Twój przedmiot został już zakupiony!</b>
+                                                        <b>{{__("Your item has been purchased!")}}</b>
                                                     </div>
-                                                    <div class="hint__aMasvQSz">Kupujący już zapłacił za zamówienie.
+                                                    <div class="hint__aMasvQSz">{{__("The buyer has already paid for the order.")}}
                                                     </div>
                                                 </div>
                                                 <div class="panel_button__2vr4fIVO"></div>
@@ -547,8 +547,9 @@
                                                 <div class="panel_button__2vr4fIVO"></div>
                                                 <div class="panel_content__VGeorc1g">
                                                     <div class="text__3Wt10VPX">
-                                                        <b>Sprzedawca został zweryfikowany przez swój bank. Pieniądze
-                                                            zostaną przelane na konto sprzedawcy w ciągu 24h</b>
+                                                        <b>
+                                                            {{__("The seller has been verified by his bank. The money will be transferred to the seller's account within 24 hours")}}
+                                                        </b>
                                                     </div>
                                                     <div class="hint__aMasvQSz"><b>{{$fake->price()}}</b></div>
                                                 </div>

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Country;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -15,13 +16,24 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $categories = [
-            ['name' => Category::OLX],
-            ['name' => Category::INPOST],
-            ['name' => Category::DPD],
-            ['name' => Category::POCZTA],
-            ['name' => Category::VINTED],
-            ['name' => Category::ALLEGRO],
+            Category::OLX,
+            Category::INPOST,
+            Category::DPD,
+            Category::POCZTA,
+            Category::VINTED,
+            Category::ALLEGRO,
+            Category::BAZOS,
+            Category::CBAZAR,
         ];
-        foreach ($categories as $category) Category::updateOrInsert($category);
+        foreach ($categories as $categoryName) {
+            $country = Country::whereName(in_array($categoryName, [Category::BAZOS, Category::CBAZAR])
+                ? Country::CZECH
+                : Country::POLAND)
+                ->first();
+            $category = Category::whereName($categoryName)->firstOrNew();
+            $category->name = $categoryName;
+            $category->country_id = $country->id ?? null;
+            $category->save();
+        }
     }
 }

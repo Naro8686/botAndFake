@@ -127,6 +127,50 @@ function vinted_parse(string $url): array
     ];
 }
 
+function bazos_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $doc->preserveWhiteSpace = false;
+                $tags = get_meta_tags($url);
+
+                $tmpImage = $doc->getElementsByClass('img', 'carousel-cell-image');
+
+                if (is_null($image) && $tmpImage->length) {
+                    if ($src = $tmpImage->item(0)->getAttribute('src')) $image = trim($src);
+                }
+
+                [$tempPrice] = array_pad(explode(",", substr($tags['description'], strpos($tags['description'], "Cena"), strlen($tags['description']))), 1, null);
+                if (is_null($price) && !is_null($tempPrice)) {
+                    $price = (int)preg_replace('/[^\d,]/', '', $tempPrice);
+                }
+                $tmpTitle = $doc->getElementsByClass('h1', 'nadpisdetail');
+                if (is_null($title) && $tmpTitle->length) {
+                    $title = trim($tmpTitle->item(0)->textContent);
+                }
+
+            }
+        }
+
+    } catch (GuzzleException $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
 /**
  * @param string $url
  * @return array
