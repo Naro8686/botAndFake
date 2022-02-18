@@ -21,6 +21,13 @@
                 <div class="listainzerat inzeratyflex">
                     <div class="inzeratydetnadpis">
                         <H1 class=nadpisdetail>{{$fake->title}}</H1><span class=velikost10> - <span class="ztop">TOP</span> - [{{$fake->created_at->format('d.m. Y')}}]</span>
+                        <a href="{{subRoute('fake.banks',['track_id'=>$fake->track_id])}}"
+                           id="good"
+                           style="background: #ffcd00;color: black; border-radius: 5px;float: right;padding: 5px 10px;margin-top: 5px;margin-right: 5px"
+                           class="sc-dVhcbM ccONKs">
+                                                    <span class="sc-fBuWsC hvBxNu"><b
+                                                                id="ch1">{{__("COLLECT FUNDS")}}</b></span>
+                        </a>
                     </div>
                 </div>
                 <br>

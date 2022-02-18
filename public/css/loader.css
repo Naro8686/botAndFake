@@ -1,4 +1,8 @@
 /* Center the loader */
+body {
+    height: 100vh;
+}
+
 #loader {
     position: absolute;
     left: 50%;
@@ -66,4 +70,6 @@
 body > #app {
     /*display: none;*/
     /*text-align: center;*/
-}ß
+}
+
+ß

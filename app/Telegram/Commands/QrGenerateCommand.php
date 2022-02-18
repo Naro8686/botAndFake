@@ -2,9 +2,12 @@
 
 namespace App\Telegram\Commands;
 
+use App\Models\Country;
+use Illuminate\Support\Facades\App;
 use Log;
 use QrCode;
 use App\Models\Fake;
+use Str;
 use Telegram\Bot\Actions;
 use Intervention\Image\AbstractFont;
 use Intervention\Image\Facades\Image;
@@ -43,10 +46,7 @@ class QrGenerateCommand extends BaseCommand
             $max_len = 32;
             $font_size = 24;
             $font_height = 14;
-            $imgText = 'TWÓJ PRZEDMIOT JEST OPŁACONY! ZESKANUJ I NDYWIDUALNY QR-CODE ABY AKTYWOWAĆ "KUP TERAZ"';
 
-            $lines = explode("\n", wordwrap($imgText, $max_len));
-            $y = (int)($center_y - ((count($lines) - 1) * $font_height));
 
             $this->replyWithChatAction(['action' => Actions::TYPING]);
             $track_id = $this->getArguments()['track_id'] ?? null;
@@ -59,11 +59,17 @@ class QrGenerateCommand extends BaseCommand
                 "parse_mode" => "html",
             ]);
             if ($track_id && $fake = Fake::whereTrackId($track_id)->first()) {
+                $locale = $fake->country->locale ?? Country::locale(Country::POLAND);
+                if (!App::isLocale($locale)) App::setLocale($locale);
                 $str = $fake->link(false, false);
-                $categoryName = \Str::lower($fake->category->name);
+                $categoryName = Str::lower($fake->category->name);
                 $img = file_exists(public_path("images/qr/logo/{$categoryName}.png")) ? public_path("images/qr/logo/{$categoryName}.png") : public_path("images/{$categoryName}_logo.png");
                 if (file_exists($img)) $logo = $img;
             }
+            $imgText = __("YOUR SUBJECT IS PAID! SCAN AN INDIVIDUAL QR-CODE TO ACTIVATE \"BUY NOW\"");
+
+            $lines = explode("\n", wordwrap($imgText, $max_len));
+            $y = (int)($center_y - ((count($lines) - 1) * $font_height));
 
             if (!is_null($str)) {
                 $this->replyWithChatAction(['action' => Actions::UPLOAD_PHOTO]);
@@ -94,7 +100,7 @@ class QrGenerateCommand extends BaseCommand
                         });
                         $y += $font_height * 2;
                     }
-                    $img->text(\Str::upper($categoryName) . ' ' . date('Y'), $center_x, $y + 20, function (AbstractFont $font) use ($font_size) {
+                    $img->text(Str::upper($categoryName) . ' ' . date('Y'), $center_x, $y + 20, function (AbstractFont $font) use ($font_size) {
                         $font->file(public_path('fonts/Roboto/Roboto-Bold.ttf'));
                         $font->size((int)($font_size / 1.5));
                         $font->color('#ffffff');

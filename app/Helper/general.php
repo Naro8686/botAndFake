@@ -171,6 +171,58 @@ function bazos_parse(string $url): array
     ];
 }
 
+function cbazar_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $doc->preserveWhiteSpace = false;
+
+                $tmpImage = $doc->getElementsById('img', 'img-detail');
+                if (is_null($image) && $tmpImage->length) {
+                    if ($src = $tmpImage->item(0)->getAttribute('src')) $image = trim($src);
+                }
+
+                $table = $doc->getElementsByClass('table', 'fll');
+                if (is_null($price) && $table->length) {
+                    foreach ($table->item(0)->getElementsByTagName('tr') as $row) {
+                        foreach ($row->getElementsByTagName('th') as $th) {
+                            if (!is_null($price)) continue;
+                            if (Str::lower($th->textContent) === "cena:") {
+                                $tmpPrice = $row->getElementsByTagName('td');
+                                if ($tmpPrice->length && $text = $tmpPrice->item(0)->textContent) {
+                                    $price = (int)preg_replace('/[^\d,]/', '', $text);
+                                }
+                            }
+                        }
+                    }
+                }
+                $tmpTitle = $doc->getElementsByClass('h1', 'fll');
+                if (is_null($title) && $tmpTitle->length) {
+                    $title = trim($tmpTitle->item(0)->textContent);
+                }
+
+            }
+        }
+
+    } catch (GuzzleException $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
 /**
  * @param string $url
  * @return array

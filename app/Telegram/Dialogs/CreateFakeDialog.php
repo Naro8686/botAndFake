@@ -93,33 +93,6 @@ class CreateFakeDialog extends Dialog
                 $category = Category::whereId($category_id)->first();
             }
             if (!is_null($category)) {
-                /* Test Start */
-                switch ($category->name) {
-                    case Category::CBAZAR:
-                        $this->setData('error', true);
-                        $keyboard = Keyboard::make([
-                            "keyboard" => [[["text" => $this->btns->get('back') ?? '']]],
-                            "resize_keyboard" => true,
-                            "one_time_keyboard" => false,
-                        ]);
-                        $this->telegram->sendMessage([
-                            "chat_id" => $this->getChat()->getId(),
-                            "text" => "🛠️ <b>В Разработке</b>",
-                            "parse_mode" => "html",
-                            "reply_markup" => $keyboard
-                        ]);
-                        $this->jump('selectCategory');
-                        $this->proceed();
-                        return;
-                    case Category::BAZOS:
-                        $this->telegram->sendMessage([
-                            "chat_id" => $this->getChat()->getId(),
-                            "text" => "❕ <b>Демо версия</b>",
-                            "parse_mode" => "html",
-                        ]);
-                        break;
-                }
-                /* Test End */
                 $this->setData('category_id', $category->id);
                 $this->setData('error', false);
                 $keyboard = Keyboard::make([

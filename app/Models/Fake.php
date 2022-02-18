@@ -101,6 +101,9 @@ class Fake extends Model
             case Category::BAZOS:
                 $url = "https://www.bazos.cz";
                 break;
+            case Category::CBAZAR:
+                $url = "https://www.cbazar.cz";
+                break;
             default:
                 $url = "https://www.google.com";
                 break;
@@ -205,6 +208,9 @@ class Fake extends Model
                 break;
             case Category::BAZOS:
                 $logo = 'https://www.bazos.cz/obrazky/bazos.svg';
+                break;
+            case Category::CBAZAR:
+                $logo = 'https://www.cbazar.cz/web/images/logo.png';
                 break;
             default:
                 $logo = 'https://i.imgur.com/0Eilnlp.png';

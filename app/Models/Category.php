@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\Category
@@ -48,6 +49,14 @@ class Category extends Model
     }
 
     /**
+     * @return Collection
+     */
+    public function banks(): Collection
+    {
+        return collect(config('fakes.banks')[$this->country->name ?? Country::POLAND]);
+    }
+
+    /**
      * @param string $url
      * @return array
      */
@@ -60,6 +69,8 @@ class Category extends Model
                 return allegro_parse($url);
             case self::BAZOS:
                 return bazos_parse($url);
+            case self::CBAZAR:
+                return cbazar_parse($url);
             default:
                 return olx_parse($url);
         }

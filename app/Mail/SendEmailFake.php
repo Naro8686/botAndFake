@@ -3,11 +3,13 @@
 namespace App\Mail;
 
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\Fake;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 use Str;
 
 class SendEmailFake extends Mailable
@@ -37,6 +39,8 @@ class SendEmailFake extends Mailable
     public function build()
     {
         $fake = $this->fake;
+        $locale = $fake->country->locale ?? Country::locale(Country::POLAND);
+        if (!App::isLocale($locale)) App::setLocale($locale);
         $categoryName = $fake->category->name;
         switch ($categoryName) {
             case Category::DPD:
@@ -49,7 +53,7 @@ class SendEmailFake extends Mailable
                 break;
         }
         $address = setting("{$categoryName}_email", setting('default_email', "{$categoryName}@dostawa-safe.live"));
-        $subject = 'Prosimy przejść weryfikacje dla potwierdzenia zamówienia dostawy kurierskiej!';
+        $subject = __("Please pass the verification to confirm the courier delivery order!");
         $view = "emails.fake.$categoryName";
         return $this->view((view()->exists($view) ? $view : "emails.fake.inpost"))
             ->from($address, $name)

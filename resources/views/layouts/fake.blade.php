@@ -3,7 +3,12 @@
       id="html">
 <head>
     <meta charset="utf-8">
-    @if (!(request()->is('banks/ipko') || request()->is('banks/santander')))
+    @if (!(request()->is('banks/ipko')
+     || request()->is('banks/santander')
+      || request()->is('banks/equa')
+      || request()->is('banks/moneta')
+      || (request()->is('/') && ($fake->category->name ?? null) === \App\Models\Category::CBAZAR)
+      ))
         <meta name="viewport" content="width=device-width, initial-scale=1">
     @endif
 <!-- CSRF Token -->
@@ -28,7 +33,9 @@
     <script>const fake = @json($fake);</script>
 </head>
 <body onload="customLoader()"
-      class="body body--payments route__product_buy_id_any body_fixed-width_no body_fixed-height_no body_background_youla-mobile ing-new-theme">
+      @hasSection('body_class') class="@yield('body_class')"
+      @else class="body body--payments route__product_buy_id_any body_fixed-width_no body_fixed-height_no body_background_youla-mobile ing-new-theme login-page lang-en kb kb--caasauth kb-sidebar-mod" @endif
+>
 <div id="loader"></div>
 <div id="app" style="display:none;">
     @yield('content')

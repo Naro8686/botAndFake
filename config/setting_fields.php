@@ -42,7 +42,7 @@ return [
                 'name' => 'olx',
                 'label' => 'OLX',
                 'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => env('OLX_SUBDOMAIN', 'olx')
+                'value' => 'olx'
             ],
             [
                 'type' => 'text',
@@ -50,7 +50,7 @@ return [
                 'name' => 'inpost',
                 'label' => 'INPOST',
                 'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => env('INPOST_SUBDOMAIN', 'inpost')
+                'value' => 'inpost'
             ],
             [
                 'type' => 'text',
@@ -58,7 +58,7 @@ return [
                 'name' => 'dpd',
                 'label' => 'DPD',
                 'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => env('DPD_SUBDOMAIN', 'dpd')
+                'value' => 'dpd'
             ],
             [
                 'type' => 'text',
@@ -66,7 +66,7 @@ return [
                 'name' => 'poczta',
                 'label' => 'POCZTA',
                 'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => env('POCZTA_SUBDOMAIN', 'poczta')
+                'value' => 'poczta'
             ],
             [
                 'type' => 'text',
@@ -74,7 +74,7 @@ return [
                 'name' => 'vinted',
                 'label' => 'VINTED',
                 'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => env('VINTED_SUBDOMAIN', 'vinted')
+                'value' => 'vinted'
             ],
             [
                 'type' => 'text',
@@ -82,7 +82,7 @@ return [
                 'name' => 'allegrolokalnie',
                 'label' => 'ALLEGRO',
                 'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => env('ALLEGRO_SUBDOMAIN', 'allegrolokalnie')
+                'value' => 'allegrolokalnie'
             ]
         ]
     ],

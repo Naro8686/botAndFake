@@ -18,4 +18,14 @@ class DomParse extends DOMDocument
         return (new DOMXpath($this))->query("//{$tagName}[contains(@class,'$className')]");
     }
 
+    /**
+     * @param $tagName
+     * @param $idName
+     * @return DOMNodeList|false
+     */
+    public function getElementsById($tagName, $idName)
+    {
+        return (new DOMXpath($this))->query("//{$tagName}[contains(@id,'$idName')]");
+    }
+
 }

