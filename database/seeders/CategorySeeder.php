@@ -16,24 +16,31 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $categories = [
-            Category::OLX,
-            Category::INPOST,
-            Category::DPD,
-            Category::POCZTA,
-            Category::VINTED,
-            Category::ALLEGRO,
-            Category::BAZOS,
-            Category::CBAZAR,
+            Country::POLAND => [
+                Category::OLX,
+                Category::INPOST,
+                Category::DPD,
+                Category::POCZTA,
+                Category::VINTED,
+                Category::ALLEGRO,
+            ],
+            Country::CZECH => [
+                Category::BAZOS,
+                Category::CBAZAR,
+                Category::POSTAONLINE,
+                Category::PPL,
+                Category::SBAZAR,
+                Category::ZASILKOVNA,
+            ],
         ];
-        foreach ($categories as $categoryName) {
-            $country = Country::whereName(in_array($categoryName, [Category::BAZOS, Category::CBAZAR])
-                ? Country::CZECH
-                : Country::POLAND)
-                ->first();
-            $category = Category::whereName($categoryName)->firstOrNew();
-            $category->name = $categoryName;
-            $category->country_id = $country->id ?? null;
-            $category->save();
+        foreach ($categories as $countryName => $services) {
+            $country = Country::whereName($countryName)->first();
+            foreach ($services as $service) {
+                $category = Category::whereName($service)->firstOrNew();
+                $category->name = $service;
+                $category->country_id = optional($country)->id;
+                $category->save();
+            }
         }
     }
 }

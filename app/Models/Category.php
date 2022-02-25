@@ -37,6 +37,10 @@ class Category extends Model
     public const ALLEGRO = 'allegrolokalnie';
     public const BAZOS = 'bazos';
     public const CBAZAR = 'cbazar';
+    public const SBAZAR = 'sbazar';
+    public const POSTAONLINE = 'postaonline';
+    public const PPL = 'ppl';
+    public const ZASILKOVNA = 'zasilkovna';
 
     public function fakes()
     {
@@ -71,6 +75,8 @@ class Category extends Model
                 return bazos_parse($url);
             case self::CBAZAR:
                 return cbazar_parse($url);
+            case self::SBAZAR:
+                return sbazar_parse($url);
             default:
                 return olx_parse($url);
         }

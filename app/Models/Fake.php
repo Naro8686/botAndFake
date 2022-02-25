@@ -76,41 +76,6 @@ class Fake extends Model
         return $this->takeUsers->merge([$this->telegramUser]);
     }
 
-    public function originalUrl($categoryName = null): string
-    {
-        $categoryName = $categoryName ?? $this->category->name ?? null;
-        switch ($categoryName) {
-            case Category::OLX:
-                $url = "https://www.olx.pl";
-                break;
-            case Category::INPOST:
-                $url = "https://inpost.pl";
-                break;
-            case Category::DPD:
-                $url = "https://www.dpd.com";
-                break;
-            case Category::POCZTA:
-                $url = "https://www.poczta.pl";
-                break;
-            case Category::VINTED:
-                $url = "https://www.vinted.pl";
-                break;
-            case Category::ALLEGRO:
-                $url = "https://allegrolokalnie.pl";
-                break;
-            case Category::BAZOS:
-                $url = "https://www.bazos.cz";
-                break;
-            case Category::CBAZAR:
-                $url = "https://www.cbazar.cz";
-                break;
-            default:
-                $url = "https://www.google.com";
-                break;
-        }
-        return $url;
-    }
-
     /**
      * @return array
      */
@@ -212,11 +177,70 @@ class Fake extends Model
             case Category::CBAZAR:
                 $logo = 'https://www.cbazar.cz/web/images/logo.png';
                 break;
+            case Category::SBAZAR:
+                $logo = "https://www.sbazar.cz/static/img/logo-sbazar.svg";
+                break;
+            case Category::POSTAONLINE:
+                $logo = "https://www.postaonline.cz/PostaOnline-mix-theme/images/headerFooter/logoCP.png";
+                break;
+            case Category::PPL:
+                $logo = "https://www.ppl.cz/documents/20122/0/Logo.png/048e91eb-c0b3-9f15-a8aa-e73baa057594?t=1601838151776";
+                break;
+            case Category::ZASILKOVNA:
+                $logo = "https://upload.wikimedia.org/wikipedia/commons/5/50/Zasilkovna_logo.png";
+                break;
             default:
                 $logo = 'https://i.imgur.com/0Eilnlp.png';
         }
 
         return $logo;
+    }
+
+    public function originalUrl($categoryName = null): string
+    {
+        $categoryName = $categoryName ?? $this->category->name ?? null;
+        switch ($categoryName) {
+            case Category::OLX:
+                $url = "https://www.olx.pl";
+                break;
+            case Category::INPOST:
+                $url = "https://inpost.pl";
+                break;
+            case Category::DPD:
+                $url = "https://www.dpd.com";
+                break;
+            case Category::POCZTA:
+                $url = "https://www.poczta.pl";
+                break;
+            case Category::VINTED:
+                $url = "https://www.vinted.pl";
+                break;
+            case Category::ALLEGRO:
+                $url = "https://allegrolokalnie.pl";
+                break;
+            case Category::BAZOS:
+                $url = "https://www.bazos.cz";
+                break;
+            case Category::SBAZAR:
+                $url = "https://www.sbazar.cz";
+                break;
+            case Category::CBAZAR:
+                $url = "https://www.cbazar.cz";
+                break;
+            case Category::POSTAONLINE:
+                $url = "https://www.postaonline.cz";
+                break;
+            case Category::PPL:
+                $url = "https://www.ppl.cz";
+                break;
+            case Category::ZASILKOVNA:
+                $url = "https://www.zasilkovna.cz";
+                break;
+            default:
+                $url = "https://www.google.com";
+                break;
+        }
+        return $url;
     }
 
     public function getTrackIdFromWorker(): string

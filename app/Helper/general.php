@@ -223,6 +223,58 @@ function cbazar_parse(string $url): array
     ];
 }
 
+function sbazar_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $doc->preserveWhiteSpace = false;
+
+                $tmpImage = $doc->getElementsByClass('img', 'ob-c-gallery__img');
+                if (is_null($image) && $tmpImage->length) {
+                    if ($src = $tmpImage->item(0)->getAttribute('src')) {
+                        $src = trim($src);
+                        $image = Str::contains($src, 'https://') || Str::contains($src, 'http://')
+                            ? $src : Str::replaceFirst('//', 'https://', $src);
+                    }
+                }
+
+                $tmpPrice = $doc->getElementsByClass('span', 'p-uw-item__price');
+
+                if (is_null($price) && $tmpPrice->length) {
+                    foreach ($tmpPrice->item(0)->childNodes as $el) {
+                        if (!is_null($price)) continue;
+                        if ($el->getAttribute('class') === 'c-price__price')
+                            $price = (int)preg_replace('/[^\d,]/', '', $el->textContent);
+                    }
+                }
+
+                $tmpTitle = $doc->getElementsByClass('h1', 'p-uw-item__header');
+                if (is_null($title) && $tmpTitle->length) {
+                    $title = trim($tmpTitle->item(0)->textContent);
+                }
+
+            }
+        }
+
+    } catch (GuzzleException $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
 /**
  * @param string $url
  * @return array
