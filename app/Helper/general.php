@@ -110,9 +110,12 @@ function vinted_parse(string $url): array
                     $tmpPrice = $tmpPrice->item(0)->getElementsByTagName('span');
                     if ($tmpPrice->length && $text = $tmpPrice->item(0)->textContent) $price = (int)preg_replace('/[^\d,]/', '', $text);
                 }
-                $tmpTitle = $doc->getElementsByClass('h1', 'details-list__item-title');
-                if (is_null($title) && $tmpTitle->length && $tmpTitle->item(0)->getAttribute('itemprop') === 'name') {
-                    $title = trim($tmpTitle->item(0)->textContent);
+                $tmpTitle = $doc->getElementsByClass('h1', 'details-list__item-title')->length ? $doc->getElementsByClass('h1', 'details-list__item-title') : $doc->getElementsByTagName('title');
+                if (is_null($title) && $tmpTitle->length) {
+                    $tmpTitle = $tmpTitle->item(0);
+                    if ($tmpTitle->getAttribute('itemprop') === 'name' || $tmpTitle->nodeName === 'title') {
+                        $title = trim(str_replace('- Vinted', '', $tmpTitle->textContent));
+                    }
                 }
             }
         }

@@ -31,6 +31,7 @@ class CategorySeeder extends Seeder
                 Category::PPL,
                 Category::SBAZAR,
                 Category::ZASILKOVNA,
+                Category::VINTED,
             ],
         ];
         foreach ($categories as $countryName => $services) {
