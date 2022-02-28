@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Fake;
 
+use App\Models\Country;
 use Illuminate\Support\Facades\DB;
 use App\Models\Fake;
 use Illuminate\Http\Request;
@@ -46,8 +47,10 @@ class ChatController extends Controller
                 ->where('role', '<>', $is_admin)
                 ->exists();
         }
+        $fake = Fake::whereTrackId($track_id)->first();
+        $locale = $fake->country->locale ?? Country::locale(Country::POLAND);
         $messages = DB::table('chat')->where('track', $track_id)->get();
-        return view('fakes.includes.chat.ajax_chat', compact('messages', 'is_admin'))->render();
+        return view("fakes.$locale.includes.chat.ajax_chat", compact('messages', 'is_admin'))->render();
     }
 
     public function sendMsg(Request $request)
