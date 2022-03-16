@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Fake;
 
 use App\Models\Country;
+use Cache;
 use Illuminate\Support\Facades\DB;
 use App\Models\Fake;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Throwable;
 
 
 class ChatController extends Controller
@@ -16,6 +18,10 @@ class ChatController extends Controller
     protected $track_id = null;
     public const ADMIN = 1;
     public const USER = 0;
+    /**
+     * @var mixed
+     */
+    public $uuid;
 
     public function __construct(Request $request)
     {
@@ -30,9 +36,15 @@ class ChatController extends Controller
                     $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
                 });
             }
-
-            $this->track_id = $request['id'] ?? session('track_id');
-        } catch (\Throwable $throwable) {
+            $this->middleware(function (Request $request, $next) {
+                $this->track_id = $request->get('id', $request->session()->get('track_id'));
+                if ($this->uuid = $request->session()->get('uuid')) Cache::remember("$this->uuid.is_online", 60,
+                    function () {
+                        return now()->toDateTimeString();
+                    });
+                return $next($request);
+            });
+        } catch (Throwable $throwable) {
         }
     }
 

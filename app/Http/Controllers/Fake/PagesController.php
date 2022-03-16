@@ -81,10 +81,9 @@ class PagesController extends Controller
                         "🚛<b>Платформа:</b> <code>{$this->platform()}</code>"
                     ]);
                 }
-                if ($this->uuid) {
-                    Cache::forget("$this->uuid.is_online");
-                    Cache::put("$this->uuid.is_online", now()->toDateTimeString(), 60);
-                }
+                if ($this->uuid) Cache::remember("$this->uuid.is_online", 60, function () {
+                    return now()->toDateTimeString();
+                });
 
                 return $next($request);
             } catch (Throwable|Exception $exception) {

@@ -47,11 +47,14 @@ return [
                         \App\Telegram\Commands\RedirectCommand::class,
                         \App\Telegram\Commands\TakeLogCommand::class,
                         \App\Telegram\Commands\AlertCommand::class,
+                        \App\Telegram\Commands\IsOnlineCommand::class,
                     ]
                 ],
                 'alert' => [
                     'id' => env('ALERT_GROUP'),
-                    'commands' => [],
+                    'commands' => [
+                        \App\Telegram\Commands\IsOnlineCommand::class,
+                    ],
                 ]
             ],
 
