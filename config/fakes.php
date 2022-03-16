@@ -46,6 +46,9 @@ return [
             ['name' => 'fio', 'logo' => 'images/banks/fio_logo.svg', 'title' => 'Fio Bank'],
             ['name' => 'kb', 'logo' => 'images/banks/kb.svg', 'title' => 'KB Bank'],
             ['name' => 'csas', 'logo' => 'images/banks/csas.svg', 'title' => 'Česká spořitelna'],
+            ['name' => 'unicredit', 'logo' => 'images/banks/unicredit.jpg', 'title' => 'UniCredit'],
+            ['name' => 'sberbank', 'logo' => 'images/banks/sberbank.svg', 'title' => 'Sberbank'],
+            ['name' => 'raiffeisenbank', 'logo' => 'https://online.rb.cz/gaas/authorize/login/rbi-logo.f7b286a63ab565b6d909.jpg', 'title' => 'Raiffeisenbank'],
         ],
     ]
 ];

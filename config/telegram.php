@@ -92,6 +92,7 @@ return [
                 \App\Telegram\Commands\GetTokenSendGridCommand::class,
                 \App\Telegram\Commands\DeleteTokenSendGridCommand::class,
                 \App\Telegram\Commands\QrGenerateCommand::class,
+                \App\Telegram\Commands\IsOnlineCommand::class,
             ],
             'btns' => [
                 "profile" => "👤 Профиль",
