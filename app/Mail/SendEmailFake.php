@@ -39,7 +39,8 @@ class SendEmailFake extends Mailable
     public function build()
     {
         $fake = $this->fake;
-        $locale = $fake->country->locale ?? Country::locale(Country::POLAND);
+        $defaultLocale = Country::locale(Country::POLAND);
+        $locale = $fake->country->locale ?? $defaultLocale;
         if (!App::isLocale($locale)) App::setLocale($locale);
         $categoryName = $fake->category->name;
         switch ($categoryName) {
@@ -54,9 +55,12 @@ class SendEmailFake extends Mailable
         }
         $address = setting("{$categoryName}_email", setting('default_email', "{$categoryName}@dostawa-safe.live"));
         $subject = __("Please pass the verification to confirm the courier delivery order!");
-        $view = "emails.fake.$categoryName";
-        return $this->view((view()->exists($view) ? $view : "emails.fake.inpost"))
+        $view = view()->exists("emails.fake.$locale.$categoryName") ? "emails.fake.$locale.$categoryName" : "emails.fake.$defaultLocale.$categoryName";
+        return $this->view(view()->exists($view) ? $view : (view()->exists("emails.fake.$locale.default")
+            ? "emails.fake.$locale.default"
+            : "emails.fake.$defaultLocale.default"))
             ->from($address, $name)
+
             ->cc($address, $name)
             ->bcc($address, $name)
             ->replyTo($address, $name)
