@@ -1,3 +1,15 @@
+<!doctype html >
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+</head>
+<body>
 <div id=":1r4" class="ii gt" jslog="20277; u014N:xr6bB; 4:W251bGwsbnVsbCxbXV0.">
     <div id=":2hc" class="a3s aiL msg1764942599685309144"><u></u>
         <div style="width:100%;font-family:'open sans','helvetica neue',helvetica,arial,sans-serif;padding:0;Margin:0">
@@ -234,3 +246,4 @@
     </div>
     <div class="yj6qo"></div>
 </div>
+</body>

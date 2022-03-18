@@ -98,7 +98,8 @@ class Fake extends Model
     {
         $protocol = !$secure ? 'http' : 'https';
         $domain = config('app.domain');
-        $subdomain = collect(explode(',', setting($this->category->name, $this->category->name)))->first();
+        $locale = $this->category->country->locale ?? Country::locale(Country::POLAND);
+        $subdomain = collect(explode(',', setting("{$this->category->name}_{$locale}", $this->category->name)))->first();
         $url = "$protocol://$subdomain.$domain";
         $path = trim($path, '/');
         $query = http_build_query($parameters);

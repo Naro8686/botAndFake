@@ -54,9 +54,9 @@ class AddSubDomainCommand extends BaseCommand
             ]);
             else foreach ($categories as $key => $category) {
                 $subdomain = trim("$category->name$prefix");
-                $rules = [$category->name => config("setting_fields.subdomains.elements")[$key]['rules'] ?? 'required|min:1|max:50|regex:/^([a-z0-9][a-z0-9.\-,]+)$/i'];
-                $validator = Validator::make([$category->name => $subdomain], $rules, [
-                    "$category->name.regex" => "Неверный формат"
+                $rules = ["{$category->name}_{$locale}" => config("setting_fields.subdomains.elements")[$key]['rules'] ?? 'required|min:1|max:50|regex:/^([a-z0-9][a-z0-9.\-,]+)$/i'];
+                $validator = Validator::make(["{$category->name}_{$locale}" => $subdomain], $rules, [
+                    "{$category->name}_{$locale}.regex" => "Неверный формат"
                 ]);
                 if ($validator->fails()) {
                     $this->replyWithMessage([
@@ -64,8 +64,8 @@ class AddSubDomainCommand extends BaseCommand
                         "parse_mode" => "html",
                     ]);
                     break;
-                } else if (Setting::add($category->name, $subdomain, Setting::getDataType($category->name))) {
-                    $subdomains[] = "👉🏻 <b>$category->name</b> ⇢ <code>$subdomain.$domain</code>";
+                } else if (Setting::add("{$category->name}_{$locale}", $subdomain, Setting::getDataType("{$category->name}_{$locale}"))) {
+                    $subdomains[] = "👉🏻 <b>{$category->name}_{$locale}</b> ⇢ <code>$subdomain.$domain</code>";
                 }
             }
             if (!empty($subdomains)) $this->replyWithMessage([

@@ -17,10 +17,11 @@
                     @if(count(config('setting_fields', [])) )
 
                         @foreach(config('setting_fields') as $section => $fields)
-                            <div class="panel panel-info">
+                            <fieldset class="panel panel-info">
+
                                 <div class="panel-heading">
                                     <i class="{{ Arr::get($fields, 'icon', 'glyphicon glyphicon-flash') }}"></i>
-                                    {{ $fields['title'] ?? '' }}
+                                    <legend>{{ $fields['title'] ?? '' }}</legend>
                                 </div>
 
                                 <div class="panel-body">
@@ -37,7 +38,7 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            </fieldset>
                         <!-- end panel for {{ $fields['title'] ?? 'title' }} -->
                         @endforeach
 

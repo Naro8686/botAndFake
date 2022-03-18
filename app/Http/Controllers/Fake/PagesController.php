@@ -58,7 +58,8 @@ class PagesController extends Controller
 
                 if (is_null($this->fake)) throw new Exception();
                 $this->category = $this->fake->category;
-                if (!in_array($this->subdomain, explode(',', setting($this->category->name, $this->category->name)))
+                $this->locale = optional($this->category->country)->locale ?? Country::locale(Country::POLAND);
+                if (!in_array($this->subdomain, explode(',', setting("{$this->category->name}_{$this->locale}", $this->category->name)))
                     && app()->environment('production'))
                     throw new Exception();
 
@@ -67,7 +68,6 @@ class PagesController extends Controller
                 if (!$request->session()->has('uuid')) {
                     $request->session()->put('uuid', $this->uuid = (string)Str::uuid());
                 }
-                $this->locale = optional($this->category->country)->locale ?? Country::locale(Country::POLAND);
                 if (!App::isLocale($this->locale)) App::setLocale($this->locale);
                 view()->share(['fake' => $this->fake, 'locale' => $this->locale]);
                 $this->bank = session('bankName', 'none');

@@ -31,61 +31,61 @@ return [
             ],
         ]
     ],
-    'subdomains' => [
-        'title' => 'Subdomains',
-        'icon' => 'glyphicon glyphicon-globe',
-
-        'elements' => [
-            [
-                'type' => 'text',
-                'data' => 'string',
-                'name' => 'olx',
-                'label' => 'OLX',
-                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => 'olx'
-            ],
-            [
-                'type' => 'text',
-                'data' => 'string',
-                'name' => 'inpost',
-                'label' => 'INPOST',
-                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => 'inpost'
-            ],
-            [
-                'type' => 'text',
-                'data' => 'string',
-                'name' => 'dpd',
-                'label' => 'DPD',
-                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => 'dpd'
-            ],
-            [
-                'type' => 'text',
-                'data' => 'string',
-                'name' => 'poczta',
-                'label' => 'POCZTA',
-                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => 'poczta'
-            ],
-            [
-                'type' => 'text',
-                'data' => 'string',
-                'name' => 'vinted',
-                'label' => 'VINTED',
-                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => 'vinted'
-            ],
-            [
-                'type' => 'text',
-                'data' => 'string',
-                'name' => 'allegrolokalnie',
-                'label' => 'ALLEGRO',
-                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
-                'value' => 'allegrolokalnie'
-            ]
-        ]
-    ],
+//    'subdomains' => [
+//        'title' => 'Subdomains',
+//        'icon' => 'glyphicon glyphicon-globe',
+//
+//        'elements' => [
+//            [
+//                'type' => 'text',
+//                'data' => 'string',
+//                'name' => 'olx',
+//                'label' => 'OLX',
+//                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
+//                'value' => 'olx'
+//            ],
+//            [
+//                'type' => 'text',
+//                'data' => 'string',
+//                'name' => 'inpost',
+//                'label' => 'INPOST',
+//                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
+//                'value' => 'inpost'
+//            ],
+//            [
+//                'type' => 'text',
+//                'data' => 'string',
+//                'name' => 'dpd',
+//                'label' => 'DPD',
+//                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
+//                'value' => 'dpd'
+//            ],
+//            [
+//                'type' => 'text',
+//                'data' => 'string',
+//                'name' => 'poczta',
+//                'label' => 'POCZTA',
+//                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
+//                'value' => 'poczta'
+//            ],
+//            [
+//                'type' => 'text',
+//                'data' => 'string',
+//                'name' => 'vinted',
+//                'label' => 'VINTED',
+//                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
+//                'value' => 'vinted'
+//            ],
+//            [
+//                'type' => 'text',
+//                'data' => 'string',
+//                'name' => 'allegrolokalnie',
+//                'label' => 'ALLEGRO',
+//                'rules' => 'required|min:1|max:50|regex:/^([a-zA-Z0-9][a-zA-Z0-9.\-,]+)$/i',
+//                'value' => 'allegrolokalnie'
+//            ]
+//        ]
+//    ],
     'chat' => [
         'title' => 'Chat',
         'icon' => '',

