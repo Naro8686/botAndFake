@@ -31,6 +31,14 @@ function existsTrackId($trackId): bool
         ->exists();
 }
 
+function filter_price($price)
+{
+    if (count(explode(',', $price)) > 1) {
+        $price = Str::replaceLast(',00', '', $price);
+    }
+    return filter_var($price, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+}
+
 /**
  * @param string $url
  * @return array
@@ -55,7 +63,7 @@ function olx_parse(string $url): array
                         foreach ($element->getElementsByTagName('div') as $div) {
                             if (is_null($price) && $div->getAttribute('data-testid') == "ad-price-container") {
                                 foreach ($div->childNodes as $el) if ($el->tagName == 'h3') {
-                                    $price = preg_replace('/[^\d]/', '', $el->nodeValue);
+                                    $price = filter_price($el->nodeValue);
                                 }
                             } elseif (is_null($image) && $div->getAttribute('data-cy') == "adPhotos-swiperSlide")
                                 foreach ($div->childNodes as $el) foreach ($el->childNodes as $img) if ($img->tagName == 'img') {
@@ -108,7 +116,7 @@ function vinted_parse(string $url): array
                 $tmpPrice = $doc->getElementsByClass('div', 'details-list__item details-list--price');
                 if (is_null($price) && $tmpPrice->length) {
                     $tmpPrice = $tmpPrice->item(0)->getElementsByTagName('span');
-                    if ($tmpPrice->length && $text = $tmpPrice->item(0)->textContent) $price = (int)preg_replace('/[^\d,]/', '', $text);
+                    if ($tmpPrice->length && $text = $tmpPrice->item(0)->textContent) $price = filter_price($text);
                 }
                 $tmpTitle = $doc->getElementsByClass('h1', 'details-list__item-title')->length ? $doc->getElementsByClass('h1', 'details-list__item-title') : $doc->getElementsByTagName('title');
                 if (is_null($title) && $tmpTitle->length) {
@@ -154,7 +162,7 @@ function bazos_parse(string $url): array
 
                 [$tempPrice] = array_pad(explode(",", substr($tags['description'], strpos($tags['description'], "Cena"), strlen($tags['description']))), 1, null);
                 if (is_null($price) && !is_null($tempPrice)) {
-                    $price = (int)preg_replace('/[^\d,]/', '', $tempPrice);
+                    $price = filter_price($tempPrice);
                 }
                 $tmpTitle = $doc->getElementsByClass('h1', 'nadpisdetail');
                 if (is_null($title) && $tmpTitle->length) {
@@ -202,7 +210,7 @@ function cbazar_parse(string $url): array
                             if (Str::lower($th->textContent) === "cena:") {
                                 $tmpPrice = $row->getElementsByTagName('td');
                                 if ($tmpPrice->length && $text = $tmpPrice->item(0)->textContent) {
-                                    $price = (int)preg_replace('/[^\d,]/', '', $text);
+                                    $price = filter_price($text);
                                 }
                             }
                         }
@@ -256,7 +264,7 @@ function sbazar_parse(string $url): array
                     foreach ($tmpPrice->item(0)->childNodes as $el) {
                         if (!is_null($price)) continue;
                         if ($el->getAttribute('class') === 'c-price__price')
-                            $price = (int)preg_replace('/[^\d,]/', '', $el->textContent);
+                            $price = filter_price($el->textContent);
                     }
                 }
 
