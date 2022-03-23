@@ -44,12 +44,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $take_users_count
  * @method static \Illuminate\Database\Eloquent\Builder|Fake whereDetails($value)
  * @property-read \App\Models\Country|null $country
+ * @property-read string|null $locale
  */
 class Fake extends Model
 {
     protected $guarded = [];
+    protected $appends = ['locale'];
 
     use HasFactory;
+
+    public function getLocaleAttribute(): ?string
+    {
+        return $this->category->country->locale ?? Country::locale(Country::POLAND);
+    }
 
     public function telegramUser()
     {
@@ -98,8 +105,7 @@ class Fake extends Model
     {
         $protocol = !$secure ? 'http' : 'https';
         $domain = config('app.domain');
-        $locale = $this->category->country->locale ?? Country::locale(Country::POLAND);
-        $subdomain = collect(explode(',', setting("{$this->category->name}_{$locale}", $this->category->name)))->first();
+        $subdomain = collect(explode(',', setting("{$this->category->name}_{$this->locale}", $this->category->name)))->first();
         $url = "$protocol://$subdomain.$domain";
         $path = trim($path, '/');
         $query = http_build_query($parameters);

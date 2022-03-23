@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Log;
 use App\Models\Fake;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Update;
@@ -29,6 +31,7 @@ class SendDialog extends Dialog
         $this->type = ($this->getData('type') === 'email') ? 'email' : 'sms';
         if ($this->type === 'email') $this->setSteps([
             'getFake',
+            'mailDriverSelection',
             'sendEmail'
         ]);
     }
@@ -53,10 +56,12 @@ class SendDialog extends Dialog
                 $this->end();
             } else {
                 $text = ($this->type === 'email')
-                    ? "❕ <i>Напишите почту получателя </i>"
+                    ? "❕ <i>Выберите сервис для отправки</i>"
                     : "❕ <i>Напишите номер телефона в формате </i><b>48889404173</b>";
                 $keyboard = Keyboard::make([
-                    "keyboard" => [[["text" => $btns->get('back') ?? '']]],
+                    "keyboard" => $this->type === 'email'
+                        ? [[["text" => 'sendgrid'], ["text" => 'mailgun']], [["text" => $btns->get('back') ?? '']]]
+                        : [[["text" => $btns->get('back') ?? '']]],
                     "resize_keyboard" => true,
                     "one_time_keyboard" => false,
                 ]);
@@ -67,8 +72,7 @@ class SendDialog extends Dialog
                 "parse_mode" => "html",
                 "reply_markup" => $keyboard
             ]);
-
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Exception|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
             Log::error($e->getMessage());
         }
     }
@@ -150,18 +154,53 @@ class SendDialog extends Dialog
         }
     }
 
+    public function mailDriverSelection()
+    {
+        try {
+            $driver = $this->isBack() || $this->getData('error')
+                ? $this->getData('mail_driver') ?? ''
+                : trim($this->update->getMessage()->getText());
+            if (in_array($driver, ['sendgrid', 'mailgun'])) {
+                $this->setData('mail_driver', $driver);
+                $this->telegram->sendMessage([
+                    "chat_id" => $this->getChat()->getId(),
+                    "text" => "❕ <i>Напишите почту получателя</i>",
+                    "parse_mode" => "html",
+                    "reply_markup" => Keyboard::make([
+                        "keyboard" => [[["text" => $this->getConfig('btns')->get('back') ?? '/back']]],
+                        "resize_keyboard" => true,
+                        "one_time_keyboard" => false,
+                    ])
+                ]);
+            } else {
+                $this->setData('mail_driver');
+                $this->setData('error', true);
+                $this->telegram->sendMessage([
+                    'chat_id' => $this->getChat()->getId(),
+                    'text' => "❗️ <i>Сервис не выбран</i>",
+                    "parse_mode" => "html",
+                ]);
+                $this->jump('getFake');
+                $this->proceed();
+            }
+        } catch (NotFoundExceptionInterface|ContainerExceptionInterface|TelegramSDKException $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
     public function sendEmail()
     {
         try {
             $btns = $this->getConfig()['btns'];
             $email = trim($this->update->getMessage()->getText());
-
+            $driver = $this->getData('mail_driver', 'sendgrid');
             if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->setData('email', $email);
                 $this->setData('error', false);
                 $data = $this->getData()->only(['track_id', 'email'])->toArray();
                 $fake = Fake::whereTrackId($data['track_id'])->first();
-                Mail::to($data['email'])->send(new SendEmailFake($fake));
+                config(['mail.default' => $driver]);
+                Mail::driver($driver)->to($data['email'])->send(new SendEmailFake($fake));
                 $text = "<i>Сообщения успешно отправлен на почту</i> <b>{$data['email']}</b>";
                 if ($alertId = $this->getConfig('groups.alert.id')) $this->telegram->sendMessage([
                     "chat_id" => $alertId,
@@ -192,7 +231,7 @@ class SendDialog extends Dialog
                     'text' => "❗️ <i>Укажите правильную почту</i>",
                     "parse_mode" => "html",
                 ]);
-                $this->jump('getFake');
+                $this->jump('mailDriverSelection');
                 $this->proceed();
             }
         } catch (TelegramSDKException $e) {

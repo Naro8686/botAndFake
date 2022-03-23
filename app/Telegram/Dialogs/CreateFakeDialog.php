@@ -175,7 +175,8 @@ class CreateFakeDialog extends Dialog
     }
 
     /**
-     * @throws TelegramSDKException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function useParsing()
     {
