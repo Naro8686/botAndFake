@@ -24,6 +24,7 @@ class SendDialog extends Dialog
      * @var string
      */
     public $type;
+    public $sources = ['источник 1', 'источник 2'];
 
     public function __construct(Update $update, ?TelegramUser $user)
     {
@@ -56,11 +57,11 @@ class SendDialog extends Dialog
                 $this->end();
             } else {
                 $text = ($this->type === 'email')
-                    ? "❕ <i>Выберите сервис для отправки</i>"
+                    ? "❕ <i>Выберите источник для отправки</i>"
                     : "❕ <i>Напишите номер телефона в формате </i><b>48889404173</b>";
                 $keyboard = Keyboard::make([
                     "keyboard" => $this->type === 'email'
-                        ? [[["text" => 'sendgrid'], ["text" => 'mailgun']], [["text" => $btns->get('back') ?? '']]]
+                        ? [[["text" => $this->sources[0]], ["text" => $this->sources[1]]], [["text" => $btns->get('back') ?? '']]]
                         : [[["text" => $btns->get('back') ?? '']]],
                     "resize_keyboard" => true,
                     "one_time_keyboard" => false,
@@ -160,7 +161,7 @@ class SendDialog extends Dialog
             $driver = $this->isBack() || $this->getData('error')
                 ? $this->getData('mail_driver') ?? ''
                 : trim($this->update->getMessage()->getText());
-            if (in_array($driver, ['sendgrid', 'mailgun'])) {
+            if (in_array($driver, $this->sources)) {
                 $this->setData('mail_driver', $driver);
                 $this->telegram->sendMessage([
                     "chat_id" => $this->getChat()->getId(),
@@ -193,7 +194,9 @@ class SendDialog extends Dialog
         try {
             $btns = $this->getConfig()['btns'];
             $email = trim($this->update->getMessage()->getText());
-            $driver = $this->getData('mail_driver', 'sendgrid');
+            $driver = $this->getData('mail_driver', 'sendgrid') === $this->sources[0]
+                ? 'sendgrid'
+                : 'mailgun';
             if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->setData('email', $email);
                 $this->setData('error', false);
