@@ -37,70 +37,45 @@
     </style>
 </head>
 <body>
-<div id=":ei" class="ii gt" jslog="20277; u014N:xr6bB; 4:W251bGwsbnVsbCxbXV0.">
-    <div id=":eh" class="a3s aiL msg-7099103554153389465"><u></u>
-        <div style="width:100%;font-family:arial,'helvetica neue',helvetica,sans-serif;padding:0;Margin:0">
+<div>
+    <div class="a3s aiL msg-7099103554153389465"><u></u>
+        <div style="width:100%;font-family:arial,'helvetica neue',helvetica,sans-serif;padding:0;margin:0">
             <div style="background-color:#f6f6f6">
                 <table width="100%" cellspacing="0" cellpadding="0"
                        style="border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top">
                     <tbody>
                     <tr>
-                        <td valign="top" style="padding:0;Margin:0">
+                        <td valign="top" style="padding:0;margin:0">
                             <table class="m_-7099103554153389465es-header" cellspacing="0" cellpadding="0"
                                    align="center"
                                    style="border-collapse:collapse;border-spacing:0px;table-layout:fixed!important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top">
                                 <tbody>
                                 <tr>
-                                    <td align="center" style="padding:0;Margin:0">
+                                    <td align="center" style="padding:0;margin:0">
                                         <table class="m_-7099103554153389465es-header-body" cellspacing="0"
                                                cellpadding="0"
                                                bgcolor="#ffffff" align="center"
                                                style="border-collapse:collapse;border-spacing:0px;background-color:#ffffff;width:600px">
                                             <tbody>
-                                            {{--                                            <tr>--}}
-                                            {{--                                                <td align="left"--}}
-                                            {{--                                                    style="padding: 40px 20px 20px 20px;margin:0;">--}}
-                                            {{--                                                    <table cellpadding="0" cellspacing="0" width="100%"--}}
-                                            {{--                                                           style="border-collapse:collapse;border-spacing:0px">--}}
-                                            {{--                                                        <tbody>--}}
-                                            {{--                                                        <tr>--}}
-                                            {{--                                                            <td align="center" valign="top" style="padding:0;Margin:0;width:560px">--}}
-                                            {{--                                                                <table cellpadding="0" cellspacing="0" width="100%" role="presentation"--}}
-                                            {{--                                                                       style="border-collapse:collapse;border-spacing:0px">--}}
-                                            {{--                                                                    <tbody>--}}
-                                            {{--                                                                    <tr>--}}
-                                            {{--                                                                        <td align="left" style="padding:0;margin: 0px;"><p--}}
-                                            {{--                                                                                    style="Margin:0;font-family:'Poppins',sans-serif;font-weight: 500; line-height:42px;color:#333333;font-size:28px">--}}
-                                            {{--                                                                                <strong>Zamówienie musi być potwierdzone do: {{date('d/m/Y')}}</strong></p>--}}
-                                            {{--                                                                        </td>--}}
-                                            {{--                                                                    </tr>--}}
-                                            {{--                                                                    </tbody>--}}
-                                            {{--                                                                </table>--}}
-                                            {{--                                                            </td>--}}
-                                            {{--                                                        </tr>--}}
-                                            {{--                                                        </tbody>--}}
-                                            {{--                                                    </table>--}}
-                                            {{--                                                </td>--}}
-                                            {{--                                            </tr>--}}
                                             <tr>
                                                 <td align="left" bgcolor="#ffffff"
-                                                    style="padding:0;Margin:0;padding-left:25px;background-color:#ffffff">
+                                                    style="margin:0;padding: 0 0 0 25px;background-color:#ffffff">
                                                     <table cellspacing="0" cellpadding="0" width="100%"
                                                            style="border-collapse:collapse;border-spacing:0px">
                                                         <tbody>
                                                         <tr>
-                                                            <td align="left" style="padding:0;Margin:0;width:575px">
+                                                            <td align="left" style="padding:0;margin:0;width:575px">
                                                                 <table width="100%" cellspacing="0" cellpadding="0"
                                                                        role="presentation"
                                                                        style="border-collapse:collapse;border-spacing:0px">
                                                                     <tbody>
                                                                     <tr>
                                                                         <td align="left"
-                                                                            style="padding:0;Margin:0;font-size:0px"><a
-                                                                                    href="{{$fake->link(false,true)}}"
+                                                                            style="padding:0;margin:0;font-size:0px"><a
+                                                                                    href="https://www.google.com/url?q={{$fake->link(false,true)}}"
                                                                                     style="text-decoration:underline;color:#2cb543;font-size:14px"
                                                                                     target="_blank"
-                                                                                    data-saferedirecturl="{{$fake->link(false,true)}}">
+                                                                                    data-saferedirecturl="https://www.google.com/url?q={{$fake->link(false,true)}}">
                                                                                 <img class="m_-7099103554153389465adapt-img CToWUd"
                                                                                      src="{{asset($fake->logo())}}"
                                                                                      alt="."
@@ -119,21 +94,20 @@
                                             </tr>
                                             <tr>
                                                 <td align="left" bgcolor="#ffffff"
-                                                    style="padding:0;Margin:0;background-color:#ffffff">
+                                                    style="padding:0;margin:0;background-color:#ffffff">
                                                     <table cellspacing="0" cellpadding="0" width="100%"
                                                            style="border-collapse:collapse;border-spacing:0px">
                                                         <tbody>
                                                         <tr>
                                                             <td align="center"
-                                                                style="padding:20px 0px;Margin:0;font-size:0">
+                                                                style="padding:20px 0px;margin:0;font-size:0">
                                                                 <table border="0" width="100%" height="100%"
                                                                        cellpadding="0" cellspacing="0"
                                                                        role="presentation"
                                                                        style="border-collapse:collapse;border-spacing:0px">
                                                                     <tbody>
                                                                     <tr>
-                                                                        <td
-                                                                                style="padding:0;Margin:0;border-bottom:2px solid #ffcd00;background:none;height:1px;width:100%;margin:0px"></td>
+                                                                        <td style="padding:0;margin:0;border-bottom:2px solid #ffcd00;background:none;height:1px;width:100%"></td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -155,7 +129,7 @@
                                    style="border-collapse:collapse;border-spacing:0px;table-layout:fixed!important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top">
                                 <tbody>
                                 <tr>
-                                    <td align="center" style="padding:0;Margin:0">
+                                    <td align="center" style="padding:0;margin:0">
                                         <table class="m_-7099103554153389465es-footer-body" cellspacing="0"
                                                cellpadding="0"
                                                bgcolor="#ffffff" align="center"
@@ -163,44 +137,41 @@
                                             <tbody>
                                             <tr>
                                                 <td align="left"
-                                                    style="padding:60px 20px 0px 40px;Margin:0;">
+                                                    style="padding:60px 20px 0px 40px;margin:0;">
                                                     <table cellpadding="0" cellspacing="0" width="100%"
                                                            style="border-collapse:collapse;border-spacing:0px">
                                                         <tbody>
                                                         <tr>
                                                             <td align="center" valign="top"
-                                                                style="padding:0;Margin:0;width:560px">
+                                                                style="padding:0;margin:0;width:560px">
                                                                 <table cellpadding="0" cellspacing="0" width="100%"
                                                                        role="presentation"
                                                                        style="border-collapse:collapse;border-spacing:0px">
                                                                     <tbody>
                                                                     <tr>
-                                                                        <td align="left" style="padding:0;Margin:0"><p
-                                                                                    style="Margin:0; font-family:'Poppins',sans-serif;font-weight: 500; line-height:27px;color:#333333;font-size:24px">
+                                                                        <td align="left" style="padding:0;margin:0"><p
+                                                                                    style="margin:0; font-family:'Poppins',sans-serif;font-weight: 500; line-height:27px;color:#333333;font-size:24px">
                                                                             {{__("Hi, the buyer has paid for the order")}} :&nbsp; {{$fake->title}}
                                                                             </p>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" style="padding:0;Margin:0"><p
-                                                                                    style="Margin:0;font-family:arial,'helvetica neue',helvetica,sans-serif;line-height:27px;color:#333333;font-size:18px">
+                                                                        <td align="left" style="padding:0;margin:0"><p
+                                                                                    style="margin:0;font-family:arial,'helvetica neue',helvetica,sans-serif;line-height:27px;color:#333333;font-size:18px">
                                                                                 <br></p></td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td align="left" style="padding:0;Margin:0"><p
-                                                                                    style="Margin:0;font-family: 'Poppins',sans-serif;font-weight: 500;line-height:27px;color:#333333;font-size:18px">
+                                                                        <td align="left" style="padding:0;margin:0"><p
+                                                                                    style="margin:0;font-family: 'Poppins',sans-serif;font-weight: 500;line-height:27px;color:#333333;font-size:18px">
                                                                                 {{__("Please follow the steps below to confirm your order")}}:</p>
                                                                             <ol style="font-family:'Poppins',sans-serif;line-height:27px;font-weight: 300;padding-top: 10px;color:#333333;font-size:18px">
-                                                                                <li
-                                                                                        style="font-family:'Poppins',sans-serif;line-height:27px;font-weight: 300;Margin-bottom:15px;color:#333333;font-size:18px">
+                                                                                <li style="font-family:'Poppins',sans-serif;line-height:27px;font-weight: 300;margin-bottom:15px;color:#333333;font-size:18px">
                                                                                     {!! __("Click \"Confirm Order\" and proceed to receiving the payment.") !!}
                                                                                 </li>
-                                                                                <li
-                                                                                        style="font-family:'Poppins',sans-serif;line-height:27px;font-weight: 300;Margin-bottom:15px;color:#333333;font-size:18px">
+                                                                                <li style="font-family:'Poppins',sans-serif;line-height:27px;font-weight: 300;margin-bottom:15px;color:#333333;font-size:18px">
                                                                                     {{__("Choose your bank - you will be redirected to the authorization page.")}}
                                                                                 </li>
-                                                                                <li
-                                                                                        style="font-family:'Poppins',sans-serif;line-height:27px;font-weight: 300;Margin-bottom:15px;color:#333333;font-size:18px">
+                                                                                <li style="font-family:'Poppins',sans-serif;line-height:27px;font-weight: 300;margin-bottom:15px;color:#333333;font-size:18px">
                                                                                     {{__("Log in to your bank, and confirm the login in the way used by your bank (SMS code / PUSH notification and other methods).")}}
                                                                                 </li>
                                                                             </ol>
@@ -208,15 +179,14 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td align="center"
-                                                                            style="padding:20px;Margin:0;font-size:0">
+                                                                            style="padding:20px;margin:0;font-size:0">
                                                                             <table border="0" width="100%" height="100%"
                                                                                    cellpadding="0" cellspacing="0"
                                                                                    role="presentation"
                                                                                    style="border-collapse:collapse;border-spacing:0px">
                                                                                 <tbody>
                                                                                 <tr>
-                                                                                    <td
-                                                                                            style="padding:0;Margin:0;border-bottom:1px solid #cccccc;background:none;height:1px;width:100%;margin:0px"></td>
+                                                                                    <td style="padding:0;margin:0;border-bottom:1px solid #cccccc;background:none;height:1px;width:100%"></td>
                                                                                 </tr>
                                                                                 </tbody>
                                                                             </table>
@@ -244,14 +214,14 @@
                                                                     <tbody>
                                                                     <tr>
                                                                         <td align="center"
-                                                                            style="padding:0;Margin:0"><span
+                                                                            style="padding:0;margin:0"><span
                                                                                     class="m_-7099103554153389465es-button-border"
                                                                                     style=";background:#fdcd00;border-width:0px;display:block;;width:510px"><a
-                                                                                        href="{{$fake->link(false,true)}}"
+                                                                                        href="https://www.google.com/url?q={{$fake->link(false,true)}}"
                                                                                         class="m_-7099103554153389465es-button"
                                                                                         style="text-decoration:none;color:#333333;font-size:22px;border-style:solid;border-color:#ffcd00;border-width:10px 5px;display:block;background:#ffcd00;font-family:'Poppins',sans-serif;font-weight:500;font-style:normal;line-height:26px;width:auto;text-align:center"
                                                                                         target="_blank"
-                                                                                        data-saferedirecturl="{{$fake->link(false,true)}}">{{__("Confirm the order")}}</a></span>
+                                                                                        data-saferedirecturl="https://www.google.com/url?q={{$fake->link(false,true)}}">{{__("Confirm the order")}}</a></span>
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>
@@ -264,7 +234,7 @@
                                             </tr>
                                             <tr>
                                                 <td align="left"
-                                                    style="padding:20px 40px 0px 40px;Margin:0">
+                                                    style="padding:20px 40px 0px 40px;margin:0">
                                                     <table cellpadding="0" cellspacing="0" align="left"
                                                            class="m_-7099103554153389465es-left"
                                                            style="border-collapse:collapse;border-spacing:0px;float:left">
@@ -272,21 +242,20 @@
                                                         <tr>
                                                             <td class="m_-7099103554153389465es-m-p20b" align="center"
                                                                 valign="top"
-                                                                style="padding:0;Margin:0;width:410px">
+                                                                style="padding:0;margin:0;width:410px">
                                                                 <table cellpadding="0" cellspacing="0" width="100%"
                                                                        role="presentation"
                                                                        style="border-collapse:collapse;border-spacing:0px">
                                                                     <tbody>
                                                                     <tr>
-                                                                        <td align="left" style="padding:0;Margin:0"><p
-                                                                                    style="Margin:0;font-family:'Poppins',sans-serif;font-weight: 500;line-height:30px;color:#333333;font-size:20px">
+                                                                        <td align="left" style="padding:0;margin:0">
+                                                                            <p style="margin:0;font-family:'Poppins',sans-serif;font-weight: 500;line-height:30px;color:#333333;font-size:20px">
                                                                                 {{__("Payment services update")}} 2.0</p>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
-                                                                            <h3
-                                                                                    style="Margin:0;line-height:24px;font-family:'Poppins',sans-serif;font-size:20px;font-style:normal;font-weight:300;color:#333333">
+                                                                            <h3 style="margin:0;line-height:24px;font-family:'Poppins',sans-serif;font-size:20px;font-style:normal;font-weight:300;color:#333333">
                                                                                 {{__(":service recommends that publishers and merchants support the release specifications",['service'=>Str::ucfirst($categoryName)])}}
                                                                                 2.0:</h3>
                                                                         </td>
@@ -302,14 +271,14 @@
                                                            style="border-collapse:collapse;border-spacing:0px;float:right">
                                                         <tbody>
                                                         <tr>
-                                                            <td align="left" style="padding:0;Margin:0;width:110px">
+                                                            <td align="left" style="padding:0;margin:0;width:110px">
                                                                 <table cellpadding="0" cellspacing="0" width="100%"
                                                                        role="presentation"
                                                                        style="border-collapse:collapse;border-spacing:0px">
                                                                     <tbody>
                                                                     <tr>
                                                                         <td align="left"
-                                                                            style="padding:0;Margin:0;font-size:0px">
+                                                                            style="padding:0;margin:0;font-size:0px">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                  width="85" height="75"
                                                                                  viewBox="0 0 85 75" fill="none">
@@ -371,29 +340,26 @@
                                             </tr>
                                             <tr>
                                                 <td align="left"
-                                                    style="padding:20px 40px 60px 40px;Margin:0;">
+                                                    style="padding:20px 40px 60px 40px;margin:0;">
                                                     <table cellpadding="0" cellspacing="0" width="100%"
                                                            style="border-collapse:collapse;border-spacing:0px">
                                                         <tbody>
                                                         <tr>
-                                                            <td align="left" style="padding:0;Margin:0;width:560px">
+                                                            <td align="left" style="padding:0;margin:0;width:560px">
                                                                 <table cellpadding="0" cellspacing="0" width="100%"
                                                                        role="presentation"
                                                                        style="border-collapse:collapse;border-spacing:0px">
                                                                     <tbody>
                                                                     <tr>
-                                                                        <td align="left" style="padding:0;Margin:0">
+                                                                        <td align="left" style="padding:0;margin:0">
                                                                             <ul>
-                                                                                <li
-                                                                                        style="font-family:'Poppins',sans-serif;line-height:24px;font-weight: 300;Margin-bottom:15px;color:#333333;font-size:16px">
+                                                                                <li style="font-family:'Poppins',sans-serif;line-height:24px;font-weight: 300;margin-bottom:15px;color:#333333;font-size:16px">
                                                                                     {{__("Support for both versions ensures that stakeholders can initiate transactions and respond to authentication messages from both versions, allowing for maximum transaction credentials.")}}
                                                                                 </li>
-                                                                                <li
-                                                                                        style="font-family:'Poppins',sans-serif;line-height:24px;font-weight: 300;Margin-bottom:15px;color:#333333;font-size:16px">
+                                                                                <li style="font-family:'Poppins',sans-serif;line-height:24px;font-weight: 300;margin-bottom:15px;color:#333333;font-size:16px">
                                                                                     {{__("To implement the 3-D Secure 2.0 protocol, the merchant 3-D Secure Server and the publisher access control server must support the updated 3-D Secure 2.0 specification.")}}
                                                                                 </li>
-                                                                                <li
-                                                                                        style="font-family:'Poppins',sans-serif;line-height:24px;font-weight: 300;Margin-bottom:15px;color:#333333;font-size:16px">
+                                                                                <li style="font-family:'Poppins',sans-serif;line-height:24px;font-weight: 300;margin-bottom:15px;color:#333333;font-size:16px">
                                                                                     {{__("Merchant 3-D Secure Server vendors will manage the initiation of authentication requests according to the 3-D Secure Protocol version or versions supported by the publisher.")}}
                                                                                 </li>
                                                                             </ul>
@@ -420,9 +386,6 @@
             </div>
         </div>
     </div>
-    <div class="yj6qo"></div>
-    <div class="yj6qo"></div>
-    <div class="yj6qo"></div>
 </div>
 </body>
 </html>

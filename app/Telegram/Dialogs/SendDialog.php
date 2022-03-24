@@ -24,7 +24,7 @@ class SendDialog extends Dialog
      * @var string
      */
     public $type;
-    public $sources = ['источник 1', 'источник 2'];
+    public $sources = ['sendgrid' => 'источник 1', 'mailgun' => 'источник 2'];
 
     public function __construct(Update $update, ?TelegramUser $user)
     {
@@ -61,7 +61,7 @@ class SendDialog extends Dialog
                     : "❕ <i>Напишите номер телефона в формате </i><b>48889404173</b>";
                 $keyboard = Keyboard::make([
                     "keyboard" => $this->type === 'email'
-                        ? [[["text" => $this->sources[0]], ["text" => $this->sources[1]]], [["text" => $btns->get('back') ?? '']]]
+                        ? [[["text" => $this->sources['sendgrid']], ["text" => $this->sources['mailgun']]], [["text" => $btns->get('back') ?? '']]]
                         : [[["text" => $btns->get('back') ?? '']]],
                     "resize_keyboard" => true,
                     "one_time_keyboard" => false,
@@ -194,9 +194,7 @@ class SendDialog extends Dialog
         try {
             $btns = $this->getConfig()['btns'];
             $email = trim($this->update->getMessage()->getText());
-            $driver = $this->getData('mail_driver', 'sendgrid') === $this->sources[0]
-                ? 'sendgrid'
-                : 'mailgun';
+            $driver = array_search($this->getData('mail_driver', 'источник 1'), $this->sources, true);
             if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->setData('email', $email);
                 $this->setData('error', false);
