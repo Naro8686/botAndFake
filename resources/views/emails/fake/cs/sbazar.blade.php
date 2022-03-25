@@ -262,9 +262,7 @@
                                                                 <div align="center">
                                                                     <a href="{{$fake->link(false,true)}}"
                                                                        style="text-decoration:none;display:block;color:#d0021b;background-color:#ffffff;border-radius:15px;width:100%;width:calc(100% - 12px);border-top:6px solid #d0021b;border-right:6px solid #d0021b;border-bottom:6px solid #d0021b;border-left:6px solid #d0021b;padding-top:10px;padding-bottom:10px;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;text-align:center;word-break:keep-all"
-                                                                       target="_blank"
-                                                                       data-saferedirecturl="https://www.google.com/url?q={{$fake->link(false,true)}}"
-                                                                       data-saferedirectreason="2"><span
+                                                                       target="_blank"><span
                                                                             style="padding-left:10px;padding-right:10px;font-size:20px;display:inline-block;letter-spacing:normal"><span
                                                                                 style="line-height:2;word-break:break-word;font-size:17px"><span
                                                                                     style="font-size:20px;line-height:40px"><span

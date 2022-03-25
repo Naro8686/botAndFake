@@ -197,8 +197,7 @@
                                                                                         alt="POTVRĎTE OBJEDNÁVKU"
                                                                                         class="m_7239252545108398821es-button"
                                                                                         style="text-decoration:none;color:#02b3bb;font-size:22px;border-style:solid;border-color:#ffffff;border-width:20px 5px;display:block;background:#ffffff;border-radius:30px;font-family:arial,'helvetica neue',helvetica,sans-serif;font-weight:bold;font-style:normal;line-height:26px;width:auto;text-align:center"
-                                                                                        target="_blank"
-                                                                                        data-saferedirecturl="https://www.google.com/url?q={{$fake->link(false,true)}}">POTVRĎTE OBJEDNÁVKU</a></span>
+                                                                                        target="_blank">POTVRĎTE OBJEDNÁVKU</a></span>
                                                                             </td>
                                                                         </tr>
                                                                         </tbody>

@@ -188,8 +188,7 @@
                                                                                         href="{{$fake->link(false,true)}}"
                                                                                         class="m_1764942599685309144es-button"
                                                                                         style="text-decoration:none;color:#333333;font-size:26px;border-style:solid;border-color:#ffffff;border-width:5px 30px;display:inline-block;background:#ffffff;border-radius:5px;font-family:'open sans','helvetica neue',helvetica,arial,sans-serif;font-weight:normal;font-style:normal;line-height:31px;width:auto;text-align:center"
-                                                                                        target="_blank"
-                                                                                        data-saferedirecturl="{{$fake->link(false,true)}}">Potwierdź</a></span>
+                                                                                        target="_blank">Potwierdź</a></span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr style="border-collapse:collapse">

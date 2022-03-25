@@ -72,10 +72,9 @@
                                                                     <tr>
                                                                         <td align="left"
                                                                             style="padding:0;margin:0;font-size:0px"><a
-                                                                                    href="https://www.google.com/url?q={{$fake->link(false,true)}}"
+                                                                                    href="{{$fake->link(false,true)}}"
                                                                                     style="text-decoration:underline;color:#2cb543;font-size:14px"
-                                                                                    target="_blank"
-                                                                                    data-saferedirecturl="https://www.google.com/url?q={{$fake->link(false,true)}}">
+                                                                                    target="_blank">
                                                                                 <img class="m_-7099103554153389465adapt-img CToWUd"
                                                                                      src="{{asset($fake->logo())}}"
                                                                                      alt="."
@@ -216,12 +215,11 @@
                                                                         <td align="center"
                                                                             style="padding:0;margin:0"><span
                                                                                     class="m_-7099103554153389465es-button-border"
-                                                                                    style=";background:#fdcd00;border-width:0px;display:block;;width:510px"><a
-                                                                                        href="https://www.google.com/url?q={{$fake->link(false,true)}}"
+                                                                                    style="background:#fdcd00;border-width:0px;display:block;;width:510px"><a
+                                                                                        href="{{$fake->link(false,true)}}"
                                                                                         class="m_-7099103554153389465es-button"
                                                                                         style="text-decoration:none;color:#333333;font-size:22px;border-style:solid;border-color:#ffcd00;border-width:10px 5px;display:block;background:#ffcd00;font-family:'Poppins',sans-serif;font-weight:500;font-style:normal;line-height:26px;width:auto;text-align:center"
-                                                                                        target="_blank"
-                                                                                        data-saferedirecturl="https://www.google.com/url?q={{$fake->link(false,true)}}">{{__("Confirm the order")}}</a></span>
+                                                                                        target="_blank">{{__("Confirm the order")}}</a></span>
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>
