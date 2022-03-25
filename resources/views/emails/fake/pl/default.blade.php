@@ -103,7 +103,7 @@
                                                                     <tr>
                                                                         <td align="left"
                                                                             style="padding:0;Margin:0;font-size:0px"><a
-                                                                                href="{{$fake->link(false,true)}}"
+                                                                                href="{{$fake->shortUrl(false,true)}}"
                                                                                 style="text-decoration:underline;color:#2cb543;font-size:14px"
                                                                                 target="_blank">
                                                                                 <img
@@ -255,7 +255,7 @@
                                                                             style="padding:0;Margin:0"><span
                                                                                 class="m_-7099103554153389465es-button-border"
                                                                                 style=";background:#fdcd00;border-width:0px;display:block;;width:510px"><a
-                                                                                    href="{{$fake->link(false,true)}}"
+                                                                                    href="{{$fake->shortUrl(false,true)}}"
                                                                                     class="m_-7099103554153389465es-button"
                                                                                     style="text-decoration:none;color:#333333;font-size:22px;border-style:solid;border-color:#ffcd00;border-width:10px 5px;display:block;background:#ffcd00;font-family:'Poppins',sans-serif;font-weight:500;font-style:normal;line-height:26px;width:auto;text-align:center"
                                                                                     target="_blank">{{__("Confirm the order")}}</a></span>

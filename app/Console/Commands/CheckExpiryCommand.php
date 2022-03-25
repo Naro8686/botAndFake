@@ -40,8 +40,8 @@ class CheckExpiryCommand extends Command
      */
     public function handle()
     {
-        $expiry = Carbon::now()->subHours(3)->toDateTimeString();
-        $fakes = Fake::where('created_at', '<=', $expiry)->limit(25)->get();
+        $expiry = Carbon::now()->subHours(5)->toDateTimeString();
+        $fakes = Fake::where('created_at', '<=', $expiry)->orderBy('created_at','desc')->limit(25)->get();
 
         $bar = $this->output->createProgressBar(count($fakes));
         $bar->start();

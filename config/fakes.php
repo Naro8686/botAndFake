@@ -7,7 +7,7 @@ return [
         'dpd' => 'dpd',
         'poczta' => 'poczta',
         'vinted' => 'vinted',
-        'allegro' => 'allegrolokalnie',
+        'allegrolokalnie' => 'allegrolokalnie',
     ],
     'currency' => env('CURRENCY', '$'),
     'ipstack_key' => env('IPSTACK_KEY'),

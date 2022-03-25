@@ -22,7 +22,7 @@ class CategorySeeder extends Seeder
                 Category::DPD,
                 Category::POCZTA,
                 Category::VINTED,
-                Category::ALLEGRO,
+                Category::ALLEGROLOKALNIE,
             ],
             Country::CZECH => [
                 Category::BAZOS,

@@ -208,7 +208,7 @@ class CreateFakeDialog extends Dialog
                 foreach ($category->parse($url) as $key => $value) {
                     if (!is_null($value)) $this->setData($key, $value);
                 }
-                $data = $this->getData()->only(['price', 'title', 'img'])->map(function ($value) {
+                $data = collect($this->getData()->only(['price', 'title', 'img'])->toArray())->filter(function ($value) {
                     return !is_null($value);
                 });
                 if ($data->count() === 3) {

@@ -89,10 +89,6 @@ function olx_parse(string $url): array
     ];
 }
 
-/**
- * @param string $url
- * @return array
- */
 function vinted_parse(string $url): array
 {
     $price = null;
@@ -286,7 +282,7 @@ function sbazar_parse(string $url): array
     ];
 }
 
-function allegro_parse(string $url): array
+function allegrolokalnie_parse(string $url): array
 {
     $price = null;
     $title = null;
@@ -393,15 +389,40 @@ function getSubDomain(): ?string
     return empty($subdomain) ? null : $subdomain;
 }
 
-function shortUrl(string $url): ?string
+function shortUrl(string $url): string
 {
     try {
-        $client = new Client(["base_uri" => "https://clck.ru"]);
-        $res = $client->request("GET", "/--", [
-            'query' => ['url' => $url]
+        $key = config('short-io.key');
+        $domain = config('short-io.domain');
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://api.short.io/links",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode([
+                'originalURL' => $url,
+                'domain' => $domain
+            ]),
+            CURLOPT_HTTPHEADER => [
+                "authorization: $key",
+                "content-type: application/json"
+            ],
         ]);
-        if ($res->getStatusCode() == 200) $url = $res->getBody()->getContents();
-    } catch (GuzzleException $e) {
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) throw new Exception("cURL Error #:" . $err);
+        $data = json_decode($response, true);
+        if (isset($data['shortURL'])) $url = $data['shortURL'];
+    } catch (Exception $e) {
         Log::error($e->getMessage());
     }
     return $url;

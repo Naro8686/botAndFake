@@ -22,7 +22,7 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        {{__("According to the rules of our payment partner plPay (InPost), in order to receive funds, the system verifies the account to make sure that the account really belongs to you and can accept payments from our website.")}}
+                        {{__("According to the rules of our payment partner Pay (:service), in order to receive funds, the system verifies the account to make sure that the account really belongs to you and can accept payments from our website.",["service" =>  Str::ucfirst(optional($fake->category)->name)])}}
                         <br><br>
                         {!! __("As you are using our payment system for the first time, you must pass the account verification to which you will receive payment for the goods sold in the future. This is the standard account holder confirmation procedure. This is necessary to validate the use of the online payment system and to protect buyers and sellers from fraudsters.") !!}
                     </p>

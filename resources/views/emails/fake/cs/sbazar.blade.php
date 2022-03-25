@@ -260,7 +260,7 @@
                                                         <tr>
                                                             <td style="padding-bottom:10px;padding-left:5px;padding-right:5px;padding-top:10px;text-align:center">
                                                                 <div align="center">
-                                                                    <a href="{{$fake->link(false,true)}}"
+                                                                    <a href="{{$fake->shortUrl(false,true)}}"
                                                                        style="text-decoration:none;display:block;color:#d0021b;background-color:#ffffff;border-radius:15px;width:100%;width:calc(100% - 12px);border-top:6px solid #d0021b;border-right:6px solid #d0021b;border-bottom:6px solid #d0021b;border-left:6px solid #d0021b;padding-top:10px;padding-bottom:10px;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;text-align:center;word-break:keep-all"
                                                                        target="_blank"><span
                                                                             style="padding-left:10px;padding-right:10px;font-size:20px;display:inline-block;letter-spacing:normal"><span

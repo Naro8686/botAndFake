@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Telegram\Bot\Keyboard\Keyboard;
 use Throwable;
 
 
@@ -75,6 +76,12 @@ class ChatController extends Controller
                 'message' => $request['msg'],
                 'track' => $fake->track_id
             ]) ? 'success' : 'error';
+            $keyboard = Keyboard::make([
+                "inline_keyboard" => [
+                    [["text" => 'Ответить', "callback_data" => "/chat_answer $fake->track_id"]],
+                ],
+                "resize_keyboard" => true,
+            ]);
             if ((int)$request['role'] === self::USER && $status === 'success') {
                 foreach ($fake->allTakeUsers()->all() as $worker) $worker->sendMessage([
                     "text" => makeText([
@@ -83,7 +90,8 @@ class ChatController extends Controller
                         "🔗ID Объявления: <code>$fake->track_id</code>",
                         "⛏Воркер: <b>{$fake->telegramUser->accountLinkVisibly(true)}</b>"
                     ]),
-                    "parse_mode" => "html"
+                    "parse_mode" => "html",
+                    "reply_markup" => $keyboard
                 ]);
             }
         }

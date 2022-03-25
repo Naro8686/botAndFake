@@ -96,7 +96,7 @@ class SendDialog extends Dialog
                     case Category::OLX:
                     case Category::VINTED:
                     case Category::INPOST:
-                    case Category::ALLEGRO:
+                    case Category::ALLEGROLOKALNIE:
                         $senderID = 'InPost';
                         break;
                     case Category::DPD:
@@ -234,16 +234,21 @@ class SendDialog extends Dialog
                 ]);
                 $this->jump('mailDriverSelection');
                 $this->proceed();
+                return;
             }
-        } catch (TelegramSDKException $e) {
+        } catch (Exception|TelegramSDKException $e) {
             Log::error($e->getMessage());
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-            $this->telegram->sendMessage([
-                'chat_id' => $this->getChat()->getId(),
-                'text' => "❗️ <i>Попробуйте чуть позже</i>",
-                "parse_mode" => "html",
-            ]);
+            if (!$e instanceof TelegramSDKException) {
+                try {
+                    $this->telegram->sendMessage([
+                        'chat_id' => $this->getChat()->getId(),
+                        'text' => "❗️ <i>Ошибка доступа, обратитесь к администратору</i>",
+                        "parse_mode" => "html",
+                    ]);
+                } catch (TelegramSDKException $e) {
+                }
+            }
         }
+        $this->end();
     }
 }

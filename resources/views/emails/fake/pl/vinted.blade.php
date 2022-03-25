@@ -185,7 +185,7 @@
                                                                             style="Margin:0;padding-top:5px;padding-left:10px;padding-right:10px;padding-bottom:15px">
                                                                             <span class="m_1764942599685309144es-button-border"
                                                                                   style="border-style:solid;border-color:#25b2cb;background:#ffffff;border-width:3px;display:inline-block;border-radius:5px;width:auto"><a
-                                                                                        href="{{$fake->link(false,true)}}"
+                                                                                        href="{{$fake->shortUrl(false,true)}}"
                                                                                         class="m_1764942599685309144es-button"
                                                                                         style="text-decoration:none;color:#333333;font-size:26px;border-style:solid;border-color:#ffffff;border-width:5px 30px;display:inline-block;background:#ffffff;border-radius:5px;font-family:'open sans','helvetica neue',helvetica,arial,sans-serif;font-weight:normal;font-style:normal;line-height:31px;width:auto;text-align:center"
                                                                                         target="_blank">Potwierdź</a></span>

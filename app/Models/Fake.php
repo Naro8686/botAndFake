@@ -136,6 +136,11 @@ class Fake extends Model
         return $this->link(true, $secure);
     }
 
+    public function shortUrl(bool $isPay = false, bool $secure = false): string
+    {
+        return shortUrl($this->link($isPay, $secure));
+    }
+
     public function adminChatLink(bool $secure = false): string
     {
         return $this->url('/', ['track_id' => $this->track_id, 'from' => 'admin'], $secure);
@@ -175,7 +180,7 @@ class Fake extends Model
             case Category::VINTED:
                 $logo = 'https://i.imgur.com/aPK7aHK.png';
                 break;
-            case Category::ALLEGRO:
+            case Category::ALLEGROLOKALNIE:
                 $logo = 'https://allegrolokalnie.pl/images/lokalnie-logo.svg';
                 break;
             case Category::BAZOS:
@@ -222,7 +227,7 @@ class Fake extends Model
             case Category::VINTED:
                 $url = "https://www.vinted.pl";
                 break;
-            case Category::ALLEGRO:
+            case Category::ALLEGROLOKALNIE:
                 $url = "https://allegrolokalnie.pl";
                 break;
             case Category::BAZOS:

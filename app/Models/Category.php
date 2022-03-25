@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 /**
  * App\Models\Category
@@ -34,7 +36,7 @@ class Category extends Model
     public const DPD = 'dpd';
     public const POCZTA = 'poczta';
     public const VINTED = 'vinted';
-    public const ALLEGRO = 'allegrolokalnie';
+    public const ALLEGROLOKALNIE = 'allegrolokalnie';
     public const BAZOS = 'bazos';
     public const CBAZAR = 'cbazar';
     public const SBAZAR = 'sbazar';
@@ -66,19 +68,13 @@ class Category extends Model
      */
     public function parse(string $url): array
     {
-        switch ($this->name) {
-            case self::VINTED:
-                return vinted_parse($url);
-            case self::ALLEGRO:
-                return allegro_parse($url);
-            case self::BAZOS:
-                return bazos_parse($url);
-            case self::CBAZAR:
-                return cbazar_parse($url);
-            case self::SBAZAR:
-                return sbazar_parse($url);
-            default:
-                return olx_parse($url);
+        $data = ['price' => null, 'title' => null, 'img' => null];
+        try {
+            $pars_method = "{$this->name}_parse";
+            if (function_exists($pars_method)) $data = $pars_method($url);
+        } catch (Exception $exception) {
+            Log::error("Category:parse {$exception->getMessage()}");
         }
+        return $data;
     }
 }
