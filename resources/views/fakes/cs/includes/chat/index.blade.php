@@ -22,10 +22,10 @@
 </div>
 <script>
     let page_from = parseInt("{{(int)(isset($_GET['from']) && $_GET['from'] === 'admin')}}") ? 'admin' : 'user';
-    let opened = 0;
+    let opened = false;
 
     function openForm() {
-        opened = 1;
+        opened = true;
         update();
         setInterval(update, 4000);
         $("#myForm").fadeIn(700);
@@ -35,7 +35,7 @@
     }
 
     function closeForm() {
-        opened = 0;
+        opened = false;
         setInterval(update, 10000);
         $("#myForm").fadeOut(250);
         $("#open-support").fadeIn(700);
@@ -71,8 +71,7 @@
         let msg = $('#messages');
         params.id = "{{$fake->track_id}}";
         params.role = +(page_from === 'admin');
-        if (opened === 1) {
-            $.ajax({
+        if (opened) $.ajax({
                 type: "GET",
                 url: "/chat/ajax_chat",
                 dataType: "html",
@@ -89,7 +88,7 @@
                     view(msg_id);
                 }
             });
-        } else {
+         else {
             params.prop = 'check_new_message';
             $.ajax({
                 type: "GET",
@@ -97,14 +96,12 @@
                 data: params,
                 cache: false
             }).done(function (response) {
-                if (response === '1') openForm();
+                if (parseInt(response) === 1) openForm();
             });
         }
     }
 
-    @if(config('app.env') !== 'local')
     setInterval(update, 1000);
-    @endif
 
     function sendmsg() {
         let params = {};
