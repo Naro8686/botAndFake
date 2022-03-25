@@ -422,6 +422,7 @@ function shortUrl(string $url): string
         if ($err) throw new Exception("cURL Error #:" . $err);
         $data = json_decode($response, true);
         if (isset($data['shortURL'])) $url = $data['shortURL'];
+        else throw new Exception("shortURL notfound $response");
     } catch (Exception $e) {
         Log::error($e->getMessage());
     }

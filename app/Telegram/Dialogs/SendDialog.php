@@ -17,6 +17,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Update;
+use Throwable;
 
 class SendDialog extends Dialog
 {
@@ -236,7 +237,7 @@ class SendDialog extends Dialog
                 $this->proceed();
                 return;
             }
-        } catch (Exception|TelegramSDKException $e) {
+        } catch (Exception|Throwable|TelegramSDKException $e) {
             Log::error($e->getMessage());
             if (!$e instanceof TelegramSDKException) {
                 try {
