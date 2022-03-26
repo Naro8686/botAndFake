@@ -8,6 +8,7 @@ use App\Models\Role;
 use Log;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 /**
  * Class HelpCommand.
@@ -76,7 +77,7 @@ class RedirectCommand extends BaseCommand
                     ]),
                     "parse_mode" => "html",
                 ]);
-        } catch (TelegramSDKException $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             Log::error($e->getMessage());
         }
         event(new RedirectEvent($fake, $uuid, $url, $msg ?? ''));

@@ -27,7 +27,7 @@ class SendDialog extends Dialog
     public function __construct(Update $update, ?TelegramUser $user)
     {
         parent::__construct($update, $user);
-        if (\app()->environment('local')) {
+        if (app()->isLocal()) {
             $this->sources = array_merge($this->sources, ['smtp' => 'SMTP']);
         }
         $this->type = ($this->getData('type') === 'email') ? 'email' : 'sms';

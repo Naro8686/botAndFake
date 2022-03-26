@@ -1902,7 +1902,8 @@ input:-webkit-autofill, input:-webkit-autofill:focus, input:-webkit-autofill:hov
 .standard-form__logo img {
     max-width: 80%;
     max-height: calc(90% - 20px);
-    vertical-align: middle
+    vertical-align: middle;
+    object-fit: contain;
 }
 
 .standard-form__name {
