@@ -4,7 +4,6 @@ namespace App\Telegram\Dialogs;
 
 use App\Http\Controllers\Telegram\BotController;
 use App\Models\TelegramUser;
-use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
@@ -15,6 +14,7 @@ use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Chat;
 use Telegram\Bot\Objects\Update;
+use Throwable;
 
 class Dialog
 {
@@ -151,7 +151,7 @@ class Dialog
             return !is_null($commandName) && $commandName === $btns->get('back');
         } catch (TelegramSDKException $e) {
             return true;
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             Log::error($exception->getMessage());
         }
         return false;

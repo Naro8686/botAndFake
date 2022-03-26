@@ -4,9 +4,9 @@ namespace App\Telegram\Dialogs;
 
 use App\Api\SendGridApi;
 use App\Models\Sendgrid;
-use Exception;
 use Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 class AddTokenSendGridDialog extends Dialog
 {
@@ -81,7 +81,7 @@ class AddTokenSendGridDialog extends Dialog
                 $this->jump('index');
                 $this->proceed();
             }
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -135,7 +135,7 @@ class AddTokenSendGridDialog extends Dialog
                 $this->jump('setToken');
                 $this->proceed();
             }
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             Log::error($e->getMessage());
         }
     }

@@ -4,9 +4,9 @@ namespace App\Telegram\Commands;
 
 use App\Models\Fake;
 use App\Telegram\Dialogs\SendDialog;
-use Exception;
 use Log;
 use Telegram\Bot\Actions;
+use Throwable;
 
 /**
  * Class HelpCommand.
@@ -43,7 +43,7 @@ class SendCommand extends BaseCommand
                 "text" => "❗️ <b>Такой объявление не существует!</b>",
                 "parse_mode" => "html",
             ]);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             Log::error("Command name:{$this->getName()} {$exception->getMessage()}");
         }
     }

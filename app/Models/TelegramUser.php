@@ -298,7 +298,7 @@ class TelegramUser extends Authenticatable
                 $this->details = $details;
                 return $this->save();
             }
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             Log::error($exception->getMessage());
         }
         return false;

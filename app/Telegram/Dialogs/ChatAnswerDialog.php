@@ -10,6 +10,7 @@ use Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Objects\Update;
+use Throwable;
 
 class ChatAnswerDialog extends Dialog
 {
@@ -58,7 +59,7 @@ class ChatAnswerDialog extends Dialog
                 "parse_mode" => "html",
                 "reply_markup" => $keyboard
             ]);
-        } catch (Exception|TelegramSDKException $e) {
+        } catch (Throwable|TelegramSDKException $e) {
             Log::error($e->getMessage());
         }
     }
@@ -94,7 +95,7 @@ class ChatAnswerDialog extends Dialog
                 else throw new Exception();
             } else throw new Exception();
             $this->end();
-        } catch (Exception|TelegramSDKException $e) {
+        } catch (Throwable|TelegramSDKException $e) {
             if (!$e instanceof TelegramSDKException) {
                 try {
                     $this->setData('error', true);

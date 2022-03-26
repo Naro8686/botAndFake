@@ -6,6 +6,7 @@ use App\Models\Sendgrid;
 use Log;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 class DeleteTokenSendGridDialog extends Dialog
 {
@@ -84,12 +85,15 @@ class DeleteTokenSendGridDialog extends Dialog
             ]);
         } catch (TelegramSDKException $e) {
             Log::error($e->getMessage());
-        } catch (\Exception $exception) {
-            $this->telegram->sendMessage([
-                "chat_id" => $this->getChat()->getId(),
-                "text" => "❗️ <b>Попробуйте чуть позже!</b>",
-                "parse_mode" => "html"
-            ]);
+        } catch (Throwable $exception) {
+            try {
+                $this->telegram->sendMessage([
+                    "chat_id" => $this->getChat()->getId(),
+                    "text" => "❗️ <b>Попробуйте чуть позже!</b>",
+                    "parse_mode" => "html"
+                ]);
+            } catch (TelegramSDKException $e) {
+            }
         }
     }
 

@@ -6,7 +6,6 @@ use App\Exceptions\TelegramUserPermissionException;
 use App\Http\Controllers\Telegram\BotController;
 use App\Models\TelegramUser;
 use App\Telegram\Dialogs\Dialogs;
-use Exception;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
@@ -14,6 +13,7 @@ use Log;
 use Telegram\Bot\Api;
 use Telegram\Bot\Commands\Command;
 use Telegram\Bot\Objects\Update;
+use Throwable;
 
 /**
  * Class HelpCommand.
@@ -79,7 +79,7 @@ abstract class BaseCommand extends Command
                     'page' => $output['page'] ?? 1
                 ]);
             }
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             Log::error("BaseCommand::make {$exception->getMessage()}");
         }
 

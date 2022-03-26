@@ -5,6 +5,7 @@ namespace App\Telegram\Commands;
 
 use Exception;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 /**
  * Class HelpCommand.
@@ -35,7 +36,7 @@ class BackCommand extends BaseCommand
                 if ($backNum < 0) throw new Exception();
                 else $user->dialogSetField('next', $backNum);
             } else throw new Exception();
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             $this->triggerCommand('start');
         }
         return 0;

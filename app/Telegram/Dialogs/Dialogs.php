@@ -3,11 +3,11 @@
 namespace App\Telegram\Dialogs;
 
 use App\Models\TelegramUser;
-use Exception;
 use Log;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Update;
+use Throwable;
 
 /**
  * Class Dialogs
@@ -98,7 +98,7 @@ class Dialogs
                 $this->setField($chatId, 'next', $dialog->getNext());
                 $this->setField($chatId, 'memory', $dialog->getMemory());
             }
-        } catch (Exception|TelegramSDKException $e) {
+        } catch (Throwable|TelegramSDKException $e) {
             Log::error($e->getMessage());
         }
     }

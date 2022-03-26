@@ -6,11 +6,10 @@ use App\Models\Fake;
 use App\Models\TelegramUser;
 use App\Models\Role;
 use Cache;
-use Exception;
 use Log;
 use Telegram\Bot\Actions;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
+use Throwable;
 
 
 /**
@@ -90,7 +89,7 @@ class SearchCommand extends BaseCommand
                 "text" => "По значению <b>$value</b> ничего не найдено!",
                 "parse_mode" => "html",
             ]);
-        } catch (TelegramSDKException | Exception $e) {
+        } catch (Throwable $e) {
             Log::error("SearchCommand {$e->getMessage()}");
         }
     }

@@ -6,10 +6,9 @@ use App\Api\SendGridApi;
 use App\Models\Category;
 use App\Models\Role;
 use App\Models\Sendgrid;
-use App\Telegram\Dialogs\AddTokenSendGridDialog;
-use Exception;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 
 /**
@@ -72,7 +71,7 @@ class GetTokenSendGridCommand extends BaseCommand
                 "text" => makeText($text),
                 "parse_mode" => "html",
             ]);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->replyWithMessage([
                 "text" => Sendgrid::count()
                     ? "❗️ <b>Не смог получить данные, попробуйте чуть позже</b>"

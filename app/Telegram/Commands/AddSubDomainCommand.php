@@ -9,6 +9,7 @@ use App\Models\Setting;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Telegram\Bot\Actions;
+use Throwable;
 
 
 /**
@@ -72,7 +73,7 @@ class AddSubDomainCommand extends BaseCommand
                 "text" => "✅ <b>Поддомен успешно сохранен</b>\n\r\n\r" . makeText($subdomains),
                 "parse_mode" => "html",
             ]);
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             Log::error("AddSubDomainCommand:{$exception->getMessage()}");
         }
     }

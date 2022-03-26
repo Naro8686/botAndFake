@@ -2,10 +2,8 @@
 
 namespace App\Telegram\Dialogs;
 
-use Exception;
 use Log;
 use App\Models\TelegramUser;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use Throwable;
 
 class AlertDialog extends Dialog
@@ -23,7 +21,7 @@ class AlertDialog extends Dialog
                 "text" => "❕<i>Напишите сообщения</i>",
                 "parse_mode" => "html",
             ]);
-        } catch (TelegramSDKException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -64,7 +62,7 @@ class AlertDialog extends Dialog
                 $this->jump('index');
                 $this->proceed();
             }
-        } catch (TelegramSDKException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }

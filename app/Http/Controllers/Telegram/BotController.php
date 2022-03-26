@@ -127,7 +127,7 @@ class BotController extends Controller
         try {
             $config = self::getConfig();
             $telegram = new Api($config->get('token'), config("telegram.async_requests"));
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             Log::error($e->getMessage());
         }
         return $telegram ?? null;
@@ -148,7 +148,7 @@ class BotController extends Controller
             $telegram = self::getTelegram();
             $telegram->removeWebhook();
             $success = $telegram->setWebhook(['url' => url($webhook_url, [], true)]);
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             $msg = $e->getMessage();
         }
         return response()->json(['ok' => $success, 'description' => $msg]);

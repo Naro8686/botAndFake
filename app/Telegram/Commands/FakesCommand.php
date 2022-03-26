@@ -12,6 +12,7 @@ use Log;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
+use Throwable;
 
 
 /**
@@ -78,7 +79,7 @@ class FakesCommand extends BaseCommand
                     ]);
                 }
             }
-        } catch (TelegramSDKException $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             Log::error("FakesCommand {$e->getMessage()}");
         }
     }

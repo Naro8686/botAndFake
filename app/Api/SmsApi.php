@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Log;
+use Throwable;
 
 class SmsApi
 {
@@ -53,7 +54,7 @@ class SmsApi
                     $count = $result['SMSleft'] ?? 0;
                 }
             }
-        } catch (GuzzleException|Exception $e) {
+        } catch (GuzzleException|Throwable $e) {
             $msg = 'Попробуйте чуть позже';
         }
         return response()->json([
@@ -115,7 +116,7 @@ class SmsApi
                 $success = ($result['ok'] === 'true');
                 if (!$success) throw new Exception();
             }
-        } catch (GuzzleException|Exception $e) {
+        } catch (GuzzleException|Throwable $e) {
             $msg = 'Попробуйте чуть позже';
         }
         return response()->json([

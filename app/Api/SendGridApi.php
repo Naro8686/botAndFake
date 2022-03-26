@@ -6,6 +6,7 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
+use Throwable;
 
 class SendGridApi
 {
@@ -54,7 +55,7 @@ class SendGridApi
                     $count = $result['remain'] ?? 0;
                 }
             }
-        } catch (GuzzleException|Exception $e) {
+        } catch (GuzzleException|Throwable $e) {
             $msg = 'Попробуйте чуть позже';
             if ($e->getCode() === 403){
                 $status = $e->getCode();

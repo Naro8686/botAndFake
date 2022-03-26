@@ -4,7 +4,7 @@ namespace App\Telegram\Commands;
 
 use App\Models\Fake;
 use App\Models\Role;
-use Exception;
+use Throwable;
 use Log;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -66,7 +66,7 @@ class AllFakesCommand extends BaseCommand
                     "reply_markup" => $keyboard
                 ]);
             }
-        } catch (TelegramSDKException | Exception $exception) {
+        } catch (TelegramSDKException | Throwable $exception) {
             Log::error("AllFakesCommand {$exception->getMessage()}");
         }
     }

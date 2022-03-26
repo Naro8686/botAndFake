@@ -13,6 +13,7 @@ use Intervention\Image\AbstractFont;
 use Intervention\Image\Facades\Image;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 
 /**
@@ -126,7 +127,7 @@ class QrGenerateCommand extends BaseCommand
             }
         } catch (TelegramSDKException $telegramSDKException) {
             Log::error($telegramSDKException->getMessage());
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             Log::error($exception->getMessage());
             $this->replyWithMessage([
                 "text" => "⛔️ <b>Что то пошло не так, попробуйте позже.</b>",

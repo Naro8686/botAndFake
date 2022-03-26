@@ -6,6 +6,7 @@ use App\Http\Controllers\Telegram\BotController;
 use App\Models\TelegramUser;
 use Exception;
 use Log;
+use Throwable;
 
 class TelegramUserPermissionException extends Exception
 {
@@ -41,7 +42,7 @@ class TelegramUserPermissionException extends Exception
                 "text" => $this->getMessage(),
                 "parse_mode" => "html"
             ]);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             Log::error("TelegramUserPermissionException {$e->getMessage()}");
         }
     }

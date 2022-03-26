@@ -14,6 +14,7 @@ use Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Objects\Update;
+use Throwable;
 
 class CreateFakeDialog extends Dialog
 {
@@ -70,7 +71,7 @@ class CreateFakeDialog extends Dialog
                     "one_time_keyboard" => false,
                 ])
             ]);
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -118,7 +119,7 @@ class CreateFakeDialog extends Dialog
                     "one_time_keyboard" => false,
                 ])
             ]);
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -169,15 +170,11 @@ class CreateFakeDialog extends Dialog
                 $this->jump('selectCategory');
                 $this->proceed();
             }
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             Log::error($e->getMessage());
         }
     }
 
-    /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
     public function useParsing()
     {
         try {
@@ -191,12 +188,8 @@ class CreateFakeDialog extends Dialog
                 $text[] = '🖋 <b>Введите название товара</b>';
                 $keyboard = Keyboard::make([
                     "keyboard" => [
-                        [
-                            ["text" => $this->getData("title") ?? ''],
-                        ],
-                        [
-                            ["text" => $this->btns->get('back') ?? ''],
-                        ],
+                        [["text" => $this->getData("title") ?? '']],
+                        [["text" => $this->btns->get('back') ?? '']],
                     ],
                     "resize_keyboard" => true,
                     "one_time_keyboard" => false,
@@ -254,7 +247,7 @@ class CreateFakeDialog extends Dialog
                         "one_time_keyboard" => false,
                     ])
             ]);
-        } catch (Exception $exception) {
+        } catch (Exception|Throwable $exception) {
             Log::error($exception->getMessage());
         }
     }
@@ -292,7 +285,7 @@ class CreateFakeDialog extends Dialog
                 $this->jump('useParsing');
                 $this->proceed();
             }
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
         }
     }
 
@@ -340,7 +333,7 @@ class CreateFakeDialog extends Dialog
                 $this->jump('setTitle');
                 $this->proceed();
             }
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             Log::error($exception->getMessage());
         }
     }
@@ -428,7 +421,7 @@ class CreateFakeDialog extends Dialog
                 $this->jump('setPrice');
                 $this->proceed();
             }
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
         }
     }
 
@@ -491,7 +484,7 @@ class CreateFakeDialog extends Dialog
                 $this->jump('setImage');
                 $this->proceed();
             }
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
         }
     }
 
@@ -516,7 +509,7 @@ class CreateFakeDialog extends Dialog
                 $this->jump('setRecipient');
                 $this->proceed();
             }
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
         }
     }
 
@@ -561,7 +554,7 @@ class CreateFakeDialog extends Dialog
                     "reply_markup" => $keyboard
                 ]);
                 if (!$this->isBack()) $this->jump('setRecipient');
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
             }
         }
     }
@@ -600,7 +593,7 @@ class CreateFakeDialog extends Dialog
                 'text' => '❗️ <i>Не получилось создать запись, попробуйте заново.</i>',
                 "parse_mode" => "html",
             ]);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
         $this->end();

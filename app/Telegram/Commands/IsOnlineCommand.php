@@ -3,9 +3,9 @@
 namespace App\Telegram\Commands;
 
 use Cache;
-use Exception;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Actions;
+use Throwable;
 
 
 class IsOnlineCommand extends BaseCommand
@@ -37,7 +37,7 @@ class IsOnlineCommand extends BaseCommand
                 "text" => makeText($text),
                 "parse_mode" => "html",
             ]);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             Log::error("IsOnlineCommand:{$exception->getMessage()}");
         }
     }

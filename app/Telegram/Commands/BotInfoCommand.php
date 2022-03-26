@@ -2,10 +2,10 @@
 
 namespace App\Telegram\Commands;
 
-use Exception;
 use App\Models\Role;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 
 /**
@@ -54,7 +54,7 @@ class BotInfoCommand extends BaseCommand
                 "text" => makeText($text),
                 "parse_mode" => "html",
             ]);
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             $this->replyWithMessage([
                 "text" => "Не получилось собрать данные!",
                 "parse_mode" => "html",

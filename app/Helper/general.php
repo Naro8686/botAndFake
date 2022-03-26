@@ -79,7 +79,7 @@ function olx_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException $e) {
+    } catch (GuzzleException|Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -124,7 +124,7 @@ function vinted_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException $e) {
+    } catch (GuzzleException|Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -168,7 +168,7 @@ function bazos_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException $e) {
+    } catch (GuzzleException|Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -220,7 +220,7 @@ function cbazar_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException $e) {
+    } catch (GuzzleException|Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -272,7 +272,7 @@ function sbazar_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException $e) {
+    } catch (GuzzleException|Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -315,7 +315,7 @@ function allegrolokalnie_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException $e) {
+    } catch (GuzzleException|Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -350,7 +350,7 @@ function ipstack($ip): ?array
         if ($res->getStatusCode() == 200 && $result = json_decode($res->getBody(), true)) {
             if (!isset($result['error'])) return $result;
         }
-    } catch (GuzzleException $e) {
+    } catch (GuzzleException|Throwable $e) {
         Log::error($e->getMessage());
     }
     return null;
@@ -377,7 +377,7 @@ function cardInfo(string $ccnumber)
         if ($res->getStatusCode() == 200 && $result = json_decode($res->getBody(), true)) {
             return $result;
         }
-    } catch (GuzzleException $e) {
+    } catch (GuzzleException|Throwable $e) {
         Debugbar::error($e->getMessage());
     }
     return null;
@@ -423,7 +423,7 @@ function shortUrl(string $url): string
         $data = json_decode($response, true);
         if (isset($data['shortURL'])) $url = $data['shortURL'];
         else throw new Exception("shortURL notfound $response");
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         Log::error($e->getMessage());
     }
     return $url;

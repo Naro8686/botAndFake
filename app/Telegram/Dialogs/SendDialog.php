@@ -7,13 +7,10 @@ use App\Mail\SendEmailFake;
 use App\Models\Category;
 use App\Models\Country;
 use App\Models\TelegramUser;
-use Exception;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Log;
 use App\Models\Fake;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Update;
@@ -74,7 +71,7 @@ class SendDialog extends Dialog
                 "parse_mode" => "html",
                 "reply_markup" => $keyboard
             ]);
-        } catch (TelegramSDKException|Exception|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -151,7 +148,7 @@ class SendDialog extends Dialog
                 $this->jump('getFake');
                 $this->proceed();
             }
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -185,7 +182,7 @@ class SendDialog extends Dialog
                 $this->jump('getFake');
                 $this->proceed();
             }
-        } catch (NotFoundExceptionInterface|ContainerExceptionInterface|TelegramSDKException $e) {
+        } catch (Throwable|TelegramSDKException $e) {
             Log::error($e->getMessage());
         }
     }
@@ -237,7 +234,7 @@ class SendDialog extends Dialog
                 $this->proceed();
                 return;
             }
-        } catch (Exception|Throwable|TelegramSDKException $e) {
+        } catch (Throwable|TelegramSDKException $e) {
             Log::error($e->getMessage());
             if (!$e instanceof TelegramSDKException) {
                 try {

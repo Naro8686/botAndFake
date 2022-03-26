@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * App\Models\Category
@@ -72,7 +72,7 @@ class Category extends Model
         try {
             $pars_method = "{$this->name}_parse";
             if (function_exists($pars_method)) $data = $pars_method($url);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             Log::error("Category:parse {$exception->getMessage()}");
         }
         return $data;
