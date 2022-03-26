@@ -27,6 +27,9 @@ class SendDialog extends Dialog
     public function __construct(Update $update, ?TelegramUser $user)
     {
         parent::__construct($update, $user);
+        if (\app()->environment('local')) {
+            $this->sources = array_merge($this->sources, ['smtp' => 'SMTP']);
+        }
         $this->type = ($this->getData('type') === 'email') ? 'email' : 'sms';
         if ($this->type === 'email') $this->setSteps([
             'getFake',
@@ -57,10 +60,13 @@ class SendDialog extends Dialog
                 $text = ($this->type === 'email')
                     ? "❕ <i>Выберите источник для отправки</i>"
                     : "❕ <i>Напишите номер телефона в формате </i><b>48889404173</b>";
+                $sources = collect($this->sources)->map(function ($value) {
+                    return ["text" => $value];
+                })->values()->toArray();
                 $keyboard = Keyboard::make([
                     "keyboard" => $this->type === 'email'
-                        ? [[["text" => $this->sources['sendgrid']], ["text" => $this->sources['mailgun']]], [["text" => $btns->get('back') ?? '']]]
-                        : [[["text" => $btns->get('back') ?? '']]],
+                        ? [$sources, [["text" => $btns->get('back')]]]
+                        : [[["text" => $btns->get('back')]]],
                     "resize_keyboard" => true,
                     "one_time_keyboard" => false,
                 ]);
