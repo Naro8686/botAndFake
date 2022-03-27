@@ -127,7 +127,8 @@
     justify-content: space-between;
     background-color: #ffffff;
 }
-input#message-text{
+
+input#message-text {
     border-color: #eaeced;
     border-top: 1px solid #eaeced;
     margin-top: 20px;
@@ -151,17 +152,21 @@ input#message-text{
     padding: 5px;
     width: 340px;
     height: 250px;
+    position: relative;
 }
 
-.chat-title,
 .chat-close {
+    position: absolute;
+    display: inline;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.chat-title {
     margin-left: 10px;
     display: inline;
     margin-top: -188px;
-}
-
-.chat-close {
-    float: right;
 }
 
 .chat-footer {
@@ -282,7 +287,6 @@ input#message-text{
 }
 
 .close {
-    float: right;
     width: 16px;
     height: 16px;
     opacity: 0.4;

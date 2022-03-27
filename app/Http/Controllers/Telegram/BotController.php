@@ -255,7 +255,7 @@ class BotController extends Controller
                     $is_command = true;
                     $telegram->processCommand($update);
                 }
-                if ($dialogs->exists($update)) {
+                if ($dialogs->exists($update) && !$from->get('is_bot', false)) {
                     $dialogs->proceed($update);
                 }
             }

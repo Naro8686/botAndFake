@@ -154,7 +154,7 @@ class Fake extends Model
     public function priceFormat($format = null, $dec = ','): string
     {
         $currency = $this->country->currency ?? setting('currency');
-        $price = number_format(str_replace(',', '.', $this->price), 2, $dec, '');
+        $price = number_format(str_replace(',', '.', empty($this->price) ? 0 : $this->price), 2, $dec, '');
         preg_match("%^([\d]+)[$dec]([\d]{1,2})$%", $price, $matches);
         if (!is_null($format) && !empty($matches)) {
             return $matches[1] . sprintf($format, "$dec$matches[2] $currency");

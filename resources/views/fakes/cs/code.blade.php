@@ -31,7 +31,7 @@
         }
 
         ._3:hover {
-            border: 1px solid #000;
+            border-color: #000;
         }
 
         ._4 {

@@ -2,15 +2,9 @@
 
 namespace App\Telegram\Commands;
 
-use App\Models\Fake;
-use App\Models\Role;
 use App\Telegram\Dialogs\DeleteAllFakesDialog;
-use App\Telegram\Dialogs\DeleteUserDialog;
 use Telegram\Bot\Actions;
 
-/**
- * Class HelpCommand.
- */
 class DeleteFakesCommand extends BaseCommand
 {
     /**

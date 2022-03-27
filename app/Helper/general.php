@@ -325,10 +325,10 @@ function allegrolokalnie_parse(string $url): array
     ];
 }
 
-function subRoute($name, $parameters = [], $absolute = true): string
+function subRoute($name, $parameters = [], $absolute = true, $subdomain = null): string
 {
     if (is_string($parameters)) $parameters = [$parameters];
-    $subdomain = Route::current()->originalParameter('subdomain');
+    $subdomain = is_null($subdomain) ? Route::current()->originalParameter('subdomain') : $subdomain;
     $parameters = array_merge($parameters, ['subdomain' => $subdomain]);
     return route($name, $parameters, $absolute);
 }
@@ -369,7 +369,6 @@ function getTrackIdFromWorker($track, $len = 4): string
 
 function cardInfo(string $ccnumber)
 {
-
     try {
         $bin = substr($ccnumber, 0, 8);
         $client = new Client(["base_uri" => "https://lookup.binlist.net"]);

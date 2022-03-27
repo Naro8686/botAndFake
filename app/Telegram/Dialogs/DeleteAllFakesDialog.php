@@ -5,7 +5,7 @@ namespace App\Telegram\Dialogs;
 use App\Models\Fake;
 use Log;
 use Telegram\Bot\Keyboard\Keyboard;
-use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 class DeleteAllFakesDialog extends Dialog
 {
@@ -41,7 +41,7 @@ class DeleteAllFakesDialog extends Dialog
                 "parse_mode" => "html",
                 "reply_markup" => $keyboard
             ]);
-        } catch (TelegramSDKException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -75,7 +75,7 @@ class DeleteAllFakesDialog extends Dialog
             ]);
             $this->end();
             $this->telegram->triggerCommand('start',$this->update);
-        } catch (TelegramSDKException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }

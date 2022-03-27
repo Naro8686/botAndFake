@@ -97,6 +97,8 @@ return [
                 \App\Telegram\Commands\QrGenerateCommand::class,
                 \App\Telegram\Commands\IsOnlineCommand::class,
                 \App\Telegram\Commands\ChatAnswerCommand::class,
+                \App\Telegram\Commands\InstrumentsCommand::class,
+                \App\Telegram\Commands\DeliveryInfoCommand::class,
             ],
             'btns' => [
                 "profile" => "👤 Профиль",
@@ -130,6 +132,8 @@ return [
                 "next" => "🔽 Следующий",
                 "generateToken" => "🎫 Сгенерировать токен",
                 "generateQrCode" => "🧿 Сгенерировать QR",
+                "instruments" => "🛠 Инструменты",
+                "deliveryInfo" => "✈️ Как работает доставка",
             ],
             'currency' => env('CURRENCY', '$')
         ],

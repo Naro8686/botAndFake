@@ -8,17 +8,17 @@ use Telegram\Bot\Keyboard\Keyboard;
 use Throwable;
 
 
-class StartCommand extends BaseCommand
+class InstrumentsCommand extends BaseCommand
 {
     /**
      * @var string Command Name
      */
-    protected $name = "start";
+    protected $name = "instruments";
 
     /**
      * @var string Command Description
      */
-    protected $description = "Пуск";
+    protected $description = "Инструменты";
 
     /**
      * @inheritdoc
@@ -33,14 +33,8 @@ class StartCommand extends BaseCommand
             $user = $this->getUser();
             $user->deleteDialog();
 
-            if ($user->isActive()) {
-                $keyboard[] = [["text" => $btns->get('profile','')], ["text" => $btns->get('fakes','')]];
-                if ($user->isAdmin()) {
-                    $keyboard[] = [["text" => $btns->get('allUsers','')], ["text" => $btns->get('deleteAllFakes','')]];
-                }
-                $keyboard[] = [["text" => $btns->get('createFake','')]];
-                $keyboard[] = [["text" => $btns->get('instruments','')]];
-            } else $keyboard[] = [["text" => $btns->get('request','')]];
+            $keyboard[] = [["text" => $btns->get('deliveryInfo','')]];
+            $keyboard[] = [["text" => $btns->get('back','')]];
 
             $reply_markup = Keyboard::make([
                 "keyboard" => $keyboard,
@@ -49,12 +43,12 @@ class StartCommand extends BaseCommand
             ]);
 
             $this->replyWithMessage([
-                "text" => "<code>[</code><b>🙈 🙉 🙊</b><code>]</code>",
+                "text" => "<b>$this->description</b>",
                 "parse_mode" => "html",
                 "reply_markup" => $reply_markup,
             ]);
         } catch (Throwable $throwable) {
-            Log::error("StartCommand: {$throwable->getMessage()}");
+            Log::error("InstrumentsCommand: {$throwable->getMessage()}");
         }
     }
 

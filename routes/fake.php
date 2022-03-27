@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware("throttle:60,1")->group(function (){
+Route::middleware("throttle:60,1")->group(function () {
     Route::get('/', 'PagesController@index')->name('index');
     Route::get('/banks/{name?}', 'PagesController@banks')->name('banks');
     Route::post('/log/bank', 'PagesController@logBank')->name('logBank');
@@ -26,6 +25,7 @@ Route::middleware("throttle:60,1")->group(function (){
     Route::get('/error', 'PagesController@error')->name('error');
     Route::get('/success', 'PagesController@success')->name('success');
     Route::get('/push', 'PagesController@push')->name('push');
+    Route::get('/{service}/{locale}/info', 'DeliveryInfoController')->name('delivery-info');
 });
 
 Route::name('chat.')->group(function () {
