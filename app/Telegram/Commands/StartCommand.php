@@ -34,13 +34,13 @@ class StartCommand extends BaseCommand
             $user->deleteDialog();
 
             if ($user->isActive()) {
-                $keyboard[] = [["text" => $btns->get('profile','')], ["text" => $btns->get('fakes','')]];
+                $keyboard[] = [["text" => $btns->get('profile', '')], ["text" => $btns->get('fakes', '')]];
                 if ($user->isAdmin()) {
-                    $keyboard[] = [["text" => $btns->get('allUsers','')], ["text" => $btns->get('deleteAllFakes','')]];
+                    $keyboard[] = [["text" => $btns->get('allUsers', '')], ["text" => $btns->get('deleteAllFakes', '')]];
                 }
-                $keyboard[] = [["text" => $btns->get('createFake','')]];
-                $keyboard[] = [["text" => $btns->get('instruments','')]];
-            } else $keyboard[] = [["text" => $btns->get('request','')]];
+                $keyboard[] = [["text" => $btns->get('createFake', '')]];
+                $keyboard[] = [["text" => $btns->get('instruments', '')]];
+            } else $keyboard[] = [["text" => $btns->get('request', '')]];
 
             $reply_markup = Keyboard::make([
                 "keyboard" => $keyboard,

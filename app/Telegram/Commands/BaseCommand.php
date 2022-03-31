@@ -8,10 +8,12 @@ use App\Models\TelegramUser;
 use App\Telegram\Dialogs\Dialogs;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Log;
 use Telegram\Bot\Api;
 use Telegram\Bot\Commands\Command;
+use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Objects\Update;
 use Throwable;
 
@@ -286,5 +288,54 @@ abstract class BaseCommand extends Command
                     return $entity['type'] === 'bot_command';
                 })
                 ->pluck('offset');
+    }
+
+    public static function renderBtn(Paginator $paginator): array
+    {
+        return [];
+    }
+
+    public function pagination(Paginator $paginator, $text = null, $commandName = null): array
+    {
+        $buttons = [];
+        try {
+            if ($paginator->isEmpty()) return $this->replyWithMessage([
+                "text" => "❕ <i>Пусто</i>",
+                "parse_mode" => "html",
+            ]);
+            $telegram = $this->getTelegram();
+            $update = $this->getUpdate();
+            $message = $update->getMessage();
+            $chat_id = $message->getChat()->getId();
+            if (is_null($commandName)) $commandName = $this->getName();
+            if (is_null($text)) $text = "<b>$this->description</b>";
+            if ($paginator->currentPage() !== 1) {
+                $prev = $paginator->currentPage() - 1;
+                $buttons[] = [["text" => $this->getConfig('btns.previous', '/previous'), "callback_data" => "/$commandName?page=$prev"]];
+            }
+            $buttons = array_merge($buttons, static::renderBtn($paginator));
+            if ($paginator->hasMorePages()) {
+                $next = $paginator->currentPage() + 1;
+                $buttons[] = [["text" => $this->getConfig('btns.next', '/next'), "callback_data" => "/$commandName?page=$next"]];
+            }
+            $keyboard = Keyboard::make([
+                "inline_keyboard" => $buttons,
+                "resize_keyboard" => true,
+            ]);
+            if ($this->hasPagination) $telegram->editMessageReplyMarkup([
+                "parse_mode" => "html",
+                "message_id" => $message->messageId,
+                "chat_id" => $chat_id,
+                "reply_markup" => $keyboard
+            ]);
+            else $this->replyWithMessage([
+                "text" => $text,
+                "parse_mode" => "html",
+                "reply_markup" => $keyboard
+            ]);
+        } catch (Throwable $exception) {
+            Log::error("BaseCommand::pagination {$exception->getMessage()}");
+        }
+        return $buttons;
     }
 }

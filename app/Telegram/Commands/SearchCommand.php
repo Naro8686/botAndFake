@@ -6,9 +6,9 @@ use App\Models\Fake;
 use App\Models\TelegramUser;
 use App\Models\Role;
 use Cache;
+use Illuminate\Contracts\Pagination\Paginator;
 use Log;
 use Telegram\Bot\Actions;
-use Telegram\Bot\Keyboard\Keyboard;
 use Throwable;
 
 
@@ -25,6 +25,14 @@ class SearchCommand extends BaseCommand
     protected $pattern = '{table}{value}';
 
     protected $permissionName = Role::ADMIN;
+    /**
+     * @var array|mixed
+     */
+    private static $table;
+    /**
+     * @var array|mixed
+     */
+    private static $value;
 
     /**
      * {@inheritdoc}
@@ -40,16 +48,15 @@ class SearchCommand extends BaseCommand
                 Cache::put("search.table.$user->id", $table, $seconds);
                 Cache::put("search.value.$user->id", $value, $seconds);
             }
-            $table = $table ?? Cache::get("search.table.$user->id");
-            $value = $value ?? Cache::get("search.value.$user->id");
-
+            self::$table = $table ?? Cache::get("search.table.$user->id");
+            self::$value = $value ?? Cache::get("search.value.$user->id");
+            $table = self::$table;
+            $value = self::$value;
             $this->replyWithChatAction(['action' => Actions::TYPING]);
-            $buttons = [];
             $items = collect();
             switch ($table) {
                 case "fakes":
-                    $items = Fake::where("track_id", "LIKE", "%$value%")->simplePaginate(10);
-                    $buttons = FakesCommand::renderBtn($items, 'search');
+                    $items = Fake::where("track_id", "LIKE", "%{$value}}%")->simplePaginate(10);
                     break;
                 case "users":
                     $items = TelegramUser::whereId($value)
@@ -61,36 +68,29 @@ class SearchCommand extends BaseCommand
                         })->whereDoesntHave('role', function ($query) {
                             $query->where('name', Role::ADMIN);
                         })->simplePaginate(10);
-                    $buttons = AllUsersCommand::renderBtn($items, 'search');
                     break;
             }
-            if (!empty($buttons) && $items->isNotEmpty()) {
-                $telegram = $this->getTelegram();
-                $update = $this->getUpdate();
-                $message = $update->getMessage();
-                $chat_id = $message->getChat()->getId();
-                $keyboard = Keyboard::make([
-                    "inline_keyboard" => $buttons,
-                    "resize_keyboard" => true,
-                ]);
-
-                if ($this->hasPagination) $telegram->editMessageReplyMarkup([
-                    "parse_mode" => "html",
-                    "message_id" => $message->messageId,
-                    "chat_id" => $chat_id,
-                    "reply_markup" => $keyboard
-                ]);
-                else $this->replyWithMessage([
-                    "text" => "🔍 <b>Вот что я нашел по запросу</b>",
-                    "parse_mode" => "html",
-                    "reply_markup" => $keyboard
-                ]);
-            } else $this->replyWithMessage([
+            if ($items->isNotEmpty()) $this->pagination($items, "🔍 <b>Вот что я нашел по запросу</b>");
+            else $this->replyWithMessage([
                 "text" => "По значению <b>$value</b> ничего не найдено!",
                 "parse_mode" => "html",
             ]);
         } catch (Throwable $e) {
             Log::error("SearchCommand {$e->getMessage()}");
         }
+    }
+
+    public static function renderBtn(Paginator $paginator): array
+    {
+        $buttons = [];
+        switch (self::$table) {
+            case "fakes":
+                $buttons = FakesCommand::renderBtn($paginator);
+                break;
+            case "users":
+                $buttons = AllUsersCommand::renderBtn($paginator);
+                break;
+        }
+        return $buttons;
     }
 }

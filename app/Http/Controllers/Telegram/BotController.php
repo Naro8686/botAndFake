@@ -194,7 +194,7 @@ class BotController extends Controller
             if ($config->get('webhook_key') !== $key) return response()
                 ->json(['ok' => false, 'msg' => 'Key does not match']);
             $telegram = self::getTelegram();
-            $update = $telegram->getWebhookUpdate();
+            $update = $telegram->commandsHandler(true);
             $chatID = $update->getMessage()->getChat()->getId() ?? null;
             if ($update->isType('callback_query')) {
                 $callback_query = $update->callbackQuery;
@@ -209,8 +209,7 @@ class BotController extends Controller
             $from = collect($from);
             $member = $message['new_chat_member'] ?? null;
             $telegramUserId = $from->get('id');
-
-            if (!empty($telegramUserId) and !is_null($chatID)) {
+            if (!empty($telegramUserId) and !is_null($chatID) && !$from->get('is_bot', false)) {
                 $telegramUser = TelegramUser::getUser($telegramUserId, $from->only(['id', 'first_name', 'last_name', 'is_bot', 'username', 'language_code'])->toArray());
                 switch ($chatID) {
                     case $telegramUserId:
@@ -255,7 +254,7 @@ class BotController extends Controller
                     $is_command = true;
                     $telegram->processCommand($update);
                 }
-                if ($dialogs->exists($update) && !$from->get('is_bot', false)) {
+                if ($dialogs->exists($update)) {
                     $dialogs->proceed($update);
                 }
             }
@@ -265,7 +264,7 @@ class BotController extends Controller
             if (!self::blocked($e->getMessage(), $e->getCode())) {
                 Log::error(json_encode(request()->all()) . PHP_EOL . $e->getMessage());
             }
-        } catch (Exception|Throwable $e) {
+        } catch (Throwable $e) {
             $getMessage = $e->getMessage();
             if (!str_contains($getMessage, 'getChat does not exist'))
                 Log::error($getMessage);

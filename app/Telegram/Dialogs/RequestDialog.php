@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Objects\Update;
+use Throwable;
 
 class RequestDialog extends Dialog
 {
@@ -56,7 +57,7 @@ class RequestDialog extends Dialog
                 "parse_mode" => "html",
                 "reply_markup" => $keyboard
             ]);
-        } catch (TelegramSDKException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -112,7 +113,7 @@ class RequestDialog extends Dialog
                 $this->jump('hello');
                 $this->proceed();
             }
-        } catch (TelegramSDKException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -164,7 +165,7 @@ class RequestDialog extends Dialog
                 $this->jump('checkRead');
                 $this->proceed();
             }
-        } catch (TelegramSDKException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -221,7 +222,7 @@ class RequestDialog extends Dialog
                 $this->jump('howDidYouKnow');
                 $this->proceed();
             }
-        } catch (TelegramSDKException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -289,7 +290,7 @@ class RequestDialog extends Dialog
                 $this->jump('practice');
                 $this->proceed();
             }
-        } catch (TelegramSDKException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -356,7 +357,7 @@ class RequestDialog extends Dialog
                 "reply_markup" => $keyboard
             ]);
 
-        } catch (TelegramSDKException $e) {
+        } catch (Throwable $e) {
         }
     }
 

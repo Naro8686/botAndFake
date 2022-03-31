@@ -6,6 +6,8 @@ use App\Http\Controllers\Telegram\BotController;
 use App\Models\TelegramUser;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Config\Repository;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Log;
@@ -19,9 +21,6 @@ use Throwable;
 class Dialog
 {
     protected $steps = [];
-    /**
-     * @var int Next step
-     */
     protected $next = 0;
     protected $current = 0;
     protected $yes = null;
@@ -211,7 +210,7 @@ class Dialog
 
         $this->$name($step);
 
-        // Step forward only if did not changes inside the step handler
+        // Step forward only if did not change inside the step handler
         if ($this->next == $this->current) {
             $this->next++;
         }
@@ -228,32 +227,36 @@ class Dialog
      */
     protected function processYesNo(array $step): bool
     {
-        $message = $this->update->getMessage()->getText();
-        $message = mb_strtolower(trim($message));
-        $message = preg_replace('![%#,:&*@_\'\"\\\+\^\(\)\[\]\-\$\!\?\.]+!ui', '', $message);
-        if (in_array($message, $this->aliases['yes'])) {
-            $this->yes = true;
+        try {
+            $message = $this->update->getMessage()->getText();
+            $message = mb_strtolower(trim($message));
+            $message = preg_replace('![%#,:&*@_\'\"\\\+\^\(\)\[\]\-\$\!\?\.]+!ui', '', $message);
+            if (in_array($message, $this->aliases['yes'])) {
+                $this->yes = true;
 
-            if (!empty($step['yes'])) {
-                $this->jump($step['yes']);
+                if (!empty($step['yes'])) {
+                    $this->jump($step['yes']);
+                    $this->proceed();
+
+                    return true;
+                }
+            } elseif (in_array($message, $this->aliases['no'])) {
+                $this->no = true;
+
+                if (!empty($step['no'])) {
+                    $this->jump($step['no']);
+                    $this->proceed();
+
+                    return true;
+                }
+            } elseif (!empty($step['default'])) {
+                $this->jump($step['default']);
                 $this->proceed();
 
                 return true;
             }
-        } elseif (in_array($message, $this->aliases['no'])) {
-            $this->no = true;
-
-            if (!empty($step['no'])) {
-                $this->jump($step['no']);
-                $this->proceed();
-
-                return true;
-            }
-        } elseif (!empty($step['default'])) {
-            $this->jump($step['default']);
-            $this->proceed();
-
-            return true;
+        } catch (Throwable $throwable) {
+            Log::error("processYesNo: {$throwable->getMessage()}");
         }
 
         return false;
@@ -292,6 +295,7 @@ class Dialog
         }
 
         $this->memory = json_encode($value, JSON_UNESCAPED_UNICODE);
+        return $this->memory;
     }
 
     /**
@@ -389,7 +393,7 @@ class Dialog
 
     /**
      * @param string|null $field
-     * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|Collection|mixed
+     * @return Repository|Application|Collection|mixed
      */
     public function getConfig(string $field = null)
     {

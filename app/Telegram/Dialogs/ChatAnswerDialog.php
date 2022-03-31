@@ -68,11 +68,11 @@ class ChatAnswerDialog extends Dialog
     {
         try {
             $track_id = $this->getData('track_id');
-            $message = $this->isBack() || $this->getData('error')
-                ? $this->getData('message') ?? ''
+            $message = $this->isBack() || $this->getData('message')
+                ? $this->getData('message', '')
                 : trim($this->update->getMessage()->getText());
-
-            if (!empty($message) && !empty($track_id)) {
+//            if ($this->update->isType('callback_query')) return;
+            if (!$this->update->isType('callback_query') && !empty($message) && !empty($track_id)) {
                 $this->setData('message', $message);
                 $this->setData('error', false);
                 $sent = DB::table('chat')->insert([

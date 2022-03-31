@@ -26,48 +26,49 @@ use Laravel\Sanctum\HasApiTokens;
  * App\Models\TelegramUser
  *
  * @property int $id
+ * @property string|null $api_token
  * @property int $is_bot
  * @property int $has_ban
+ * @property bool $visibly
  * @property string|null $first_name
+ * @property string|null $last_name
  * @property string|null $username
  * @property string|null $language_code
  * @property int|null $role_id
+ * @property mixed|null $details
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Role|null $role
- * @property-read \App\Models\User|null $user
- * @method static Builder|TelegramUser newModelQuery()
- * @method static Builder|TelegramUser newQuery()
- * @method static Builder|TelegramUser query()
- * @method static Builder|TelegramUser whereCreatedAt($value)
- * @method static Builder|TelegramUser whereFirstName($value)
- * @method static Builder|TelegramUser whereHasBan($value)
- * @method static Builder|TelegramUser whereId($value)
- * @method static Builder|TelegramUser whereIsBot($value)
- * @method static Builder|TelegramUser whereLanguageCode($value)
- * @method static Builder|TelegramUser whereRoleId($value)
- * @method static Builder|TelegramUser whereUpdatedAt($value)
- * @method static Builder|TelegramUser whereUsername($value)
- * @mixin \Eloquent
- * @property object|null $details
- * @method static Builder|TelegramUser whereDetails($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Fake[] $fakes
  * @property-read int|null $fakes_count
+ * @property-read \App\Models\Mentor|null $mentor
  * @property-read \Illuminate\Database\Eloquent\Collection|TelegramUser[] $referrals
  * @property-read int|null $referrals_count
  * @property-read \Illuminate\Database\Eloquent\Collection|TelegramUser[] $referrer
  * @property-read int|null $referrer_count
  * @property-read \App\Models\Request|null $request
- * @property boolean $visibly
- * @method static Builder|TelegramUser whereVisibly($value)
- * @property string|null $last_name
- * @method static Builder|TelegramUser whereLastName($value)
+ * @property-read \App\Models\Role|null $role
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Fake[] $takeFakes
  * @property-read int|null $take_fakes_count
- * @property string|null $api_token
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
+ * @property-read \App\Models\User|null $user
+ * @method static Builder|TelegramUser newModelQuery()
+ * @method static Builder|TelegramUser newQuery()
+ * @method static Builder|TelegramUser query()
  * @method static Builder|TelegramUser whereApiToken($value)
+ * @method static Builder|TelegramUser whereCreatedAt($value)
+ * @method static Builder|TelegramUser whereDetails($value)
+ * @method static Builder|TelegramUser whereFirstName($value)
+ * @method static Builder|TelegramUser whereHasBan($value)
+ * @method static Builder|TelegramUser whereId($value)
+ * @method static Builder|TelegramUser whereIsBot($value)
+ * @method static Builder|TelegramUser whereLanguageCode($value)
+ * @method static Builder|TelegramUser whereLastName($value)
+ * @method static Builder|TelegramUser whereRoleId($value)
+ * @method static Builder|TelegramUser whereUpdatedAt($value)
+ * @method static Builder|TelegramUser whereUsername($value)
+ * @method static Builder|TelegramUser whereVisibly($value)
+ * @mixin \Eloquent
  */
 class TelegramUser extends Authenticatable
 {
@@ -121,16 +122,13 @@ class TelegramUser extends Authenticatable
                 if (isset($params['language_code'])) $user->language_code = $params['language_code'];
                 if ($user->isDirty()) $user->save();
             }
-            //        $user->tokens()->where('personal_access_tokens.name', 'telegram')->delete();
-//        $token = $user->createToken('telegram')->plainTextToken;
-//        if (Auth::guard('telegram')
-//            ->attempt([
+//            $user->tokens()->where('personal_access_tokens.name', 'telegram')->delete();
+//            $token = $user->createToken('telegram')->plainTextToken;
+//            Auth::guard('telegram')->attempt([
 //                'id' => $user->id,
 //                'token' => $token
-//            ])) {
-//        }
-        } catch (Exception|Throwable $e) {
-            DB::rollBack();
+//            ]);
+        } catch (Throwable $e) {
             while (DB::transactionLevel() > 0) DB::rollBack();
             Log::error("TelegramUser::getUser {$e->getMessage()}");
         }
@@ -143,6 +141,14 @@ class TelegramUser extends Authenticatable
     public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'telegram_id');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function mentor(): HasOne
+    {
+        return $this->hasOne(Mentor::class, 'user_id', 'id');
     }
 
     /**
@@ -260,6 +266,7 @@ class TelegramUser extends Authenticatable
             'invited' => $invited,
             'fakeCount' => $fakeCount,
             'regDate' => $regDate,
+            'nickname' => $this->accountLinkVisibly(),
         ]);
     }
 
