@@ -1,27 +1,15 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
-use App\Models\Role;
 use App\Telegram\Dialogs\AlertDialog;
 use Telegram\Bot\Actions;
 
 
-/**
- * Class HelpCommand.
- */
-class AlertCommand extends BaseCommand
+class AlertCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'alert';
 
-    protected $permissionName = Role::ADMIN;
-
-    /**
-     * {@inheritdoc}
-     */
     public function handle()
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);

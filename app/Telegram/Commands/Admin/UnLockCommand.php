@@ -1,36 +1,19 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
-use App\Http\Controllers\Telegram\BotController;
-use App\Models\Role;
 use App\Models\TelegramUser;
 use Illuminate\Support\Str;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
 
-/**
- * Class HelpCommand.
- */
-class UnLockCommand extends BaseCommand
+class UnLockCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'unlock';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Разблокировать';
-
     protected $pattern = '{telegram_id}';
-    protected $permissionName = Role::ADMIN;
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle()
     {
         $btns = $this->getConfig('btns');

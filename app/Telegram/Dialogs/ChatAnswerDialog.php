@@ -71,7 +71,6 @@ class ChatAnswerDialog extends Dialog
             $message = $this->isBack() || $this->getData('message')
                 ? $this->getData('message', '')
                 : trim($this->update->getMessage()->getText());
-//            if ($this->update->isType('callback_query')) return;
             if (!$this->update->isType('callback_query') && !empty($message) && !empty($track_id)) {
                 $this->setData('message', $message);
                 $this->setData('error', false);

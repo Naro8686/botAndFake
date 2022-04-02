@@ -18,7 +18,7 @@ class HelpCommand extends BaseCommand
     /**
      * @var array Command Aliases
      */
-    protected $aliases = ['notfound'];
+    protected $aliases = ['notfound','not_found'];
 
     /**
      * @var string Command Description

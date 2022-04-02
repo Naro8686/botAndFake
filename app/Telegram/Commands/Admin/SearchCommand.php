@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
 use App\Models\Fake;
-use App\Models\TelegramUser;
 use App\Models\Role;
+use App\Models\TelegramUser;
+use App\Telegram\Commands\FakesCommand;
 use Cache;
 use Illuminate\Contracts\Pagination\Paginator;
 use Log;
@@ -12,31 +13,13 @@ use Telegram\Bot\Actions;
 use Throwable;
 
 
-/**
- * Class HelpCommand.
- */
-class SearchCommand extends BaseCommand
+class SearchCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'search';
-
     protected $pattern = '{table}{value}';
-
-    protected $permissionName = Role::ADMIN;
-    /**
-     * @var array|mixed
-     */
     private static $table;
-    /**
-     * @var array|mixed
-     */
     private static $value;
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle()
     {
         try {

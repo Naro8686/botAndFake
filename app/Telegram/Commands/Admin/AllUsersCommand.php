@@ -1,29 +1,21 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
-use Log;
 use App\Models\Role;
 use App\Models\TelegramUser;
 use Illuminate\Contracts\Pagination\Paginator;
+use Log;
 use Throwable;
 
 
 /**
  * Class HelpCommand.
  */
-class AllUsersCommand extends BaseCommand
+class AllUsersCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'allUsers';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Другие пользователи';
-    protected $permissionName = Role::ADMIN;
 
     /**
      * {@inheritdoc}
@@ -44,7 +36,7 @@ class AllUsersCommand extends BaseCommand
     {
         $buttons = [];
         foreach ($paginator as $user) {
-            $buttons[] = [["text" => "$user->id | {$user->getRoleName()}", "callback_data" => "/findProfile $user->id"]];
+            $buttons[] = [["text" => "{$user->getName(true)}[$user->id] | {$user->getRoleName()}", "callback_data" => "/findProfile $user->id"]];
         }
         return $buttons;
     }

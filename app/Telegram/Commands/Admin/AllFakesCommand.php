@@ -1,34 +1,19 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
 use App\Models\Fake;
-use App\Models\Role;
+use App\Telegram\Commands\FakesCommand;
 use Illuminate\Contracts\Pagination\Paginator;
-use Throwable;
 use Log;
 use Telegram\Bot\Actions;
+use Throwable;
 
 
-/**
- * Class HelpCommand.
- */
-class AllFakesCommand extends BaseCommand
+class AllFakesCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'allFakes';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Объявления';
-    protected $permissionName = Role::ADMIN;
-
-    /**
-     * {@inheritdoc}
-     */
     public function handle()
     {
         try {

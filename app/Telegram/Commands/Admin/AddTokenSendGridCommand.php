@@ -1,23 +1,17 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
-use App\Models\Role;
 use App\Telegram\Dialogs\AddTokenSendGridDialog;
 use Telegram\Bot\Actions;
 
 
-/**
- * Class HelpCommand.
- */
-class AddTokenSendGridCommand extends BaseCommand
+class AddTokenSendGridCommand extends BaseAdminCommand
 {
     /**
      * @var string Command Name
      */
     protected $name = 'addToken';
-
-    protected $permissionName = Role::ADMIN;
 
     /**
      * {@inheritdoc}

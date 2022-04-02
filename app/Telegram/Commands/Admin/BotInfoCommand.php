@@ -1,29 +1,15 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
-use App\Models\Role;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Throwable;
 
-
-/**
- * Class HelpCommand.
- */
-class BotInfoCommand extends BaseCommand
+class BotInfoCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'bot_info';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Info';
-
-    protected $permissionName = Role::ADMIN;
 
     /**
      * {@inheritdoc}

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
-use App\Models\Role;
 use App\Models\TelegramUser;
 use Illuminate\Support\Str;
 use Log;
@@ -13,24 +12,12 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 /**
  * Class HelpCommand.
  */
-class LockCommand extends BaseCommand
+class LockCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'lock';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Заблокировать';
-
     protected $pattern = '{telegram_id}';
-    protected $permissionName = Role::ADMIN;
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle()
     {
         $btns = $this->getConfig('btns');

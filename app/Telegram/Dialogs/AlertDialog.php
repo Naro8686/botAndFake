@@ -33,7 +33,7 @@ class AlertDialog extends Dialog
             $message = $this->update->getMessage();
             $msg = trim($message->getText());
             $isCommand = in_array(trim($msg), $this->getConfig('btns')->toArray(), true);
-            if (!empty($msg) && !$message->from->isBot && !$isCommand) {
+            if (!$this->update->isType('callback_query') && !empty($msg) && !$message->from->isBot && !$isCommand) {
                 $admin = $this->getUser();
                 $users = TelegramUser::where('id', '<>', $admin->id)
                     ->whereNotNull('role_id')

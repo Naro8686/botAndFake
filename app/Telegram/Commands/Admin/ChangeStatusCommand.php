@@ -1,33 +1,19 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
 use App\Models\Role;
 use App\Models\TelegramUser;
 use Illuminate\Support\Str;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Keyboard\Keyboard;
 
 
-/**
- * Class HelpCommand.
- */
-class ChangeStatusCommand extends BaseCommand
+class ChangeStatusCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'changeStatus';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Изменить статус пользователя';
-
     protected $pattern = '{telegram_id}{name}';
-
-    protected $permissionName = Role::ADMIN;
 
     /**
      * {@inheritdoc}

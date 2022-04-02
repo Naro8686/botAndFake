@@ -1,29 +1,17 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
 use App\Api\SmsApi;
-use App\Models\Role;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
 
-class GetSmsBalanceCommand extends BaseCommand
+class GetSmsBalanceCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = "getSmsBalance";
-
-    /**
-     * @var string Command Description
-     */
     protected $description = "Количество оставшись смс";
-    protected $permissionName = Role::ADMIN;
 
-    /**
-     * @inheritdoc
-     */
     public function handle()
     {
         $user = $this->getUser();

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Json;
+use App\Constants\Status;
 use App\Http\Controllers\Telegram\BotController;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -69,6 +70,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static Builder|TelegramUser whereUsername($value)
  * @method static Builder|TelegramUser whereVisibly($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mentor[] $mentors
+ * @property-read int|null $mentors_count
  */
 class TelegramUser extends Authenticatable
 {
@@ -143,12 +146,19 @@ class TelegramUser extends Authenticatable
         return $this->hasOne(User::class, 'id', 'telegram_id');
     }
 
-    /**
-     * @return HasOne
-     */
-    public function mentor(): HasOne
+    public function mentors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasOne(Mentor::class, 'user_id', 'id');
+        return $this
+            ->belongsToMany(Mentor::class, 'mentor_users', 'telegram_user_id', 'mentor_id')
+            ->withPivot(['status', 'experience']);
+    }
+
+    public function mentor()
+    {
+        return $this->mentors()
+            ->wherePivot('status', Status::ACCEPT)
+            ->with(['account'])
+            ->first();
     }
 
     /**

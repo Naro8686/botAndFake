@@ -246,10 +246,10 @@ class BotController extends Controller
                         $commandName = str_replace('/', '', $matches[0]);
                     }
                     $command = $commands->first(function (BaseCommand $baseCommand) use ($commandName) {
-                        return $baseCommand->getName() === $commandName;
+                        return $baseCommand->getName() === $commandName || in_array($commandName, $baseCommand->getAliases());
                     });
                     $is_command = !is_null($command) && $text !== self::getConfig('btns.back');
-                    if (!is_null($command)) $telegram->triggerCommand($command->getName(), $update);
+                    if (!is_null($command)) $telegram->triggerCommand($commandName, $update);
                 } else {
                     $is_command = true;
                     $telegram->processCommand($update);

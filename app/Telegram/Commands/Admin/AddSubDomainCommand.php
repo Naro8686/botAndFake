@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
 use App\Models\Category;
 use App\Models\Country;
-use App\Models\Role;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +14,7 @@ use Throwable;
 /**
  * Class HelpCommand.
  */
-class AddSubDomainCommand extends BaseCommand
+class AddSubDomainCommand extends BaseAdminCommand
 {
     /**
      * @var string Command Name
@@ -23,8 +22,6 @@ class AddSubDomainCommand extends BaseCommand
     protected $name = 'add';
 
     protected $pattern = '{short_country}?{prefix?}';
-
-    protected $permissionName = Role::ADMIN;
 
     /**
      * {@inheritdoc}

@@ -1,36 +1,19 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
 use App\Api\SendGridApi;
 use App\Models\Category;
-use App\Models\Role;
 use App\Models\Sendgrid;
 use Telegram\Bot\Actions;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use Throwable;
 
 
-/**
- * Class HelpCommand.
- */
-class GetTokenSendGridCommand extends BaseCommand
+class GetTokenSendGridCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'getToken';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Get current SendGrid token';
 
-    protected $permissionName = Role::ADMIN;
-
-    /**
-     * {@inheritdoc}
-     */
     public function handle()
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);

@@ -39,6 +39,6 @@ class BackCommand extends BaseCommand
         } catch (TelegramSDKException|Throwable $e) {
             $this->triggerCommand('start');
         }
-        return 0;
+        return false;
     }
 }

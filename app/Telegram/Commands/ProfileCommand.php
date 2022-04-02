@@ -41,7 +41,6 @@ class ProfileCommand extends BaseCommand
             $text = makeText([
                 "🗽 <i>Мой ник:</i> <a href='tg://user?id={$info['id']}'><b>{$info['name']}</b></a>",
                 "🆔 <i>ID:</i> <b>{$info['id']}</b>",
-//                "⚖️ <i>Ставка:</i> <b>70% / 65%</b>",
                 "🗂 <i>Активных объявлений:</i> <b>{$info['fakeCount']}</b>",
                 "👨‍👦 <i>Меня пригласил:</i> <b>{$info['invited']}</b>",
                 "👨‍👦‍👦 <i>Приглашено воркеров:</i> <b>{$info['refCount']}</b>",
@@ -59,7 +58,7 @@ class ProfileCommand extends BaseCommand
                         ["text" => $btns->get('generateToken', '/generateToken')],
                     ],
                     [
-                        ["text" => $btns->get('mentors', '/mentors get')],
+                        ["text" => $btns->get('mentors', '/mentors index')],
                     ],
                     [
                         ["text" => $btns->get('back', '/back')],

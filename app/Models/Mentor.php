@@ -25,26 +25,31 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Mentor whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Mentor whereUserId($value)
  * @mixin \Eloquent
+ * @property string|null $description
+ * @property-read \App\Models\TelegramUser $account
+ * @method static \Illuminate\Database\Eloquent\Builder|Mentor whereDescription($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramUser[] $users
+ * @property-read int|null $users_count
  */
 class Mentor extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+    public $timestamps = false;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function tgUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function account(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(TelegramUser::class, 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function tgUserChild(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function users()
     {
-        return $this->belongsTo(TelegramUser::class, 'user_id');
+        return $this
+            ->belongsToMany(TelegramUser::class, 'mentor_users')
+            ->withPivot(['status', 'experience']);
     }
 }

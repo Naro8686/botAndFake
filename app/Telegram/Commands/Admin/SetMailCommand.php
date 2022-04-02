@@ -1,31 +1,18 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
 use App\Models\Category;
-use App\Models\Role;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Validator;
 use Telegram\Bot\Actions;
 
 
-/**
- * Class HelpCommand.
- */
-class SetMailCommand extends BaseCommand
+class SetMailCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'setmail';
-
     protected $pattern = '{prefix}';
 
-    protected $permissionName = Role::ADMIN;
-
-    /**
-     * {@inheritdoc}
-     */
     public function handle()
     {
         $emails = [];

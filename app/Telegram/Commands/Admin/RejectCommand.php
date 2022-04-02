@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
-use App\Models\Role;
 use App\Models\TelegramUser;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Actions;
@@ -10,32 +9,17 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Keyboard\Keyboard;
 
 
-/**
- * Class HelpCommand.
- */
-class RejectCommand extends BaseCommand
+class RejectCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'reject';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Отказать заявку';
-
     protected $pattern = '{telegram_id}';
-    protected $permissionName = Role::ADMIN;
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle()
     {
         $admin = $this->getUser();
         $telegram_id = $this->getArguments()['telegram_id'] ?? null;
-        if (is_null($admin) || $admin->id === $telegram_id) return;
+        if ($admin->id === $telegram_id) return;
         $telegram = $this->getTelegram();
         $date = now()->format('d.m.Y H:i:s');
         $user = TelegramUser::whereId($telegram_id)->first();

@@ -171,7 +171,6 @@ class Dialog
      */
     public function proceed()
     {
-
         $this->current = $this->next;
 
         if ($this->isEnd()) {
@@ -207,8 +206,35 @@ class Dialog
                 $this->jump($step['jump']);
             }
         }
+        try {
+            $this->$name($step);
+            $this->setData('error', false);
+        } catch (Throwable|TelegramSDKException $exception) {
+            if (!$exception instanceof TelegramSDKException) {
+                try {
+                    $this->setData('error', true);
+                    $this->telegram->sendMessage([
+                        'chat_id' => $this->getChat()->getId(),
+                        'text' => $this->makeText([
+                            "❗️ <i>Что-то пошло не так</i>"
+                        ]),
+                        "parse_mode" => "html",
+                    ]);
+                    $steps = $this->getSteps();
+                    $key = (array_search($step, $steps) - 1);
+                    $jump = $key <= 0 ? 0 : $key;
+                    if ($steps[$jump] !== $step) {
+                        $this->jump($steps[$jump]);
+                        $this->proceed();
+                    } else {
+                        $this->end();
+                    }
+                } catch (Throwable $e) {
+                    Log::error("Dialog::proceed - {$e->getMessage()}");
+                }
+            }
+        }
 
-        $this->$name($step);
 
         // Step forward only if did not change inside the step handler
         if ($this->next == $this->current) {

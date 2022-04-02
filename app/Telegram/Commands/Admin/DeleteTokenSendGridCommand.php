@@ -1,31 +1,16 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
-use App\Models\Role;
 use App\Models\Sendgrid;
 use App\Telegram\Dialogs\DeleteTokenSendGridDialog;
 use Telegram\Bot\Actions;
 
-/**
- * Class HelpCommand.
- */
-class DeleteTokenSendGridCommand extends BaseCommand
+class DeleteTokenSendGridCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'deleteToken';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Удалить Sendgrid token';
-    protected $permissionName = Role::ADMIN;
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle()
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);

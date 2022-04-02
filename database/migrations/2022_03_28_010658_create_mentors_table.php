@@ -13,20 +13,14 @@ class CreateMentorsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('mentors');
         Schema::create('mentors', function (Blueprint $table) {
             $table->foreignId('id')
                 ->primary()
                 ->constrained('telegram_users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('user_id')
-                ->constrained('telegram_users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->string('status')->default(\App\Constants\Status::PENDING);
-
-            $table->timestamps();
+            $table->text('description')->nullable();
         });
     }
 

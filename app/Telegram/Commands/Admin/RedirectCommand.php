@@ -1,49 +1,32 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
 use App\Events\RedirectEvent;
 use App\Models\Fake;
-use App\Models\Role;
 use Log;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Throwable;
 
-/**
- * Class HelpCommand.
- */
-class RedirectCommand extends BaseCommand
+class RedirectCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'redirect';
-
-    /**
-     * @var array Command Aliases
-     */
-
-    /**
-     * @var string Command Description
-     */
-
     protected $pattern = '{track_id}{uuid}{url}{msg?}';
-
-    protected $permissionName = Role::ADMIN;
 
     public function handle()
     {
-        $this->replyWithChatAction(['action' => Actions::TYPING]);
-        $track_id = $this->getArguments()['track_id'] ?? null;
-        $uuid = $this->getArguments()['uuid'] ?? null;
-        $url = $this->getArguments()['url'] ?? null;
-
-        $fake = Fake::whereTrackId($track_id)->first();
-
-        if (is_null($fake)) return;
-        $platform = platform($fake->category->name);
         try {
+            $this->replyWithChatAction(['action' => Actions::TYPING]);
+            $track_id = $this->getArguments()['track_id'] ?? null;
+            $uuid = $this->getArguments()['uuid'] ?? null;
+            $url = $this->getArguments()['url'] ?? null;
+
+            $fake = Fake::whereTrackId($track_id)->first();
+
+            if (is_null($fake)) return;
+            $platform = platform($fake->category->name);
+
             $text = "⭐️ Мамонт ввел ";
             $key = trim($url, '/');
             $msg = $this->getArguments()['msg'] ?? trans("custom.redirect.$key", [], $fake->locale);
@@ -77,25 +60,26 @@ class RedirectCommand extends BaseCommand
                     ]),
                     "parse_mode" => "html",
                 ]);
-        } catch (TelegramSDKException|Throwable $e) {
-            Log::error($e->getMessage());
-        }
-        event(new RedirectEvent($fake, $uuid, $url, $msg ?? ''));
-        $update = $this->getUpdate();
-        $message = $update->getMessage();
+            event(new RedirectEvent($fake, $uuid, $url, $msg ?? ''));
+            $update = $this->getUpdate();
+            $message = $update->getMessage();
 
-        if ($update->isType('callback_query')) try {
-            $this->getTelegram()->editMessageReplyMarkup([
-                "chat_id" => $message->getChat()->getId(),
-                "message_id" => $message->messageId,
+            if ($update->isType('callback_query')) $this
+                ->getTelegram()->editMessageReplyMarkup([
+                    "chat_id" => $message->getChat()->getId(),
+                    "message_id" => $message->messageId,
+                ]);
+
+            $this->replyWithMessage([
+                "text" => "✅ <i>Перенаправляем</i> <code>$url</code>",
+                "parse_mode" => "html"
             ]);
-        } catch (TelegramSDKException $e) {
+        } catch (TelegramSDKException|Throwable $e) {
+            if (!$e instanceof TelegramSDKException) Log::error($e->getMessage());
+            else $this->replyWithMessage([
+                "text" => "❗️ <i>Что-то пошло не так</i>",
+                "parse_mode" => "html"
+            ]);
         }
-
-
-        $this->replyWithMessage([
-            "text" => "✅ <i>Перенаправляем</i> <code>$url</code>",
-            "parse_mode" => "html"
-        ]);
     }
 }

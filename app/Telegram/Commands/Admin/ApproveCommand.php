@@ -1,57 +1,39 @@
 <?php
 
-namespace App\Telegram\Commands;
+namespace App\Telegram\Commands\Admin;
 
-use App\Http\Controllers\Telegram\BotController;
-use App\Models\Request;
+
+use Log;
+use Throwable;
+use Telegram\Bot\Actions;
+use Telegram\Bot\Keyboard\Keyboard;
 use App\Models\Role;
 use App\Models\TelegramUser;
-use Log;
-use Telegram\Bot\Actions;
-use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Keyboard\Keyboard;
 
-
-/**
- * Class HelpCommand.
- */
-class ApproveCommand extends BaseCommand
+class ApproveCommand extends BaseAdminCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'approve';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Принять заявку';
-
     protected $pattern = '{telegram_id}';
 
-    protected $permissionName = Role::ADMIN;
-
-    /**
-     * {@inheritdoc}
-     */
     public function handle()
     {
-        $admin = $this->getUser();
-        $telegram_id = $this->getArguments()['telegram_id'] ?? null;
-        if (is_null($admin) || $admin->id === $telegram_id) return;
-        $telegram = $this->getTelegram();
-        $date = now()->format('d.m.Y H:i:s');
-        $user = TelegramUser::whereId($telegram_id)->first();
-        $request = $user->request ?? null;
-        $this->replyWithChatAction(['action' => Actions::TYPING]);
+        try {
+            $admin = $this->getUser();
+            $telegram_id = $this->getArguments()['telegram_id'] ?? null;
+            if ($admin->id === $telegram_id) return;
+            $telegram = $this->getTelegram();
+            $date = now()->format('d.m.Y H:i:s');
+            $user = TelegramUser::whereId($telegram_id)->first();
+            $request = $user->request ?? null;
+            $this->replyWithChatAction(['action' => Actions::TYPING]);
 
-        if (is_null($telegram_id) || is_null($user) || is_null($request) || $request->approved === true) {
-            $this->replyWithMessage([
-                "text" => "❕ <i>Запрос не существует</i>",
-                "parse_mode" => "html",
-            ]);
-        } else {
-            try {
+            if (is_null($telegram_id) || is_null($user) || is_null($request) || $request->approved === true) {
+                $this->replyWithMessage([
+                    "text" => "❕ <i>Запрос не существует</i>",
+                    "parse_mode" => "html",
+                ]);
+            } else {
                 $role = Role::whereName(Role::WORKER)->first();
                 $request->replied_id = $admin->id;
                 $request->approved = true;
@@ -93,9 +75,9 @@ class ApproveCommand extends BaseCommand
                         "parse_mode" => "html",
                     ]);
                 }
-            } catch (TelegramSDKException $e) {
-                Log::error($e->getMessage());
             }
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
         }
     }
 }
