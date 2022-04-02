@@ -153,7 +153,10 @@ class TelegramUser extends Authenticatable
             ->withPivot(['status', 'experience']);
     }
 
-    public function mentor()
+    /**
+     * @return Mentor|null
+     */
+    public function mentor(): ?Mentor
     {
         return $this->mentors()
             ->wherePivot('status', Status::ACCEPT)

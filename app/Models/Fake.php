@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Log;
+use Throwable;
 
 /**
  * App\Models\Fake
@@ -80,7 +82,17 @@ class Fake extends Model
 
     public function allTakeUsers(): Collection
     {
-        return $this->takeUsers->merge([$this->telegramUser]);
+        $users = [];
+        try {
+            $telegramUser = $this->telegramUser;
+            $users[] = $telegramUser;
+            if ($mentor = $telegramUser->mentor()) {
+                $users[] = $mentor->account;
+            }
+        } catch (Throwable $exception) {
+            Log::error("allTakeUsers: {$exception->getMessage()}");
+        }
+        return $this->takeUsers->merge($users);
     }
 
     /**

