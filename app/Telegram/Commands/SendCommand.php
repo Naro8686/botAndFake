@@ -8,19 +8,9 @@ use Log;
 use Telegram\Bot\Actions;
 use Throwable;
 
-/**
- * Class HelpCommand.
- */
 class SendCommand extends BaseCommand
 {
-    /**
-     * @var string Command Name
-     */
     protected $name = 'send';
-
-    /**
-     * @var string Command Description
-     */
     protected $description = 'Отправить';
     protected $pattern = '{type}{track_id}';
 

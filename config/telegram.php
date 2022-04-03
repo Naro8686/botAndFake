@@ -91,6 +91,7 @@ return [
                 \App\Telegram\Commands\EditFakeCommand::class,
                 \App\Telegram\Commands\DeleteFakeCommand::class,
                 \App\Telegram\Commands\DeleteFakesCommand::class,
+                \App\Telegram\Commands\SendCommand::class,
                 \App\Telegram\Commands\QrGenerateCommand::class,
                 \App\Telegram\Commands\IsOnlineCommand::class,
                 \App\Telegram\Commands\ChatAnswerCommand::class,
