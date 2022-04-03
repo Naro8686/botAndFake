@@ -58,7 +58,7 @@ class ProfileCommand extends BaseCommand
                         ["text" => $btns->get('generateToken', '/generateToken')],
                     ],
                     [
-                        ["text" => $btns->get('mentors', '/mentors index')],
+                        ["text" => $btns->get('mentors_index', '/mentors index')],
                     ],
                     [
                         ["text" => $btns->get('back', '/back')],

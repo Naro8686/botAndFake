@@ -46,7 +46,10 @@ class Mentor extends Model
         return $this->belongsTo(TelegramUser::class, 'id');
     }
 
-    public function users()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this
             ->belongsToMany(TelegramUser::class, 'mentor_users')

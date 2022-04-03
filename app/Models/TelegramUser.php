@@ -242,6 +242,11 @@ class TelegramUser extends Authenticatable
         return !is_null($this->role_id) && $approved;
     }
 
+    public function isMentor(): bool
+    {
+        return Mentor::whereId($this->id)->exists();
+    }
+
     public function banned(): bool
     {
         return (bool)$this->has_ban;

@@ -15,7 +15,7 @@ use Telegram\Bot\Keyboard\Keyboard;
 class MentorsCommand extends BaseCommand
 {
     protected $name = 'mentors';
-    protected $aliases = ['mentors_all', 'mentors_get'];
+    protected $aliases = ['mentors_index', 'mentors_all', 'mentors_get', 'mentors_children'];
     protected $description = "Здесь будет описание системы наставников.";
     protected $pattern = '{method}{mentor_id?}{tg_id?}';
 
@@ -28,14 +28,20 @@ class MentorsCommand extends BaseCommand
             $method = $this->getArguments()['method'] ?? null;
             $update = $this->getUpdate();
             if (is_null($method) && !$update->isType('callback_query')) {
-                $text = trim($update->getMessage()->text,'/');
+                $text = trim($update->getMessage()->text, '/');
                 $key = array_search($text, $this->getConfig('btns')->all(), true) ?: $text;
                 if (in_array($key, $this->getAliases())) switch ($key) {
+                    case 'mentors_index':
+                        $method = 'index';
+                        break;
                     case 'mentors_get':
                         $method = 'get';
                         break;
                     case 'mentors_all':
                         $method = 'all';
+                        break;
+                    case 'mentors_children':
+                        $method = 'children';
                         break;
                 }
             }
@@ -61,14 +67,17 @@ class MentorsCommand extends BaseCommand
     private function index()
     {
         $btns = $this->getConfig('btns');
+        $buttons = [];
+        $buttons[] = [
+            ["text" => $btns->get('mentors_all', '/mentors_all')],
+            ["text" => $btns->get('mentors_get', '/mentors_get')]
+        ];
+        if ($this->getUser()->isMentor()) {
+            $buttons[] = [["text" => $btns->get('mentors_children', '/mentors_children')]];
+        }
+        $buttons[] = [["text" => $btns->get('back', '/back')]];
         $keyboard = Keyboard::make([
-            "keyboard" => [
-                [
-                    ["text" => $btns->get('mentors_all', 'mentors_all')],
-                    ["text" => $btns->get('mentors_get', 'mentors_get')]
-                ],
-                [["text" => $btns->get('back', '/back')]],
-            ],
+            "keyboard" => $buttons,
             "resize_keyboard" => true,
             "one_time_keyboard" => false,
         ]);
@@ -77,6 +86,38 @@ class MentorsCommand extends BaseCommand
             "parse_mode" => "html",
             "reply_markup" => $keyboard
         ]);
+    }
+
+    private function children()
+    {
+        $user = $this->getUser();
+        $mentor = Mentor::find($user->id);
+        if (is_null($mentor)) throw new Exception();
+
+        $children = $mentor->users();
+        if (!$children->count()) return $this->replyWithMessage([
+            "text" => "<b>Нет учеников.</b>",
+            "parse_mode" => "html",
+        ]);
+        foreach ($children->lazy(100) as $key => $user) {
+            $iter = $key + 1;
+            $status = $user->pivot->status === Status::ACCEPT ? 'Одобрен' : 'Не одобрен';
+            $this->replyWithMessage([
+                "text" => makeText([
+                    "<b>$iter</b>.",
+                    "",
+                    "👷‍ <b>{$user->accountLinkVisibly()}</b>",
+                    "💡 <b>{$user->pivot->experience}</b>",
+                    "🔖 <b>$status</b>",
+                ]),
+                "parse_mode" => "html",
+                "reply_markup" => Keyboard::make([
+                    "inline_keyboard" => [
+                        [["text" => $this->getConfig('btns.delete', 'delete'), "callback_data" => "/{$this->getName()} removeChild $mentor->id $user->id"]]
+                    ]
+                ]),
+            ]);
+        }
     }
 
     private function all()
@@ -124,7 +165,7 @@ class MentorsCommand extends BaseCommand
                 "parse_mode" => "html",
                 "reply_markup" => Keyboard::make([
                     "inline_keyboard" => [
-                        [["text" => $this->getConfig('btns.delete', 'delete'), "callback_data" => "/{$this->getName()} remove $account->id $user->id"]]
+                        [["text" => $this->getConfig('btns.delete', 'delete'), "callback_data" => "/{$this->getName()} removeMentor $account->id $user->id"]]
                     ]
                 ]),
             ]);
@@ -201,22 +242,66 @@ class MentorsCommand extends BaseCommand
         } else throw new Exception();
     }
 
-    private function remove($args)
+    private function removeMentor($args)
     {
         $user = $this->getUser();
         $mentor = Mentor::find($args['mentor_id']);
-        if ($user->mentors()->detach($mentor->id)) {
+        $update = $this->getUpdate();
+        $mentor->account->sendMessage([
+            'text' => makeText([
+                "🧙‍ <b>{$user->accountLinkVisibly()} просит удалить его из списка учеников.</b>",
+            ]),
+            "parse_mode" => "html",
+            "reply_markup" => Keyboard::make(["inline_keyboard" => [[
+                ["text" => $this->getConfig('btns.approve'), 'callback_data' => "/mentors removeChild $mentor->id $user->id"],
+                ["text" => $this->getConfig('btns.reject'), 'callback_data' => "/mentors cancelRemoveChild $mentor->id $user->id"],
+            ]], "resize_keyboard" => true, "one_time_keyboard" => false])
+        ]);
+        $this->getTelegram()->editMessageText([
+            "text" => "✅ <b>Заявка на удаление отправлен</b>",
+            "parse_mode" => "html",
+            "message_id" => $update->getMessage()->messageId,
+            "chat_id" => $update->getChat()->id,
+        ]);
+    }
+
+    private function removeChild($args)
+    {
+        $mentor_id = $this->getUser()->id;
+        if ($mentor_id != $args['mentor_id']) throw new Exception();
+        $mentor = Mentor::find($mentor_id);
+        $user = TelegramUser::find($args['tg_id']);
+
+        if ($mentor->users()->detach($user->id)) {
             $update = $this->getUpdate();
             $this->getTelegram()->editMessageText([
-                "text" => "❌ <b>Наставник удалён</b>",
+                "text" => "❌ <b>Ученик удалён</b>",
                 "parse_mode" => "html",
                 "message_id" => $update->getMessage()->messageId,
                 "chat_id" => $update->getChat()->id,
             ]);
-            $mentor->account->sendMessage([
-                "text" => "❌ {$user->accountLinkVisibly()} <b>удалил Вас из наставников</b>",
+            $user->sendMessage([
+                "text" => "❌ {$mentor->account->accountLinkVisibly()} <b>удалил Вас из списка учеников</b>",
                 "parse_mode" => "html",
             ]);
         } else throw new Exception();
+    }
+
+    private function cancelRemoveChild($args){
+        $mentor_id = $this->getUser()->id;
+        if ($mentor_id != $args['mentor_id']) throw new Exception();
+        $mentor = Mentor::find($mentor_id);
+        $user = TelegramUser::find($args['tg_id']);
+        $update = $this->getUpdate();
+        $this->getTelegram()->editMessageText([
+            "text" => "❌ <b>Запрос на удаление из списка учеников для {$user->accountLinkVisibly()} отменен</b>",
+            "parse_mode" => "html",
+            "message_id" => $update->getMessage()->messageId,
+            "chat_id" => $update->getChat()->id,
+        ]);
+        $user->sendMessage([
+            "text" => "❌ {$mentor->account->accountLinkVisibly()} <b>Наставник отменил вашу заявку на удаление</b>",
+            "parse_mode" => "html",
+        ]);
     }
 }
