@@ -2,11 +2,11 @@
 
 namespace App\Telegram\Commands;
 
-use App\Models\Fake;
-use App\Telegram\Dialogs\SendDialog;
 use Log;
-use Telegram\Bot\Actions;
 use Throwable;
+use App\Models\Fake;
+use Telegram\Bot\Actions;
+use App\Telegram\Dialogs\SendDialog;
 
 class SendCommand extends BaseCommand
 {
