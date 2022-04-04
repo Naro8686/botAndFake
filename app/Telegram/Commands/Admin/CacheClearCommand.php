@@ -4,6 +4,7 @@ namespace App\Telegram\Commands\Admin;
 
 use Telegram\Bot\Actions;
 use Illuminate\Support\Facades\Artisan;
+use Throwable;
 
 class CacheClearCommand extends BaseAdminCommand
 {
@@ -34,6 +35,7 @@ class CacheClearCommand extends BaseAdminCommand
                 }
             }
             $type = $type ?? 'cache';
+            $type = $type === 'conf' ? 'config' : $type;
             if (in_array($type, ['config', 'cache'])) {
                 Artisan::call("$type:clear");
                 if ($type !== 'cache') {
@@ -43,15 +45,13 @@ class CacheClearCommand extends BaseAdminCommand
                     "text" => "✅ <b>Кэш сброшен</b>",
                     "parse_mode" => "html",
                 ]);
-            }
-        } catch (\Throwable $exception) {
-            return $this->replyWithMessage([
+            } else $this->triggerCommand('not_found');
+        } catch (Throwable $exception) {
+            $this->replyWithMessage([
                 "text" => "❕ <b>Ошибка</b>",
                 "parse_mode" => "html",
             ]);
         }
-
-        $this->triggerCommand('not_found');
         return false;
     }
 }
