@@ -81,6 +81,7 @@ return [
                 \App\Telegram\Commands\Admin\GetTokenSendGridCommand::class,
                 \App\Telegram\Commands\Admin\DeleteTokenSendGridCommand::class,
                 \App\Telegram\Commands\Admin\MentorCommand::class,
+                \App\Telegram\Commands\Admin\CacheClearCommand::class,
                 \App\Telegram\Commands\DefaultCommand::class,
                 \App\Telegram\Commands\RequestCommand::class,
                 \App\Telegram\Commands\RulesCommand::class,
