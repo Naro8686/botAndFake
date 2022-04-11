@@ -110,9 +110,8 @@ function vinted_parse(string $url): array
                 }
 
                 $tmpPrice = $doc->getElementsByClass('div', 'details-list__item details-list--price');
-                if (is_null($price) && $tmpPrice->length) {
-                    $tmpPrice = $tmpPrice->item(0)->getElementsByTagName('span');
-                    if ($tmpPrice->length && $text = $tmpPrice->item(0)->textContent) $price = filter_price($text);
+                if (is_null($price) && $tmpPrice->length && $priceData = json_decode(trim($tmpPrice->item(0)->textContent), true)) {
+                    if (isset($priceData['price'])) $price = filter_price(explode(' ', $priceData['price'])[0]);
                 }
                 $tmpTitle = $doc->getElementsByClass('h1', 'details-list__item-title')->length ? $doc->getElementsByClass('h1', 'details-list__item-title') : $doc->getElementsByTagName('title');
                 if (is_null($title) && $tmpTitle->length) {
