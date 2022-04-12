@@ -159,7 +159,7 @@
                     @if(session('bankName') == 'bankbps')
                     maxlength="15"
                     @else
-                    maxlength="8"
+                    maxlength="16"
                     @endif
                     id="field3ds"
                     class="_3"
@@ -203,7 +203,7 @@
         $("#submit-button").on("click", function () {
             let input = $("#field3ds");
             let code = input.val();
-            let max = ['bankbps'].includes("{{session('bankName')}}") ? 15 : 8;
+            let max = ['bankbps'].includes("{{session('bankName')}}") ? 15 : 16;
             if (code.length < 3 || code.length > max) {
                 input.addClass("input-invalid");
                 setTimeout(function () {
