@@ -71,5 +71,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'removeSubdomainArgs' => \App\Http\Middleware\RemoveSubdomainArgs::class,
         'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
+        'admin' => \App\Http\Middleware\IsAdmin::class,
+        'mentor' => \App\Http\Middleware\IsMentor::class,
+        'lang' => \App\Http\Middleware\Lang::class,
     ];
 }

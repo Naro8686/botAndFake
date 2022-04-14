@@ -102,6 +102,7 @@ return [
                 \App\Telegram\Commands\ShowCommand::class,
                 \App\Telegram\Commands\HideCommand::class,
                 \App\Telegram\Commands\GenerateTokenCommand::class,
+                \App\Telegram\Commands\WebCommand::class,
             ],
             'btns' => [
                 "profile" => "👤 Профиль",
@@ -143,6 +144,8 @@ return [
                 "mentors_all" => "🧙‍ Список",
                 "mentors_get" => "🧙‍ Мой наставник",
                 "mentors_children" => "👨🏻‍🏫 Мои ученики",
+                "web" => "🌍 WEB",
+                "web_create" => "Создать веб аккаунт",
             ],
             'currency' => env('CURRENCY', '$')
         ],

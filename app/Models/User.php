@@ -81,8 +81,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo(TelegramUser::class, 'telegram_id', 'id');
     }
+
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return optional($this->role)->name === Role::ADMIN;
+    }
+
+    public function isMentor(): bool
+    {
+        return ($this->telegram->isMentor() ?? false);
     }
 }

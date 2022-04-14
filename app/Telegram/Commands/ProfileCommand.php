@@ -61,6 +61,9 @@ class ProfileCommand extends BaseCommand
                         ["text" => $btns->get('mentors_index', '/mentors index')],
                     ],
                     [
+                        ["text" => $btns->get('web', '/web index')],
+                    ],
+                    [
                         ["text" => $btns->get('back', '/back')],
                     ],
                 ],

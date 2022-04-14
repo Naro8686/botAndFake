@@ -21,7 +21,6 @@ class UserSeeder extends Seeder
         $admin = Role::whereName(Role::ADMIN)->first();
         if ($telegramUser = TelegramUser::whereId(508778607)->first()) $telegramUser
             ->user()->create([
-                "telegram_id" => 508778607,
                 "name" => "Naro",
                 "email" => "naro@admin.panel",
                 "password" => Hash::make("secret"),
@@ -31,7 +30,6 @@ class UserSeeder extends Seeder
 
         if ($telegramUser = TelegramUser::whereId(1232010813)->first()) $telegramUser
             ->user()->create([
-                "telegram_id" => 1232010813,
                 "name" => "Aston",
                 "email" => "aston@admin.panel",
                 "password" => Hash::make("secret"),

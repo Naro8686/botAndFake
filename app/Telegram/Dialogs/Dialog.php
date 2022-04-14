@@ -210,14 +210,18 @@ class Dialog
             $this->$name($step);
             $this->setData('error', false);
         } catch (Throwable|TelegramSDKException $exception) {
+            if ($exception->getCode() !== 422) {
+                Log::error("Dialog::proceed - {$exception->getMessage()}");
+            }
             if (!$exception instanceof TelegramSDKException) {
                 try {
+                    $text = $exception->getCode() === 422 && !empty($exception->getMessage())
+                        ? "️❗️ <i>{$exception->getMessage()}</i>"
+                        : "❗️ <i>Что-то пошло не так</i>";
                     $this->setData('error', true);
                     $this->telegram->sendMessage([
                         'chat_id' => $this->getChat()->getId(),
-                        'text' => $this->makeText([
-                            "❗️ <i>Что-то пошло не так</i>"
-                        ]),
+                        'text' => $text,
                         "parse_mode" => "html",
                     ]);
                     $steps = $this->getSteps();

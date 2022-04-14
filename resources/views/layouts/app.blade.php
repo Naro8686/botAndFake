@@ -60,12 +60,19 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('tg.commands.index') }}">
-                                    {{ __('Telegram') }}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('settings') }}">
-                                    {{ __('Settings') }}
-                                </a>
+                                @if(Auth::check() && Auth::user()->isAdmin())
+                                    <a class="dropdown-item" href="{{ route('tg.commands.index') }}">
+                                        {{ __('Telegram') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('settings') }}">
+                                        {{ __('Settings') }}
+                                    </a>
+                                @endif
+                                @if(Auth::check() && Auth::user()->isMentor())
+                                    <a class="dropdown-item" href="{{ route('mentor.index') }}">
+                                        {{ __('Mentoring') }}
+                                    </a>
+                                @endif
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -102,6 +109,38 @@
         @yield('content')
     </main>
 </div>
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">{{__('Delete')}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2 class="text-center">{{__('Are you sure ?')}}</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('No')}}</button>
+                <form action="#" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">{{__('Yes')}}</button>
+                </form>
 
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#confirmModal').on('shown.bs.modal', function (event) {
+        let button = $(event.relatedTarget);
+        let url = button.data('url');
+        let modal = $(this);
+        modal.find('form').attr('action', url);
+    });
+</script>
 </body>
 </html>

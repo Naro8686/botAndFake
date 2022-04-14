@@ -189,7 +189,6 @@ class BotController extends Controller
     public function webhook($key): JsonResponse
     {
         try {
-            if (!App::isLocale("ru")) App::setLocale("ru");
             $config = self::getConfig();
             if ($config->get('webhook_key') !== $key) return response()
                 ->json(['ok' => false, 'msg' => 'Key does not match']);

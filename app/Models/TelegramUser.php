@@ -143,7 +143,7 @@ class TelegramUser extends Authenticatable
      */
     public function user(): HasOne
     {
-        return $this->hasOne(User::class, 'id', 'telegram_id');
+        return $this->hasOne(User::class, 'telegram_id','id');
     }
 
     public function mentors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

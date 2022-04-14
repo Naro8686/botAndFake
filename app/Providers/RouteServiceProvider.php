@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -42,7 +43,7 @@ class RouteServiceProvider extends ServiceProvider
             $domain = config('app.domain', 'localhost');
             $bot_domain = config('app.bot_domain', 'localhost');
 
-            Route::middleware('web')
+            Route::middleware(['web', 'lang:ru'])
                 ->domain($bot_domain)
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
@@ -51,12 +52,12 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::prefix('telegram')
                 ->name('telegram.')
-                ->middleware('telegram')
+                ->middleware(['telegram', 'lang:ru'])
                 ->namespace("$this->namespace\\Telegram")
                 ->group(base_path('routes/telegram.php'));
 
             Route::prefix('api')
-                ->middleware('api')
+                ->middleware(['api', 'lang:ru'])
                 ->namespace("$this->namespace\\Api")
                 ->group(base_path('routes/api.php'));
         });
