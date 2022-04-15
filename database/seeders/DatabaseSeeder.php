@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             TelegramUserSeeder::class,
             CountrySeeder::class,
             CategorySeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

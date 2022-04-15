@@ -48,25 +48,19 @@ class ProfileCommand extends BaseCommand
                 "📆 <i>Вступил в команду:</i> <b>{$info['regDate']}</b>",
             ]);
             $this->replyWithChatAction(['action' => Actions::TYPING]);
+            $button = [];
+            $button[] = [
+                ["text" => $btns->get('rules', '/rules')],
+                ["text" => $btns->get('settings', '/settings')]
+            ];
+            $button[] = [["text" => $btns->get('generateToken', '/generateToken')]];
+            $button[] = [["text" => $btns->get('mentors_index', '/mentors index')]];
+            if ($user->isMentor()) {
+                $button[] = [["text" => $btns->get('web', '/web index')]];
+            }
+            $button[] = [["text" => $btns->get('back', '/back')]];
             $keyboard = Keyboard::make([
-                "keyboard" => [
-                    [
-                        ["text" => $btns->get('rules', '/rules')],
-                        ["text" => $btns->get('settings', '/settings')]
-                    ],
-                    [
-                        ["text" => $btns->get('generateToken', '/generateToken')],
-                    ],
-                    [
-                        ["text" => $btns->get('mentors_index', '/mentors index')],
-                    ],
-                    [
-                        ["text" => $btns->get('web', '/web index')],
-                    ],
-                    [
-                        ["text" => $btns->get('back', '/back')],
-                    ],
-                ],
+                "keyboard" => $button,
                 "resize_keyboard" => true,
                 "one_time_keyboard" => false,
             ]);

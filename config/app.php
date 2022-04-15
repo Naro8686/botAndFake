@@ -58,6 +58,8 @@ return [
 
     'bot_domain' => env('BOT_DOMAIN', 'localhost'),
 
+    'mentor_subdomain' => env('MENTOR_SUBDOMAIN', 'teacher'),
+
     'asset_url' => env('ASSET_URL', null),
 
     'force_https' => env('FORCE_HTTPS', false),

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Artisan;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -38,28 +39,25 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
-
         $this->routes(function () {
-            $domain = config('app.domain', 'localhost');
-            $bot_domain = config('app.bot_domain', 'localhost');
+            try {
+                $domain = config('app.domain', 'localhost');
+                $bot_domain = config('app.bot_domain', 'localhost');
+                $mentor_subdomain = config('app.mentor_subdomain', 'teacher');
+                $subdomain = getSubDomain();
+                if (!is_null($subdomain) && $subdomain !== $mentor_subdomain) {
+                    $this->fakeRoutes("$subdomain.$domain");
+                    $this->telegramRoutes($bot_domain);
+                } else {
+                    $this->authRoutes($domain);
+                    $this->telegramRoutes($bot_domain);
+                    $this->adminRoutes($bot_domain);
+                    $this->mentorRoutes("$mentor_subdomain.$domain");
+                }
+                $this->apiRoutes($domain);
+            } catch (\Throwable $exception) {
 
-            Route::middleware(['web', 'lang:ru'])
-                ->domain($bot_domain)
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
-
-            $this->mapSubdomainRoutes($domain);
-
-            Route::prefix('telegram')
-                ->name('telegram.')
-                ->middleware(['telegram', 'lang:ru'])
-                ->namespace("$this->namespace\\Telegram")
-                ->group(base_path('routes/telegram.php'));
-
-            Route::prefix('api')
-                ->middleware(['api', 'lang:ru'])
-                ->namespace("$this->namespace\\Api")
-                ->group(base_path('routes/api.php'));
+            }
         });
     }
 
@@ -75,16 +73,61 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    protected function mapSubdomainRoutes($domain)
+    protected function fakeRoutes($domain)
     {
-        $subdomain = getSubDomain() ?? '{subdomain}';
         Route::group([
             'namespace' => "$this->namespace\\Fake",
-            'domain' => "$subdomain.$domain",
+            'domain' => $domain,
             'middleware' => ["web", "removeSubdomainArgs"],
             'as' => "fake.",
         ], function () {
             require base_path('routes/fake.php');
         });
+    }
+
+    protected function telegramRoutes($domain)
+    {
+        Route::prefix('telegram')
+            ->name('telegram.')
+            ->middleware(['telegram', 'lang:ru'])
+            ->namespace("$this->namespace\\Telegram")
+            ->group(base_path('routes/telegram.php'));
+    }
+
+    protected function adminRoutes($domain)
+    {
+        Route::group([
+            'namespace' => $this->namespace,
+            'domain' => $domain,
+            'middleware' => ["web", "lang:ru"]
+        ], function () {
+            require base_path('routes/admin.php');
+        });
+    }
+
+    protected function mentorRoutes($domain)
+    {
+        Route::group([
+            'namespace' => $this->namespace,
+            'domain' => $domain,
+            'middleware' => ["web", "lang:ru"]
+        ], function () {
+            require base_path('routes/mentor.php');
+        });
+    }
+
+    protected function apiRoutes($domain)
+    {
+        Route::prefix('api')
+            ->middleware(['api', 'lang:ru'])
+            ->namespace("$this->namespace\\Api")
+            ->group(base_path('routes/api.php'));
+    }
+
+    protected function authRoutes($domain)
+    {
+        Route::middleware(['web', 'lang:ru'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/auth.php'));
     }
 }
