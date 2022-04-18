@@ -48,10 +48,9 @@ class RouteServiceProvider extends ServiceProvider
                 $subdomain = getSubDomain();
                 $this->fakeRoutes("$subdomain.$domain");
                 $this->telegramRoutes($bot_domain);
-                $this->telegramRoutes($bot_domain);
                 $this->authRoutes($domain);
-                $this->mentorRoutes("$mentor_subdomain.$domain");
                 $this->adminRoutes($bot_domain);
+                $this->mentorRoutes("$mentor_subdomain.$domain");
                 $this->apiRoutes($domain);
             } catch (Throwable $exception) {
 
