@@ -37,4 +37,13 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function showLoginForm()
+    {
+        $subdomain = getSubDomain();
+        $mentor_subdomain = config('app.mentor_subdomain', 'teacher');
+        return is_null($subdomain) || $subdomain === $mentor_subdomain
+            ? view('auth.login')
+            : abort(404);
+    }
 }
