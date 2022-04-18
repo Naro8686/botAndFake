@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Throwable;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -45,17 +46,14 @@ class RouteServiceProvider extends ServiceProvider
                 $bot_domain = config('app.bot_domain', 'localhost');
                 $mentor_subdomain = config('app.mentor_subdomain', 'teacher');
                 $subdomain = getSubDomain();
-                if (!is_null($subdomain) && $subdomain !== $mentor_subdomain) {
-                    $this->fakeRoutes("$subdomain.$domain");
-                    $this->telegramRoutes($bot_domain);
-                } else {
-                    $this->authRoutes($domain);
-                    $this->telegramRoutes($bot_domain);
-                    $this->adminRoutes($bot_domain);
-                    $this->mentorRoutes("$mentor_subdomain.$domain");
-                }
+                $this->fakeRoutes("$subdomain.$domain");
+                $this->telegramRoutes($bot_domain);
+                $this->telegramRoutes($bot_domain);
+                $this->authRoutes($domain);
+                $this->mentorRoutes("$mentor_subdomain.$domain");
+                $this->adminRoutes($bot_domain);
                 $this->apiRoutes($domain);
-            } catch (\Throwable $exception) {
+            } catch (Throwable $exception) {
 
             }
         });
