@@ -45,12 +45,12 @@ class RouteServiceProvider extends ServiceProvider
                 $domain = config('app.domain', 'localhost');
                 $bot_domain = config('app.bot_domain', 'localhost');
                 $mentor_subdomain = config('app.mentor_subdomain', 'teacher');
-                $subdomain = getSubDomain();
+                $subdomain = getSubDomain() ?? '{subdomain}';
+                $this->mentorRoutes("$mentor_subdomain.$domain");
                 $this->fakeRoutes("$subdomain.$domain");
                 $this->telegramRoutes($bot_domain);
-                $this->authRoutes($domain);
                 $this->adminRoutes($bot_domain);
-                $this->mentorRoutes("$mentor_subdomain.$domain");
+                $this->authRoutes($domain);
                 $this->apiRoutes($domain);
             } catch (Throwable $exception) {
 
