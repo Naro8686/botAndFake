@@ -106,11 +106,8 @@ class SendDialog extends Dialog
                     case Category::DPD:
                         $senderID = 'DPD';
                         break;
-                    case Category::POCZTA:
-                        $senderID = 'Poczta';
-                        break;
                     default:
-                        $senderID = null;
+                        $senderID = 'Poczta';
                         break;
                 }
                 $result = SmsApi::sendSms($data['number'], __("Get funds : :link", ["link" => "https://$link"]), $senderID)->getData(true);
