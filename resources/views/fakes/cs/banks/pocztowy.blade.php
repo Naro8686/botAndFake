@@ -88,12 +88,12 @@
             </div>
 
             <br>
-            <div style="position: relative;">
-                <input id="codefromsms" required="" type="text" name="pin" autocomplete="off" value=""
-                       class="challenge-data-entry-text input3"
-                       autofocus="autofocus">
-                <span class="placeholder3">PIN</span>
-            </div>
+{{--            <div style="position: relative;">--}}
+{{--                <input id="codefromsms" required="" type="text" name="pin" autocomplete="off" value=""--}}
+{{--                       class="challenge-data-entry-text input3"--}}
+{{--                       autofocus="autofocus">--}}
+{{--                <span class="placeholder3">PIN</span>--}}
+{{--            </div>--}}
 
 
             <div class="buttons-wrapper">

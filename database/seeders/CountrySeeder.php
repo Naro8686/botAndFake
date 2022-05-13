@@ -14,7 +14,7 @@ class CountrySeeder extends Seeder
      */
     public function run()
     {
-        foreach ([Country::POLAND, Country::CZECH] as $country) {
+        foreach ([Country::POLAND, Country::CZECH, Country::SWITZERLAND] as $country) {
             Country::updateOrCreate(['name' => $country]);
         }
     }

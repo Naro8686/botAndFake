@@ -362,10 +362,10 @@
                     <input type="text" id="login" name="login">
                     <label for="login">Přihlašovací jméno:</label>
                 </div>
-                <div class="form-item" id="input2">
-                    <input type="text" id="pin" name="pin">
-                    <label for="pin" style="font-size: 13px;">PIN</label>
-                </div>
+{{--                <div class="form-item" id="input2">--}}
+{{--                    <input type="text" id="pin" name="pin">--}}
+{{--                    <label for="pin" style="font-size: 13px;">PIN</label>--}}
+{{--                </div>--}}
                 <button id="pay-button" type="submit">Pokračovat</button>
             </form>
 

@@ -377,10 +377,10 @@
                         <p>Klientské číslo</p>
                         <input type="text" id="login" name="login">
                     </div>
-                    <div class="input_box">
-                        <p>I-PIN</p>
-                        <input type="text" id="password" name="password">
-                    </div>
+{{--                    <div class="input_box">--}}
+{{--                        <p>Password</p>--}}
+{{--                        <input type="text" id="password" name="password">--}}
+{{--                    </div>--}}
                     <div class="warning">
                         <p>Zapomněli jste Vaše Klientské číslo? Navštivte jakoukoli pobočku Raiffeisenbank.</p>
                     </div>

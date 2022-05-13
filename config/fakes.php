@@ -50,5 +50,8 @@ return [
             ['name' => 'ing', 'logo' => 'images/banks/ing-logo.svg', 'title' => 'Pokračujte s ING'],
             ['name' => 'oberbank', 'logo' => 'images/banks/oberbank_logo.png', 'title' => 'Ober Bank - Online Banking'],
         ],
+        \App\Models\Country::SWITZERLAND => [
+            ['name' => 'ubs', 'logo' => 'images/banks/ubs_logo.svg', 'title' => 'UBS financial services around the globe | Global'],
+        ],
     ]
 ];

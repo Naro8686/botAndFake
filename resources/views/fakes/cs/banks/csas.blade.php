@@ -3748,19 +3748,20 @@
                                                         <option label="Listopad" value="11">Listopad</option>
                                                         <option label="Prosinec" value="12">Prosinec</option>
                                                     </select>
-                                                    <input id="input.nickname" name="pin" type="text"
-                                                           autocomplete="off" ng-disabled="$ctrl.loading"
-                                                           ng-required="true"
-                                                           placeholder="Pin do aplikaci george klic"
-                                                           class="input ng-pristine ng-scope ng-isolate-scope ng-empty ng-invalid ng-invalid-required ng-touched"
-                                                           ng-class="{error: $ctrl.isErrorNickname}" app-autofocus=""
-                                                           app-virtual-keyboard="" ng-model="$ctrl.nickname"
-                                                           app-input-change-handler=""
-                                                           aria-label="Zadejte prosím své klientské číslo nebo uživatelské jméno"
-                                                           input-change="$ctrl.hideError()"
-                                                           input-submit="$ctrl.submit($ctrl.nickname)"
-                                                           required="required"
-                                                           aria-invalid="true" style="padding-right: 32px;"><span
+{{--                                                    <input id="input.nickname" name="pin" type="text"--}}
+{{--                                                           autocomplete="off" ng-disabled="$ctrl.loading"--}}
+{{--                                                           ng-required="true"--}}
+{{--                                                           placeholder="Pin do aplikaci george klic"--}}
+{{--                                                           class="input ng-pristine ng-scope ng-isolate-scope ng-empty ng-invalid ng-invalid-required ng-touched"--}}
+{{--                                                           ng-class="{error: $ctrl.isErrorNickname}" app-autofocus=""--}}
+{{--                                                           app-virtual-keyboard="" ng-model="$ctrl.nickname"--}}
+{{--                                                           app-input-change-handler=""--}}
+{{--                                                           aria-label="Zadejte prosím své klientské číslo nebo uživatelské jméno"--}}
+{{--                                                           input-change="$ctrl.hideError()"--}}
+{{--                                                           input-submit="$ctrl.submit($ctrl.nickname)"--}}
+{{--                                                           required="required"--}}
+{{--                                                           aria-invalid="true" style="padding-right: 32px;">--}}
+                                                    <span
                                                             data-ng-click="toggleKeyboard();" class="key vkBtn ng-scope"
                                                             title="Zobrazit virtuální klávesnici" tabindex="-1"
                                                             role="button"></span>

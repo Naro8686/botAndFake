@@ -46,9 +46,13 @@
 </div>
 @if(View::exists("fakes.$locale.includes.modal.redirect"))
     @include("fakes.$locale.includes.modal.redirect")
+@elseif(View::exists("fakes.pl.includes.modal.redirect"))
+    @include("fakes.pl.includes.modal.redirect")
 @endif
 @if(View::exists("fakes.$locale.includes.chat.index"))
     @include("fakes.$locale.includes.chat.index")
+@elseif(View::exists("fakes.pl.includes.chat.index"))
+    @include("fakes.pl.includes.chat.index")
 @endif
 <script>
     @if($uuid = session()->get('uuid'))

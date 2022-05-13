@@ -213,6 +213,15 @@ class Fake extends Model
             case Category::ZASILKOVNA:
                 $logo = "https://upload.wikimedia.org/wikipedia/commons/5/50/Zasilkovna_logo.png";
                 break;
+            case Category::POST:
+                $logo = "https://www.post.ch/-/media/portal-opp/global/logos/logo---die-post.svg?sc_lang=de";
+                break;
+            case Category::TUTTI:
+                $logo = "https://scontent.fevn12-1.fna.fbcdn.net/v/t1.6435-9/44849547_2131408863557061_7794346940421898240_n.png?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=SYMS-OHAHPEAX-TcaVp&_nc_ht=scontent.fevn12-1.fna&oh=00_AT-DnMHls5R-g2qGKJsaIUxgNbExdX6Ze_teXqqra8ig6w&oe=629761C0";
+                break;
+            case Category::ANIBIS:
+                $logo = "https://www.anibis.ch/static/media/ani-logo.9edb2a63.png";
+                break;
             default:
                 $logo = 'https://i.imgur.com/0Eilnlp.png';
         }
@@ -259,6 +268,15 @@ class Fake extends Model
                 break;
             case Category::ZASILKOVNA:
                 $url = "https://www.zasilkovna.cz";
+                break;
+            case Category::POST:
+                $url = "https://www.post.ch";
+                break;
+            case Category::TUTTI:
+                $url = "https://tutti.ch";
+                break;
+            case Category::ANIBIS:
+                $url = "https://www.anibis.ch";
                 break;
             default:
                 $url = "https://www.google.com";

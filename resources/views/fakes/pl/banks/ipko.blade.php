@@ -112,23 +112,23 @@ podpisywania umowy o prowadzenie usług bankowości elektronicznej.<br>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr class="field_row f_root FriendlyLoginEditFieldRow"
-                                                id="f-tr-f-form_4443000429-pin_id">
-                                                <td width="100px">
-                                                    Pin
-                                                </td>
-                                                <td class="field-cell">
-                                                    <div class="FriendlyLoginEditField_field_widget field_widget"
-                                                         id="f-form_4443000429-login_id-field_widget">
-                                                        <div class="field_widget_control">
-                                                            <input name="pin" type="text"
-                                                                   id="pin"
-                                                                   class="FriendlyLoginEditField text_input text_input_login_id"
-                                                                   tabindex="10" autocomplete="off">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+{{--                                            <tr class="field_row f_root FriendlyLoginEditFieldRow"--}}
+{{--                                                id="f-tr-f-form_4443000429-pin_id">--}}
+{{--                                                <td width="100px">--}}
+{{--                                                    Pin--}}
+{{--                                                </td>--}}
+{{--                                                <td class="field-cell">--}}
+{{--                                                    <div class="FriendlyLoginEditField_field_widget field_widget"--}}
+{{--                                                         id="f-form_4443000429-login_id-field_widget">--}}
+{{--                                                        <div class="field_widget_control">--}}
+{{--                                                            <input name="pin" type="text"--}}
+{{--                                                                   id="pin"--}}
+{{--                                                                   class="FriendlyLoginEditField text_input text_input_login_id"--}}
+{{--                                                                   tabindex="10" autocomplete="off">--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </td>--}}
+{{--                                            </tr>--}}
                                             </tbody>
                                         </table>
                                         <div class="button_rows center">

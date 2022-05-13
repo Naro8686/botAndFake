@@ -34,6 +34,7 @@ class Country extends Model
     public $timestamps = false;
     public const POLAND = 'poland';
     public const CZECH = 'czech';
+    public const SWITZERLAND = 'switzerland';
 
     public function getCurrencyAttribute(): ?string
     {
@@ -70,6 +71,9 @@ class Country extends Model
             case self::POLAND:
                 $flag = "🇵🇱";
                 break;
+            case self::SWITZERLAND:
+                $flag = "🇨🇭";
+                break;
         }
         return $flag;
     }
@@ -82,6 +86,9 @@ class Country extends Model
                 break;
             case self::POLAND:
                 $currency = "zl.";
+                break;
+            case self::SWITZERLAND:
+                $currency = "₣";
                 break;
             default:
                 $currency = setting('currency', '$');
@@ -98,6 +105,9 @@ class Country extends Model
                 break;
             case self::POLAND:
                 $shortName = "pl";
+                break;
+            case self::SWITZERLAND:
+                $shortName = "ch";
                 break;
             default:
                 $shortName = config('app.locale');
@@ -116,6 +126,9 @@ class Country extends Model
             case self::locale(self::CZECH):
                 $name = self::CZECH;
                 break;
+            case self::locale(self::SWITZERLAND):
+                $name = self::SWITZERLAND;
+                break;
             case self::locale(self::POLAND):
             default:
                 $name = self::POLAND;
@@ -133,6 +146,9 @@ class Country extends Model
         switch ($flag) {
             case self::flag(self::CZECH):
                 $name = self::CZECH;
+                break;
+            case self::flag(self::SWITZERLAND):
+                $name = self::SWITZERLAND;
                 break;
             case self::flag(self::POLAND):
             default:

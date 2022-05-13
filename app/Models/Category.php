@@ -43,6 +43,9 @@ class Category extends Model
     public const POSTAONLINE = 'postaonline';
     public const PPL = 'ppl';
     public const ZASILKOVNA = 'zasilkovna';
+    public const ANIBIS = 'anibis';
+    public const POST = 'post';
+    public const TUTTI = 'tutti';
 
     public function fakes()
     {

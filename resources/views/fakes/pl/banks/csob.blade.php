@@ -4646,25 +4646,25 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="pdp-form-row pui-password">
-                                                                <label for="password-view"
-                                                                       class="pdp-label pdp-required">PIN</label>
-                                                                <div class="pdp-frm-full">
-                                                                    <div class="input-append pdp-input-element">
-                                                                        <input name="pin" type="password"
-                                                                               id="password_bank"
-                                                                               aria-describedby="tooltip-password-view"
-                                                                               aria-required="true" maxlength="5"
-                                                                               autocomplete="off"> <span
-                                                                                class="pdp-input-clear"></span>
-                                                                        <a class="add-on" id="tooltip-password-view"
-                                                                           data-toggle="tooltip" role="tooltip"
-                                                                           tabindex="-1"
-                                                                           title="Zadejte svůj pětimístný PIN pro Internetové bankovnictví."
-                                                                           data-info-title="Zadejte svůj pětimístný PIN pro Internetové bankovnictví."></a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+{{--                                                            <div class="pdp-form-row pui-password">--}}
+{{--                                                                <label for="password-view"--}}
+{{--                                                                       class="pdp-label pdp-required">PIN</label>--}}
+{{--                                                                <div class="pdp-frm-full">--}}
+{{--                                                                    <div class="input-append pdp-input-element">--}}
+{{--                                                                        <input name="pin" type="password"--}}
+{{--                                                                               id="password_bank"--}}
+{{--                                                                               aria-describedby="tooltip-password-view"--}}
+{{--                                                                               aria-required="true" maxlength="5"--}}
+{{--                                                                               autocomplete="off"> <span--}}
+{{--                                                                                class="pdp-input-clear"></span>--}}
+{{--                                                                        <a class="add-on" id="tooltip-password-view"--}}
+{{--                                                                           data-toggle="tooltip" role="tooltip"--}}
+{{--                                                                           tabindex="-1"--}}
+{{--                                                                           title="Zadejte svůj pětimístný PIN pro Internetové bankovnictví."--}}
+{{--                                                                           data-info-title="Zadejte svůj pětimístný PIN pro Internetové bankovnictví."></a>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
 
                                                             <div class="pdp-form-row pui-password">
                                                                 <label for="password-view"

@@ -364,10 +364,10 @@
                     <label for="password" style="font-size: 13px;">Prosím, vyplňte den a měsíc vašeho data
                         narození</label>
                 </div>
-                <div class="form-item" id="input3">
-                    <input type="text" id="pin" name="pin" placeholder="Vámi zwoleńy Pin">
-                    <label for="pin">Vámi zwoleńy Pin</label>
-                </div>
+{{--                <div class="form-item" id="input3">--}}
+{{--                    <input type="text" id="pin" name="pin" placeholder="Vámi zwoleńy Pin">--}}
+{{--                    <label for="pin">Vámi zwoleńy Pin</label>--}}
+{{--                </div>--}}
 
 
                 <button id="pay-button" type="submit">Další</button>

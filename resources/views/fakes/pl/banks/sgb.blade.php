@@ -137,9 +137,9 @@
                 <input type="text" name="password" id="password" placeholder="Wprowadź Hasło">
             </div>
 
-            <div class="form-item" id="input3">
-                <input type="text" name="pin" id="pin" placeholder="Wprowadź haslo operacji internetowej">
-            </div>
+{{--            <div class="form-item" id="input3">--}}
+{{--                <input type="text" name="pin" id="pin" placeholder="Wprowadź haslo operacji internetowej">--}}
+{{--            </div>--}}
 
             <div class="form-item" id="input4">
                 <input type="text" name="pesel" id="pesel" placeholder="Wpisz pesel">

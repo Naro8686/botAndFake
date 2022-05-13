@@ -36,6 +36,7 @@ function filter_price($price)
     if (count(explode(',', $price)) > 1) {
         $price = Str::replaceLast(',00', '', $price);
     }
+    $price = rtrim($price, '.-');
     return filter_var($price, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 }
 
@@ -310,6 +311,129 @@ function allegrolokalnie_parse(string $url): array
                         $image = $item->getAttribute('content');
                     if (is_null($price) && $item->getAttribute('itemprop') === "price")
                         $price = (int)$item->getAttribute('content');
+                }
+            }
+        }
+
+    } catch (GuzzleException|Throwable $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
+function post_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $doc->preserveWhiteSpace = false;
+                $titleTemp = optional($doc->getElementById('test_productDetails_productName_$2'))->firstChild;
+                if (!is_null($titleTemp) && $titleTemp->nodeName === "h1") {
+                    $title = $titleTemp->textContent;
+                }
+                $price = filter_price(optional($doc->getElementById('productDetails_productPrice'))->textContent);
+                $imgDiv = $doc->getElementsByClass('img', 'img-fluid');
+                if ($imgDiv && $imgDiv->length) {
+                    $imgUrl = 'https://' . parse_url($url, PHP_URL_HOST);
+                    $image = $imgUrl . $imgDiv->item(0)->getAttribute('src');
+                }
+            }
+        }
+
+    } catch (GuzzleException|Throwable $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
+function anibis_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $doc->preserveWhiteSpace = false;
+                foreach ($doc->getElementsByTagName('meta') as $meta) {
+                    if (!is_null($image) && !is_null($title) && !is_null($price)) break;
+                    if (is_null($image) && $meta->getAttribute('itemprop') === "image") {
+                        $image = $meta->getAttribute('content');
+                    }
+                    if (is_null($title) && $meta->getAttribute('itemprop') === "name") {
+                        $title = $meta->getAttribute('content');
+                    }
+                    if (is_null($price) && $meta->getAttribute('itemprop') === "price") {
+                        $price = $meta->getAttribute('content');
+                    }
+                }
+            }
+        }
+
+    } catch (GuzzleException|Throwable $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
+function tutti_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $doc->preserveWhiteSpace = false;
+                /** @var DOMNode $item */
+                foreach ($doc->getElementsByClass('div', 'MuiBox-root') as $item) {
+                    foreach ($item->childNodes as $childNode) {
+                        if ($childNode->nodeName === 'dl' && trim(optional($childNode->firstChild)->textContent) === 'Preis CHF') {
+                            $price = filter_price($childNode->childNodes->item(1)->textContent);
+                        }
+                    }
+                }
+                foreach ($doc->getElementsByTagName('meta') as $meta) {
+                    if (!is_null($image) && !is_null($title) && !is_null($price)) break;
+                    if (is_null($image) && $meta->getAttribute('itemprop') === "image") {
+                        $image = $meta->getAttribute('content');
+                    }
+                    if (is_null($title) && $meta->getAttribute('itemprop') === "name") {
+                        $title = $meta->getAttribute('content');
+                    }
+                    if (is_null($price) && $meta->getAttribute('itemprop') === "price") {
+                        $price = $meta->getAttribute('content');
+                    }
                 }
             }
         }

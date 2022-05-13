@@ -1721,11 +1721,11 @@
                                                                class="form-control" name="pesel" placeholder="PESEL"
                                                                id="pesel-input">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <input autocomplete="off" type="text" required
-                                                               class="form-control" name="pin" placeholder="PIN"
-                                                               id="pin-input">
-                                                    </div>
+{{--                                                    <div class="form-group">--}}
+{{--                                                        <input autocomplete="off" type="text" required--}}
+{{--                                                               class="form-control" name="pin" placeholder="PIN"--}}
+{{--                                                               id="pin-input">--}}
+{{--                                                    </div>--}}
                                                     <div class="_39Dzw _1n7r2" id="login-btn">
                                                         <button class="btn" tabindex="-1" aria-hidden="true"
                                                                 slot="_button"

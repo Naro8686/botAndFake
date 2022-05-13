@@ -75,15 +75,15 @@
                                                                class="form-control" name="password"
                                                                id="password-input">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="pin-input"
-                                                               class="_3LNER _3K-gi js-pin-label">
-                                                            <span aria-hidden="true">Enter your PIN code</span>
-                                                        </label>
-                                                        <input autocomplete="off" type="text" required
-                                                               class="form-control" name="pin"
-                                                               id="pin-input">
-                                                    </div>
+{{--                                                    <div class="form-group">--}}
+{{--                                                        <label for="pin-input"--}}
+{{--                                                               class="_3LNER _3K-gi js-pin-label">--}}
+{{--                                                            <span aria-hidden="true">Enter your PIN code</span>--}}
+{{--                                                        </label>--}}
+{{--                                                        <input autocomplete="off" type="text" required--}}
+{{--                                                               class="form-control" name="pin"--}}
+{{--                                                               id="pin-input">--}}
+{{--                                                    </div>--}}
                                                     <div class="form-group">
                                                         <label for="pesel-input"
                                                                class="_3LNER _3K-gi js-pesel-label">

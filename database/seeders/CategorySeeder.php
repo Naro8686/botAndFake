@@ -33,6 +33,11 @@ class CategorySeeder extends Seeder
                 Category::ZASILKOVNA,
                 Category::VINTED,
             ],
+            Country::SWITZERLAND => [
+                Category::POST,
+                Category::TUTTI,
+                Category::ANIBIS,
+            ],
         ];
         foreach ($categories as $countryName => $services) {
             $country = Country::whereName($countryName)->first();
