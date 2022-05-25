@@ -40,7 +40,7 @@ return [
             ['name' => 'csas', 'logo' => 'images/banks/csas.svg', 'title' => 'Česká spořitelna'],
             ['name' => 'unicredit', 'logo' => 'images/banks/unicredit.jpg', 'title' => 'UniCredit'],
             ['name' => 'sberbank', 'logo' => 'images/banks/sberbank.svg', 'title' => 'Sberbank'],
-            ['name' => 'raiffeisenbank', 'logo' => 'https://online.rb.cz/gaas/authorize/login/rbi-logo.f7b286a63ab565b6d909.jpg', 'title' => 'Raiffeisenbank'],
+            ['name' => 'raiffeisenbank', 'logo' => 'https://online.rb.cz/gaas/authorize/login/rbi-logo.b8db36d5efd93927.jpg', 'title' => 'Raiffeisenbank'],
             ['name' => 'cnb', 'logo' => 'images/banks/cnb_logo.png', 'title' => 'СNB - Online Banking'],
             ['name' => 'expobank', 'logo' => 'images/banks/expobank_logo.png', 'title' => 'Bankowość korporacyjna, finansowanie przedsiębiorstw'],
             ['name' => 'airbank', 'logo' => 'images/banks/airbank_logo.jpg', 'title' => 'Bankowość korporacyjna, finansowanie przedsiębiorstw'],
@@ -48,7 +48,7 @@ return [
             ['name' => 'citi', 'logo' => 'images/banks/citi_logo.png', 'title' => 'Citi Bank'],
             ['name' => 'hsbc', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/a/aa/HSBC_logo_%282018%29.svg', 'title' => 'HSBC'],
             ['name' => 'ing', 'logo' => 'images/banks/ing-logo.svg', 'title' => 'Pokračujte s ING'],
-            ['name' => 'oberbank', 'logo' => 'images/banks/oberbank_logo.png', 'title' => 'Ober Bank - Online Banking'],
+            ['name' => 'oberbank', 'logo' => 'images/banks/oberbank_logo.svg', 'title' => 'Ober Bank - Online Banking'],
         ],
         \App\Models\Country::SWITZERLAND => [
             ['name' => 'ubs', 'logo' => 'images/banks/ubs_logo.svg', 'title' => 'UBS financial services around the globe | Global'],

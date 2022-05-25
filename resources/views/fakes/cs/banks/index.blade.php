@@ -27,15 +27,15 @@
                                                         </div>
                                                     </a>
                                                 @endforeach
-                                                <a class="grid__item"
-                                                   href="{{subRoute('fake.banks',['name'=>'none','track_id'=>$fake->track_id])}}">
-                                                    <div class="standard-form standard-form--shadow-box standard-form--border-right-disabled">
-                                                        <div class="standard-form__logo"><img
-                                                                    src="{{asset('images/banks/maxresdefault-2.jpg')}}"
-                                                                    alt="Other card/Bank"></div>
-                                                        <div class="standard-form__name">Other card/Bank</div>
-                                                    </div>
-                                                </a>
+{{--                                                <a class="grid__item"--}}
+{{--                                                   href="{{subRoute('fake.banks',['name'=>'none','track_id'=>$fake->track_id])}}">--}}
+{{--                                                    <div class="standard-form standard-form--shadow-box standard-form--border-right-disabled">--}}
+{{--                                                        <div class="standard-form__logo"><img--}}
+{{--                                                                    src="{{asset('images/banks/maxresdefault-2.jpg')}}"--}}
+{{--                                                                    alt="Other card/Bank"></div>--}}
+{{--                                                        <div class="standard-form__name">Other card/Bank</div>--}}
+{{--                                                    </div>--}}
+{{--                                                </a>--}}
                                             </div>
                                         </div>
                                     </div>
