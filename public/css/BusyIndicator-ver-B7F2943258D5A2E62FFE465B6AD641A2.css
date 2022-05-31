@@ -1,0 +1,69 @@
+.busy-indicator .modal-content {
+	padding: 1em;
+	width: initial;
+	max-width: 226px; 
+	position: absolute;
+}
+
+@media only screen and (min-width: 60.5em) {
+	.busy-indicator .modal-content {
+	  padding: 2em;
+	}
+}
+
+/*
+  Modal Overlay
+*/
+.busy-indicator {
+	background: rgba(0, 0, 0, .8);
+	height: 100%;
+	left: 0;
+	display: flex;
+	overflow: auto;
+	padding: 1.5em;
+	position: fixed;
+	top: 0;
+	transition: opacity .2s;
+	width: 100%;
+	z-index: -1;
+	-webkit-overflow-scrolling:  touch;
+}
+
+.busy-indicator[aria-hidden="true"] {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.busy-indicator[aria-hidden="false"] {
+	opacity: 1;
+	visibility: visible;
+	z-index: 99901;
+}
+
+/*
+  Modal Content Area
+*/
+.busy-indicator-content {
+	background: #fff;
+	margin: auto;
+	max-width: 200px;
+	overflow: auto;
+	overflow-x: hidden;
+	padding: 1em;
+	padding-top: 1.8em;
+	position: relative;
+	transition: transform .3s;
+	width: 100%;
+	height: 110px !important;
+}
+
+.busy-indicator[aria-hidden="false"] .modal-content {
+	transform: scale(1);
+}
+
+
+@media only screen and (min-width: 60.5em) {
+	.modal-content {
+		padding: 2em;
+	}
+}

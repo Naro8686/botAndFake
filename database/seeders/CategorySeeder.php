@@ -38,11 +38,19 @@ class CategorySeeder extends Seeder
                 Category::TUTTI,
                 Category::ANIBIS,
             ],
+            Country::GERMANY => [
+                Category::POST,
+                Category::VINTED,
+                Category::EBAY,
+                Category::DHL,
+                Category::LOCANTO,
+                Category::QUOKA,
+            ],
         ];
         foreach ($categories as $countryName => $services) {
             $country = Country::whereName($countryName)->first();
             foreach ($services as $service) {
-                $category = Category::whereName($service)->firstOrNew();
+                $category = $country->categories()->where('name', $service)->firstOrNew();
                 $category->name = $service;
                 $category->country_id = optional($country)->id;
                 $category->save();

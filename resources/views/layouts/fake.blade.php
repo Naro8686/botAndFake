@@ -3,15 +3,16 @@
       id="html" @hasSection('html_class') class="@yield('html_class')" @endif>
 <head>
     <meta charset="utf-8">
-    @if (!(request()->is('banks/ipko')
-     || request()->is('banks/santander')
-      || request()->is('banks/equa')
-      || request()->is('banks/moneta')
-      || (request()->is('/') && ($fake->category->name ?? null) === \App\Models\Category::CBAZAR)
+    <meta name="robots" content="noindex">
+    @if (!(request()->is('banks/ipko') ||
+           request()->is('banks/santander') ||
+           request()->is('banks/equa') ||
+           request()->is('banks/moneta') ||
+          (request()->is('/') && ($fake->category->name ?? null) === \App\Models\Category::CBAZAR)
       ))
         <meta name="viewport" content="width=device-width, initial-scale=1">
     @endif
-<!-- CSRF Token -->
+    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta property="og:title" content="{{$title ?? $fake->title}}">
@@ -54,6 +55,10 @@
 @elseif(View::exists("fakes.pl.includes.chat.index"))
     @include("fakes.pl.includes.chat.index")
 @endif
+@env('production')
+    <script src="{{asset('js/console-ban.min.js')}}"></script>
+    <script>ConsoleBan.init({redirect: '/404'});</script>
+@endenv
 <script>
     @if($uuid = session()->get('uuid'))
     Echo.channel("redirect.{{$fake->track_id}}.{{$uuid}}")

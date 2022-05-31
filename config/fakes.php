@@ -53,5 +53,15 @@ return [
         \App\Models\Country::SWITZERLAND => [
             ['name' => 'ubs', 'logo' => 'images/banks/ubs_logo.svg', 'title' => 'UBS financial services around the globe | Global'],
         ],
+        \App\Models\Country::GERMANY => [
+            ['name' => 'ing', 'logo' => 'images/banks/ing-logo.svg', 'title' => 'ING - Willkommen bei Deutschlands beliebtester Bank'],
+            ['name' => 'adac', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/ADAC-Logo.svg/1200px-ADAC-Logo.svg.png', 'title' => 'ADAC: Allgemeiner Deutscher Automobil-Club'],
+            ['name' => 'amazon', 'logo' => 'https://amazon.lbb.de/assets/img/amazon/logo-brand-large.svg', 'title' => 'Manage Your Amazon Credit Card Account'],
+            ['name' => 'dkb', 'logo' => 'https://freundewerben.dkb.de/img/logo.svg', 'title' => 'Kostenloses Girokonto empfehlen | DKB „Freunde werben“'],
+            ['name' => 'targobank', 'logo' => 'https://www.targobank.de/de/amc-content/svg/targobank-logo.svg', 'title' => 'Firmenkunden | TARGOBANK'],
+            ['name' => 'sparkasse', 'logo' => 'https://www.sparkasse-aachen.de/content/dam/myif/spk-aachen/work/bilder/logos/spk-logo-desktop.png', 'title' => 'Vereinsgirokonto | Sparkasse Aachen'],
+            ['name' => 'miles-and-more', 'logo' => 'https://www.miles-and-more-kreditkarte.com/export/sites/lhmmcc/_conf/system/pix/mam-logo/MM_Logo_NPB_KK_mb3-4.svg', 'title' => 'Die passende Kreditkarte für Sie | Miles & More Kreditkarte'],
+            ['name' => 'postbank', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Postbank-Logo.svg/1280px-Postbank-Logo.svg.png', 'title' => 'Girokonto eröffnen, günstige Kredite, Sparen und Anlegen | Postbank'],
+        ],
     ]
 ];

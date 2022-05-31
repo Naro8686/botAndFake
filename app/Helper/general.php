@@ -448,6 +448,134 @@ function tutti_parse(string $url): array
     ];
 }
 
+function locanto_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $doc->preserveWhiteSpace = false;
+                /** @var DOMNode $item */
+                $titleTmp = $doc->getElementsByClass('span', 'header-text');
+                if ($titleTmp->length) {
+                    $title = $titleTmp->item(0)->textContent;
+                }
+                foreach ($doc->getElementsByClass('div', 'posting_info') as $priceTmp) {
+                    /** @var DOMElement $priceTmp */
+                    if (Str::lower($priceTmp->firstElementChild->nodeValue) === "preis") {
+                        $price = filter_price($priceTmp->nodeValue);
+                    }
+                }
+                $imageTmp = $doc->getElementsById('img', 'big_img');
+                if ($imageTmp->length) {
+                    $image = $imageTmp->item(0)->getAttribute('src');
+                }
+            }
+        }
+
+    } catch (GuzzleException|Throwable $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
+function ebay_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $doc->preserveWhiteSpace = false;
+                /** @var DOMNode $item */
+                $titleTmp = $doc->getElementsByClass('h1', 'x-item-title__mainTitle');
+                if ($titleTmp->length) {
+                    $title = trim($titleTmp->item(0)->textContent);
+                }
+                $priceTmp = $doc->getElementsById('span', 'prcIsum');
+                if ($priceTmp->length) {
+                    $price = filter_price($priceTmp->item(0)->getAttribute('content'));
+                }
+                $imageTmp = $doc->getElementsById('img', 'icImg');
+                if ($imageTmp->length) {
+                    $image = $imageTmp->item(0)->getAttribute('src');
+                }
+            }
+        }
+
+    } catch (GuzzleException|Throwable $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
+function quoka_parse(string $url): array
+{
+    $price = null;
+    $title = null;
+    $image = null;
+    try {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $client = new Client();
+            $doc = new DomParse();
+            $res = $client->request('GET', $url);
+            if ($res->getStatusCode() == 200) {
+                $html = $res->getBody()->getContents();
+                @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $doc->preserveWhiteSpace = false;
+                /** @var DOMNode $item */
+                $titleTmp = $doc->getElementsByClass('h1', 'x-item-title__mainTitle');
+                if ($titleTmp->length) {
+                    $title = trim($titleTmp->item(0)->textContent);
+                }
+                $priceTmp = $doc->getElementsByClass('div', 'price has-type');
+                if (is_null($price) && $priceTmp->length) {
+                    $price = filter_price(str_replace('-', '', $priceTmp->item(0)->nodeValue));
+                }
+                foreach ($doc->getElementsByTagName('meta') as $meta) {
+                    /** @var DOMElement $meta */
+                    if (!is_null($image) && !is_null($title)) break;
+                    if (is_null($image) && $meta->getAttribute('property') === 'og:image') {
+                        $image = $meta->getAttribute('content');
+                    }
+                    if (is_null($title) && $meta->getAttribute('property') === 'og:title') {
+                        $title = $meta->getAttribute('content');
+                    }
+                }
+            }
+        }
+
+    } catch (GuzzleException|Throwable $e) {
+        Log::alert($e->getMessage());
+    }
+    return [
+        'price' => $price,
+        'title' => $title,
+        'img' => $image,
+    ];
+}
+
 function subRoute($name, $parameters = [], $absolute = true, $subdomain = null): string
 {
     if (is_string($parameters)) $parameters = [$parameters];

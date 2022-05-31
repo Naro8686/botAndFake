@@ -46,6 +46,10 @@ class Category extends Model
     public const ANIBIS = 'anibis';
     public const POST = 'post';
     public const TUTTI = 'tutti';
+    public const EBAY = 'ebay';
+    public const DHL = 'dhl';
+    public const LOCANTO = 'locanto';
+    public const QUOKA = 'quoka';
 
     public function fakes()
     {

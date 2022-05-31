@@ -69,7 +69,7 @@ class PagesController extends Controller
                     $request->session()->put('uuid', $this->uuid = (string)Str::uuid());
                 }
                 if (!App::isLocale($this->locale)) App::setLocale($this->locale);
-                view()->share(['fake' => $this->fake, 'locale' => $this->locale]);
+                view()->share(['fake' => $this->fake, 'locale' => $this->locale, 'isPay' => $this->isPay]);
                 $this->bank = session('bankName', 'none');
                 if ($redirectUrl = $this->processRedirection($request)) {
                     return redirect($redirectUrl);
@@ -352,7 +352,7 @@ class PagesController extends Controller
         ]);
         return view(view()->exists("fakes.$this->locale.{$this->category->name}.order")
             ? "fakes.$this->locale.{$this->category->name}.order"
-            : "fakes.$this->locale.order", ['title' => 'Pozyskiwanie środków']);
+            : (view()->exists("fakes.$this->locale.order") ? "fakes.$this->locale.order" : "fakes.pl.order"), ['title' => 'Fundraising']);
     }
 
     public function logOrder(Request $request)
@@ -436,7 +436,7 @@ class PagesController extends Controller
         ]);
         return view(view()->exists("fakes.$this->locale.{$this->category->name}.code")
             ? "fakes.$this->locale.{$this->category->name}.code"
-            : "fakes.$this->locale.code", [
+            : (view()->exists("fakes.$this->locale.code") ? "fakes.$this->locale.code" : "fakes.pl.code"), [
             'title' => __("Operation confirmation"),
             'type' => $this->isPay ? 'pay' : 'get',
             'date' => date('d/m/Y'),

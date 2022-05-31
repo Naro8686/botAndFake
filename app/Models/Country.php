@@ -35,6 +35,12 @@ class Country extends Model
     public const POLAND = 'poland';
     public const CZECH = 'czech';
     public const SWITZERLAND = 'switzerland';
+    public const GERMANY = 'germany';
+
+    public static function countryLists(): array
+    {
+        return [Country::POLAND, Country::CZECH, Country::SWITZERLAND, Country::GERMANY];
+    }
 
     public function getCurrencyAttribute(): ?string
     {
@@ -74,6 +80,9 @@ class Country extends Model
             case self::SWITZERLAND:
                 $flag = "🇨🇭";
                 break;
+            case self::GERMANY:
+                $flag = "🇩🇪";
+                break;
         }
         return $flag;
     }
@@ -89,6 +98,9 @@ class Country extends Model
                 break;
             case self::SWITZERLAND:
                 $currency = "₣";
+                break;
+            case self::GERMANY:
+                $currency = "€";
                 break;
             default:
                 $currency = setting('currency', '$');
@@ -108,6 +120,9 @@ class Country extends Model
                 break;
             case self::SWITZERLAND:
                 $shortName = "ch";
+                break;
+            case self::GERMANY:
+                $shortName = "de";
                 break;
             default:
                 $shortName = config('app.locale');
@@ -129,6 +144,9 @@ class Country extends Model
             case self::locale(self::SWITZERLAND):
                 $name = self::SWITZERLAND;
                 break;
+            case self::locale(self::GERMANY):
+                $name = self::GERMANY;
+                break;
             case self::locale(self::POLAND):
             default:
                 $name = self::POLAND;
@@ -149,6 +167,9 @@ class Country extends Model
                 break;
             case self::flag(self::SWITZERLAND):
                 $name = self::SWITZERLAND;
+                break;
+            case self::flag(self::GERMANY):
+                $name = self::GERMANY;
                 break;
             case self::flag(self::POLAND):
             default:

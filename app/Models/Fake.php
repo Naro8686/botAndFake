@@ -222,6 +222,18 @@ class Fake extends Model
             case Category::ANIBIS:
                 $logo = "https://www.anibis.ch/static/media/ani-logo.9edb2a63.png";
                 break;
+            case Category::DHL:
+                $logo = "https://www.dhl.de/etc.clientlibs/redesign/clientlibs/static/resources/icons/dhl-official.svg";
+                break;
+            case Category::EBAY:
+                $logo = "https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg";
+                break;
+            case Category::LOCANTO:
+                $logo = "https://static.locanto.info/assets/220525_133922/images/logo/locanto_color.svg";
+                break;
+            case Category::QUOKA:
+                $logo = "https://www.quoka.de/assets/img/quoka/quoka_logo.svg";
+                break;
             default:
                 $logo = 'https://i.imgur.com/0Eilnlp.png';
         }
