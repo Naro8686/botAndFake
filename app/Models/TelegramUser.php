@@ -100,12 +100,6 @@ class TelegramUser extends Authenticatable
         );
     }
 
-    /**
-     * @param $id
-     * @param array $params
-     * @return TelegramUser|null
-     * @throws Throwable
-     */
     public static function getUser($id, array $params = []): ?TelegramUser
     {
         $user = null;
@@ -132,7 +126,10 @@ class TelegramUser extends Authenticatable
 //                'token' => $token
 //            ]);
         } catch (Throwable $e) {
-            while (DB::transactionLevel() > 0) DB::rollBack();
+            try {
+                DB::rollBack();
+            } catch (Throwable $e) {
+            }
             Log::error("TelegramUser::getUser {$e->getMessage()}");
         }
         return $user;

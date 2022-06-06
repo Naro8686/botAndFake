@@ -304,10 +304,13 @@ abstract class BaseCommand extends Command
     {
         $buttons = [];
         try {
-            if ($paginator->isEmpty()) return $this->replyWithMessage([
-                "text" => "❕ <i>Пусто</i>",
-                "parse_mode" => "html",
-            ]);
+            if ($paginator->isEmpty()) {
+                $this->replyWithMessage([
+                    "text" => "❕ <i>Пусто</i>",
+                    "parse_mode" => "html",
+                ]);
+                return [];
+            }
             $telegram = $this->getTelegram();
             $update = $this->getUpdate();
             $message = $update->getMessage();
