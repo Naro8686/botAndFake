@@ -2786,7 +2786,7 @@
 
                                     <h2 class="mb-4 pr-4" style="">{{$fake->price()}}</h2>
                                     <div class="container">
-                                        <div class="row"><h4>Jméno prodejce:</h4>
+                                        <div class="row"><h4>Jméno kupujícího:</h4>
                                             <p style="margin-left:10px;">{{$fake->recipient}}</p></div>
                                     </div>
                                     <div class="container">
