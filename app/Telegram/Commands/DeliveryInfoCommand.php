@@ -32,7 +32,8 @@ class DeliveryInfoCommand extends BaseCommand
         $text[] = "🚥 <b>Чехия ZASILKOVNA 2.0</b> - <a href='$url1'>$url1</a>";
         $text[] = "🚥 <b>Чехия BAZOS 2.0</b> - <a href='$url2'>$url2</a>";
         $text[] = "🚥 <b>Чехия PPL 2.0</b> - <a href='$url3'>$url3</a>";
-
+        //disable
+        $text = ['Временно отключено'];
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $this->replyWithMessage([
             "text" => makeText($text),
