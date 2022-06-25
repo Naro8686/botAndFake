@@ -47,6 +47,8 @@ use Throwable;
  * @method static \Illuminate\Database\Eloquent\Builder|Fake whereDetails($value)
  * @property-read \App\Models\Country|null $country
  * @property-read string|null $locale
+ * @property string|null $sent_from
+ * @method static \Illuminate\Database\Eloquent\Builder|Fake whereSentFrom($value)
  */
 class Fake extends Model
 {

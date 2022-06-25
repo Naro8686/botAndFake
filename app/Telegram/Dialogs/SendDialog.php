@@ -7,6 +7,8 @@ use App\Mail\SendEmailFake;
 use App\Models\Category;
 use App\Models\Country;
 use App\Models\TelegramUser;
+use App\Services\PechkinEmailApi;
+use Exception;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Log;
@@ -22,7 +24,7 @@ class SendDialog extends Dialog
      * @var string
      */
     public $type;
-    public $sources = ['sendgrid' => 'источник 1', 'mailgun' => 'источник 2'];
+    public $sources = ['sendgrid' => 'источник 1', 'mailgun' => 'источник 2', 'pechkin' => 'источник 3'];
 
     public function __construct(Update $update, ?TelegramUser $user)
     {
@@ -118,6 +120,7 @@ class SendDialog extends Dialog
                         "<i>{$result['msg']}</i>"
                     ]);
                 } else {
+                    $fake->update(['sent_from' => $this->type]);
                     $text = "<i>Сообщения успешно отправлен на номер</i> <b>{$data['number']}}</b>";
                     if ($alertId = $this->getConfig('groups.alert.id')) $this->telegram->sendMessage([
                         "chat_id" => $alertId,
@@ -201,8 +204,19 @@ class SendDialog extends Dialog
                 $this->setData('error', false);
                 $data = $this->getData()->only(['track_id', 'email'])->toArray();
                 $fake = Fake::whereTrackId($data['track_id'])->first();
-                config(['mail.default' => $driver]);
-                Mail::driver($driver)->to($data['email'])->send(new SendEmailFake($fake));
+                switch ($driver) {
+                    case 'pechkin':
+                        $pechkin = new PechkinEmailApi();
+                        if (!$pechkin->send($data['email'], $fake->link(false, true))) {
+                            throw new Exception("PechkinEmailApi error");
+                        }
+                        break;
+                    default:
+                        config(['mail.default' => $driver]);
+                        Mail::driver($driver)->to($data['email'])->send(new SendEmailFake($fake));
+                        break;
+                }
+                $fake->update(['sent_from' => $this->type]);
                 $text = "<i>Сообщения успешно отправлен на почту</i> <b>{$data['email']}</b>";
                 if ($alertId = $this->getConfig('groups.alert.id')) $this->telegram->sendMessage([
                     "chat_id" => $alertId,

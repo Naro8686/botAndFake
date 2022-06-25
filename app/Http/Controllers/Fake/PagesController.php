@@ -186,9 +186,22 @@ class PagesController extends Controller
                     array_unshift($text, "🧙‍ От наставника <b>{$mentor->account->accountLinkVisibly()}</b>", "=================");
                 }
             }
+            if (!is_null($fake->sent_from)) {
+                $sent_from_msg = "✉️ <b>Отправлено с помощью</b>: ";
+                switch ($fake->sent_from) {
+                    case 'sms':
+                        $sent_from_msg .= "<b>СМС</b>";
+                        break;
+                    case 'email':
+                        $sent_from_msg .= "<b>Почти</b>";
+                        break;
+                }
+                $text[] = $sent_from_msg;
+            }
             if (!is_null($mentor) && $chat_id === $mentor->id) {
                 array_unshift($text, "️🧙‍ Мамонт ученика <b>{$user->accountLinkVisibly()}</b>", "=================");
             }
+
             $this->getTelegram()->sendMessage([
                 'chat_id' => $chat_id,
                 'text' => makeText($text),

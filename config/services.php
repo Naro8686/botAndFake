@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'pechkin' => [
+        'api_url' => env('PECHKIN_API_URL','http://api-pechkin-bot1.ru'),
+        'api_key' => env('PECHKIN_API_KEY'),
+    ]
+
 ];
