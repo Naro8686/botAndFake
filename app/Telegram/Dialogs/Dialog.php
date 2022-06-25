@@ -437,8 +437,8 @@ class Dialog
      */
     public function downloadFile(string $path, string $ext = 'jpg')
     {
-        $client = new Client();
         try {
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $token = $this->getConfig('token');
             $url = "https://api.telegram.org/file/bot$token/$path";
             $request = $client->request('GET', $url);
@@ -451,7 +451,7 @@ class Dialog
 
                 return "storage/images/$name.$ext";
             }
-        } catch (GuzzleException $e) {
+        } catch (Throwable $e) {
         }
         return false;
     }

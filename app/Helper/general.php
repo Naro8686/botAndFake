@@ -5,6 +5,8 @@ use App\Helper\Objects\DomParse;
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Exception\GuzzleException;
 
+const CLIENT_TIMEOUT = 5;
+
 function platform($name, $version = null): string
 {
     return mb_strtoupper("$name $version");
@@ -51,7 +53,7 @@ function olx_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DOMDocument();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -80,7 +82,7 @@ function olx_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -97,7 +99,7 @@ function vinted_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -124,7 +126,7 @@ function vinted_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -141,7 +143,7 @@ function bazos_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -168,7 +170,7 @@ function bazos_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -185,7 +187,7 @@ function cbazar_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -220,7 +222,7 @@ function cbazar_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -237,7 +239,7 @@ function sbazar_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -272,7 +274,7 @@ function sbazar_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -289,7 +291,7 @@ function allegrolokalnie_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -315,7 +317,7 @@ function allegrolokalnie_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -332,7 +334,7 @@ function post_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -352,7 +354,7 @@ function post_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -369,7 +371,7 @@ function anibis_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -391,7 +393,7 @@ function anibis_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -408,7 +410,7 @@ function tutti_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -438,7 +440,7 @@ function tutti_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -455,7 +457,7 @@ function locanto_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -480,7 +482,7 @@ function locanto_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -497,7 +499,7 @@ function ebay_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -520,7 +522,7 @@ function ebay_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -537,7 +539,7 @@ function quoka_parse(string $url): array
     $image = null;
     try {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $client = new Client();
+            $client = new Client(["timeout" => CLIENT_TIMEOUT]);
             $doc = new DomParse();
             $res = $client->request('GET', $url);
             if ($res->getStatusCode() == 200) {
@@ -566,7 +568,7 @@ function quoka_parse(string $url): array
             }
         }
 
-    } catch (GuzzleException|Throwable $e) {
+    } catch (Throwable $e) {
         Log::alert($e->getMessage());
     }
     return [
@@ -591,7 +593,7 @@ function subRoute($name, $parameters = [], $absolute = true, $subdomain = null):
 function ipstack($ip): ?array
 {
     try {
-        $client = new Client(["base_uri" => "https://api.ipstack.com"]);
+        $client = new Client(["base_uri" => "https://api.ipstack.com", "timeout" => CLIENT_TIMEOUT]);
         $res = $client->request("GET", "/$ip", [
             'query' => [
                 'access_key' => config('fakes.ipstack_key'),
@@ -622,7 +624,7 @@ function cardInfo(string $ccnumber)
 {
     try {
         $bin = substr($ccnumber, 0, 8);
-        $client = new Client(["base_uri" => "https://lookup.binlist.net"]);
+        $client = new Client(["base_uri" => "https://lookup.binlist.net", "timeout" => CLIENT_TIMEOUT]);
         $res = $client->request("GET", "/$bin");
         if ($res->getStatusCode() == 200 && $result = json_decode($res->getBody(), true)) {
             return $result;

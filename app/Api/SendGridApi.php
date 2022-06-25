@@ -39,6 +39,7 @@ class SendGridApi
         try {
             $client = new Client([
                 'base_uri' => self::getHost(),
+                "timeout" => CLIENT_TIMEOUT,
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Authorization' => "Bearer $this->token",

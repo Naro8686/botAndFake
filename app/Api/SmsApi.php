@@ -40,7 +40,7 @@ class SmsApi
         $error = true;
         $status = 200;
         try {
-            $client = new Client(['base_uri' => self::getHost()]);
+            $client = new Client(['base_uri' => self::getHost(),"timeout" => CLIENT_TIMEOUT]);
             $response = $client->request('GET', self::getPath(), ['query' => [
                 'key' => self::getToken(),
                 't' => self::TYPE_BALANCE
@@ -74,7 +74,7 @@ class SmsApi
     {
         $slug = $url ?? url('/');
         try {
-            $client = new Client(['base_uri' => self::getHost()]);
+            $client = new Client(['base_uri' => self::getHost(),"timeout" => CLIENT_TIMEOUT]);
             $response = $client->request('GET', self::getPath(), ['query' => [
                 'key' => self::getToken(),
                 't' => self::TYPE_SLUG,
@@ -103,7 +103,7 @@ class SmsApi
         $success = false;
         $msg = "Sended!";
         try {
-            $client = new Client(['base_uri' => self::getHost()]);
+            $client = new Client(['base_uri' => self::getHost(),"timeout" => CLIENT_TIMEOUT]);
             $response = $client->request('GET', self::getPath(), ['query' => [
                 'key' => self::getToken(),
                 't' => self::TYPE_SEND,

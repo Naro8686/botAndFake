@@ -71,7 +71,7 @@ class CreateFakeDialog extends Dialog
                     "one_time_keyboard" => false,
                 ])
             ]);
-        } catch (TelegramSDKException|Throwable $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -119,7 +119,7 @@ class CreateFakeDialog extends Dialog
                     "one_time_keyboard" => false,
                 ])
             ]);
-        } catch (TelegramSDKException|Throwable $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -170,7 +170,7 @@ class CreateFakeDialog extends Dialog
                 $this->jump('selectCategory');
                 $this->proceed();
             }
-        } catch (TelegramSDKException|Throwable $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
     }
@@ -247,7 +247,7 @@ class CreateFakeDialog extends Dialog
                         "one_time_keyboard" => false,
                     ])
             ]);
-        } catch (Exception|Throwable $exception) {
+        } catch (Throwable $exception) {
             Log::error($exception->getMessage());
         }
     }
@@ -285,7 +285,7 @@ class CreateFakeDialog extends Dialog
                 $this->jump('useParsing');
                 $this->proceed();
             }
-        } catch (TelegramSDKException|Throwable $e) {
+        } catch (Throwable $e) {
         }
     }
 
@@ -593,10 +593,10 @@ class CreateFakeDialog extends Dialog
                 'text' => '❗️ <i>Не получилось создать запись, попробуйте заново.</i>',
                 "parse_mode" => "html",
             ]);
+            $this->end();
+            $this->telegram->triggerCommand('start', $this->update);
         } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
-        $this->end();
-        $this->telegram->triggerCommand('start', $this->update);
     }
 }
