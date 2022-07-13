@@ -7,9 +7,11 @@ use App\Mail\SendEmailFake;
 use App\Models\Category;
 use App\Models\Country;
 use App\Models\TelegramUser;
+use App\Services\Kmail;
 use App\Services\PechkinEmailApi;
 use Exception;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Log;
 use App\Models\Fake;
@@ -24,7 +26,8 @@ class SendDialog extends Dialog
      * @var string
      */
     public $type;
-    public $sources = ['sendgrid' => 'источник 1', 'mailgun' => 'источник 2', 'pechkin' => 'источник 3'];
+    public $warnings = ['kmail', 'pechkin'];
+    public $sources = ['kmail' => 'источник 1', 'mailgun' => 'источник 2', 'pechkin' => 'источник 3'];
 
     public function __construct(Update $update, ?TelegramUser $user)
     {
@@ -204,6 +207,7 @@ class SendDialog extends Dialog
                 $this->setData('error', false);
                 $data = $this->getData()->only(['track_id', 'email'])->toArray();
                 $fake = Fake::whereTrackId($data['track_id'])->first();
+                $user = $this->getUser();
                 switch ($driver) {
                     case 'pechkin':
                         $pechkin = new PechkinEmailApi();
@@ -211,21 +215,45 @@ class SendDialog extends Dialog
                             throw new Exception("PechkinEmailApi error");
                         }
                         break;
+                    case 'kmail':
+                        $kmail = new Kmail();
+                        $url = $fake->link(false, true);
+                        if ($shortUrl = $kmail->shortUrl($url)) {
+                            $url = $shortUrl;
+                        }
+                        $service = $fake->originalUrl() ?? "{$fake->category->name}.{$fake->locale}";
+                        if (!$kmail->send($data['email'], $url, $user->id, $service)) {
+                            throw new Exception("Kmail error");
+                        }
+                        break;
                     default:
                         config(['mail.default' => $driver]);
                         Mail::driver($driver)->to($data['email'])->send(new SendEmailFake($fake));
                         break;
                 }
+                $keyCache = "warnings.id.{$user->id}.";
+                if (in_array($driver, $this->warnings) && !Cache::has($keyCache)) {
+                    Cache::rememberForever($keyCache, function () {
+                        return true;
+                    });
+                    $this->telegram->sendMessage([
+                        'chat_id' => $this->getChat()->getId(),
+                        'text' => "❕<i>" . setting('email_warning', 'Предупреждение !') . "</i>",
+                        "parse_mode" => "html",
+                    ]);
+                }
                 $fake->update(['sent_from' => $this->type]);
-                $text = "<i>Сообщения успешно отправлен на почту</i> <b>{$data['email']}</b>";
-                if ($alertId = $this->getConfig('groups.alert.id')) $this->telegram->sendMessage([
-                    "chat_id" => $alertId,
-                    "text" => makeText([
-                        $text,
-                        "🐵 Воркер: <b>{$this->getUser()->accountLinkVisibly()}</b>",
-                    ]),
-                    "parse_mode" => "html",
-                ]);
+                $text = [];
+                $text[] = "<i>Сообщения успешно отправлен на почту</i> <b>{$data['email']}</b>";
+
+                if ($alertId = $this->getConfig('groups.alert.id')) {
+                    $text[] = "🐵 Воркер: <b>{$this->getUser()->accountLinkVisibly()}</b>";
+                    $this->telegram->sendMessage([
+                        "chat_id" => $alertId,
+                        "text" => makeText($text),
+                        "parse_mode" => "html",
+                    ]);
+                }
                 $keyboard = Keyboard::make([
                     "keyboard" => [
                         [["text" => $btns['start']]],
@@ -235,7 +263,7 @@ class SendDialog extends Dialog
                 ]);
                 $this->telegram->sendMessage([
                     'chat_id' => $this->getChat()->getId(),
-                    'text' => $text,
+                    'text' => makeText($text),
                     "parse_mode" => "html",
                     "reply_markup" => $keyboard
                 ]);

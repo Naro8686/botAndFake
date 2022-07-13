@@ -96,6 +96,14 @@ return [
                 'rules' => 'required|email',
                 'value' => ''
             ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'email_warning',
+                'label' => 'Email Warning',
+                'rules' => 'sometimes|nullable',
+                'value' => 'Предупреждение!'
+            ],
         ]
     ],
 ];

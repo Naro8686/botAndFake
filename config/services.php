@@ -31,8 +31,13 @@ return [
     ],
 
     'pechkin' => [
-        'api_url' => env('PECHKIN_API_URL','http://api-pechkin-bot1.ru'),
+        'api_url' => env('PECHKIN_API_URL', 'http://api-pechkin-bot1.ru'),
         'api_key' => env('PECHKIN_API_KEY'),
+    ],
+
+    'kmail' => [
+        'token' => env('KMAIL_TOKEN'),
+        'url' => env('KMAIL_URL','http://45.139.185.134'),
     ]
 
 ];
