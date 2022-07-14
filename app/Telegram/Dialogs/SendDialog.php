@@ -179,6 +179,7 @@ class SendDialog extends Dialog
                 $user = $this->getUser();
                 $keyCache = "warnings.id.{$user->id}";
                 $this->setData('mail_driver', $mailDriver);
+                Log::info('$mailDriver',[$mailDriver]);
                 $driver = array_search($mailDriver, $this->sources, true);
                 if (in_array($driver, $this->warnings) && !Cache::has($keyCache)) {
                     $this->setData('has_warning', true);
@@ -226,6 +227,7 @@ class SendDialog extends Dialog
             $btns = $this->getConfig()['btns'];
             $email = trim($this->update->getMessage()->getText());
             $driver = array_search($this->getData('mail_driver', 'источник 1'), $this->sources, true);
+            Log::info('fff', [$email, $driver]);
             if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->setData('email', $email);
                 $this->setData('error', false);
@@ -319,7 +321,6 @@ class SendDialog extends Dialog
     public function warning()
     {
         try {
-            $this->setData('has_warning', false);
             $user = $this->getUser();
             $keyCache = "warnings.id.{$user->id}";
             if ($this->yes) Cache::rememberForever($keyCache, function () {
@@ -335,7 +336,7 @@ class SendDialog extends Dialog
                     "one_time_keyboard" => true,
                 ])
             ]);
-
+            return;
         } catch (Throwable $throwable) {
             Log::error("SendDialog::warning - {$throwable->getMessage()}");
         }
