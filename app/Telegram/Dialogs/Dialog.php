@@ -26,7 +26,7 @@ class Dialog
     protected $yes = null;
     protected $no = null;
     protected $aliases = [
-        'yes' => ['yes', 'ok', 'да'],
+        'yes' => ['yes', 'принять', 'да'],
         'no' => ['no', 'нет']
     ];
 

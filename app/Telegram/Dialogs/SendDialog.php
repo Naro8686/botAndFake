@@ -187,7 +187,7 @@ class SendDialog extends Dialog
                         'text' => "❕<i>" . setting('email_warning', 'Предупреждение !') . "</i>",
                         "parse_mode" => "html",
                         "reply_markup" => Keyboard::make([
-                            "keyboard" => [[["text" => "Ok"]]],
+                            "keyboard" => [[["text" => "принять"]]],
                             "resize_keyboard" => true,
                             "one_time_keyboard" => true,
                         ])
