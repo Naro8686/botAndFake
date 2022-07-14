@@ -24,6 +24,7 @@
     "predis/predis": "^1.1",
     "simplesoftwareio/simple-qrcode": "^4.2",
     "ext-gd": "*",
+    "ext-imagick": "*",
     "ext-curl": "*"
   },
   "require-dev": {
