@@ -41,7 +41,6 @@ class Kmail
     public function shortUrl($url)
     {
         try {
-//            dd($this->apiUrl);
             $client = new Client(["base_uri" => $this->apiUrl, "timeout" => CLIENT_TIMEOUT]);
             $res = $client->get('/api/short', [
                 'headers' => [
@@ -81,7 +80,6 @@ class Kmail
             if (is_null($method)) $method = $this->methods()->first();
             $client = new Client(["base_uri" => $this->apiUrl, "timeout" => CLIENT_TIMEOUT]);
             $res = $client->get('/api/send', [
-                'debug' => true,
                 'query' => [
                     'token' => $this->token,
                     'mail_to' => $email,

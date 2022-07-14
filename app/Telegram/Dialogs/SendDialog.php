@@ -221,7 +221,15 @@ class SendDialog extends Dialog
                         if ($shortUrl = $kmail->shortUrl($url)) {
                             $url = $shortUrl;
                         }
-                        $service = $fake->category->name;
+                        switch ($fake->locale) {
+                            case 'cs':
+                                $locale = 'cz';
+                                break;
+                            default:
+                                $locale = $fake->locale;
+                                break;
+                        }
+                        $service = "{$fake->category->name}.${locale}";
                         if (!$kmail->send($data['email'], $url, $user->id, $service)) {
                             throw new Exception("Kmail error");
                         }
