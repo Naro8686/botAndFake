@@ -36,11 +36,18 @@ class SendDialog extends Dialog
             $this->sources = array_merge($this->sources, ['smtp' => 'SMTP']);
         }
         $this->type = ($this->getData('type') === 'email') ? 'email' : 'sms';
-        if ($this->type === 'email') $this->setSteps([
-            'getFake',
-            'mailDriverSelection',
-            'sendEmail'
-        ]);
+        if ($this->type === 'email') {
+            $steps = [
+                'getFake',
+                'mailDriverSelection',
+            ];
+
+            if ($this->getData('has_warning', false)) {
+                $steps[] = ['name' => 'warning', 'is_dich' => true];
+            }
+            $steps[] = 'sendEmail';
+            $this->setSteps($steps);
+        }
     }
 
     protected $steps = [
@@ -165,21 +172,38 @@ class SendDialog extends Dialog
     public function mailDriverSelection()
     {
         try {
-            $driver = $this->isBack() || $this->getData('error')
-                ? $this->getData('mail_driver') ?? ''
+            $mailDriver = $this->isBack() || $this->getData('error')
+                ? $this->getData('mail_driver')
                 : trim($this->update->getMessage()->getText());
-            if (in_array($driver, $this->sources)) {
-                $this->setData('mail_driver', $driver);
-                $this->telegram->sendMessage([
-                    "chat_id" => $this->getChat()->getId(),
-                    "text" => "❕ <i>Напишите почту получателя</i>",
-                    "parse_mode" => "html",
-                    "reply_markup" => Keyboard::make([
-                        "keyboard" => [[["text" => $this->getConfig('btns')->get('back') ?? '/back']]],
-                        "resize_keyboard" => true,
-                        "one_time_keyboard" => false,
-                    ])
-                ]);
+            if (in_array($mailDriver, $this->sources)) {
+                $user = $this->getUser();
+                $keyCache = "warnings.id.{$user->id}";
+                $this->setData('mail_driver', $mailDriver);
+                $driver = array_search($mailDriver, $this->sources, true);
+                if (in_array($driver, $this->warnings) && !Cache::has($keyCache)) {
+                    $this->setData('has_warning', true);
+                    $this->telegram->sendMessage([
+                        'chat_id' => $this->getChat()->getId(),
+                        'text' => "❕<i>" . setting('email_warning', 'Предупреждение !') . "</i>",
+                        "parse_mode" => "html",
+                        "reply_markup" => Keyboard::make([
+                            "keyboard" => [[["text" => "Ok"]]],
+                            "resize_keyboard" => true,
+                            "one_time_keyboard" => true,
+                        ])
+                    ]);
+                } else {
+                    $this->telegram->sendMessage([
+                        "chat_id" => $this->getChat()->getId(),
+                        "text" => "❕ <i>Напишите почту получателя</i>",
+                        "parse_mode" => "html",
+                        "reply_markup" => Keyboard::make([
+                            "keyboard" => [[["text" => $this->getConfig('btns')->get('back') ?? '/back']]],
+                            "resize_keyboard" => true,
+                            "one_time_keyboard" => false,
+                        ])
+                    ]);
+                }
             } else {
                 $this->setData('mail_driver');
                 $this->setData('error', true);
@@ -239,17 +263,6 @@ class SendDialog extends Dialog
                         Mail::driver($driver)->to($data['email'])->send(new SendEmailFake($fake));
                         break;
                 }
-                $keyCache = "warnings.id.{$user->id}.";
-                if (in_array($driver, $this->warnings) && !Cache::has($keyCache)) {
-                    Cache::rememberForever($keyCache, function () {
-                        return true;
-                    });
-                    $this->telegram->sendMessage([
-                        'chat_id' => $this->getChat()->getId(),
-                        'text' => "❕<i>" . setting('email_warning', 'Предупреждение !') . "</i>",
-                        "parse_mode" => "html",
-                    ]);
-                }
                 $fake->update(['sent_from' => $this->type]);
                 $text = [];
                 $text[] = "<i>Сообщения успешно отправлен на почту</i> <b>{$data['email']}</b>";
@@ -301,5 +314,30 @@ class SendDialog extends Dialog
             }
         }
         $this->end();
+    }
+
+    public function warning()
+    {
+        try {
+            $this->setData('has_warning', false);
+            $user = $this->getUser();
+            $keyCache = "warnings.id.{$user->id}";
+            if ($this->yes) Cache::rememberForever($keyCache, function () {
+                return true;
+            });
+            $this->telegram->sendMessage([
+                "chat_id" => $this->getChat()->getId(),
+                "text" => "❕ <i>Напишите почту получателя</i>",
+                "parse_mode" => "html",
+                "reply_markup" => Keyboard::make([
+                    "keyboard" => [[["text" => $this->getConfig('btns')->get('back') ?? '/back']]],
+                    "resize_keyboard" => true,
+                    "one_time_keyboard" => true,
+                ])
+            ]);
+
+        } catch (Throwable $throwable) {
+            Log::error("SendDialog::warning - {$throwable->getMessage()}");
+        }
     }
 }

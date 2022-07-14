@@ -91,10 +91,10 @@ class Kmail
             ]);
             if ($res->getStatusCode() === 200) {
                 $data = json_decode($res->getBody()->getContents(), true);
-                if ($data['access'] && $data['send']['status'] === 'sended') {
+                if (($data['access'] ?? false) && $data['send']['status'] === 'sended') {
                     return true;
                 }
-                throw new Exception($data['info'] ?: json_encode($data['send']));
+                throw new Exception($data['info'] ?? $data['error'] ?? json_encode($data['send']));
             }
         } catch (Throwable $e) {
             Log::error("Kmail::send - {$e->getMessage()}");

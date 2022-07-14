@@ -26,7 +26,7 @@ class Dialog
     protected $yes = null;
     protected $no = null;
     protected $aliases = [
-        'yes' => ['yes', 'да'],
+        'yes' => ['yes', 'ok', 'да'],
         'no' => ['no', 'нет']
     ];
 
@@ -394,6 +394,14 @@ class Dialog
     public function setSteps($steps)
     {
         $this->steps = $steps;
+    }
+
+    /**
+     * @param $step
+     */
+    public function addStep($step)
+    {
+        $this->steps[] = $step;
     }
 
     public function makeText($text = []): string
