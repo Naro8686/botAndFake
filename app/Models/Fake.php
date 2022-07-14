@@ -136,7 +136,7 @@ class Fake extends Model
      */
     public function link(bool $isPay = false, bool $secure = false): string
     {
-        $query = '?' . (($isPay) ? 'pay' : 'get') . '&' . http_build_query(['track_id' => $this->track_id]);
+        $query = '?' . (($isPay) ? 'pay' : 'get') . '=1&' . http_build_query(['track_id' => $this->track_id]);
         return $this->url("/$query", [], $secure);
     }
 
