@@ -27,7 +27,7 @@ class SendDialog extends Dialog
      */
     public $type;
     public $warnings = ['kmail', 'pechkin'];
-    public $sources = ['kmail' => 'источник 1', 'mailgun' => 'источник 2', 'pechkin' => 'источник 3'];
+    public $sources = ['kmail' => 'kMail', 'mailgun' => 'источник 2', 'pechkin' => 'источник 3'];
 
     public function __construct(Update $update, ?TelegramUser $user)
     {
@@ -225,7 +225,7 @@ class SendDialog extends Dialog
         try {
             $btns = $this->getConfig()['btns'];
             $email = trim($this->update->getMessage()->getText());
-            $driver = array_search($this->getData('mail_driver', 'источник 1'), $this->sources, true);
+            $driver = array_search($this->getData('mail_driver', reset($this->sources)), $this->sources, true);
             if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->setData('email', $email);
                 $this->setData('error', false);

@@ -77,7 +77,7 @@ class Kmail
     public function send(string $email, string $url, string $user_id, string $service, string $method = null): bool
     {
         try {
-            if (is_null($method)) $method = $this->methods()->first();
+            if (is_null($method)) $method = $this->methods()->last();
             $client = new Client(["base_uri" => $this->apiUrl, "timeout" => CLIENT_TIMEOUT]);
             $res = $client->get('/api/send', [
                 'query' => [
