@@ -242,9 +242,9 @@ class SendDialog extends Dialog
                     case 'kmail':
                         $kmail = new Kmail();
                         $url = $fake->link(false, true);
-                        if ($shortUrl = $kmail->shortUrl($url)) {
-                            $url = $shortUrl;
-                        }
+//                        if ($shortUrl = $kmail->shortUrl($url)) {
+//                            $url = $shortUrl;
+//                        }
                         switch ($fake->locale) {
                             case 'cs':
                                 $locale = 'cz';
