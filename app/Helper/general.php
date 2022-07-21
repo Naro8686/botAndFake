@@ -5,7 +5,7 @@ use App\Helper\Objects\DomParse;
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Exception\GuzzleException;
 
-const CLIENT_TIMEOUT = 5;
+const CLIENT_TIMEOUT = 10;
 
 function platform($name, $version = null): string
 {
